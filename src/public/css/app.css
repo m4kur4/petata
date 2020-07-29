@@ -1,5 +1,13 @@
-div {
-  background: #666666;
+header div {
+  background-color: #3F61A1;
+}
+
+main {
+  padding-top: 48px;
+}
+
+div .\--test {
+  background-color: #666666;
 }
 
 div h1 {
