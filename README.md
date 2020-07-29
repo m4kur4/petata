@@ -35,7 +35,14 @@ $ npm install -D cross-env
     }
   ];
   ```
+
+- コンポーネントの更新が反映されない  
+⇒"Header.vue"というコンポーネントを"<header />"と呼び出していた
 ## その他メモ
+### リソース
+- MATERIAL COMPONENTS FOR THE WEB  
+https://material-components.github.io/material-components-web-catalog/#/
+
 ### 技術
 - SCSSの記法の基本  
 https://qiita.com/nchhujimiyama/items/8a6aad5abead39d1352a
@@ -47,6 +54,9 @@ div {
     }
 }
 ```
+- マテリアルデザイン
+  - 8の倍数
+  
 - Vue.jsのコンポーネント命名  
 https://qiita.com/ngron/items/ab2a17ae483c95a2f15e
 
