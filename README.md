@@ -35,3 +35,25 @@ $ npm install -D cross-env
     }
   ];
   ```
+## その他メモ
+### 技術
+- SCSSの記法の基本  
+https://qiita.com/nchhujimiyama/items/8a6aad5abead39d1352a
+```
+div {
+    background: #666666;
+    h1 {
+        color: white;
+    }
+}
+```
+- Vue.jsのコンポーネント命名  
+https://qiita.com/ngron/items/ab2a17ae483c95a2f15e
+
+### 設定
+- laravel-mixのコンパイル設定はwebpack.mix.jsで以下のように記述されている。  
+コンパイル先の指定はここで行う。
+```
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css');
+```
