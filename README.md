@@ -15,4 +15,23 @@ $ npm install -D vue
 $ npm install -D vue-router
 $ npm install -D vuex
 $ npm audit fix
+
+### cross-envのインストール
+### (laravel-mixでコンパイル時にエラーが出るのでパスを通す必要がある)
+$ npm install -D cross-env
 ```
+
+## 詰まったこと
+- npm run devで"cross-envがない"というエラー  
+⇒node_modulesの中には居るが、パスを通すために個別でnpm installする。
+
+- Cannot read property '$createElement' of undefined  
+⇒ルーティングに記載するコンポーネントのキーは"components"ではなく"component"
+  ```js
+  const routes = [
+    {
+        path:'/',
+        component: Test
+    }
+  ];
+  ```
