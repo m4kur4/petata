@@ -9,16 +9,19 @@
 $ composer update
 $ php artisan key:generate
 
-### Vue.jsのインストール
+### node_modulesのインストール
 $ npm install
-$ npm install -D vue
-$ npm install -D vue-router
-$ npm install -D vuex
-$ npm audit fix
+
+### 以下はpackage.jsonに記載済みのため不要(備忘)
+# $ npm install -D vue
+# $ npm install -D vue-router
+# $ npm install -D vuex
+# $ npm audit fix
 
 ### cross-envのインストール
 ### (laravel-mixでコンパイル時にエラーが出るのでパスを通す必要がある)
-$ npm install -D cross-env
+# $ npm install -D cross-env
+
 ```
 
 ## 詰まったこと
@@ -59,6 +62,25 @@ div {
   
 - Vue.jsのコンポーネント命名  
 https://qiita.com/ngron/items/ab2a17ae483c95a2f15e
+
+- docker-compose.yml内での環境変数参照
+```
+  db:
+    image: mysql:8.0
+    container_name: larasocket-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./logs/mysql/:/var/log/mysql/
+    ports:
+      - 3306:3306
+```
 
 ### 設定
 - laravel-mixのコンパイル設定はwebpack.mix.jsで以下のように記述されている。  
