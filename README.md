@@ -60,6 +60,13 @@ div {
 - Vue.jsのコンポーネント命名  
 https://qiita.com/ngron/items/ab2a17ae483c95a2f15e
 
+- SPAの利点  
+https://www.oro.com/ja/technology/001/  
+⇒今回開発では、以下の要件に対応
+  - ネイティブアプリに相当する機能を提供
+  - 直帰率が低い(作業中に開きっぱなしで操作する想定)
+  - 高速(参考画像を切り替える手間を減らすアプローチ)
+
 ### 設定
 - laravel-mixのコンパイル設定はwebpack.mix.jsで以下のように記述されている。  
 コンパイル先の指定はここで行う。
