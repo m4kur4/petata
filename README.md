@@ -38,6 +38,10 @@ $ npm install -D cross-env
 
 - コンポーネントの更新が反映されない  
 ⇒"Header.vue"というコンポーネントを"<header />"と呼び出していた
+- "unrecognized options: --with-freetype-dir, --with-jpeg-dir"  
+⇒PHP7.4系から、docker-php-ext-configureの引数が変わった模様  
+https://uiuifree.com/blog/develop/docker-gd-php-7/
+
 ## その他メモ
 ### リソース
 - MATERIAL COMPONENTS FOR THE WEB  
