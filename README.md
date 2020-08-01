@@ -21,7 +21,6 @@ $ npm install
 ### cross-envのインストール
 ### (laravel-mixでコンパイル時にエラーが出るのでパスを通す必要がある)
 # $ npm install -D cross-env
-
 ```
 
 ## 詰まったこと
@@ -41,6 +40,10 @@ $ npm install
 
 - コンポーネントの更新が反映されない  
 ⇒"Header.vue"というコンポーネントを"<header />"と呼び出していた
+
+- "unrecognized options: --with-freetype-dir, --with-jpeg-dir"  
+⇒PHP7.4系から、docker-php-ext-configureの引数が変わった模様  
+https://uiuifree.com/blog/develop/docker-gd-php-7/
 ## その他メモ
 ### リソース
 - MATERIAL COMPONENTS FOR THE WEB  
@@ -62,6 +65,13 @@ div {
   
 - Vue.jsのコンポーネント命名  
 https://qiita.com/ngron/items/ab2a17ae483c95a2f15e
+
+- SPAの利点  
+https://www.oro.com/ja/technology/001/  
+⇒今回開発では、以下の要件に対応
+  - ネイティブアプリに相当する機能を提供
+  - 直帰率が低い(作業中に開きっぱなしで操作する想定)
+  - 高速(参考画像を切り替える手間を減らすアプローチ)
 
 - docker-compose.yml内での環境変数参照
 ```
