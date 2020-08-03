@@ -1,9 +1,12 @@
 
-### 参考URL
+### 参考
 https://qiita.com/pomcho555/items/b9dcae3a5afeafd1f14f
 
 ### Dropzone.jsの利用方法
 https://www.dropzonejs.com/#usage
+
+#### アップロード前後等の制御
+https://pgmemo.tokyo/data/archives/982.html
 
 #### 詰まった
 - 第二引数の必須オプションが指定されていない
@@ -36,7 +39,12 @@ Error: No URL provided.
         return myDropzone;
     }
     ```
+- ↑または、sendingというイベントがあるのでそこで埋め込む（その方が自然か）
 - paramNameがname属性と扱われてPOSTされる
 - urlはBladeから受け渡すべき
-- 他のオプションを試す
-    - TODO: アップロード時に勝手にサムネが生成される
+- アップロード時にサムネが生成されるのを防止する  
+⇒https://stackoverflow.com/questions/33842555/remove-previews-from-dropzone-after-success  
+(処理成功時に発火するメソッドでHTMLを削除する)  
+⇒削除までの間に一瞬ファイル情報が表示されてしまうので、cssで".dz-preview"を見えなくした。
+
+
