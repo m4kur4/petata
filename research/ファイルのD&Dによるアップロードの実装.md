@@ -1,5 +1,5 @@
 
-### 参考URL
+### 参考
 https://qiita.com/pomcho555/items/b9dcae3a5afeafd1f14f
 
 ### Dropzone.jsの利用方法
