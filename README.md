@@ -44,6 +44,12 @@ $ npm install
 - "unrecognized options: --with-freetype-dir, --with-jpeg-dir"  
 ⇒PHP7.4系から、docker-php-ext-configureの引数が変わった模様  
 https://uiuifree.com/blog/develop/docker-gd-php-7/
+
+- この前まで実行できていたシェルスクリプトが動かない  
+`bash: ./_shell/CacheClear.sh: /bin/bash^M: bad interpreter: No such file or directory`  
+⇒改行コードの問題？らしい。  
+参考：https://qiita.com/ayasumi_primary/items/0225d5c89ff1f2e7e217  
+右記コマンドで解決⇒`sed -i 's/\r//' *.sh`
 ## その他メモ
 ### リソース
 - MATERIAL COMPONENTS FOR THE WEB  
