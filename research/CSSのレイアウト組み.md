@@ -36,3 +36,8 @@
     }
 }
 ```
+- 動的にグリッドが増える場合は`grid-auto-〇〇`を使う。  
+https://coliss.com/articles/build-websites/operation/css/difference-between-grid-template-and-grid-auto.html
+
+- ライブラリがあった。`Magic Grid`  
+https://hiroshi-yokota.com/2020/01/23/magic-grid/
