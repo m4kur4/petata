@@ -9,6 +9,13 @@ body {
   border: 0;
   outline: none;
   scrollbar-base-color: #33665C;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .header {
@@ -150,6 +157,8 @@ body {
 }
 
 .right-column {
+  width: 100%;
+  height: 100%;
   grid-area: sticky-note;
   background-color: #e6fa8b;
 }

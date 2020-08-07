@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../\css\petata-proto.css">
+    <link rel="stylesheet" href="{{ asset('_static/css/petata-proto.css') }}">
 
     <!-- vendor -->
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -27,115 +28,115 @@
             <div class="left-column__content">
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="../image/dummy.jpg">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
                     </div>
                     <div class="left-column__item-text">説明説明説明</div>
                 </div><!-- /.left-column__item -->
@@ -144,61 +145,61 @@
 
         <div class="image-container">
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="../image/dummy.jpg">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
             </div>
         </div><!-- /.image-container -->
 
@@ -213,15 +214,22 @@
   crossorigin="anonymous"></script>
 <script>
 $('.right-column').click(() => {
+
+    let formData = new FormData();
+    formData.append('url', 'https://scraping-for-beginner.herokuapp.com/image');
+    //ormData.append('url', 'https://momicha.net/index.htm');
+      
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         contentType: false,
         processData: false,
-        url: 'https://qiita.com/terufumi1122/items/a1eb814f5f7c783a6acd',
+        url: "{{ route('api.document.html') }}",
+        data: formData,
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: 'json',
     }).done( (data) => {
       console.log(data);
-
+      $('.right-column').html(data);
     }).fail( (XMLHttpRequest, textStatus, errorThrown) => {
       // Ajaxリクエストが失敗した時発動
   　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
