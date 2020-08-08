@@ -12,6 +12,9 @@ $ php artisan key:generate
 ### node_modulesのインストール
 $ npm install
 
+### pythonの各種パッケージインストール(なぜかDockerFileでインストールできない)
+$ pip install -r requirements.txt
+
 ### 以下はpackage.jsonに記載済みのため不要(備忘)
 # $ npm install -D vue
 # $ npm install -D vue-router
@@ -51,6 +54,20 @@ https://uiuifree.com/blog/develop/docker-gd-php-7/
 参考：https://qiita.com/ayasumi_primary/items/0225d5c89ff1f2e7e217  
 右記コマンドで解決⇒`sed -i 's/\r//' *.sh`
 ## その他メモ
+### (未解決)DockerFile内でのpip実行結果が反映されない
+```
+# INSTALL python-library
+RUN python3 -m pip install -U pip \
+  && pip install \
+  pixivpy \
+  requests \
+  requests_toolbelt \
+  scikit-learn \
+  opencv-python
+```
+- 上記の記述でログ上は各種ライブラリのインストールに成功してそうだが、実際に`pip list`で確認すると何もインストールされていない。(pipだけはインストールされている。)    
+原因不明なので、コンテナをビルドしてから別途インストールすることにした。  
+
 ### リソース
 - MATERIAL COMPONENTS FOR THE WEB  
 https://material-components.github.io/material-components-web-catalog/#/

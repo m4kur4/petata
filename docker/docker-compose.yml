@@ -5,6 +5,7 @@ services:
     build: ./web
     volumes:
       - ../src:/var/www/html
+      - ./web/python_modules:/usr/local/lib/python3.7
     depends_on:
       - petata_db
     ports:

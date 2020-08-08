@@ -1,13 +1,23 @@
 FROM php:7.4.1-fpm
 
-# INSTALL library
+# INSTALL php-library
 RUN apt-get update \
   && apt-get install -y \
     curl \
     python3 \
+    python3-pip \
     unzip \
     vim \
     wget
+
+# INSTALL python-library
+RUN python3 -m pip install -U pip \
+  && pip3 install \
+  pixivpy \
+  requests \
+  requests_toolbelt \
+  scikit-learn \
+  opencv-python
 
 # INSTALL docker-extension
 RUN docker-php-ext-install \
