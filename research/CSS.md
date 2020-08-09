@@ -30,3 +30,13 @@ https://xov.jp/e/815/
 
 ### 良い感じのやつ
 - https://copypet.jp/692/
+
+### 擬似クラス
+- :hover  
+マウスオーバー
+- :nth-child(odd)  
+奇数行
+### 透明なボタン
+- https://www.it-swarm.dev/ja/html/%E9%80%8F%E6%98%8E%E3%81%AAhtml%E3%83%9C%E3%82%BF%E3%83%B3%E3%82%92%E4%BD%9C%E3%82%8B%E3%81%AB%E3%81%AF%EF%BC%9F/1044756220/
+
+### 

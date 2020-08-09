@@ -5,9 +5,9 @@
 
 ### 必要なパッケージ
 - scikit-learn  
-`pip install scikit-learn`  
+`pip3 install scikit-learn`  
 - OpenCV  
-`pip install opencv-python`  
+`pip3 install opencv-python`  
 
 
 ### Deepl翻訳
