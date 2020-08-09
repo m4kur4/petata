@@ -32,6 +32,19 @@ html, body {
     width: 100%;
     height: $navbar-height;
     background-color: #FFFFFF;
+    &__button {
+        fill: #324750;
+        padding: 0;
+        border: none;
+        height: $navbar-height;
+        width: $navbar-height;
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        border: none;
+        cursor:pointer;
+        overflow: hidden;
+        outline:none;
+    }
 }
 
 .container {
@@ -148,8 +161,8 @@ html, body {
         align-self: center;
         justify-self: center;
         &-image {
-            opacity: 65%;
-            transition: all 150ms 0s ease;
+            opacity: 75%;
+            transition: all 200ms 0s ease;
             cursor: move;
             position: absolute;
             height: 90%;
@@ -161,7 +174,7 @@ html, body {
             -webkit-transform: translateY(-50%) translateX(-50%);
             &:hover{
                 opacity: 100%;
-                transition: all 150ms 0s ease;
+                transition: all 200ms 0s ease;
                 box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0,0,0,.12);
             }
         }
@@ -179,34 +192,41 @@ html, body {
         $item-height: 48px;
 
         box-sizing: border-box;
-        border-left: solid 5px #7db4e6;
+        border-right: solid 5px #7db4e6;
         margin-top: 8px;
-        margin-left: auto;
-        margin-right: 0;
+        margin-left: 0;
+        margin-right: auto;
         background-color: white;
         width: $item-width;
         height: $item-height;
         cursor: pointer;
+        transition: all 150ms 0s ease;
         &:hover{
-            margin-right: auto;
+            transition: all 150ms 0s ease;
+            width: calc( #{$item-width} + 8px );
+            border-right: solid 5px #86AB40;
         }
         &--selected {
-            border-top: solid 5px #7db4e6;
+            transition: all 150ms 0s ease;
+            border-right: solid 5px #7db4e6;
             box-sizing: border-box;
             margin-top: 8px;
-            margin-left: auto;
+            margin-left: 0;
             margin-right: auto;
             background-color: white;
-            width: $item-width;
+            width: calc( #{$item-width} + 8px );
             height: auto;
         }
         &-title {
             margin: 0;
-            padding-left: 8px;
+            //padding-left: 8px;
             line-height: $item-height;
             font-size: $font-size;
         }
         &-description {
+            display: none;
+        }
+        &-description--show {
             margin: 0;
             padding-left: 16px;
             line-height: calc( #{$font-size} + 2 );
