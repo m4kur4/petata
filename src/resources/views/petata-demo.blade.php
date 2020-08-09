@@ -17,7 +17,7 @@
     <header class="header mdc-elevation--z2">
         ヘッダー
     </header>
-    <nav class="nav mdc-elevation--z3">
+    <nav class="nav mdc-elevation--z2">
     </nav>
     <div class="container">
 
@@ -28,183 +28,217 @@
             <div class="left-column__content">
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
                 <div class="left-column__item">
                     <div class="left-column__item-thumbnail">
-                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/dummy.jpg') }}">
+                        <img class="left-column__item-thumbnail-image" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
                     </div>
-                    <div class="left-column__item-text">説明説明説明</div>
+                    <div class="left-column__item-text">ファイル名</div>
                 </div><!-- /.left-column__item -->
             </div><!-- left-column__content -->
         </div><!-- /.left-column--show -->
 
         <div class="image-container">
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
             <div class="image-container__thumbnail">
-                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/dummy.jpg') }}">
+                <img class="image-container__thumbnail-image mdc-elevation--z2" src="{{ asset('_static/image/森中完成_色調整_3_35.jpg') }}">
             </div>
         </div><!-- /.image-container -->
 
-            <div class="right-column"></div>
-        <!-- /.right-column -->
+        <div class="right-column">
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベルを追加</p>
+            </div>
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description" hidden>ラベル名</p>
+            </div>
+            <div class="right-column__item--selected mdc-elevation--z6">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description">
+                    ラベルの説明<br>
+                    ラベルの説明<br>
+                </p>
+            </div>
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description" hidden>ラベル名</p>
+            </div>
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description" hidden>ラベル名</p>
+            </div>
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description" hidden>ラベル名</p>
+            </div>
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description" hidden>ラベル名</p>
+            </div>
+            <div class="right-column__item mdc-elevation--z2">
+                <p class="right-column__item-title">ラベル名</p>
+                <p class="right-column__item-description" hidden>ラベル名</p>
+            </div>
+        </div><!-- /.right-column -->
     </div><!-- /.container -->
 </body>
 
@@ -214,11 +248,11 @@
   crossorigin="anonymous"></script>
 <script>
 $('.right-column').click(() => {
-
+  let json = null;
     let formData = new FormData();
     formData.append('url', 'https://scraping-for-beginner.herokuapp.com/image');
     //ormData.append('url', 'https://momicha.net/index.htm');
-      
+
     $.ajax({
         type: 'POST',
         contentType: false,
@@ -229,7 +263,11 @@ $('.right-column').click(() => {
         dataType: 'json',
     }).done( (data) => {
       console.log(data);
-      $('.right-column').html(data);
+      for(let index in data) {
+        const html = `<img src="${data[index]}" style="width:50px; height: 50px; object-fit:cover;">`;
+        $('.right-column').append(html);
+      }
+      
     }).fail( (XMLHttpRequest, textStatus, errorThrown) => {
       // Ajaxリクエストが失敗した時発動
   　　console.log("XMLHttpRequest : " + XMLHttpRequest.status);
