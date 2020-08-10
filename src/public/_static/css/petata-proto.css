@@ -8,14 +8,6 @@ body {
   padding: 0;
   border: 0;
   outline: none;
-  scrollbar-base-color: #33665C;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;
 }
 
 .header {
@@ -183,7 +175,7 @@ body::-webkit-scrollbar {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(312px, 1fr));
   grid-auto-rows: 312px;
-  background-color: #E4E4E4;
+  background-color: white;
 }
 
 .image-container__thumbnail {
