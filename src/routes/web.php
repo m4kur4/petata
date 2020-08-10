@@ -11,7 +11,11 @@
 |
 */
 
-Route::get('/', function () {
+/*
+Route::get('/demo', function () {
     // return view('welcome');
     return view('petata-demo');
 });
+*/
+
+Route::get('/{any?}', fn() => view('index'))->where('any', '.+');

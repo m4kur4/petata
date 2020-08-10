@@ -1,13 +1,10 @@
 <template>
-    <header class=" mdc-top-app-bar mdc-top-app-bar--dense">
-        <div class="mdc-top-app-bar__row">
-            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-            <button class="mdc-icon-button material-icons mdc-top-app-bar__navigation-icon--unbounded">menu</button><span class="mdc-top-app-bar__title">Petata</span> </section>
-            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-            <button class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded" aria-label="Download">file_download</button>
-            <button class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded" aria-label="Print this page">print</button>
-            <button class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded" aria-label="Bookmark this page">bookmark</button>
-            </section>
-        </div>
-    </header>
+  <header class="header mdc-elevation--z2">
+    <div class="header__logo">
+        <img class="header__logo-image" src="/image/logo_48_white.svg" width="42" height="42" alt="petata">
+      <h1 class="header__logo-title">
+        PETATA!
+      </h1>
+    </div>
+  </header>
 </template>

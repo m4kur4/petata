@@ -26,6 +26,32 @@ body::-webkit-scrollbar {
   background-color: #324750;
 }
 
+.header__logo {
+  position: relative;
+  height: 100%;
+  width: 200px;
+  margin-left: 4px;
+}
+
+.header__logo-image {
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+.header__logo-title {
+  font-family: Calibri;
+  font-weight: bold;
+  font-style: italic;
+  position: absolute;
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -51%);
+  margin: 0;
+}
+
 .nav {
   position: relative;
   z-index: 6;

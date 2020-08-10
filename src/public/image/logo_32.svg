@@ -1,0 +1,51 @@
+<svg width="32" height="32" viewBox="0 0 640 640" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet"><defs>
+	<path d="M301.62 46.21L611.91 356.5L544.27 424.14L233.98 113.85L301.62 46.21Z" id="jP2beHDTf"></path>
+	<path d="M205.65 141.42L517.72 449.93L451.35 517.06L139.28 208.55L205.65 141.42Z" id="dUiZdr4A0"></path>
+	<path d="M111.37 234.75L423.44 543.26L356.19 611.29L44.12 302.78L111.37 234.75Z" id="d5itpINJYV"></path>
+	<path d="M299.41 20L609.7 330.3L542.06 397.94L231.77 87.64L299.41 20Z" id="cfKs1cjUG"></path>
+	<path d="M203.44 115.21L515.51 423.72L449.15 490.85L137.08 182.34L203.44 115.21Z" id="c16LMGgNZ1"></path>
+	<path d="M109.16 208.54L421.23 517.06L353.98 585.08L41.91 276.57L109.16 208.54Z" id="a5EikbaHeu"></path></defs>
+  <g>
+    <g>
+      <g>
+        <g>
+          <g>
+            <g>
+              <filter id="shadow16616364" x="-577073.02" y="-577260.79" width="1732143.94" height="1730991.94" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse">
+                <feFlood></feFlood>
+                <feComposite in2="SourceAlpha" operator="in"></feComposite>
+                <feGaussianBlur stdDeviation="7.07"></feGaussianBlur>
+                <feOffset dx="577152" dy="576000" result="afterOffset"></feOffset>
+                <feFlood flood-color="#ff3030" flood-opacity="1"></feFlood>
+                <feComposite in2="afterOffset" operator="in"></feComposite>
+                <feMorphology operator="dilate" radius="50"></feMorphology>
+                <feComposite in2="SourceAlpha" operator="out"></feComposite>
+              </filter>
+	            <path d="M301.62 46.21L611.91 356.5L544.27 424.14L233.98 113.85L301.62 46.21Z" id="cEJXw4nWj" fill="white" fill-opacity="1" filter="url(#shadow16616364)"></path>
+            </g>
+            <use xlink:href="#jP2beHDTf" opacity="0.28" fill="#3a4750" fill-opacity="1"></use>
+          </g>
+          <g>
+            <use xlink:href="#dUiZdr4A0" opacity="0.28" fill="#f6c90e" fill-opacity="1"></use>
+          </g>
+          <g>
+            <use xlink:href="#d5itpINJYV" opacity="0.28" fill="#f64e8b" fill-opacity="1"></use>
+          </g>
+        </g>
+        <g>
+          <g>
+
+	          <path d="M299.41 20L609.7 330.3L542.06 397.94L231.77 87.64L299.41 20Z" id="a2sPCz5cpz" fill="white" fill-opacity="1" filter="url(#shadow16233584)"></path>
+          </g>
+          <use xlink:href="#cfKs1cjUG" opacity="1" fill="#3a4750" fill-opacity="1"></use>
+        </g>
+        <g>
+          <use xlink:href="#c16LMGgNZ1" opacity="1" fill="#f6c90e" fill-opacity="1"></use>
+        </g>
+        <g>
+          <use xlink:href="#a5EikbaHeu" opacity="1" fill="#f64e8b" fill-opacity="1"></use>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
