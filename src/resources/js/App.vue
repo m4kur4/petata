@@ -1,25 +1,19 @@
 <template>
-    <div>
+    <main>
         <Header />
         <Navbar />
-        <main>
-            <div  class="container">
-                <RouterView  />
-            </div>
-        </main>
-    </div>
+        <RouterView  />
+    </main>
 </template>
 
 <script>
 import Header from './components/Header.vue';
 import Navbar from './components/Navbar.vue';
-import ProgressIndicator from './components/ProgressIndicator.vue';
 
 export default {
     components: {
         Header,
         Navbar,
-        ProgressIndicator
     }
 };
 </script>

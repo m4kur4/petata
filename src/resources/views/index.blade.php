@@ -8,7 +8,7 @@
 
     <!--StyleSheets -->
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('_static/css/petata-proto.css') }}">
+    <link rel="stylesheet" href="{{ asset('_static/css/petata.css') }}">
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 
 
