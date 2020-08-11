@@ -13,6 +13,7 @@ $ php artisan key:generate
 $ npm install
 
 ### pythonの各種パッケージインストール(なぜかDockerFileでインストールできない)
+$ python3 -m pip install -U pip
 $ pip install -r requirements.txt
 
 ### 以下はpackage.jsonに記載済みのため不要(備忘)
