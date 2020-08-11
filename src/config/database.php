@@ -34,6 +34,13 @@ return [
     */
 
     'connections' => [
+        
+        // NOTE: APIテスト用データベースとして、インメモリのSQLiteを使用する
+        'sqlite_testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',

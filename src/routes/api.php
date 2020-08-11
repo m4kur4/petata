@@ -17,4 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// ユーザー登録
+Route::post('user/register','Auth\RegisterController@register')->name('user.register');
+
+// TEST: 外部リソース取得
 Route::post('document/html', 'Front\DocumentController@getRawHtml')->name('api.document.html');

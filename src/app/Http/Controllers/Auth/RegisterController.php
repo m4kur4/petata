@@ -70,4 +70,15 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    /**
+     * ユーザー作成後のリダイレクトを抑止する。
+     * 
+     * @see Illuminate\Foundation\Auth\RegistersUsers::registered()
+     * @return User
+     */
+    protected function registered($request, $user)
+    {
+        return $user;
+    }
 }
