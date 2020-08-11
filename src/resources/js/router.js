@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Test from './pages/Test.vue';
-import Main from './pages/Main.vue';
+import Binder from './pages/Binder.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +13,7 @@ const routes = [
     },
     {
         path:'/',
-        component: Main
+        component: Binder
     }
 ];
 

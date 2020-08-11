@@ -64,16 +64,27 @@ html, body, main {
     }
 }
 
-.container {
-    position:relative;
-    z-index: 0;
-    display: grid;
-    grid-template-rows: 100%;
-    grid-template-columns: 248px auto 384px;
-    grid-template-areas: 
-        "left-column image-container right-column";
+
+%container-base {
     width: 100%;
-    height: calc( 100% - #{$header-height} - #{$navbar-height} );
+    height: calc( 100% - #{$header-height} - #{$navbar-height} )
+}
+.container {
+    // デフォルト：未ログイン
+    @extend %container-base;
+    background-color: #7db4e6;
+    &--binder {
+        @extend %container-base;
+        position:relative;
+        z-index: 0;
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 248px auto 384px;
+        grid-template-areas: 
+            "left-column image-container right-column";
+        width: 100%;
+        height: calc( 100% - #{$header-height} - #{$navbar-height} );
+    }
 }
 
 .left-column {
