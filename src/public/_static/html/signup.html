@@ -14,12 +14,39 @@
 </head>
 <body>
     <header class="header mdc-elevation--z2">
-        ヘッダー
+        <div class="header__logo">
+            <img class="header__logo-image" src="../../image/logo_48_white.svg" width="42" height="42" alt="petata">
+          <h1 class="header__logo-title">
+            PETATA!
+          </h1>
+        </div>
     </header>
-    <nav class="nav mdc-elevation--z3">
-    </nav>
-    <div class="container">
 
+    <div class="container--signup">
+        <div class="form--signup">
+            <div class="form__title">
+                <h2 class="signup" >
+                    <img src="../../image/logo_32.svg" width="48" height="48" alt="petata">
+                    Sign up
+                </h2>
+            </div>
+            <div class="form__wrapper">
+                <label class="form__label">ユーザー名*</label>
+                <input type="text" class="form__text" placeholder="ぺったん太郎">
+                <label class="form__label">メールアドレス*
+                    <span class="form__error-message">メールアドレスの形式が正しくありません。</span>
+                </label>
+                <input type="text" class="form__text" placeholder="taro-2525@petata.com">
+                <label class="form__label">パスワード*</label>
+                <input type="password" class="form__text">
+                <label class="form__label">パスワード（確認）*
+                    <span class="form__error-message">パスワードが一致しません。</span>
+                </label>
+                <input type="password" class="form__text">
+            </div>
+            <button type="button" class="form__button">Sign up</button>
+            <a href="#" class="form__link">Sign in</a>
+        </div>
     </div><!-- /.container -->
 </body>
 </html>

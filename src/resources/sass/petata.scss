@@ -2,6 +2,7 @@
 $header-height: 48px;
 $navbar-height: 64px;
 $font-size: 20px;
+$font-family: Calibri;
 
 html, body, main {
     width:100%;
@@ -30,7 +31,7 @@ html, body, main {
             position: absolute
         }
         &-title {
-            font-family: Calibri;
+            font-family: $font-family;
             font-weight: bold;
             font-style: italic;
             position: absolute;
@@ -64,15 +65,103 @@ html, body, main {
     }
 }
 
+%form-base {
+    margin: 0 auto;
+    padding-top: 48px;
+}
+.form {
+    
+    &--signup {
+        @extend %form-base;
+        width: 720px;
+        height: 720px;
+    }
+
+    &__title {
+        /* var@form__title */
+        $heighe: 48px;
+
+        height: $heighe;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #324750;
+        > h2 {
+            margin: 0;
+            font-weight: normal;
+            font-style: italic;
+            font-family: $font-family;
+            font-size: $heighe;
+            height: 100%;
+            line-height: $heighe;
+            > img {
+                vertical-align: middle;
+            }
+       } 
+    }
+    &__wrapper {
+        margin-top: 16px;
+        margin-bottom: 24px;
+        display: grid;
+        grid-gap: 8px;
+
+    }
+    &__label {
+        font-family: $font-family;
+        font-size: 16px;
+        line-height: 16px;
+        margin-top: 8px;
+    }
+    &__text {
+        text-indent: 0.4em;
+        outline: none;
+        font-size: 28px;
+        font-family: $font-family;
+        padding: 0;
+        box-sizing: border-box;
+        border: 2px solid #B8B8B8;
+        border-radius: 4px;
+        width: 720px;
+        height: 56px;
+        &::placeholder {
+            color: rgb(207, 207, 207);
+        }
+   }
+   &__button {
+        margin-bottom: 4px;
+        outline: none;
+        border-radius: 7px;
+        border: none;
+        font-size: 32px;
+        font-family: $font-family;
+        font-weight: bold;
+        color: white;
+        background-color: #324750;
+        width: 720px;
+        height: 64px;
+   }
+   &__link {
+        font-family: $font-family;
+        font-weight: bolder;
+        font-size: 20px;
+        color:#999999;
+   }
+   &__error-message {
+       font-family: $font-family;
+       color: red;
+       float: right;
+   }
+}
 
 %container-base {
     width: 100%;
-    height: calc( 100% - #{$header-height} - #{$navbar-height} )
+    height: calc( 100% - #{$header-height} - #{$navbar-height} );
 }
 .container {
     // デフォルト：未ログイン
-    @extend %container-base;
-    background-color: #7db4e6;
+    &--signup {
+        width: 100%;
+        height: calc( 100% - #{$header-height} );
+        background-color: white;
+    }
     &--binder {
         @extend %container-base;
         position:relative;
@@ -136,7 +225,7 @@ html, body, main {
         grid-template-columns: $left-column-item-height 1fr;
         grid-template-areas: 
             "image-thumbnail image-title";
-        opacity: 65%;
+        opacity: 100%;
         width: 100%;
         height: $left-column-item-height;
         border-bottom: 1px solid #CBCBCB;
@@ -145,7 +234,7 @@ html, body, main {
             background-color: #E4E4E4;
         }
         &:hover {
-            opacity: 100%;
+            opacity: 65%;
             transition: all 200ms 0s ease;
         }
         &-thumbnail {

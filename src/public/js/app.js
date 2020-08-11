@@ -20331,7 +20331,7 @@ var staticRenderFns = [
           [
             _c("span", {
               staticClass: "mdc-linear-progress__bar-inner",
-              staticStyle: { "border-color": "#324750" }
+              staticStyle: { "border-color": "#33665C" }
             })
           ]
         ),
@@ -20345,7 +20345,7 @@ var staticRenderFns = [
           [
             _c("span", {
               staticClass: "mdc-linear-progress__bar-inner",
-              staticStyle: { "border-color": "#324750" }
+              staticStyle: { "border-color": "#33665C" }
             })
           ]
         )

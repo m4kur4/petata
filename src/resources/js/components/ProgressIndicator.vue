@@ -3,10 +3,10 @@
     <div class="mdc-linear-progress__buffering-dots"></div>
     <div class="mdc-linear-progress__buffer"></div>
     <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
-      <span class="mdc-linear-progress__bar-inner" style="border-color: #324750"></span>
+      <span class="mdc-linear-progress__bar-inner" style="border-color: #33665C"></span>
     </div>
     <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
-      <span class="mdc-linear-progress__bar-inner" style="border-color: #324750"></span>
+      <span class="mdc-linear-progress__bar-inner" style="border-color: #33665C"></span>
     </div>
   </div>
 </template>
