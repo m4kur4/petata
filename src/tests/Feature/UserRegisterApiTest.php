@@ -32,11 +32,13 @@ class UserRegisterApiTest extends TestCase
 
         $response = $this->json('POST', route('user.register'), $formData);
 
+        // 入力値がテーブルに反映されていることを確認
         $user = User::first();
         $this->assertEquals($formData['name'], $user->name);
         $this->assertEquals($formData['email'], $user->email);
         $this->assertTrue(Hash::check($formData['password'], $user->password));
 
+        // ステータスコードと戻り値が期待通りであることを確認
         $response
             ->assertStatus(201)
             ->assertJson(['name' => $user->name]);
@@ -45,9 +47,9 @@ class UserRegisterApiTest extends TestCase
     /**
      * @test
      * 
-     * パスワードの入力確認が不一致の場合に新規作成失敗。
+     * パスワードの入力確認で不一致の場合に新規作成失敗。
      */
-    public function User_Create_Failer4ConfirmPassword()
+    public function User_Create_Failer4ConfirmPasswordError()
     {
         $formData = [
             'name' => 'test user',
@@ -58,7 +60,6 @@ class UserRegisterApiTest extends TestCase
 
         $response = $this->json('POST', route('user.register'), $formData);
 
-        $response
-            ->assertStatus(422);
+        $response->assertStatus(422);
     }
 }
