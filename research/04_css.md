@@ -78,3 +78,6 @@ https://coliss.com/articles/build-websites/operation/css/difference-between-grid
 
 ### グリッドレイアウトの自動調整ライブラリ `Magic Grid`  
 https://hiroshi-yokota.com/2020/01/23/magic-grid/
+
+### input textの余白を作る
+`text-indent: 1em;`
