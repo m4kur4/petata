@@ -69,14 +69,13 @@ Page=MAIN
 Left=100
 Top=750
 Field="ID","id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
-Field="管理者ID","admin_user_id","@INT","NOT NULL",,"","users.id",$FFFFFFFF,""
 Field="名前","name","@VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
 Field="作成日時","created_at","@DATETIME",,,"","",$FFFFFFFF,""
 Field="更新日時","updated_at","@DATETIME",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20200811120757
+ModifiedDateTime=20200811171410
 Position="MAIN",100,750,717,291
 ZOrder=1
 
@@ -91,13 +90,14 @@ Top=450
 Field="ID","id","@INT","NOT NULL",0,"","",$FFFFFFFF,""
 Field="ユーザーID","user_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
 Field="バインダーID","binder_id","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="権限レベル","level","@INT","NOT NULL",,"[1]閲覧[2]管理","",$FFFFFFFF,""
 Field="作成日時","created_at","@DATETIME",,,"","",$FFFFFFFF,""
 Field="更新日時","updated_at","@DATETIME",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20200811111828
-Position="MAIN",1350,450
+ModifiedDateTime=20200811171513
+Position="MAIN",1350,450,672,323
 ZOrder=2
 
 [Relation]
