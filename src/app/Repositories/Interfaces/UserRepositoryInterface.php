@@ -15,4 +15,13 @@ interface UserRepositoryInterface
      * @return User
      */
     public function create(UserRegistrationRequest $request): User;
+
+    /**
+     * 指定したIDを持つユーザーを削除します。
+     * 対象のユーザーに関連する各種データも同時に削除します。
+     *
+     * @param string $id
+     * @return void
+     */
+    public function delete(string $id);
 }
