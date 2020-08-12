@@ -18,7 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // ユーザー登録
-Route::post('user/register','Auth\RegisterController@register')->name('user.register');
+Route::post('user/register','Front\UserController@register')->name('user.register');
+
+// TODO: ユーザー退会
+Route::post('user/unregister','Auth\RegisterController@register')->name('user.unregister');
 
 // TEST: 外部リソース取得
 Route::post('document/html', 'Front\DocumentController@getRawHtml')->name('api.document.html');
