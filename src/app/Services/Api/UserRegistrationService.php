@@ -7,6 +7,9 @@ use App\Http\Requests\Front\UserRegistrationRequest;
 use App\Services\Api\Interfaces\UserRegistrationServiceInterface;
 use \App\Repositories\Interfaces\UserRepositoryInterface;
 
+/**
+ * @inheritdoc
+ */
 class UserRegistrationService implements UserRegistrationServiceInterface
 {
     /**
@@ -24,7 +27,7 @@ class UserRegistrationService implements UserRegistrationServiceInterface
     /**
      * @inheritdoc
      */
-    public function execute(UserRegistrationRequest $request) : User
+    public function register(UserRegistrationRequest $request) : User
     {
         $user = $this->userRepository->create($request);
         return $user;

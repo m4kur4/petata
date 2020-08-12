@@ -5,6 +5,9 @@ namespace App\Services\Api\Interfaces;
 use App\Models\User;
 use App\Http\Requests\Front\UserRegistrationRequest;
 
+/**
+ * ユーザー登録サービス
+ */
 interface UserRegistrationServiceInterface
 {
     /**
@@ -14,5 +17,5 @@ interface UserRegistrationServiceInterface
      * @param UserRegistrationRequest $request
      * @return User
      */
-    public function execute(UserRegistrationRequest $request) : User;
+    public function register(UserRegistrationRequest $request) : User;
 }

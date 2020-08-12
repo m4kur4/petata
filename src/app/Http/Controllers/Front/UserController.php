@@ -34,7 +34,7 @@ class UserController extends Controller
      */    
     public function register(UserRegistrationRequest $request) : User
     {
-        $user = $this->userRegistrationService->execute($request);
+        $user = $this->userRegistrationService->register($request);
         return $user;
     }
 }
