@@ -27,7 +27,7 @@ class BinderListSelectService implements BinderListSelectServiceInterface
     /**
      * @inheritdoc
      */
-    public function execute(string $user_id): IlluminateHttpResponse
+    public function execute(string $user_id)
     {
         // TODO: 実装
     }

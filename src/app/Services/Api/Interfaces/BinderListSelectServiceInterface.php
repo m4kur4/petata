@@ -16,5 +16,5 @@ interface BinderListSelectServiceInterface
      * @param string $user_id
      * @return IlluminateHttpResponse
      */
-    public function execute(string $user_id): IlluminateHttpResponse;
+    public function execute(string $user_id);
 }
