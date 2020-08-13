@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Http\Requests\Front\UserRegistrationRequest;
+use App\Http\Requests\UserRegistrationRequest;
 
 use Hash;
 

@@ -20,6 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // ユーザー登録
 Route::post('user/register','UserController@register')->name('api.user.register');
 
+// ユーザーログイン
+Route::post('user/auth/login','UserController@login')->name('api.user.login');
+
+
 // TODO: ユーザー退会
 //Route::post('user/unregister','Auth\RegisterController@register')->name('user.unregister');
 
