@@ -30,7 +30,7 @@ class UserRegisterApiTest extends TestCase
             'password_confirmation' => 'password',
         ];
 
-        $response = $this->json('POST', route('user.register'), $formData);
+        $response = $this->json('POST', route('api.user.register'), $formData);
 
         // 入力値がテーブルに反映されていることを確認
         $user = User::first();
@@ -58,7 +58,7 @@ class UserRegisterApiTest extends TestCase
             'password_confirmation' => 'password2222',
         ];
 
-        $response = $this->json('POST', route('user.register'), $formData);
+        $response = $this->json('POST', route('api.user.register'), $formData);
 
         $response->assertStatus(422);
     }

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\UserRegistrationRequest;
 use App\Services\Api\Interfaces\UserRegistrationServiceInterface;
 use App\Models\User;

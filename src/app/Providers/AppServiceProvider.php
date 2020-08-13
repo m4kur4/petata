@@ -13,7 +13,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // ユーザー登録サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\UserRegistrationServiceInterface::class,
+            \App\Services\Api\UserRegistrationService::class
+        );
+        // ユーザー認証サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\UserAuthorizationServiceInterface::class,
+            \App\Services\Api\UserAuthorizationService::class
+        );
     }
 
     /**

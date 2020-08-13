@@ -178,7 +178,6 @@ return [
         /**
          * Petata サービスプロバイダー
          */
-        App\Providers\FrontServiceProvider::class,
         App\Providers\RepositoryProvider::class,
 
     ],
