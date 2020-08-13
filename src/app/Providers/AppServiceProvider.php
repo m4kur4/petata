@@ -23,6 +23,12 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\UserLoginServiceInterface::class,
             \App\Services\Api\UserLoginService::class
         );
+        // バインダー一覧情報取得サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\BinderListSelectServiceInterface::class,
+            \App\Services\Api\BinderListSelectService::class
+        );
+        
     }
 
     /**
