@@ -3,14 +3,14 @@
 namespace App\Services\Api;
 
 use App\Models\User;
-use App\Http\Requests\UserRegistrationRequest;
-use App\Services\Api\Interfaces\UserRegistrationServiceInterface;
+use App\Http\Requests\UserRegisterRequest;
+use App\Services\Api\Interfaces\UserRegisterServiceInterface;
 use \App\Repositories\Interfaces\UserRepositoryInterface;
 
 /**
  * @inheritdoc
  */
-class UserRegistrationService implements UserRegistrationServiceInterface
+class UserRegisterService implements UserRegisterServiceInterface
 {
     /**
      * コンストラクタ
@@ -27,7 +27,7 @@ class UserRegistrationService implements UserRegistrationServiceInterface
     /**
      * @inheritdoc
      */
-    public function execute(UserRegistrationRequest $request) : User
+    public function execute(UserRegisterRequest $request) : User
     {
         $user = $this->userRepository->create($request);
         return $user;

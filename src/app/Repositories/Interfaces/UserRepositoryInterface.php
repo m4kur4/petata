@@ -3,7 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\User;
-use App\Http\Requests\UserRegistrationRequest;
+use App\Http\Requests\UserRegisterRequest;
 
 interface UserRepositoryInterface
 {
@@ -11,10 +11,10 @@ interface UserRepositoryInterface
      * ユーザーを新規登録します。
      * 登録したユーザー情報を返却します。
      *
-     * @param @param UserRegistrationRequest $request
+     * @param @param UserRegisterRequest $request
      * @return User
      */
-    public function create(UserRegistrationRequest $request): User;
+    public function create(UserRegisterRequest $request): User;
 
     /**
      * 指定したIDを持つユーザーを削除します。

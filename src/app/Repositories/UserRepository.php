@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Http\Requests\UserRegistrationRequest;
+use App\Http\Requests\UserRegisterRequest;
 
 use Hash;
 
@@ -13,7 +13,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function create(UserRegistrationRequest $request): User
+    public function create(UserRegisterRequest $request): User
     {
         $user = new User();
 

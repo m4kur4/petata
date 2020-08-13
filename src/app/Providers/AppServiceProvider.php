@@ -15,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
     {
         // ユーザー登録サービス
         $this->app->bind(
-            \App\Services\Api\Interfaces\UserRegistrationServiceInterface::class,
-            \App\Services\Api\UserRegistrationService::class
+            \App\Services\Api\Interfaces\UserRegisterServiceInterface::class,
+            \App\Services\Api\UserRegisterService::class
         );
         // ユーザーログインサービス
         $this->app->bind(
