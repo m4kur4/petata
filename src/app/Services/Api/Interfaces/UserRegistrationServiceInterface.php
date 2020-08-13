@@ -17,5 +17,5 @@ interface UserRegistrationServiceInterface
      * @param UserRegistrationRequest $request
      * @return User
      */
-    public function register(UserRegistrationRequest $request) : User;
+    public function execute(UserRegistrationRequest $request) : User;
 }

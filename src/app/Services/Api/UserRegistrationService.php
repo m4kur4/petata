@@ -27,7 +27,7 @@ class UserRegistrationService implements UserRegistrationServiceInterface
     /**
      * @inheritdoc
      */
-    public function register(UserRegistrationRequest $request) : User
+    public function execute(UserRegistrationRequest $request) : User
     {
         $user = $this->userRepository->create($request);
         return $user;
