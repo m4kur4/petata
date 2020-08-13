@@ -3,7 +3,7 @@
 namespace App\Services\Api\Interfaces;
 
 use App\Models\User;
-use App\Http\Requests\Front\UserRegistrationRequest;
+use App\Http\Requests\UserRegistrationRequest;
 
 /**
  * ユーザー登録サービス

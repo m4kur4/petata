@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Front\UserRegistrationRequest;
+use App\Http\Requests\UserRegistrationRequest;
+use App\Http\Requests\UserLoginRequest;
 use App\Services\Api\Interfaces\UserRegistrationServiceInterface;
+use App\Services\Api\Interfaces\UserLoginServiceInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,12 +18,15 @@ class UserController extends Controller
      * コンストラクタ
      * 
      * @param UserRegistrationServiceInterface $userRegistrationService
+     * @param UserLoginServiceInterface $userLoginService
      */
     public function __construct(
-        UserRegistrationServiceInterface $userRegistrationService
-        )
+        UserRegistrationServiceInterface $userRegistrationService,
+        UserLoginServiceInterface $userLoginService
+    )
     {
         $this->userRegistrationService = $userRegistrationService;
+        $this->userLoginService = $userLoginService;
     }
 
     /**
@@ -35,5 +40,14 @@ class UserController extends Controller
     {
         $user = $this->userRegistrationService->execute($request);
         return $user;
+    }
+
+    /**
+     * ユーザーを認証してログインさせます。
+     */
+    public function login(UserLoginRequest $request)
+    {
+        $this->userLoginService->execute($request);
+        return 'hoge';
     }
 }
