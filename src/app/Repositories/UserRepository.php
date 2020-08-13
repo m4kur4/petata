@@ -28,9 +28,9 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function delete(string $id)
+    public function delete(string $user_id)
     {
-        $user = User::where('id', $id);
+        $user = User::where('id', $user_id);
         $user->delete();
 
         // TODO: 関連データも削除する

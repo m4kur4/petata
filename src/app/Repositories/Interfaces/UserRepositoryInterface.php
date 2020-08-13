@@ -20,8 +20,8 @@ interface UserRepositoryInterface
      * 指定したIDを持つユーザーを削除します。
      * 対象のユーザーに関連する各種データも同時に削除します。
      *
-     * @param string $id
+     * @param string $user_id
      * @return void
      */
-    public function delete(string $id);
+    public function delete(string $user_id);
 }
