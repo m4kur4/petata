@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ProgressIndicator from './ProgressIndicator.vue';
+import ProgressIndicator from '../common/ProgressIndicator.vue';
 
 export default {
   components: {

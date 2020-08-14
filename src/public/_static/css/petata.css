@@ -117,6 +117,10 @@ main {
   line-height: 48px;
 }
 
+.form__title > h2 > img {
+  vertical-align: middle;
+}
+
 .form__title-button {
   padding: 0;
   outline: none;

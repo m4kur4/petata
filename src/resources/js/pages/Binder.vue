@@ -7,9 +7,10 @@
 </template>
 
 <script>
-import LeftColumn from '../components/LeftColumn.vue';
-import ImageContainer from '../components/ImageContainer.vue';
-import RightColumn from '../components/RightColumn.vue';
+
+import LeftColumn from '../components/binder/LeftColumn.vue';
+import ImageContainer from '../components/binder/ImageContainer.vue';
+import RightColumn from '../components/binder/RightColumn.vue';
 
 export default {
   components: {

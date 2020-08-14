@@ -117,6 +117,9 @@ main {
             font-size: $heighe;
             height: 100%;
             line-height: $heighe;
+            > img {
+                vertical-align: middle;
+            }
         }
         &-button {
             padding:0;
