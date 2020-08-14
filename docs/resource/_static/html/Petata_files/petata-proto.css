@@ -1,14 +1,21 @@
 /* var@global */
 
 html,
-body,
-main {
+body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
   border: 0;
   outline: none;
+  scrollbar-base-color: #33665C;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .header {
@@ -176,7 +183,7 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(312px, 1fr));
   grid-auto-rows: 312px;
-  background-color: white;
+  background-color: #E4E4E4;
 }
 
 .image-container__thumbnail {
