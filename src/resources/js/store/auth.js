@@ -1,7 +1,7 @@
 /**
  * 認証関係ストア
  */
-import { OK, UNPROCESSABLE_ENTITY } from "../const";
+import { OK, CREATED, UNPROCESSABLE_ENTITY } from "../const";
 
 const state = {
     /**
@@ -52,7 +52,7 @@ const actions = {
         const param = {
             data: data,
             uri: "api/user/register",
-            fnSuccess: () => {
+            fnSuccess: (response) => {
                 context.commit("setApiStatus", true);
                 context.commit("setUser", response.data);
                 return false;
@@ -68,7 +68,7 @@ const actions = {
         const param = {
             data: data,
             uri: "api/user/auth/login",
-            fnSuccess: () => {
+            fnSuccess: (response) => {
                 context.commit("setApiStatus", true);
                 context.commit("setUser", response.data);
                 return false;
@@ -98,8 +98,8 @@ const actions = {
             .catch(err => err.response || err);
 
         // 成功
-        if (response.status === OK) {
-            fnSuccess();
+        if (response.status === OK || response.status === CREATED) {
+            fnSuccess(response);
         }
 
         // 失敗

@@ -2198,7 +2198,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: "",
         email: "",
         password: "",
-        password_confirm: ""
+        password_confirmation: ""
       }
     };
   },
@@ -21861,11 +21861,11 @@ var render = function() {
               placeholder: ""
             },
             model: {
-              value: _vm.form.password_confirm,
+              value: _vm.form.password_confirmation,
               callback: function($$v) {
-                _vm.$set(_vm.form, "password_confirm", $$v)
+                _vm.$set(_vm.form, "password_confirmation", $$v)
               },
-              expression: "form.password_confirm"
+              expression: "form.password_confirmation"
             }
           }),
           _vm._v(" "),
@@ -39602,7 +39602,7 @@ var actions = {
               param = {
                 data: data,
                 uri: "api/user/register",
-                fnSuccess: function fnSuccess() {
+                fnSuccess: function fnSuccess(response) {
                   context.commit("setApiStatus", true);
                   context.commit("setUser", response.data);
                   return false;
@@ -39634,7 +39634,7 @@ var actions = {
               param = {
                 data: data,
                 uri: "api/user/auth/login",
-                fnSuccess: function fnSuccess() {
+                fnSuccess: function fnSuccess(response) {
                   context.commit("setApiStatus", true);
                   context.commit("setUser", response.data);
                   return false;
@@ -39683,8 +39683,8 @@ var actions = {
               response = _context3.sent;
 
               // 成功
-              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["OK"]) {
-                fnSuccess();
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["OK"] || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["CREATED"]) {
+                fnSuccess(response);
               } // 失敗
 
 

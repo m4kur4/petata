@@ -22,7 +22,7 @@
                 :placeholder="'半角英数字8文字以上'"
             />
             <TextForm 
-                v-model="form.password_confirm"
+                v-model="form.password_confirmation"
                 :title="'Password (Confirm)*'"
                 :type="'password'"
                 :placeholder="''"
@@ -48,7 +48,7 @@ export default {
                 name: "",
                 email: "",
                 password: "",
-                password_confirm: ""
+                password_confirmation: ""
             }
         };
     },
