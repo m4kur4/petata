@@ -1,3 +1,6 @@
+/**
+ * 認証関係ストア
+ */
 import { OK, UNPROCESSABLE_ENTITY } from "../const";
 
 const state = {

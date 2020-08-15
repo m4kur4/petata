@@ -8,7 +8,7 @@
 
 <script>
 import Header from './components/common/Header.vue';
-import Navbar from './components/binder/Navbar.vue';
+import Navbar from './components/common/Navbar.vue';
 
 export default {
     components: {

@@ -1,3 +1,6 @@
+/**
+ * APIエラーストア
+ */
 const state = {
     code: null
 };
