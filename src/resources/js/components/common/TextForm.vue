@@ -7,7 +7,7 @@
             >
         </label>
         <input
-            v-model="bind_target"
+            v-model="text"
             :placeholder="placeholder"
             :type="type"
             class="form__text"
@@ -23,10 +23,20 @@ export default {
         };
     },
     props: {
+        value: String,
         title: String,
-        bind_target: String,
         type: String,
         placeholder: String
+    },
+    computed: {
+        text: {
+            get: function() {
+                return this.value;
+            },
+            set: function(value) {
+                this.$emit("input", value);
+            }
+        }
     }
 };
 </script>

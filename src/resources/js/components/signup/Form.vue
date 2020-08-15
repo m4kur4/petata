@@ -4,31 +4,31 @@
         <div class="form__wrapper--signup">
 
             <TextForm 
+                v-model="form.name"
                 :title="'User name*'"
-                :bind_target="form.name"
                 :type="'text'"
                 :placeholder="'ぺったん太郎'"
             />
             <TextForm 
+                v-model="form.email"
                 :title="'Email*'"
-                :bind_target="form.email"
                 :type="'text'"
                 :placeholder="'taro-1234@petata.com'"
             />
             <TextForm 
+                v-model="form.password"
                 :title="'Password*'"
-                :bind_target="form.password"
                 :type="'password'"
                 :placeholder="'半角英数字8文字以上'"
             />
             <TextForm 
+                v-model="form.password_confirm"
                 :title="'Password (Confirm)*'"
-                :bind_target="form.password_confirm"
                 :type="'password'"
                 :placeholder="''"
             />
 
-            <button type="button" class="form__button--submit">Sign up</button>
+            <button type="submit" class="form__button--submit">Sign up</button>
         </div>
         <a href="#" class="form__link">Sign in</a>
     </form>

@@ -2019,10 +2019,20 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: {
+    value: String,
     title: String,
-    bind_target: String,
     type: String,
     placeholder: String
+  },
+  computed: {
+    text: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
+    }
   }
 });
 
@@ -21593,35 +21603,33 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.bind_target,
-              expression: "bind_target"
+              value: _vm.text,
+              expression: "text"
             }
           ],
           staticClass: "form__text",
           attrs: { placeholder: _vm.placeholder, type: "checkbox" },
           domProps: {
-            checked: Array.isArray(_vm.bind_target)
-              ? _vm._i(_vm.bind_target, null) > -1
-              : _vm.bind_target
+            checked: Array.isArray(_vm.text)
+              ? _vm._i(_vm.text, null) > -1
+              : _vm.text
           },
           on: {
             change: function($event) {
-              var $$a = _vm.bind_target,
+              var $$a = _vm.text,
                 $$el = $event.target,
                 $$c = $$el.checked ? true : false
               if (Array.isArray($$a)) {
                 var $$v = null,
                   $$i = _vm._i($$a, $$v)
                 if ($$el.checked) {
-                  $$i < 0 && (_vm.bind_target = $$a.concat([$$v]))
+                  $$i < 0 && (_vm.text = $$a.concat([$$v]))
                 } else {
                   $$i > -1 &&
-                    (_vm.bind_target = $$a
-                      .slice(0, $$i)
-                      .concat($$a.slice($$i + 1)))
+                    (_vm.text = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
                 }
               } else {
-                _vm.bind_target = $$c
+                _vm.text = $$c
               }
             }
           }
@@ -21632,16 +21640,16 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.bind_target,
-              expression: "bind_target"
+              value: _vm.text,
+              expression: "text"
             }
           ],
           staticClass: "form__text",
           attrs: { placeholder: _vm.placeholder, type: "radio" },
-          domProps: { checked: _vm._q(_vm.bind_target, null) },
+          domProps: { checked: _vm._q(_vm.text, null) },
           on: {
             change: function($event) {
-              _vm.bind_target = null
+              _vm.text = null
             }
           }
         })
@@ -21650,19 +21658,19 @@ var render = function() {
             {
               name: "model",
               rawName: "v-model",
-              value: _vm.bind_target,
-              expression: "bind_target"
+              value: _vm.text,
+              expression: "text"
             }
           ],
           staticClass: "form__text",
           attrs: { placeholder: _vm.placeholder, type: _vm.type },
-          domProps: { value: _vm.bind_target },
+          domProps: { value: _vm.text },
           on: {
             input: function($event) {
               if ($event.target.composing) {
                 return
               }
-              _vm.bind_target = $event.target.value
+              _vm.text = $event.target.value
             }
           }
         })
@@ -21804,42 +21812,66 @@ var render = function() {
           _c("TextForm", {
             attrs: {
               title: "User name*",
-              bind_target: _vm.form.name,
               type: "text",
               placeholder: "ぺったん太郎"
+            },
+            model: {
+              value: _vm.form.name,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "name", $$v)
+              },
+              expression: "form.name"
             }
           }),
           _vm._v(" "),
           _c("TextForm", {
             attrs: {
               title: "Email*",
-              bind_target: _vm.form.email,
               type: "text",
               placeholder: "taro-1234@petata.com"
+            },
+            model: {
+              value: _vm.form.email,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "email", $$v)
+              },
+              expression: "form.email"
             }
           }),
           _vm._v(" "),
           _c("TextForm", {
             attrs: {
               title: "Password*",
-              bind_target: _vm.form.password,
               type: "password",
               placeholder: "半角英数字8文字以上"
+            },
+            model: {
+              value: _vm.form.password,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "password", $$v)
+              },
+              expression: "form.password"
             }
           }),
           _vm._v(" "),
           _c("TextForm", {
             attrs: {
               title: "Password (Confirm)*",
-              bind_target: _vm.form.password_confirm,
               type: "password",
               placeholder: ""
+            },
+            model: {
+              value: _vm.form.password_confirm,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "password_confirm", $$v)
+              },
+              expression: "form.password_confirm"
             }
           }),
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "form__button--submit", attrs: { type: "button" } },
+            { staticClass: "form__button--submit", attrs: { type: "submit" } },
             [_vm._v("Sign up")]
           )
         ],
@@ -39558,11 +39590,9 @@ var mutations = {
 var actions = {
   /**
    * ユーザー登録
-   * @param data  フォームデータ
+   * @param {obj} フォームデータ
    */
   register: function register(context, data) {
-    var _this = this;
-
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var param;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -39570,7 +39600,6 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               param = {
-                context: context,
                 data: data,
                 uri: "api/user/register",
                 fnSuccess: function fnSuccess() {
@@ -39579,10 +39608,10 @@ var actions = {
                   return false;
                 }
               };
+              _context.next = 3;
+              return context.dispatch('callApi', param);
 
-              _this.callApi(param);
-
-            case 2:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -39593,11 +39622,9 @@ var actions = {
 
   /**
    * ユーザー認証
-   * @param data フォームデータ
+   * @param {obj} フォームデータ
    */
   login: function login(context, data) {
-    var _this2 = this;
-
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
       var param;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -39605,7 +39632,6 @@ var actions = {
           switch (_context2.prev = _context2.next) {
             case 0:
               param = {
-                context: context,
                 data: data,
                 uri: "api/user/auth/login",
                 fnSuccess: function fnSuccess() {
@@ -39614,10 +39640,10 @@ var actions = {
                   return false;
                 }
               };
+              _context2.next = 3;
+              return context.dispatch('callApi', param);
 
-              _this2.callApi(param);
-
-            case 2:
+            case 3:
             case "end":
               return _context2.stop();
           }
@@ -39630,32 +39656,30 @@ var actions = {
    * 認証API呼び出しの基底処理
    * @param {obj} param
    * {
-   *   'context': context,
    *   'data': フォームデータ,
    *   'uri': APIのURI,
    *   'fnSuccess': APIが正常に実行された際の処理
    * }
    */
-  callApi: function callApi(param) {
+  callApi: function callApi(context, param) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var context, data, uri, fnSuccess, response;
+      var data, uri, fnSuccess, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               // パラメタの展開
-              context = param["context"];
               data = param["data"];
               uri = param["uri"];
               fnSuccess = param["fnSuccess"]; // API呼び出し
 
               context.commit("setApiStatus", null);
-              _context3.next = 7;
+              _context3.next = 6;
               return axios.post("".concat(uri), data)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 7:
+            case 6:
               response = _context3.sent;
 
               // 成功
@@ -39676,7 +39700,7 @@ var actions = {
                 });
               }
 
-            case 11:
+            case 10:
             case "end":
               return _context3.stop();
           }

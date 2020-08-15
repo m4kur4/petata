@@ -46,11 +46,10 @@ const mutations = {
 const actions = {
     /**
      * ユーザー登録
-     * @param data  フォームデータ
+     * @param {obj} フォームデータ
      */
     async register(context, data) {
         const param = {
-            context: context,
             data: data,
             uri: "api/user/register",
             fnSuccess: () => {
@@ -59,15 +58,14 @@ const actions = {
                 return false;
             }
         };
-        this.callApi(param);
+        await context.dispatch('callApi', param);
     },
     /**
      * ユーザー認証
-     * @param data フォームデータ
+     * @param {obj} フォームデータ
      */
     async login(context, data) {
         const param = {
-            context: context,
             data: data,
             uri: "api/user/auth/login",
             fnSuccess: () => {
@@ -76,21 +74,19 @@ const actions = {
                 return false;
             }
         };
-        this.callApi(param);
+        await context.dispatch('callApi', param);
     },
     /**
      * 認証API呼び出しの基底処理
      * @param {obj} param
      * {
-     *   'context': context,
      *   'data': フォームデータ,
      *   'uri': APIのURI,
      *   'fnSuccess': APIが正常に実行された際の処理
      * }
      */
-    async callApi(param) {
+    async callApi(context, param) {
         // パラメタの展開
-        const context = param["context"];
         const data = param["data"];
         const uri = param["uri"];
         const fnSuccess = param["fnSuccess"];
