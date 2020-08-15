@@ -1,54 +1,45 @@
 <template>
-    <div class="form--signin">
-        <div class="form__title">
-            <h2>
-                <img
-                    src="image/logo_32.svg"
-                    width="48"
-                    height="48"
-                    alt="petata"
-                />
-                Sign in
-            </h2>
-        </div>
+    <form @submit.prevent="signin" class="form--signin">
+        <FormTitle>Sign in</FormTitle>
         <div class="form__wrapper--signin">
-            <label class="form__label"
-                >Email
-                <span class="form__error-message"
-                    >メールアドレスの形式が正しくありません。</span
-                >
-            </label>
-            <input
-                type="text"
-                class="form__text"
-                placeholder="taro-2525@petata.com"
+            <TextForm
+                v-model="form.email"
+                :title="'Email'"
+                :type="'text'"
+                :placeholder="'taro-2525@petata.com'"
             />
-            <label class="form__label">Password</label>
-            <input type="password" class="form__text" />
-            <span class="form__checkbox">
-                <label for="chkRemember">
-                    <input id="chkRemember" type="checkbox" />Remember me
-                </label>
-                <a href="#" class="form__link--right">Forget password</a>
-            </span>
-            <button type="button" class="form__button--submit">Sign in</button>
-        </div>
-        <div class="form__social-signin">
-            <img
-                src="image/btn_google_signin_dark_normal_web@2x.png"
-                alt="g-login"
+            <TextForm
+                v-model="form.password"
+                :title="'Password'"
+                :type="'password'"
+                :placeholder="''"
             />
+            <AutoSigninCheckbox />
+            <button type="submit" class="form__button--submit">Sign in</button>
         </div>
+        <GoogleSigninButton />
         <a href="#" class="form__link">Sign up</a>
-    </div>
+    </form>
 </template>
 <script>
+import FormTitle from "../common/FormTitle.vue";
+import TextForm from "../common/TextForm.vue";
+import AutoSigninCheckbox from "./AutoSigninCheckbox.vue";
+import GoogleSigninButton from "./GoogleSigninButton.vue";
+
+
 export default {
+    components: {
+        FormTitle,
+        TextForm,
+        AutoSigninCheckbox,
+        GoogleSigninButton
+    },
     data() {
         return {
             form: {
                 email: "",
-                password: "",
+                password: ""
             }
         };
     },
@@ -56,9 +47,26 @@ export default {
         /**
          * ユーザー認証
          */
-        async login() {
-            // TODO: 実装
+        async signin() {
+           await this.$store.dispatch('auth/login', this.form);
+           const isSuccess = this.apiStatus;
+            if (isSuccess) {
+                // TODO: バインダー一覧へ遷移
+                // DEBUG:
+                alert("成功しました。");
+            } else {
+                // DEBUG:
+                alert("失敗しました。");
+            }
         }
+    },
+    computed: {
+        /**
+         * APIの実行状態
+         */
+        apiStatus() {
+            return this.$store.state.auth.apiStatus;
+        },
     }
 };
 </script>

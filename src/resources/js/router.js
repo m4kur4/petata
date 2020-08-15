@@ -5,6 +5,7 @@ import Test from './pages/Test.vue';
 import Binder from './pages/Binder.vue';
 import Signup from './pages/Signup.vue';
 import Signin from './pages/Signin.vue';
+import BinderList from './pages/BinderList.vue';
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,10 @@ const routes = [
     {
         path:'/signin',
         component: Signin
+    },
+    {
+        path:'/binder-list',
+        component: BinderList
     },
 ];
 

@@ -2,26 +2,25 @@
     <form @submit.prevent="register" class="form--signup">
         <FormTitle>Sign up</FormTitle>
         <div class="form__wrapper--signup">
-
-            <TextForm 
+            <TextForm
                 v-model="form.name"
                 :title="'User name*'"
                 :type="'text'"
                 :placeholder="'ぺったん太郎'"
             />
-            <TextForm 
+            <TextForm
                 v-model="form.email"
                 :title="'Email*'"
                 :type="'text'"
                 :placeholder="'taro-1234@petata.com'"
             />
-            <TextForm 
+            <TextForm
                 v-model="form.password"
                 :title="'Password*'"
                 :type="'password'"
                 :placeholder="'半角英数字8文字以上'"
             />
-            <TextForm 
+            <TextForm
                 v-model="form.password_confirmation"
                 :title="'Password (Confirm)*'"
                 :type="'password'"
@@ -63,8 +62,19 @@ export default {
                 // TODO: バインダー一覧へ遷移
                 // DEBUG:
                 alert("成功しました。");
+            } else {
+                // DEBUG:
+                alert("失敗しました。");
             }
         }
+    },
+    computed: {
+        /**
+         * APIの実行状態
+         */
+        apiStatus() {
+            return this.$store.state.auth.apiStatus;
+        },
     }
 };
 </script>

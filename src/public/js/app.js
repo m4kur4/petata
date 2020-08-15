@@ -2049,6 +2049,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/FormTitle.vue */ "./resources/js/components/common/FormTitle.vue");
+/* harmony import */ var _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/TextForm.vue */ "./resources/js/components/common/TextForm.vue");
+/* harmony import */ var _AutoSigninCheckbox_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AutoSigninCheckbox.vue */ "./resources/js/components/signin/AutoSigninCheckbox.vue");
+/* harmony import */ var _GoogleSigninButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoogleSigninButton.vue */ "./resources/js/components/signin/GoogleSigninButton.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2078,28 +2082,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    TextForm: _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    AutoSigninCheckbox: _AutoSigninCheckbox_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    GoogleSigninButton: _GoogleSigninButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
   data: function data() {
     return {
       form: {
@@ -2112,19 +2105,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     /**
      * ユーザー認証
      */
-    login: function login() {// TODO: 実装
+    signin: function signin() {
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var isSuccess;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return _this.$store.dispatch('auth/login', _this.form);
+
+              case 2:
+                isSuccess = _this.apiStatus;
+
+                if (isSuccess) {
+                  // TODO: バインダー一覧へ遷移
+                  // DEBUG:
+                  alert("成功しました。");
+                } else {
+                  // DEBUG:
+                  alert("失敗しました。");
+                }
+
+              case 4:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    }
+  },
+  computed: {
+    /**
+     * APIの実行状態
+     */
+    apiStatus: function apiStatus() {
+      return this.$store.state.auth.apiStatus;
     }
   }
 });
@@ -2150,7 +2169,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
 //
 //
 //
@@ -2225,6 +2243,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   // TODO: バインダー一覧へ遷移
                   // DEBUG:
                   alert("成功しました。");
+                } else {
+                  // DEBUG:
+                  alert("失敗しました。");
                 }
 
               case 4:
@@ -2234,6 +2255,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    }
+  },
+  computed: {
+    /**
+     * APIの実行状態
+     */
+    apiStatus: function apiStatus() {
+      return this.$store.state.auth.apiStatus;
     }
   }
 });
@@ -21683,10 +21712,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/Form.vue?vue&type=template&id=62bfcc94&":
-/*!**************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/signin/Form.vue?vue&type=template&id=62bfcc94& ***!
-  \**************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886& ***!
+  \****************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -21705,68 +21734,139 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form--signin" }, [
-      _c("div", { staticClass: "form__title" }, [
-        _c("h2", [
-          _c("img", {
+    return _c("span", { staticClass: "form__checkbox" }, [
+      _c("label", { attrs: { for: "chkRemember" } }, [
+        _c("input", { attrs: { id: "chkRemember", type: "checkbox" } }),
+        _vm._v("Remember me\n    ")
+      ]),
+      _vm._v(" "),
+      _c("a", { staticClass: "form__link--right", attrs: { href: "#" } }, [
+        _vm._v("Forget password")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/Form.vue?vue&type=template&id=62bfcc94&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/signin/Form.vue?vue&type=template&id=62bfcc94& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "form",
+    {
+      staticClass: "form--signin",
+      on: {
+        submit: function($event) {
+          $event.preventDefault()
+          return _vm.signin($event)
+        }
+      }
+    },
+    [
+      _c("FormTitle", [_vm._v("Sign in")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form__wrapper--signin" },
+        [
+          _c("TextForm", {
             attrs: {
-              src: "image/logo_32.svg",
-              width: "48",
-              height: "48",
-              alt: "petata"
+              title: "Email",
+              type: "text",
+              placeholder: "taro-2525@petata.com"
+            },
+            model: {
+              value: _vm.form.email,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "email", $$v)
+              },
+              expression: "form.email"
             }
           }),
-          _vm._v("\n            Sign in\n        ")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form__wrapper--signin" }, [
-        _c("label", { staticClass: "form__label" }, [
-          _vm._v("Email\n            "),
-          _c("span", { staticClass: "form__error-message" }, [
-            _vm._v("メールアドレスの形式が正しくありません。")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form__text",
-          attrs: { type: "text", placeholder: "taro-2525@petata.com" }
-        }),
-        _vm._v(" "),
-        _c("label", { staticClass: "form__label" }, [_vm._v("Password")]),
-        _vm._v(" "),
-        _c("input", { staticClass: "form__text", attrs: { type: "password" } }),
-        _vm._v(" "),
-        _c("span", { staticClass: "form__checkbox" }, [
-          _c("label", { attrs: { for: "chkRemember" } }, [
-            _c("input", { attrs: { id: "chkRemember", type: "checkbox" } }),
-            _vm._v("Remember me\n            ")
-          ]),
           _vm._v(" "),
-          _c("a", { staticClass: "form__link--right", attrs: { href: "#" } }, [
-            _vm._v("Forget password")
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "form__button--submit", attrs: { type: "button" } },
-          [_vm._v("Sign in")]
-        )
-      ]),
+          _c("TextForm", {
+            attrs: { title: "Password", type: "password", placeholder: "" },
+            model: {
+              value: _vm.form.password,
+              callback: function($$v) {
+                _vm.$set(_vm.form, "password", $$v)
+              },
+              expression: "form.password"
+            }
+          }),
+          _vm._v(" "),
+          _c("AutoSigninCheckbox"),
+          _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "form__button--submit", attrs: { type: "submit" } },
+            [_vm._v("Sign in")]
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "form__social-signin" }, [
-        _c("img", {
-          attrs: {
-            src: "image/btn_google_signin_dark_normal_web@2x.png",
-            alt: "g-login"
-          }
-        })
-      ]),
+      _c("GoogleSigninButton"),
       _vm._v(" "),
       _c("a", { staticClass: "form__link", attrs: { href: "#" } }, [
         _vm._v("Sign up")
       ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/GoogleSigninButton.vue?vue&type=template&id=7ef53d82&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/signin/GoogleSigninButton.vue?vue&type=template&id=7ef53d82& ***!
+  \****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form__social-signin" }, [
+      _c("img", {
+        attrs: {
+          src: "image/btn_google_signin_dark_normal_web@2x.png",
+          alt: "g-login"
+        }
+      })
     ])
   }
 ]
@@ -21921,6 +22021,37 @@ var render = function() {
   )
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/BinderList.vue?vue&type=template&id=b41f989e&":
+/*!********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/BinderList.vue?vue&type=template&id=b41f989e& ***!
+  \********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [_c("h1", [_vm._v("Binder List")])])
+  }
+]
 render._withStripped = true
 
 
@@ -39055,6 +39186,59 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/signin/AutoSigninCheckbox.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/signin/AutoSigninCheckbox.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AutoSigninCheckbox.vue?vue&type=template&id=06397886& */ "./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/signin/AutoSigninCheckbox.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AutoSigninCheckbox.vue?vue&type=template&id=06397886& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/signin/Form.vue":
 /*!*************************************************!*\
   !*** ./resources/js/components/signin/Form.vue ***!
@@ -39119,6 +39303,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_template_id_62bfcc94___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_template_id_62bfcc94___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/signin/GoogleSigninButton.vue":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/signin/GoogleSigninButton.vue ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GoogleSigninButton_vue_vue_type_template_id_7ef53d82___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GoogleSigninButton.vue?vue&type=template&id=7ef53d82& */ "./resources/js/components/signin/GoogleSigninButton.vue?vue&type=template&id=7ef53d82&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _GoogleSigninButton_vue_vue_type_template_id_7ef53d82___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GoogleSigninButton_vue_vue_type_template_id_7ef53d82___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/signin/GoogleSigninButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/signin/GoogleSigninButton.vue?vue&type=template&id=7ef53d82&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/js/components/signin/GoogleSigninButton.vue?vue&type=template&id=7ef53d82& ***!
+  \**********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GoogleSigninButton_vue_vue_type_template_id_7ef53d82___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./GoogleSigninButton.vue?vue&type=template&id=7ef53d82& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/GoogleSigninButton.vue?vue&type=template&id=7ef53d82&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GoogleSigninButton_vue_vue_type_template_id_7ef53d82___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GoogleSigninButton_vue_vue_type_template_id_7ef53d82___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -39281,6 +39518,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Binder_vue_vue_type_template_id_1f3af91a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Binder_vue_vue_type_template_id_1f3af91a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/pages/BinderList.vue":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/BinderList.vue ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BinderList_vue_vue_type_template_id_b41f989e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BinderList.vue?vue&type=template&id=b41f989e& */ "./resources/js/pages/BinderList.vue?vue&type=template&id=b41f989e&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  script,
+  _BinderList_vue_vue_type_template_id_b41f989e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BinderList_vue_vue_type_template_id_b41f989e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/pages/BinderList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/pages/BinderList.vue?vue&type=template&id=b41f989e&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/pages/BinderList.vue?vue&type=template&id=b41f989e& ***!
+  \**************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderList_vue_vue_type_template_id_b41f989e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./BinderList.vue?vue&type=template&id=b41f989e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/pages/BinderList.vue?vue&type=template&id=b41f989e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderList_vue_vue_type_template_id_b41f989e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderList_vue_vue_type_template_id_b41f989e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -39493,6 +39783,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Binder_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages/Binder.vue */ "./resources/js/pages/Binder.vue");
 /* harmony import */ var _pages_Signup_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/Signup.vue */ "./resources/js/pages/Signup.vue");
 /* harmony import */ var _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/Signin.vue */ "./resources/js/pages/Signin.vue");
+/* harmony import */ var _pages_BinderList_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/BinderList.vue */ "./resources/js/pages/BinderList.vue");
+
 
 
 
@@ -39512,6 +39804,9 @@ var routes = [{
 }, {
   path: '/signin',
   component: _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+}, {
+  path: '/binder-list',
+  component: _pages_BinderList_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
@@ -39682,13 +39977,16 @@ var actions = {
             case 6:
               response = _context3.sent;
 
-              // 成功
-              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["OK"] || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["CREATED"]) {
-                fnSuccess(response);
-              } // 失敗
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["OK"] || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["CREATED"])) {
+                _context3.next = 9;
+                break;
+              }
 
+              return _context3.abrupt("return", fnSuccess(response));
 
-              context.commit("setApiStatus", null);
+            case 9:
+              // 失敗
+              context.commit("setApiStatus", false);
 
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["UNPROCESSABLE_ENTITY"]) {
                 // バリデーションエラーの場合はエラーメッセージを格納
@@ -39700,7 +39998,7 @@ var actions = {
                 });
               }
 
-            case 10:
+            case 11:
             case "end":
               return _context3.stop();
           }

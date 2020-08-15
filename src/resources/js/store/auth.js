@@ -99,11 +99,11 @@ const actions = {
 
         // 成功
         if (response.status === OK || response.status === CREATED) {
-            fnSuccess(response);
+            return fnSuccess(response);
         }
 
         // 失敗
-        context.commit("setApiStatus", null);
+        context.commit("setApiStatus", false);
         if (response.status === UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
             context.commit("setErrorMessages", response.data.errors);
