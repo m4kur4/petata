@@ -1,17 +1,19 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Unit\Repository;
 
 use App\Models\User;
 use App\Models\Binder;
 use App\Models\BinderAuthority;
-use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
+use App\Repositories\Interfaces\BinderRepositoryInterface;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class BinderListApiTest extends TestCase
+use Log;
+
+class BinderRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,25 +22,16 @@ class BinderListApiTest extends TestCase
         parent::setUp();
 
         // インスタンス生成
-        $this->binderListSelectService = app()->make(BinderListSelectServiceInterface::class);
+        $this->repository = app()->make(BinderRepositoryInterface::class);
         $this->user = factory(User::class)->create();
     }
 
     /**
      * @test
-     */
-    public function avoidWarning()
-    {
-        $this->assertEquals(1,1);
-    }
-
-    /**
-     * 
      *
      * ユーザーがアクセス可能なバインダーだけを取得する。
-     * Repositoryの検証。
      */
-    public function Binders_Get_OnlyAccessible()
+    public function selectByAuthorizedUserId()
     {
         // アクセス可能なバインダー数
         $ACCESSIBLE_COUNT = 10;
@@ -59,13 +52,15 @@ class BinderListApiTest extends TestCase
         }
 
         // 検証
-        $response = $this->binderListSelectService->execute($this->user->id);
-        
-        $response
-            ->assertStatus(200)
-            ->assertJsonCount($ACCESSIBLE_COUNT, 'data');
+        $binders = $this->repository->selectByAuthorizedUserId($this->user->id);
 
+        // - テーブル上のバインダー数
+        $this->assertEquals(Binder::all()->count(), ($ACCESSIBLE_COUNT + $UNACCESSIBLE_COUNT));
+
+        // - 抽出件数
+        $this->assertEquals($ACCESSIBLE_COUNT, $binders->count());
+
+        //$this->assertEquals($accessible_binders, $binders);
     }
-
 
 }
