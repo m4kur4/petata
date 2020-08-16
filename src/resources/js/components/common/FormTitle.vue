@@ -1,8 +1,8 @@
 <template>
-<div class="form__title">
+<div :class="clazz">
     <h2>
         <img
-            src="image/logo_32.svg"
+            src="image/logo/logo_32.svg"
             width="48"
             height="48"
             alt="petata"
@@ -13,3 +13,16 @@
     </h2>
 </div>
 </template>
+<script>
+export default {
+    props: {
+        /**
+         * クラス属性
+         */
+        clazz: {
+            type: String,
+            default: 'form__title'
+        },
+    },
+}
+</script>

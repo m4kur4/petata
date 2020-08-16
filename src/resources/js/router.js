@@ -27,7 +27,7 @@ const routes = [
         component: Signin
     },
     {
-        path:'/binder-list',
+        path:'/binders',
         component: BinderList
     },
 ];

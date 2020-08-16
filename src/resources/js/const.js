@@ -1,8 +1,14 @@
-export const OK = 200;
-export const CREATED = 201;
+export const STATUS = {
+  OK: 200,
+  CREATED: 201,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  UNPROCESSABLE_ENTITY: 422,
+  INTERNAL_SERVER_ERROR: 500
+};
 
-export const FORBIDDEN = 403;
-export const NOT_FOUND = 404;
-export const UNPROCESSABLE_ENTITY = 422;
-
-export const INTERNAL_SERVER_ERROR = 500;
+export const BINDER_AUTHORITY_LEVEL = {
+  GUEST: 0,
+  MAINTAINER: 10,
+  OWNER: 50,
+};
