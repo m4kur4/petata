@@ -2778,6 +2778,14 @@ __webpack_require__.r(__webpack_exports__);
     LeftColumn: _components_binder_LeftColumn_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     ImageContainer: _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     RightColumn: _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  beforeCreate: function beforeCreate() {
+    // ナビゲーションバーを表示する
+    this.$store.commit("mode/setHasNavigation", true);
+  },
+  destoryed: function destoryed() {
+    // ナビゲーションバーを非表示にする
+    this.$store.commit("mode/setHasNavigation", false);
   }
 });
 
