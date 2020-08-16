@@ -1,5 +1,15 @@
 <template>
-  <div>
-    <h1>Binder List</h1>
-  </div>
+    <div class="container--binder-list">
+        <Form />
+    </div>
+    <!-- /.container -->
 </template>
+
+<script>
+import Form from '../components/binder-list/Form.vue'
+export default {
+    components: {
+        Form,
+    },
+}
+</script>

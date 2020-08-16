@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <title>{{ config('app.name') }}</title>
-    <link rel="icon" href="{{ asset('/image/logo_32.svg') }}" type="image/svg+xml">
+    <link rel="icon" href="{{ asset('/image/logo/logo_32.svg') }}" type="image/svg+xml">
   </head>
   <body>
     <div id="app"></div>
