@@ -97,7 +97,7 @@ body {
 }
 
 .left-column__search-form {
-  background-image: "../image/search-black-18dp.svg";
+  background-image: "../image/icon/search-black-18dp.svg";
   position: absolute;
   box-sizing: border-box;
   border: none;
