@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User  extends Authenticatable
 {
     protected $hidden = [
         'password', 'remember_token',
@@ -15,6 +15,6 @@ class User extends Model
      */
     public function accessibleBinders()
     {
-        return $this->belongsToMany('App\Binder', 'binder_authorities', 'user_id', 'binder_id');
+        return $this->belongsToMany('App\Models\Binder', 'binder_authorities', 'user_id', 'binder_id');
     }
 }
