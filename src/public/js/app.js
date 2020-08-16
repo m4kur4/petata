@@ -1994,7 +1994,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -21317,7 +21316,6 @@ var render = function() {
       [
         _c("img", {
           staticClass: "binder-card__info-thumbnail",
-          staticStyle: { width: "56px", height: "56px", "object-fit": "cover" },
           attrs: { src: _vm.thumbnailUrl, alt: _vm.title }
         }),
         _vm._v(" "),

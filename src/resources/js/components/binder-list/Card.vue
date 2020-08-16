@@ -9,7 +9,6 @@
         >
             <img
                 class="binder-card__info-thumbnail"
-                style="width: 56px; height:56px; object-fit: cover;"
                 :src="thumbnailUrl"
                 :alt="title"
             />
