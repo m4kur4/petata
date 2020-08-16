@@ -1,7 +1,7 @@
 /**
  * 認証関係ストア
  */
-import { OK, CREATED, UNPROCESSABLE_ENTITY } from "../const";
+import { STATUS } from "../const";
 
 const state = {
     /**
@@ -52,13 +52,13 @@ const actions = {
         const param = {
             data: data,
             uri: "api/user/register",
-            fnSuccess: (response) => {
+            fnSuccess: response => {
                 context.commit("setApiStatus", true);
                 context.commit("setUser", response.data);
                 return false;
             }
         };
-        await context.dispatch('callApi', param);
+        await context.dispatch("callApi", param);
     },
     /**
      * ユーザー認証
@@ -68,13 +68,13 @@ const actions = {
         const param = {
             data: data,
             uri: "api/user/auth/login",
-            fnSuccess: (response) => {
+            fnSuccess: response => {
                 context.commit("setApiStatus", true);
                 context.commit("setUser", response.data);
                 return false;
             }
         };
-        await context.dispatch('callApi', param);
+        await context.dispatch("callApi", param);
     },
     /**
      * 認証API呼び出しの基底処理
@@ -98,13 +98,16 @@ const actions = {
             .catch(err => err.response || err);
 
         // 成功
-        if (response.status === OK || response.status === CREATED) {
+        if (
+            response.status === STATUS.OK ||
+            response.status === STATUS.CREATED
+        ) {
             return fnSuccess(response);
         }
 
         // 失敗
         context.commit("setApiStatus", false);
-        if (response.status === UNPROCESSABLE_ENTITY) {
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
             context.commit("setErrorMessages", response.data.errors);
         } else {
