@@ -5,7 +5,7 @@ namespace App\Repositories\Interfaces;
 use App\Models\Binder;
 use App\Http\Requests\BinderCreateRequest;
 
-interface BinderRepository
+interface BinderRepositoryInterface
 {
     /**
      * バインダーを新規作成します。

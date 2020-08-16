@@ -3,7 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Binder;
-use App\Repositories\Interfaces\BinderCreateRequest;
+use App\Models\User;
+use App\Repositories\Interfaces\BinderRepositoryInterface;
+use App\Http\Requests\BinderCreateRequest;
 
 class BinderRepository implements BinderRepositoryInterface
 {

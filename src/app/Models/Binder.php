@@ -13,6 +13,6 @@ class Binder extends Model
      */
     public function BinderAuthorities()
     {
-        return $this->hasMany('App\BinderAuthority', 'binder_id', 'id');
+        return $this->hasMany('App\Models\BinderAuthority', 'binder_id', 'id');
     }
 }
