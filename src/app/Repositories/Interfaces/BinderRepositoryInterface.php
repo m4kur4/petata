@@ -29,7 +29,7 @@ interface BinderRepositoryInterface
     public function delete(string $binder_id);
 
     /**
-     * 指定したユーザーIDに参照権限が付与されているバインダーを取得します。
+     * 指定したユーザーIDに操作権限が付与されているバインダーを取得します。
      *
      * @param string $user_id
      * @return Collection

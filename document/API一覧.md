@@ -15,6 +15,7 @@
 | /api/user/unregister |  POST | 1 | ユーザー登録解除 |
 | /api/auth/login | POST | - | ログイン |
 | /api/auth/logout | POST | 1 | ログアウト |
+| /api/binder/add | POST | 1 | バインダー追加 |
 | /api/binder/list | GET | 1 | 閲覧可能なバインダー一覧の取得 |
 | /api/binder/authorize | POST | 3 | バインダー閲覧権限の付与 |
 | /api/binder/unauthorize | POST | 3 | バインダー閲覧権限の剥奪 |
