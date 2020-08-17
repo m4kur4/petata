@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\UserRegisterRequest;
 
+use DB;
 use Hash;
 use Log;
 
@@ -16,13 +17,20 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(UserRegisterRequest $request): User
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
-
-        return $user;
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+    
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -30,9 +38,18 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete(string $user_id)
     {
-        $user = User::where('id', $user_id);
-        $user->delete();
 
-        // TODO: 関連データも削除する
+        DB::beginTransaction();
+        try {
+            $user = User::where('id', $user_id);
+            $user->delete();
+            
+            // TODO: 関連データも削除する
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 }

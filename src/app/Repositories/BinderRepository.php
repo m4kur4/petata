@@ -9,6 +9,7 @@ use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Http\Requests\BinderCreateRequest;
 
 use Auth;
+use DB;
 use Log;
 
 /**
@@ -21,17 +22,25 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function create(BinderCreateRequest $request): Binder
     {
-        // バインダーの作成
-        $binder = $this->createBinder($request);
-        
-        // バインダー操作権限の付与
-        $this->addBinderAuthority(
-            $binder->create_user_id,
-            $binder->id,
-            config('_const.BINDER_AUTHORITY.LEVEL.OWNER')
-        );
+        DB::beginTransaction();
+        try {
+            // バインダーの作成
+            $binder = $this->createBinder($request);
+            
+            // バインダー操作権限の付与
+            $this->addBinderAuthority(
+                $binder->create_user_id,
+                $binder->id,
+                config('_const.BINDER_AUTHORITY.LEVEL.OWNER')
+            );
 
-        return $binder;
+            DB::commit();
+            return $binder;
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -40,6 +49,12 @@ class BinderRepository implements BinderRepositoryInterface
     public function delete(string $binder_id)
     {
         // TODO: 実装
+        DB::beginTransaction();
+        try {
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
     }
 
     /**
@@ -56,21 +71,28 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function addBinderAuthority($user_id, $binder_id, $level)
     {
-        // 想定しない値が設定された場合はエラー
-        if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
-            // TODO: 例外をスロー
-            return false;
+        // TODO: 実装
+        DB::beginTransaction();
+        try {
+            // 想定しない値が設定された場合はエラー
+            if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
+                throw $e;
+            }
+
+            $binder_authority = new BinderAuthority([
+                'user_id' => $user_id,
+                'binder_id' => $binder_id,
+                'level' => $level
+            ]);
+        
+            $binder_authority->save();
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
         }
-
-        $binder_authority = new BinderAuthority([
-            'user_id' => $user_id,
-            'binder_id' => $binder_id,
-            'level' => $level
-        ]);
-    
-        $binder_authority->save();
     }
-
 
     /**
      * バインダーテーブルへ新規レコードを作成します。
@@ -80,15 +102,24 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function createBinder(BinderCreateRequest $request): Binder
     {
-        // ログインユーザーを作成者とする
-        $create_user_id = Auth::id();
+        // TODO: 実装
+        DB::beginTransaction();
+        try {
+            // ログインユーザーを作成者とする
+            $create_user_id = Auth::id();
 
-        $binder = new Binder([
-            'create_user_id' => $create_user_id,
-            'name' => $request->binder_name
-        ]);
-        $binder->save();
-        
-        return $binder;
+            $binder = new Binder([
+                'create_user_id' => $create_user_id,
+                'name' => $request->binder_name
+            ]);
+            $binder->save();
+            
+            DB::commit();
+            return $binder;
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+
     }
 }

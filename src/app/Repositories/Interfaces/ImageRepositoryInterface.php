@@ -19,12 +19,12 @@ interface ImageRepositoryInterface
      *
      * @return Collection(Image)
      */
-    public function addMany(ImageRemoveRequest $request);
+    public function addMany(ImageAddRequest $request);
 
     /**
-     * 画像一枚を削除します。
+     * 画像１枚を削除します。
      */
-    public function remove(ImageAddRequest $request);
+    public function remove(ImageRemoveRequest $request);
 
     /**
      * 画像を複数枚削除します。

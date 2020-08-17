@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\ImageRepositoryInterface;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageRemoveRequest;
 
+use DB;
 use Log;
 
 class ImageRepository implements ImageRepositoryInterface
@@ -17,12 +18,13 @@ class ImageRepository implements ImageRepositoryInterface
     public function add(ImageAddRequest $request)
     {
         // TODO: 実装
+        
     }
 
     /**
      * @inheritdoc
      */
-    public function addMany(ImageRemoveRequest $request)
+    public function addMany(ImageAddRequest $request)
     {
         // TODO: 実装
     }
@@ -30,7 +32,7 @@ class ImageRepository implements ImageRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function remove(ImageAddRequest $request)
+    public function remove(ImageRemoveRequest $request)
     {
         // TODO: 実装
     }
