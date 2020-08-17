@@ -11,6 +11,9 @@ use App\Http\Requests\BinderCreateRequest;
 use Auth;
 use Log;
 
+/**
+ * @inheritdoc
+ */
 class BinderRepository implements BinderRepositoryInterface
 {
     /**
@@ -49,6 +52,27 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function addBinderAuthority($user_id, $binder_id, $level)
+    {
+        // 想定しない値が設定された場合はエラー
+        if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
+            // TODO: 例外をスロー
+            return false;
+        }
+
+        $binder_authority = new BinderAuthority([
+            'user_id' => $user_id,
+            'binder_id' => $binder_id,
+            'level' => $level
+        ]);
+    
+        $binder_authority->save();
+    }
+
+
+    /**
      * バインダーテーブルへ新規レコードを作成します。
      *
      * @param BinderCreateRequest $request
@@ -66,29 +90,5 @@ class BinderRepository implements BinderRepositoryInterface
         $binder->save();
         
         return $binder;
-    }
-
-    /**
-     * ユーザーへバインダーの操作権限を付与します。
-     * 
-     * @param string $user_id ユーザーID
-     * @param string $binder_id バインダーID
-     * @param int $level 権限レベル
-     */
-    public function addBinderAuthority($user_id, $binder_id, $level)
-    {
-        // 想定しない値が設定された場合はエラー
-        if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
-            // TODO: 例外をスロー
-            return false;
-        }
-
-        $binder_authority = new BinderAuthority([
-            'user_id' => $user_id,
-            'binder_id' => $binder_id,
-            'level' => $level
-        ]);
-    
-        $binder_authority->save();
     }
 }

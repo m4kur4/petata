@@ -5,10 +5,14 @@ namespace App\Repositories\Interfaces;
 use App\Models\Binder;
 use App\Http\Requests\BinderCreateRequest;
 
+/**
+ * バインダーリポジトリ
+ */
 interface BinderRepositoryInterface
 {
     /**
      * バインダーを新規作成します。
+     * 作成ユーザーには当該バインダーのオーナー権限を付与します。
      *
      * @param @param UserRegisterRequest $request
      * @return User
@@ -31,4 +35,13 @@ interface BinderRepositoryInterface
      * @return Collection
      */
     public function selectByAuthorizedUserId(string $user_id);
+
+    /**
+     * ユーザーへバインダーの操作権限を付与します。
+     * 
+     * @param string $user_id ユーザーID
+     * @param string $binder_id バインダーID
+     * @param int $level 権限レベル
+     */
+    public function addBinderAuthority($user_id, $binder_id, $level);
 }
