@@ -15,13 +15,13 @@ class UserRegisterService implements UserRegisterServiceInterface
     /**
      * コンストラクタ
      * 
-     * @param UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $user_repository
      */
     public function __construct(
-      UserRepositoryInterface $userRepository
+      UserRepositoryInterface $user_repository
     )
     {
-        $this->userRepository = $userRepository;
+        $this->user_repository = $user_repository;
     }
 
     /**
@@ -29,7 +29,7 @@ class UserRegisterService implements UserRegisterServiceInterface
      */
     public function execute(UserRegisterRequest $request) : User
     {
-        $user = $this->userRepository->create($request);
+        $user = $this->user_repository->create($request);
         return $user;
     }
 }

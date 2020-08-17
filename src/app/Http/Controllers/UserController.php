@@ -17,16 +17,16 @@ class UserController extends Controller
     /**
      * コンストラクタ
      * 
-     * @param UserRegisterServiceInterface $UserRegisterService
-     * @param UserLoginServiceInterface $userLoginService
+     * @param UserRegisterServiceInterface $user_register_service
+     * @param UserLoginServiceInterface $user_login_service
      */
     public function __construct(
-        UserRegisterServiceInterface $UserRegisterService,
-        UserLoginServiceInterface $userLoginService
+        UserRegisterServiceInterface $user_register_service,
+        UserLoginServiceInterface $user_login_service
     )
     {
-        $this->UserRegisterService = $UserRegisterService;
-        $this->userLoginService = $userLoginService;
+        $this->user_register_service = $user_register_service;
+        $this->user_login_service = $user_login_service;
     }
 
     /**
@@ -38,7 +38,7 @@ class UserController extends Controller
      */    
     public function register(UserRegisterRequest $request) : User
     {
-        $user = $this->UserRegisterService->execute($request);
+        $user = $this->user_register_service->execute($request);
         return $user;
     }
 
@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function login(UserLoginRequest $request)
     {
-        $this->userLoginService->execute($request);
+        $this->user_login_service->execute($request);
         return 'hoge';
     }
 }

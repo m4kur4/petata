@@ -15,13 +15,13 @@ class BinderListSelectService implements BinderListSelectServiceInterface
     /**
      * コンストラクタ
      * 
-     * @param UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $user_repository
      */
     public function __construct(
-      UserRepositoryInterface $userRepository
+      UserRepositoryInterface $user_repository
     )
     {
-        $this->userRepository = $userRepository;
+        $this->user_repository = $user_repository;
     }
 
     /**
