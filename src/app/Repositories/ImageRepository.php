@@ -10,6 +10,9 @@ use App\Http\Requests\ImageRemoveRequest;
 use DB;
 use Log;
 
+/**
+ * @inheritdoc
+ */
 class ImageRepository implements ImageRepositoryInterface
 {
     /**

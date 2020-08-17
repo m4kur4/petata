@@ -5,6 +5,9 @@ namespace App\Repositories\Interfaces;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageRemoveRequest;
 
+/**
+ * 画像リポジトリ
+ */
 interface ImageRepositoryInterface
 {
     /**

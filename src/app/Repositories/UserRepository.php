@@ -10,6 +10,9 @@ use DB;
 use Hash;
 use Log;
 
+/**
+ * @inheritdoc
+ */
 class UserRepository implements UserRepositoryInterface
 {
     /**

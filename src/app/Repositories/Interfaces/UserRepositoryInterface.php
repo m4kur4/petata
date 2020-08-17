@@ -5,6 +5,9 @@ namespace App\Repositories\Interfaces;
 use App\Models\User;
 use App\Http\Requests\UserRegisterRequest;
 
+/**
+ * ユーザーリポジトリ
+ */
 interface UserRepositoryInterface
 {
     /**
