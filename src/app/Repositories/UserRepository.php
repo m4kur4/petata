@@ -7,6 +7,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Http\Requests\UserRegisterRequest;
 
 use Hash;
+use Log;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -16,7 +17,6 @@ class UserRepository implements UserRepositoryInterface
     public function create(UserRegisterRequest $request): User
     {
         $user = new User();
-
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);

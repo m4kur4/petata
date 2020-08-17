@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Binder extends Model
 {
+    protected $fillable = [
+        'create_user_id',
+        'name',
+    ];
+
     /**
      * リレーション -バインダー操作権限
      *

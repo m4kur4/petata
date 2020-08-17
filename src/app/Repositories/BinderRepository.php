@@ -8,16 +8,27 @@ use App\Models\User;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Http\Requests\BinderCreateRequest;
 
+use Auth;
+use Log;
+
 class BinderRepository implements BinderRepositoryInterface
 {
     /**
      * @inheritdoc
      */
-    public function create(BinderCreateRequest $request)
+    public function create(BinderCreateRequest $request): Binder
     {
-        $binder_id = $this->createBinder($request);
+        // バインダーの作成
+        $binder = $this->createBinder($request);
+        
+        // バインダー操作権限の付与
+        $this->addBinderAuthority(
+            $binder->create_user_id,
+            $binder->id,
+            config('_const.BINDER_AUTHORITY.LEVEL.OWNER')
+        );
 
-        $binder_authority = new BinderAuthority;
+        return $binder;
     }
 
     /**
@@ -41,22 +52,43 @@ class BinderRepository implements BinderRepositoryInterface
      * バインダーテーブルへ新規レコードを作成します。
      *
      * @param BinderCreateRequest $request
-     * @return $id バインダーID
+     * @return Binder 
      */
-    private function createBinder(BinderCreateRequest $request)
+    private function createBinder(BinderCreateRequest $request): Binder
     {
+        // ログインユーザーを作成者とする
+        $create_user_id = Auth::id();
+
         $binder = new Binder([
-            'create_user_id' => Auth::id(),
+            'create_user_id' => $create_user_id,
             'name' => $request->binder_name
         ]);
         $binder->save();
         
-        return $binder->id;
+        return $binder;
     }
 
     /**
      * ユーザーへバインダーの操作権限を付与します。
+     * 
+     * @param string $user_id ユーザーID
+     * @param string $binder_id バインダーID
+     * @param int $level 権限レベル
      */
-    public function addBinderAuthority($user_id)
-    {}
+    public function addBinderAuthority($user_id, $binder_id, $level)
+    {
+        // 想定しない値が設定された場合はエラー
+        if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
+            // TODO: 例外をスロー
+            return false;
+        }
+
+        $binder_authority = new BinderAuthority([
+            'user_id' => $user_id,
+            'binder_id' => $binder_id,
+            'level' => $level
+        ]);
+    
+        $binder_authority->save();
+    }
 }

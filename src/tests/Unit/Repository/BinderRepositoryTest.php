@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Binder;
 use App\Models\BinderAuthority;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
+use App\Http\Requests\BinderCreateRequest;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -63,4 +64,30 @@ class BinderRepositoryTest extends TestCase
         //$this->assertEquals($accessible_binders, $binders);
     }
 
+    /**
+     * @test
+     * 
+     * バインダーを作成する
+     */
+    public function create()
+    {
+        $this->actingAs($this->user);
+
+        $formData = [
+            'binder_name' => 'Test Binder',
+        ];
+        $request = new BinderCreateRequest($formData);
+        $binder = $this->repository->create($request);
+
+        // 検証
+        $binder_first = Binder::first();
+
+        // バインダー情報の確認
+        $this->assertEquals($binder_first->id, $binder->id);
+        $this->assertEquals($binder_first->name, $binder->name);
+
+        // 認可情報の確認
+        $binder_authority_first = BinderAuthority::first();
+        $this->assertEquals($binder_authority_first->level, config('_const.BINDER_AUTHORITY.LEVEL.OWNER'));
+    }
 }
