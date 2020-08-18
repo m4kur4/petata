@@ -630,6 +630,7 @@ main {
         $item-width: 95%;
         $item-height: 48px;
 
+        text-indent: 8px;
         box-sizing: border-box;
         border-right: solid 5px #7db4e6;
         margin-top: 8px;
@@ -642,6 +643,7 @@ main {
         transition: all 150ms 0s ease;
         &:hover {
             transition: all 150ms 0s ease;
+            text-indent: 16px;
             width: calc(#{$item-width} + 8px);
             border-right: solid 5px #86ab40;
         }
