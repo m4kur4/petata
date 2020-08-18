@@ -96,7 +96,7 @@ main {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
-  width: 1280px;
+  width: 1120px;
 }
 
 .form__nav--binder-list {
@@ -190,7 +190,7 @@ main {
 .form__wrapper--create-binder-right {
   grid-row: 2/3;
   grid-column: 2/3;
-  width: 560px;
+  width: 400px;
   margin-top: 8px;
   margin-bottom: 16px;
   display: grid;
@@ -344,7 +344,11 @@ main {
 }
 
 .form__label-list {
-  background-color: greenyellow;
+  box-sizing: border-box;
+  border-top: 2px dashed #b8b8b8;
+  border-left: 2px dashed #b8b8b8;
+  border-bottom: 2px dashed #b8b8b8;
+  border-radius: 4px;
   height: 516px;
 }
 
@@ -692,7 +696,6 @@ main {
   width: 100%;
   height: 100%;
   grid-area: label-container;
-  background-color: #f5f5f5;
   overflow-y: scroll;
 }
 
@@ -704,7 +707,7 @@ main {
   margin-left: 0;
   margin-right: auto;
   background-color: white;
-  width: 352px;
+  width: 95%;
   height: 48px;
   cursor: pointer;
   transition: all 150ms 0s ease;
@@ -712,7 +715,7 @@ main {
 
 .label-container__item:hover {
   transition: all 150ms 0s ease;
-  width: calc(352px + 8px);
+  width: calc(95% + 8px);
   border-right: solid 5px #86ab40;
 }
 
@@ -724,7 +727,7 @@ main {
   margin-left: 0;
   margin-right: auto;
   background-color: white;
-  width: calc(352px + 8px);
+  width: calc(95% + 8px);
   height: auto;
 }
 
