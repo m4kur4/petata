@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            .p-modal {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                overflow-y: auto;
+                visibility: hidden;
+                opacity: 0;
+                z-index: -1;
+            }
+            .p-modal.is-open {
+                visibility: visible;
+                opacity: 1;
+                z-index: 100;
+                background-color:blue;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+      
+        <div class="l-wrapper">
+            <button class="p-modalBtn" @click="openItem">
+                { ここをクリックすると、モーダルが開きます。}
+            </button>
+            <div class="p-modal" :class="{'is-open': isModalActive}" @click="toggleModal">
+                hoge
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            new Vue({
+                el: ".l-wrapper",
+                data: {
+                    isModalActive: false
+                },
+                methods: {
+                    /**
+                     * clickイベントが発火されたタイミングで、
+                     * オーバーレイコンテンツを表示するフラグを持つdata(isModalActive)を切り替える
+                     */
+                    openItem() {
+                        this.toggleModal();
+                    },
+                    /**
+                     * active状態を切り替える。
+                     */
+                    toggleModal() {
+                        this.isModalActive = !this.isModalActive;
+                    }
+                },
+                computed: {}
+            });
+        </script>
+    </body>
+</html>
