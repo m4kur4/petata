@@ -17,16 +17,16 @@
 
         <style>
             /* モーダル コンテンツエリア */
-            #modal-main {
+            .add-label-dialog {
                 /*display: none;*/
-                width: 500px;
-                height: 300px;
+                width: 800px;
+                height: 800px;
                 margin: 0;
                 padding: 0;
                 background-color: #ffffff;
                 color: #666666;
                 position: fixed;
-                z-index: 1;
+                z-index: 2;
 
                 top: 50%;
                 left: 50%;
@@ -34,20 +34,21 @@
                 -webkit-transform: translateY(-50%) translateX(-50%);
             }
             /* モーダル 背景エリア */
-            #modal-bg {
+            .modal-background {
                 /*display:none;*/
                 width: 100%;
                 height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
+                background-color: #333333;
+                opacity: 60%;
                 position: fixed;
                 top: 0;
                 left: 0;
-                z-index: 2;
+                z-index: 1;
             }
 
             .filtered {
-                -ms-filter: blur(3px);
-                filter: blur(3px);
+                -ms-filter: blur(2px);
+                filter: blur(2px);
             }
         </style>
     </head>
@@ -152,8 +153,38 @@
         </div>
         <!-- /.container -->
 
-        <div id="modal-bg">
-            <div id="modal-main">モーダルウィンドウ</div>
+        <div class="add-label-dialog">
+            <div class="add-label-dialog__header" >
+
+            </div>
+            <div class="form__wrapper-add-label-dialog">
+                <label class="form__label"
+                    >Binder name*
+                    <span class="form__error-message"
+                        >バインダー名は必須です。</span
+                    >
+                </label>
+                <input
+                    type="text"
+                    class="form__text"
+                    placeholder="ぺた太のアートワーク"
+                />
+                <label class="form__label"
+                    >Description
+                    <span class="form__error-message"></span>
+                </label>
+                <textarea
+                    class="form__text-area"
+                    cols="50"
+                    rows="8"
+                    wrap="soft"
+                    placeholder="バインダーの説明を入力します。"
+                ></textarea>
+                <button type="button" class="form__button--submit">
+                    Add
+                </button>
+            </div>
         </div>
+        <div class="modal-background"></div>
     </body>
 </html>
