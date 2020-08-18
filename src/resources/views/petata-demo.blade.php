@@ -215,36 +215,36 @@
             </div>
         </div><!-- /.image-container -->
 
-        <div class="right-column">
-            <div class="right-column__item mdc-elevation--z2">
-                <p class="right-column__item-title">ラベル名</p>
-                <p class="right-column__item-description">
+        <div class="label-container">
+            <div class="label-container__item mdc-elevation--z2">
+                <p class="label-container__item-title">ラベル名</p>
+                <p class="label-container__item-description">
                     ラベルの説明<br>
                     ラベルの説明<br>
                 </p>
             </div>
-            <div class="right-column__item mdc-elevation--z2">
-                <p class="right-column__item-title">ラベル名</p>
-                <p class="right-column__item-description">
+            <div class="label-container__item mdc-elevation--z2">
+                <p class="label-container__item-title">ラベル名</p>
+                <p class="label-container__item-description">
                     ラベルの説明<br>
                     ラベルの説明<br>
                 </p>
             </div>
-            <div class="right-column__item mdc-elevation--z2">
-                <p class="right-column__item-title">ラベル名</p>
-                <p class="right-column__item-description">
+            <div class="label-container__item mdc-elevation--z2">
+                <p class="label-container__item-title">ラベル名</p>
+                <p class="label-container__item-description">
                     ラベルの説明<br>
                     ラベルの説明<br>
                 </p>
             </div>
-            <div class="right-column__item mdc-elevation--z2">
-                <p class="right-column__item-title">ラベル名</p>
-                <p class="right-column__item-description">
+            <div class="label-container__item mdc-elevation--z2">
+                <p class="label-container__item-title">ラベル名</p>
+                <p class="label-container__item-description">
                     ラベルの説明<br>
                     ラベルの説明<br>
                 </p>
             </div>
-        </div><!-- /.right-column -->
+        </div><!-- /.label-container -->
     </div><!-- /.container -->
 </body>
 
@@ -255,19 +255,19 @@
 <script>
 $(function() {
     
-    $('.right-column__item').click(function(e) {
+    $('.label-container__item').click(function(e) {
         $(this)
-            .removeClass('right-column__item')
-            .addClass('right-column__item--selected');
+            .removeClass('label-container__item')
+            .addClass('label-container__item--selected');
         
         $(this)
-            .find('.right-column__item-description')
-            .removeClass('right-column__item-description')
-            .addClass('right-column__item-description--show');
+            .find('.label-container__item-description')
+            .removeClass('label-container__item-description')
+            .addClass('label-container__item-description--show');
     });
 });
 
-$('.right-column').click(() => {
+$('.label-container').click(() => {
   let json = null;
     let formData = new FormData();
     formData.append('url', 'https://scraping-for-beginner.herokuapp.com/image');
@@ -285,7 +285,7 @@ $('.right-column').click(() => {
       console.log(data);
       for(let index in data) {
         const html = `<img src="${data[index]}" style="width:50px; height: 50px; object-fit:cover;">`;
-        $('.right-column').append(html);
+        $('.label-container').append(html);
       }
       
     }).fail( (XMLHttpRequest, textStatus, errorThrown) => {

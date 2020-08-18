@@ -22181,13 +22181,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "right-column" }, [
-      _c("div", { staticClass: "right-column__item mdc-elevation--z2" }, [
-        _c("p", { staticClass: "right-column__item-title" }, [
+    return _c("div", { staticClass: "label-container" }, [
+      _c("div", { staticClass: "label-container__item mdc-elevation--z2" }, [
+        _c("p", { staticClass: "label-container__item-title" }, [
           _vm._v("ラベル名")
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "right-column__item-description" }, [
+        _c("p", { staticClass: "label-container__item-description" }, [
           _vm._v("\r\n      ラベルの説明"),
           _c("br"),
           _vm._v("\r\n      ラベルの説明"),
@@ -22195,12 +22195,12 @@ var staticRenderFns = [
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "right-column__item mdc-elevation--z2" }, [
-        _c("p", { staticClass: "right-column__item-title" }, [
+      _c("div", { staticClass: "label-container__item mdc-elevation--z2" }, [
+        _c("p", { staticClass: "label-container__item-title" }, [
           _vm._v("ラベル名")
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "right-column__item-description" }, [
+        _c("p", { staticClass: "label-container__item-description" }, [
           _vm._v("\r\n      ラベルの説明"),
           _c("br"),
           _vm._v("\r\n      ラベルの説明"),
@@ -22208,12 +22208,12 @@ var staticRenderFns = [
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "right-column__item mdc-elevation--z2" }, [
-        _c("p", { staticClass: "right-column__item-title" }, [
+      _c("div", { staticClass: "label-container__item mdc-elevation--z2" }, [
+        _c("p", { staticClass: "label-container__item-title" }, [
           _vm._v("ラベル名")
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "right-column__item-description" }, [
+        _c("p", { staticClass: "label-container__item-description" }, [
           _vm._v("\r\n      ラベルの説明"),
           _c("br"),
           _vm._v("\r\n      ラベルの説明"),
@@ -22221,12 +22221,12 @@ var staticRenderFns = [
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "right-column__item mdc-elevation--z2" }, [
-        _c("p", { staticClass: "right-column__item-title" }, [
+      _c("div", { staticClass: "label-container__item mdc-elevation--z2" }, [
+        _c("p", { staticClass: "label-container__item-title" }, [
           _vm._v("ラベル名")
         ]),
         _vm._v(" "),
-        _c("p", { staticClass: "right-column__item-description" }, [
+        _c("p", { staticClass: "label-container__item-description" }, [
           _vm._v("\r\n      ラベルの説明"),
           _c("br"),
           _vm._v("\r\n      ラベルの説明"),
