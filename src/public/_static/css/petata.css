@@ -800,6 +800,7 @@ main {
   color: #666666;
   position: fixed;
   z-index: 5;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.4);
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
