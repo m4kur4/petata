@@ -1,0 +1,16 @@
+.form {
+  &__label-setting {
+    display: grid;
+    grid-template-columns: auto;
+    margin: 16px;
+  }
+
+  &__label-list {
+    box-sizing: border-box;
+    border-top: 2px dashed #b8b8b8;
+    border-left: 2px dashed #b8b8b8;
+    border-bottom: 2px dashed #b8b8b8;
+    border-radius: 4px;
+    height: 516px;
+  }
+}

@@ -1,0 +1,7 @@
+.form {
+  &--binder-list {
+    @extend %form-base;
+    display: grid;
+    width: 1400px;
+  }
+}

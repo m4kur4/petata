@@ -1,0 +1,11 @@
+.form {
+  &__social-signin {
+    margin-left: 16px;
+    display: grid;
+    > img {
+      margin-top: 16px;
+      height: 64px;
+      width: 100%;
+    }
+  }
+}

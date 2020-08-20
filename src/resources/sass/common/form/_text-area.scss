@@ -1,0 +1,16 @@
+.form {
+  &__text-area {
+    outline: none;
+    font-size: 28px;
+    font-family: $font-family;
+    box-sizing: border-box;
+    border: 2px solid #b8b8b8;
+    border-radius: 4px;
+    width: 720px;
+    height: 400px;
+    resize: none;
+    &::placeholder {
+      color: rgb(207, 207, 207);
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.form {
+  &__button {
+    &--submit {
+      margin-top: 10px;
+      outline: none;
+      border-radius: 7px;
+      border: none;
+      font-size: 28px;
+      font-family: $font-family;
+      font-weight: bolder;
+      color: white;
+      background-color: #324750;
+      width: 720px;
+      height: 64px;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.form {
+  &__button {
+    &--add-label {
+      height: 56px;
+      width: 100%;
+      box-sizing: border-box;
+      border: 2px solid #b8b8b8;
+      border-radius: 4px;
+      margin-right: 16px;
+      text-align: center;
+      > svg {
+        vertical-align: middle;
+        opacity: 30%;
+      }
+    }
+  }
+}

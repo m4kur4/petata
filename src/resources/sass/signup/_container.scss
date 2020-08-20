@@ -1,0 +1,7 @@
+.container {
+  &--signup {
+    width: 100%;
+    height: calc(100% - #{$header-height});
+    background-color: white;
+  }
+}

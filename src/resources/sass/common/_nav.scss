@@ -1,0 +1,20 @@
+.nav {
+  position: relative;
+  z-index: 6;
+  width: 100%;
+  height: $navbar-height;
+  background-color: #ffffff;
+  &__button {
+      fill: #324750;
+      padding: 0;
+      border: none;
+      height: $navbar-height;
+      width: $navbar-height;
+      background-color: Transparent;
+      background-repeat: no-repeat;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      outline: none;
+  }
+}

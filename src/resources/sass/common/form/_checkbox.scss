@@ -1,0 +1,15 @@
+.form {
+  &__checkbox {
+    > label {
+      font-family: $font-family;
+      font-size: 16px;
+      > input {
+        height: 24px;
+        margin-right: 8px;
+        margin-top: 0;
+        margin-bottom: 0;
+        vertical-align: middle;
+      }
+    }
+  }
+}

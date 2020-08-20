@@ -81,3 +81,6 @@ https://hiroshi-yokota.com/2020/01/23/magic-grid/
 
 ### input textの余白を作る
 `text-indent: 1em;`
+
+### sassファイルの分割
+https://maku77.github.io/sass/import.html

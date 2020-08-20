@@ -1,0 +1,7 @@
+.form {
+  &--signup {
+    @extend %form-base;
+    width: 720px;
+    height: 720px;
+  }
+}
