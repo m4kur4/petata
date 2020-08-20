@@ -52,14 +52,14 @@ class UserRegisterApiTest extends TestCase
      */
     public function User_Create_Failer4ConfirmPasswordError()
     {
-        $formData = [
+        $form_data = [
             'name' => 'test user',
             'email' => 'test@test.com',
             'password' => 'password',
             'password_confirmation' => 'password2222',
         ];
 
-        $response = $this->json('POST', route('api.user.register'), $formData);
+        $response = $this->json('POST', route('api.user.register'), $form_data);
 
         $response->assertStatus(422);
     }

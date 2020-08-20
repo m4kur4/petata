@@ -29,12 +29,12 @@ class UserLoginApiTest extends TestCase
      */
     public function User_Login_Success()
     {
-        $formData = [
+        $form_data = [
             'email' => $this->user->email,
             'password' => 'password',
         ];
 
-        $response = $this->json('POST', route('api.user.login'), $formData);
+        $response = $this->json('POST', route('api.user.login'), $form_data);
 
         $response->assertStatus(200);
         $this->assertAuthenticatedAs($this->user);
