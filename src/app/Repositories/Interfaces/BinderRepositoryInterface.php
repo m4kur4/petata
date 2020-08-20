@@ -16,7 +16,6 @@ interface BinderRepositoryInterface
      * 作成ユーザーには当該バインダーのオーナー権限を付与します。
      *
      * @param @param UserRegisterRequest $request
-     * @return User
      */
     public function create(BinderCreateRequest $request);
 
