@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Log;
+
 class BinderCreateRequest extends FormRequest
 {
     /**
@@ -36,26 +38,38 @@ class BinderCreateRequest extends FormRequest
      */
     protected function prepareForValidation()
     {
-        if (empty($this->label_name)) {
+        // ラベル情報を変換
+        $this->convertLabelPost();
+    }
+
+    /**
+     * POSTされたラベル情報を連想配列へ変換します。
+     */
+    private function convertLabelPost()
+    {
+        if (empty($this->label_names)) {
             return;
         }
 
         $labels = [];
         foreach($this->label_names as $index => $label_name) {
             $label = ['name' => $label_name, 'description' => ''];
+
             if (empty($this->label_descriptions)) {
-                // ラベルに説明がない場合
+                // 説明の付与されたラベルが一つもない場合
                 array_push($labels, $label);
                 continue;
             }
+
             if (array_key_exists($index, $this->label_descriptions)) {
-                // TODO: 説明がある場合の処理
+                // 説明の付与されたラベルの場合
+                $label['description'] = $this->label_descriptions[$index];
             }
+            array_push($labels, $label);
         }
-        // 日時をデータに追加
-        $date_time = ($this->filled(['date', 'time'])) ? $this->date .' '. $this->time : '';
+
         $this->merge([
-           'date_time' => $date_time
+           'labels' => $labels
         ]);
     }
 }

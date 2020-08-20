@@ -24,22 +24,24 @@ class UserRegisterApiTest extends TestCase
      */
     public function User_Create_Success()
     {
-        $formData = [
+        $form_data = [
             'name' => 'test user',
             'email' => 'test@test.com',
             'password' => 'password',
             'password_confirmation' => 'password',
         ];
 
-        $response = $this->json('POST', route('api.user.register'), $formData);
+        $response = $this->json('POST', route('api.user.register'), $form_data);
 
-        // 入力値がテーブルに反映されていることを確認
+        // 検証
         $user = User::first();
-        $this->assertEquals($formData['name'], $user->name);
-        $this->assertEquals($formData['email'], $user->email);
-        $this->assertTrue(Hash::check($formData['password'], $user->password));
 
-        // ステータスコードと戻り値が期待通りであることを確認
+        // - 入力値がテーブルに反映されていることを確認
+        $this->assertEquals($form_data['name'], $user->name);
+        $this->assertEquals($form_data['email'], $user->email);
+        $this->assertTrue(Hash::check($form_data['password'], $user->password));
+
+        // - ステータスコードと戻り値が期待通りであることを確認
         $response
             ->assertStatus(201)
             ->assertJson(['name' => $user->name]);

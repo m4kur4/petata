@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
- * ユーザー管理コントローラー
+ * ユーザーコントローラー
  */
 class UserController extends Controller
 {

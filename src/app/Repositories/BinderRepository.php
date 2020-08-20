@@ -23,28 +23,25 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function create(BinderCreateRequest $request): Binder
     {
-        DB::beginTransaction();
-        try {
-            // バインダーの作成
-            $binder = $this->createBinder($request);
-            
-            // バインダー操作権限の付与
-            $this->addBinderAuthority(
-                $binder->create_user_id,
-                $binder->id,
-                config('_const.BINDER_AUTHORITY.LEVEL.OWNER')
-            );
 
-            // ラベルの追加
-            $this->addLabels($binder->id, $request->labels);
+        // バインダーの作成
+        $binder = $this->createBinder($request);
 
-            DB::commit();
-            return $binder;
+        // バインダー操作権限の付与
+        $this->addBinderAuthority(
+            $binder->create_user_id,
+            $binder->id,
+            config('_const.BINDER_AUTHORITY.LEVEL.OWNER')
+        );
 
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        // ラベルの追加
+        $this->addLabels($binder->id, $request->labels);
+
+        return $binder;
+
+
+        DB::rollback();
+        throw $e;
     }
 
     /**
@@ -75,27 +72,19 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function addBinderAuthority($user_id, $binder_id, $level)
     {
-        // TODO: 実装
-        DB::beginTransaction();
-        try {
-            // 想定しない値が設定された場合はエラー
-            if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
-                throw $e;
-            }
 
-            $binder_authority = new BinderAuthority([
-                'user_id' => $user_id,
-                'binder_id' => $binder_id,
-                'level' => $level
-            ]);
-        
-            $binder_authority->save();
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
+        // 想定しない値が設定された場合はエラー
+        if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
             throw $e;
         }
+
+        $binder_authority = new BinderAuthority([
+            'user_id' => $user_id,
+            'binder_id' => $binder_id,
+            'level' => $level
+        ]);
+
+        $binder_authority->save();
     }
 
     /**
@@ -104,10 +93,10 @@ class BinderRepository implements BinderRepositoryInterface
     public function addLabels(string $binder_id, ?array $label_posts)
     {
         if (empty($label_posts)) {
-            return ;
+            return;
         }
 
-        foreach($label_posts as $post) {
+        foreach ($label_posts as $post) {
             $label = new Label([
                 'binder_id' => $binder_id,
                 'name' => $post['name'],
@@ -131,7 +120,8 @@ class BinderRepository implements BinderRepositoryInterface
 
         $binder = new Binder([
             'create_user_id' => $create_user_id,
-            'name' => $request->binder_name
+            'name' => $request->binder_name,
+            'description' => $request->description
         ]);
         $binder->save();
 

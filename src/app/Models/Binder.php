@@ -12,6 +12,16 @@ class Binder extends Model
     ];
 
     /**
+     * リレーション -ラベル
+     *
+     * @return Collection
+     */
+    public function Labels()
+    {
+        return $this->hasMany('App\Models\Label', 'binder_id', 'id');
+    }
+
+    /**
      * リレーション -バインダー操作権限
      *
      * @return Collection

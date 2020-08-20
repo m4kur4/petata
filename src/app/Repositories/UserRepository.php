@@ -20,20 +20,14 @@ class UserRepository implements UserRepositoryInterface
      */
     public function create(UserRegisterRequest $request): User
     {
-        DB::beginTransaction();
-        try {
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->save();
-    
-            DB::commit();
-            return $user;
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return $user;
     }
 
     /**
@@ -41,18 +35,10 @@ class UserRepository implements UserRepositoryInterface
      */
     public function delete(string $user_id)
     {
+        $user = User::where('id', $user_id);
+        $user->delete();
 
-        DB::beginTransaction();
-        try {
-            $user = User::where('id', $user_id);
-            $user->delete();
-            
-            // TODO: 関連データも削除する
+        // TODO: 関連データも削除する
 
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
     }
 }

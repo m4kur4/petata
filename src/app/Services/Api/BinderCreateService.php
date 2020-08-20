@@ -7,6 +7,8 @@ use App\Http\Requests\BinderCreateRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
 use \App\Repositories\Interfaces\BinderRepositoryInterface;
 
+use Auth;
+
 /**
  * @inheritdoc
  */
