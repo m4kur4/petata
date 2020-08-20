@@ -18,38 +18,9 @@
         <style>
             /* モーダル コンテンツエリア */
             .add-label-dialog {
-                /*display: none;*/
-                width: 800px;
-                height: 800px;
-                margin: 0;
-                padding: 0;
-                background-color: #ffffff;
-                color: #666666;
-                position: fixed;
-                z-index: 2;
 
-                top: 50%;
-                left: 50%;
-                transform: translateY(-50%) translateX(-50%);
-                -webkit-transform: translateY(-50%) translateX(-50%);
-            }
-            /* モーダル 背景エリア */
-            .modal-background {
-                /*display:none;*/
-                width: 100%;
-                height: 100%;
-                background-color: #333333;
-                opacity: 60%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 1;
             }
 
-            .filtered {
-                -ms-filter: blur(2px);
-                filter: blur(2px);
-            }
         </style>
     </head>
     <body>
@@ -68,7 +39,7 @@
             </div>
         </header>
 
-        <div class="container--signin filtered">
+        <div class="container--signin filtered-for-modal">
             <div class="form--binder-create">
                 <div class="form__title">
                     <h2>
@@ -153,21 +124,22 @@
         </div>
         <!-- /.container -->
 
-        <div class="add-label-dialog">
-            <div class="add-label-dialog__header" >
-
+        <div class="form--add-label-dialog mdc-elevation--z2">
+            <div class="form__header--add-label-dialog mdc-elevation--z1">
+                <span>Add label</span>
+                <button>×</button>
             </div>
-            <div class="form__wrapper-add-label-dialog">
+            <div class="form__wrapper--add-label-dialog">
                 <label class="form__label"
-                    >Binder name*
+                    >Label name*
                     <span class="form__error-message"
-                        >バインダー名は必須です。</span
+                        >ラベル名は必須です。</span
                     >
                 </label>
                 <input
                     type="text"
                     class="form__text"
-                    placeholder="ぺた太のアートワーク"
+                    placeholder="ぺた太のお気に入り"
                 />
                 <label class="form__label"
                     >Description
@@ -178,7 +150,7 @@
                     cols="50"
                     rows="8"
                     wrap="soft"
-                    placeholder="バインダーの説明を入力します。"
+                    placeholder="ラベルの説明を入力します。"
                 ></textarea>
                 <button type="button" class="form__button--submit">
                     Add

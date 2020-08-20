@@ -1,0 +1,23 @@
+.form {
+  &--add-label-dialog {
+    @extend %form-base;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+
+    width: auto;
+    height: auto;
+    min-width: 784px;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #666666;
+    position: fixed;
+    z-index: 2;
+
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
+  }
+}
