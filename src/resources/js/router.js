@@ -6,6 +6,7 @@ import Binder from './pages/Binder.vue';
 import Signup from './pages/Signup.vue';
 import Signin from './pages/Signin.vue';
 import BinderList from './pages/BinderList.vue';
+import BinderCreate from './pages/BinderCreate.vue';
 
 Vue.use(VueRouter);
 
@@ -29,6 +30,10 @@ const routes = [
     {
         path:'/binders',
         component: BinderList
+    },
+    {
+        path:'/binder/create',
+        component: BinderCreate
     },
 ];
 

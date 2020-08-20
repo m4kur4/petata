@@ -2,7 +2,7 @@
 <div :class="clazz">
     <h2>
         <img
-            src="image/logo/logo_32.svg"
+            src="/image/logo/logo_32.svg"
             width="48"
             height="48"
             alt="petata"
