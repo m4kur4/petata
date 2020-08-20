@@ -5,6 +5,7 @@ namespace Tests\Feature\Unit\Repository;
 use App\Models\User;
 use App\Models\Binder;
 use App\Models\BinderAuthority;
+use App\Models\Label;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Http\Requests\BinderCreateRequest;
 
@@ -73,8 +74,17 @@ class BinderRepositoryTest extends TestCase
     {
         $this->actingAs($this->user);
 
+        // ラベル数
+        $LABEL_COUNT = 5;
+        $label_posts = [];
+        for ($i = 0; $i < $LABEL_COUNT; $i++) {
+            $label_post = ['name' => sprintf('label_%s', $i), 'description' => sprintf('説明_%s', $i)];
+            array_push($label_posts, $label_post);
+        }
+
         $formData = [
             'binder_name' => 'Test Binder',
+            'labels' => $label_posts,
         ];
         $request = new BinderCreateRequest($formData);
         $binder = $this->repository->create($request);
@@ -82,12 +92,18 @@ class BinderRepositoryTest extends TestCase
         // 検証
         $binder_first = Binder::first();
 
-        // バインダー情報の確認
+        // - バインダー情報の確認
         $this->assertEquals($binder_first->id, $binder->id);
         $this->assertEquals($binder_first->name, $binder->name);
 
-        // 認可情報の確認
+        // - 認可情報の確認
         $binder_authority_first = BinderAuthority::first();
         $this->assertEquals($binder_authority_first->level, config('_const.BINDER_AUTHORITY.LEVEL.OWNER'));
+
+        // - ラベルの確認
+        $labels = Label::all();
+        $this->assertEquals($labels->count(), $LABEL_COUNT);
+        $this->assertEquals($binder->id, $labels[0]->binder_id);
+        $this->assertEquals($label_posts[0]['name'], $labels[0]->name);
     }
 }

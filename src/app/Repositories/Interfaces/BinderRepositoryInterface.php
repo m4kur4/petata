@@ -3,6 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Binder;
+use App\Models\Label;
 use App\Http\Requests\BinderCreateRequest;
 
 /**
@@ -44,4 +45,18 @@ interface BinderRepositoryInterface
      * @param int $level 権限レベル
      */
     public function addBinderAuthority($user_id, $binder_id, $level);
+    
+    /**
+     * バインダーへラベルを追加します。
+     *
+     * @param string $binder_id バインダーID
+     * @param array $label_posts POSTされたラベル情報
+     * [
+     *   'name' => ラベル名,
+     *   'description' => ラベルの説明
+     * ]
+     * @return void
+     */
+    public function addLabels(string $binder_id, array $label_posts);
+
 }

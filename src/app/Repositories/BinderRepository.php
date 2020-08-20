@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Binder;
 use App\Models\BinderAuthority;
 use App\Models\User;
+use App\Models\Label;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Http\Requests\BinderCreateRequest;
 
@@ -33,6 +34,9 @@ class BinderRepository implements BinderRepositoryInterface
                 $binder->id,
                 config('_const.BINDER_AUTHORITY.LEVEL.OWNER')
             );
+
+            // ラベルの追加
+            $this->addLabels($binder->id, $request->labels);
 
             DB::commit();
             return $binder;
@@ -95,6 +99,26 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function addLabels(string $binder_id, ?array $label_posts)
+    {
+        if (empty($label_posts)) {
+            return ;
+        }
+
+        foreach($label_posts as $post) {
+            $label = new Label([
+                'binder_id' => $binder_id,
+                'name' => $post['name'],
+                'description' => $post['description']
+            ]);
+
+            $label->save();
+        }
+    }
+
+    /**
      * バインダーテーブルへ新規レコードを作成します。
      *
      * @param BinderCreateRequest $request
@@ -102,24 +126,15 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function createBinder(BinderCreateRequest $request): Binder
     {
-        // TODO: 実装
-        DB::beginTransaction();
-        try {
-            // ログインユーザーを作成者とする
-            $create_user_id = Auth::id();
+        // ログインユーザーを作成者とする
+        $create_user_id = Auth::id();
 
-            $binder = new Binder([
-                'create_user_id' => $create_user_id,
-                'name' => $request->binder_name
-            ]);
-            $binder->save();
-            
-            DB::commit();
-            return $binder;
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        $binder = new Binder([
+            'create_user_id' => $create_user_id,
+            'name' => $request->binder_name
+        ]);
+        $binder->save();
 
+        return $binder;
     }
 }
