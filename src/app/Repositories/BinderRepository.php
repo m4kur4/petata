@@ -38,10 +38,6 @@ class BinderRepository implements BinderRepositoryInterface
         $this->addLabels($binder->id, $request->labels);
 
         return $binder;
-
-
-        DB::rollback();
-        throw $e;
     }
 
     /**
