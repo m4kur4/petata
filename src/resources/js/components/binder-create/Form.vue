@@ -6,17 +6,14 @@
     >
         <FormTitle :clazz="'form__title'">Create binder</FormTitle>
         <div class="form__wrapper--create-binder-left">
-            <label class="form__label"
-                >Binder name*
-                <span class="form__error-message"
-                    >バインダー名は必須です。</span
-                >
-            </label>
-            <input
-                type="text"
-                class="form__text"
-                placeholder="ぺた太のアートワーク"
+
+            <TextForm
+                v-model="binderName"
+                :title="'Binder name*'"
+                :type="'text'"
+                :placeholder="'ぺた太のアートワーク'"
             />
+
             <label class="form__label"
                 >Description
                 <span class="form__error-message"></span>
@@ -46,22 +43,7 @@
                 </svg>
             </div>
             <div class="form__label-list">
-                <div class="label-container">
-                    <div class="label-container__item mdc-elevation--z2">
-                        <p class="label-container__item-title">ラベル名</p>
-                        <p class="label-container__item-description">
-                            ラベルの説明<br />
-                            ラベルの説明<br />
-                        </p>
-                    </div>
-                    <div class="label-container__item mdc-elevation--z2">
-                        <p class="label-container__item-title">ラベル名</p>
-                        <p class="label-container__item-description">
-                            ラベルの説明<br />
-                            ラベルの説明<br />
-                        </p>
-                    </div>
-                </div>
+                <LabelContainer :labels="labels" />
             </div>
         </div>
         <a href="#" class="form__link">Sign up</a>
@@ -70,32 +52,50 @@
 
 <script>
 import FormTitle from "../common/FormTitle.vue";
+import LabelContainer from '../common/LabelContainer.vue'
+import TextForm from "../common/TextForm.vue";
 
 export default {
     components: {
-        FormTitle
-    },
-    data() {
-        return {
-            form: {
-                binder_name: "",
-                description: "",
-                label_names: [],
-                label_descriptions: [],
-            }
-        };
+        FormTitle,
+        LabelContainer,
+        TextForm
     },
     methods: {
         openDialog() {
-            this.$emit('open-label-add-dialog');
+            this.$store.commit("mode/setIsShowDialog", true);
         },
         closeDialog() {
-            this.$emit('close-label-add-dialog');
+            this.$store.commit("mode/setIsShowDialog", false);
         },
     },
     computed: {
         isShowDialog() {
             return this.$store.state.mode.isShowDialog;
+        },
+        binderName: {
+            get() {
+                return this.$store.state.binderCreate.binderName;
+            },
+            set(val) {
+                this.$store.commit('binderCreate/setBinderName', val);
+            }
+        },
+        binderDescription: {
+            get() {
+                return this.$store.state.binderCreate.binderDescription;
+            },
+            set(val) {
+                this.$store.commit('binderCreate/setBinderDescription', val);
+            }
+        },
+        labels: {
+            get() {
+                return this.$store.state.binderCreate.labels;
+            },
+            set(val) {
+                this.$store.commit('binderCreate/setLabels', val);
+            }
         },
     },
 };

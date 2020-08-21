@@ -1,7 +1,7 @@
 /**
  * 認証関係ストア
  */
-import { STATUS } from "../const";
+import { STATUS } from "../../const";
 
 const state = {
     /**

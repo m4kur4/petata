@@ -27,7 +27,7 @@
             wrap="soft"
             placeholder="ラベルの説明を入力します。"
         ></textarea>
-        <button type="button" class="form__button--submit">
+        <button @click="applyToForm" type="button" class="form__button--submit">
             Add
         </button>
     </div>
@@ -37,9 +37,27 @@
 
 <script>
 export default {
+    props: {
+        name: String,
+        description: String
+    },
     methods: {
+        /**
+         * ダイアログを閉じます。
+         */
         closeDialog() {
             this.$store.commit('mode/setIsShowDialog', false)
+        },
+        /**
+         * ダイアログの入力値を呼び出し元画面へｈ反映します。
+         */
+        applyToForm() {
+            // TODO: 実装
+            const formData = {
+                name: this.name,
+                description: this.description
+            };
+            //this.$emit('add-label', formData);
         }
     },
     computed: {
