@@ -1,5 +1,9 @@
 <template>
-    <div class="form--binder-create">
+    <div :class="[
+            'form--binder-create',
+            { 'filtered-for-modal': isShowDialog }
+        ]"
+    >
         <FormTitle :clazz="'form__title'">Create binder</FormTitle>
         <div class="form__wrapper--create-binder-left">
             <label class="form__label"
@@ -30,7 +34,7 @@
         </div>
         <div class="form__wrapper--create-binder-right">
             <label class="form__label">Labels</label>
-            <div class="form__button--add-label">
+            <div @click="openDialog" class="form__button--add-label">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="56"
@@ -80,6 +84,19 @@ export default {
                 label_descriptions: [],
             }
         };
-    }
+    },
+    methods: {
+        openDialog() {
+            this.$emit('open-label-add-dialog');
+        },
+        closeDialog() {
+            this.$emit('close-label-add-dialog');
+        },
+    },
+    computed: {
+        isShowDialog() {
+            return this.$store.state.mode.isShowDialog;
+        },
+    },
 };
 </script>

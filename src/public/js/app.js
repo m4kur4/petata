@@ -1922,6 +1922,7 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/common/Header.vue */ "./resources/js/components/common/Header.vue");
 /* harmony import */ var _components_common_Navbar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/common/Navbar.vue */ "./resources/js/components/common/Navbar.vue");
+/* harmony import */ var _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/common/ModalBackground.vue */ "./resources/js/components/common/ModalBackground.vue");
 //
 //
 //
@@ -1930,12 +1931,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Navbar: _components_common_Navbar_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    Header: _components_common_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Header: _components_common_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    ModalBackground: _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -2017,10 +2021,98 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      form: {
+        binder_name: "",
+        description: "",
+        label_names: [],
+        label_descriptions: []
+      }
+    };
+  },
+  methods: {
+    openDialog: function openDialog() {
+      this.$emit('open-label-add-dialog');
+    },
+    closeDialog: function closeDialog() {
+      this.$emit('close-label-add-dialog');
+    }
+  },
+  computed: {
+    isShowDialog: function isShowDialog() {
+      return this.$store.state.mode.isShowDialog;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    closeDialog: function closeDialog() {
+      this.$store.commit('mode/setIsShowDialog', false);
+    }
+  },
+  computed: {
+    isShowDialog: function isShowDialog() {
+      return this.$store.state.mode.isShowDialog;
+    }
   }
 });
 
@@ -2506,6 +2598,33 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    isShowDialog: function isShowDialog() {
+      return this.$store.state.mode.isShowDialog;
+    }
+  },
+  methods: {
+    closeDialog: function closeDialog() {
+      this.$store.commit('mode/setIsShowDialog', false);
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/Navbar.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/Navbar.vue?vue&type=script&lang=js& ***!
@@ -2885,6 +3004,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_binder_create_Form_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/binder-create/Form.vue */ "./resources/js/components/binder-create/Form.vue");
+/* harmony import */ var _components_binder_create_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/binder-create/LabelAddDialog.vue */ "./resources/js/components/binder-create/LabelAddDialog.vue");
+/* harmony import */ var _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/common/ModalBackground.vue */ "./resources/js/components/common/ModalBackground.vue");
+//
 //
 //
 //
@@ -2893,9 +3015,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Form: _components_binder_create_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Form: _components_binder_create_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    LabelAddDialog: _components_binder_create_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ModalBackground: _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  methods: {
+    /**
+     * ラベル追加ダイアログを開く
+     */
+    showDialog: function showDialog() {
+      this.isShowLabelAddDialog = true;
+      this.$store.commit('mode/setIsShowDialog', true);
+    },
+
+    /**
+     * ラベル追加ダイアログを閉じる
+     */
+    hideDialog: function hideDialog() {
+      this.isShowLabelAddDialog = false;
+      this.$store.commit('mode/setIsShowDialog', false);
+    }
+  },
+  computed: {
+    isShowDialog: function isShowDialog() {
+      return this.$store.state.mode.isShowDialog;
+    }
   }
 });
 
@@ -21388,7 +21536,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "main",
-    [_c("Header"), _vm._v(" "), _c("Navbar"), _vm._v(" "), _c("RouterView")],
+    [
+      _c("Header"),
+      _vm._v(" "),
+      _c("Navbar"),
+      _vm._v(" "),
+      _c("RouterView"),
+      _vm._v(" "),
+      _c("ModalBackground")
+    ],
     1
   )
 }
@@ -21416,7 +21572,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "form--binder-create" },
+    {
+      class: ["form--binder-create", { "filtered-for-modal": _vm.isShowDialog }]
+    },
     [
       _c("FormTitle", { attrs: { clazz: "form__title" } }, [
         _vm._v("Create binder")
@@ -21427,26 +21585,33 @@ var render = function() {
       _c("div", { staticClass: "form__wrapper--create-binder-right" }, [
         _c("label", { staticClass: "form__label" }, [_vm._v("Labels")]),
         _vm._v(" "),
-        _c("div", { staticClass: "form__button--add-label" }, [
-          _c(
-            "svg",
-            {
-              attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                height: "56",
-                viewBox: "0 0 24 24",
-                width: "56"
-              }
-            },
-            [
-              _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-              _vm._v(" "),
-              _c("path", {
-                attrs: { d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" }
-              })
-            ]
-          )
-        ]),
+        _c(
+          "div",
+          {
+            staticClass: "form__button--add-label",
+            on: { click: _vm.openDialog }
+          },
+          [
+            _c(
+              "svg",
+              {
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  height: "56",
+                  viewBox: "0 0 24 24",
+                  width: "56"
+                }
+              },
+              [
+                _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: { d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" }
+                })
+              ]
+            )
+          ]
+        ),
         _vm._v(" "),
         _vm._m(1)
       ]),
@@ -21530,6 +21695,84 @@ var staticRenderFns = [
           ])
         ])
       ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=template&id=7f4ef4a0&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=template&id=7f4ef4a0& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.isShowDialog
+    ? _c("div", { staticClass: "form--add-label-dialog" }, [
+        _c(
+          "div",
+          { staticClass: "form__header--add-label-dialog mdc-elevation--z1" },
+          [
+            _c("span", [_vm._v("Add label")]),
+            _vm._v(" "),
+            _c("button", { on: { click: _vm.closeDialog } }, [_vm._v("×")])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(0)
+      ])
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form__wrapper--add-label-dialog" }, [
+      _c("label", { staticClass: "form__label" }, [
+        _vm._v("Label name*\r\n            "),
+        _c("span", { staticClass: "form__error-message" }, [
+          _vm._v("ラベル名は必須です。")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form__text",
+        attrs: { type: "text", placeholder: "ぺた太のお気に入り" }
+      }),
+      _vm._v(" "),
+      _c("label", { staticClass: "form__label" }, [
+        _vm._v("Description\r\n            "),
+        _c("span", { staticClass: "form__error-message" })
+      ]),
+      _vm._v(" "),
+      _c("textarea", {
+        staticClass: "form__text-area",
+        attrs: {
+          cols: "50",
+          rows: "8",
+          wrap: "soft",
+          placeholder: "ラベルの説明を入力します。"
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "button",
+        { staticClass: "form__button--submit", attrs: { type: "button" } },
+        [_vm._v("\r\n            Add\r\n        ")]
+      )
     ])
   }
 ]
@@ -22581,6 +22824,35 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.isShowDialog
+    ? _c("div", {
+        staticClass: "modal-background",
+        on: { click: _vm.closeDialog }
+      })
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/Navbar.vue?vue&type=template&id=25f9bace&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/Navbar.vue?vue&type=template&id=25f9bace& ***!
@@ -23227,7 +23499,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container--binder-create" }, [_c("Form")], 1)
+  return _c(
+    "div",
+    { staticClass: "container--binder-create" },
+    [
+      _c("Form", {
+        on: {
+          "open-label-add-dialog": _vm.showDialog,
+          "close-label-add-dialog": _vm.hideDialog
+        }
+      }),
+      _vm._v(" "),
+      _c("LabelAddDialog")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40001,6 +40287,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/binder-create/LabelAddDialog.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/binder-create/LabelAddDialog.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _LabelAddDialog_vue_vue_type_template_id_7f4ef4a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LabelAddDialog.vue?vue&type=template&id=7f4ef4a0& */ "./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=template&id=7f4ef4a0&");
+/* harmony import */ var _LabelAddDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LabelAddDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _LabelAddDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _LabelAddDialog_vue_vue_type_template_id_7f4ef4a0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _LabelAddDialog_vue_vue_type_template_id_7f4ef4a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/binder-create/LabelAddDialog.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LabelAddDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./LabelAddDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_LabelAddDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=template&id=7f4ef4a0&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=template&id=7f4ef4a0& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LabelAddDialog_vue_vue_type_template_id_7f4ef4a0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./LabelAddDialog.vue?vue&type=template&id=7f4ef4a0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/LabelAddDialog.vue?vue&type=template&id=7f4ef4a0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LabelAddDialog_vue_vue_type_template_id_7f4ef4a0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_LabelAddDialog_vue_vue_type_template_id_7f4ef4a0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/binder-list/Card.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/binder-list/Card.vue ***!
@@ -40760,6 +41115,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_6f836296___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_template_id_6f836296___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ModalBackground.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/common/ModalBackground.vue ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ModalBackground_vue_vue_type_template_id_8fc64ffc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalBackground.vue?vue&type=template&id=8fc64ffc& */ "./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc&");
+/* harmony import */ var _ModalBackground_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalBackground.vue?vue&type=script&lang=js& */ "./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalBackground_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalBackground_vue_vue_type_template_id_8fc64ffc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ModalBackground_vue_vue_type_template_id_8fc64ffc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/common/ModalBackground.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBackground_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./ModalBackground.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBackground_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc& ***!
+  \*******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBackground_vue_vue_type_template_id_8fc64ffc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./ModalBackground.vue?vue&type=template&id=8fc64ffc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBackground_vue_vue_type_template_id_8fc64ffc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBackground_vue_vue_type_template_id_8fc64ffc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -41956,11 +42380,19 @@ var state = {
   /**
    * ナビゲーションバーの有無
    */
-  hasNavigation: false
+  hasNavigation: false,
+
+  /**
+   * ダイアログ表示の有無
+   */
+  isShowDialog: false
 };
 var mutations = {
   setHasNavigation: function setHasNavigation(state, val) {
     state.hasNavigation = val;
+  },
+  setIsShowDialog: function setIsShowDialog(state, val) {
+    state.isShowDialog = val;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
