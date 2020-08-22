@@ -2,8 +2,11 @@
     <div
         :class="['form--binder-create', { 'filtered-for-modal': isShowDialog }]"
     >
-        <FormTitle :clazz="'form__title'">
+        <FormTitle :clazz="'form__title--binder-create'">
             <template v-slot:title>Create binder</template>
+            <template v-slot:additional-content>
+                <BinderListButton />
+            </template>
         </FormTitle>
         <div class="form__wrapper--create-binder-left">
             <TextForm
@@ -46,13 +49,14 @@ import FormTitle from "../common/FormTitle.vue";
 import LabelContainer from "../common/LabelContainer.vue";
 import TextForm from "../common/TextForm.vue";
 import TextAreaForm from "../common/TextAreaForm.vue";
-
+import BinderListButton from "./BinderListButton.vue";
 export default {
     components: {
         FormTitle,
         LabelContainer,
         TextForm,
-        TextAreaForm
+        TextAreaForm,
+        BinderListButton
     },
     methods: {
         openDialog() {

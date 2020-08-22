@@ -190,6 +190,22 @@ main {
   height: 100%;
 }
 
+.form__title-button--return {
+  padding: 0;
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+  border: 2px solid #324750;
+  border-radius: 7px;
+  font-size: 28px;
+  font-family: Calibri;
+  font-weight: bolder;
+  color: #324750;
+  float: right;
+  width: 200px;
+  height: 100%;
+}
+
 .form__button--submit {
   margin-top: 10px;
   outline: none;
@@ -677,6 +693,29 @@ main {
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   width: 1120px;
+}
+
+.form__title--binder-create {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-column: 1/3;
+  height: 48px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #324750;
+}
+
+.form__title--binder-create > h2 {
+  margin: 0;
+  font-weight: normal;
+  font-style: italic;
+  font-family: Calibri;
+  font-size: 48px;
+  height: 100%;
+  line-height: 48px;
+}
+
+.form__title--binder-create > h2 > img {
+  vertical-align: middle;
 }
 
 .form__wrapper--create-binder-left {

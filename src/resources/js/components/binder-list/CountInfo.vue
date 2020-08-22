@@ -1,17 +1,17 @@
 <template>
     <div class="binder-card__info-counter">
         <Counter
-            :src="'image/icon/perm_identity-black-24dp.svg'"
+            :src="'/image/icon/perm_identity-black-24dp.svg'"
             :alt="'参加者数'"
             :count="countParticipated"
         />
         <Counter
-            :src="'image/icon/image-black-24dp.svg'"
+            :src="'/image/icon/image-black-24dp.svg'"
             :alt="'画像数'"
             :count="countImage"
         />
         <Counter
-            :src="'image/icon/star_border-black-24dp.svg'"
+            :src="'/image/icon/star_border-black-24dp.svg'"
             :alt="'お気に入り数'"
             :count="countFavorite"
         />

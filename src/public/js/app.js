@@ -1945,6 +1945,37 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/BinderListButton.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-create/BinderListButton.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  methods: {
+    moveToBinderList: function moveToBinderList() {
+      this.$router.push("/binder/list");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/Form.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-create/Form.vue?vue&type=script&lang=js& ***!
@@ -1960,6 +1991,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/LabelContainer.vue */ "./resources/js/components/common/LabelContainer.vue");
 /* harmony import */ var _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/TextForm.vue */ "./resources/js/components/common/TextForm.vue");
 /* harmony import */ var _common_TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/TextAreaForm.vue */ "./resources/js/components/common/TextAreaForm.vue");
+/* harmony import */ var _BinderListButton_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./BinderListButton.vue */ "./resources/js/components/binder-create/BinderListButton.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -2009,6 +2041,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -2018,7 +2054,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     LabelContainer: _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     TextForm: _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    TextAreaForm: _common_TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    TextAreaForm: _common_TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    BinderListButton: _BinderListButton_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   methods: {
     openDialog: function openDialog() {
@@ -21773,6 +21810,40 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/BinderListButton.vue?vue&type=template&id=6da73075&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-create/BinderListButton.vue?vue&type=template&id=6da73075& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "button",
+      {
+        staticClass: "form__title-button--return",
+        attrs: { type: "button" },
+        on: { click: _vm.moveToBinderList }
+      },
+      [_vm._v("\n        Binder list\n    ")]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/Form.vue?vue&type=template&id=dcdd6c02&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-create/Form.vue?vue&type=template&id=dcdd6c02& ***!
@@ -21795,12 +21866,19 @@ var render = function() {
     },
     [
       _c("FormTitle", {
-        attrs: { clazz: "form__title" },
+        attrs: { clazz: "form__title--binder-create" },
         scopedSlots: _vm._u([
           {
             key: "title",
             fn: function() {
               return [_vm._v("Create binder")]
+            },
+            proxy: true
+          },
+          {
+            key: "additional-content",
+            fn: function() {
+              return [_c("BinderListButton")]
             },
             proxy: true
           }
@@ -22037,7 +22115,7 @@ var render = function() {
     [
       _c("Counter", {
         attrs: {
-          src: "image/icon/perm_identity-black-24dp.svg",
+          src: "/image/icon/perm_identity-black-24dp.svg",
           alt: "参加者数",
           count: _vm.countParticipated
         }
@@ -22045,7 +22123,7 @@ var render = function() {
       _vm._v(" "),
       _c("Counter", {
         attrs: {
-          src: "image/icon/image-black-24dp.svg",
+          src: "/image/icon/image-black-24dp.svg",
           alt: "画像数",
           count: _vm.countImage
         }
@@ -22053,7 +22131,7 @@ var render = function() {
       _vm._v(" "),
       _c("Counter", {
         attrs: {
-          src: "image/icon/star_border-black-24dp.svg",
+          src: "/image/icon/star_border-black-24dp.svg",
           alt: "お気に入り数",
           count: _vm.countFavorite
         }
@@ -22244,7 +22322,7 @@ var render = function() {
               create_user_id: "1",
               title: "バインダー１",
               description: "自分で作成したバインダー",
-              thumbnailUrl: "image/dummy/dummy.jpg",
+              thumbnailUrl: "/image/dummy/dummy.jpg",
               countParticipated: 4,
               countImage: 1,
               countFavorite: 3,
@@ -22257,7 +22335,7 @@ var render = function() {
               create_user_id: "2",
               title: "バインダー２",
               description: "他人が作成したバインダー",
-              thumbnailUrl: "image/dummy/dummy.jpg",
+              thumbnailUrl: "/image/dummy/dummy.jpg",
               countParticipated: 4,
               countImage: 1,
               countFavorite: 3,
@@ -22270,7 +22348,7 @@ var render = function() {
               create_user_id: "2",
               title: "バインダー３",
               description: "お気に入り登録しているバインダー",
-              thumbnailUrl: "image/dummy/dummy.jpg",
+              thumbnailUrl: "/image/dummy/dummy.jpg",
               countParticipated: 4,
               countImage: 1,
               countFavorite: 3,
@@ -40604,6 +40682,75 @@ window.axios.defaults.baseURL = "http://localhost:8888";
 
 /***/ }),
 
+/***/ "./resources/js/components/binder-create/BinderListButton.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/binder-create/BinderListButton.vue ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BinderListButton_vue_vue_type_template_id_6da73075___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BinderListButton.vue?vue&type=template&id=6da73075& */ "./resources/js/components/binder-create/BinderListButton.vue?vue&type=template&id=6da73075&");
+/* harmony import */ var _BinderListButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BinderListButton.vue?vue&type=script&lang=js& */ "./resources/js/components/binder-create/BinderListButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BinderListButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BinderListButton_vue_vue_type_template_id_6da73075___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BinderListButton_vue_vue_type_template_id_6da73075___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/binder-create/BinderListButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-create/BinderListButton.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/binder-create/BinderListButton.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderListButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./BinderListButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/BinderListButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderListButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-create/BinderListButton.vue?vue&type=template&id=6da73075&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/binder-create/BinderListButton.vue?vue&type=template&id=6da73075& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderListButton_vue_vue_type_template_id_6da73075___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./BinderListButton.vue?vue&type=template&id=6da73075& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-create/BinderListButton.vue?vue&type=template&id=6da73075&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderListButton_vue_vue_type_template_id_6da73075___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BinderListButton_vue_vue_type_template_id_6da73075___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/binder-create/Form.vue":
 /*!********************************************************!*\
   !*** ./resources/js/components/binder-create/Form.vue ***!
@@ -42767,7 +42914,7 @@ var routes = [{
   path: "/signin",
   component: _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
-  path: "/binders",
+  path: "/binder/list",
   component: _pages_BinderList_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }, {
   path: "/binder/create",
