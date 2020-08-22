@@ -40,7 +40,7 @@ class BinderCreateApiTest extends TestCase
             'description' => 'バインダーの説明',
             'labels' => [
                 ['name' => 'ラベル_1', 'description' => '説明_1'],
-                ['name' => 'ラベル_2'],
+                ['name' => 'ラベル_2', 'description' => ''],
                 ['name' => 'ラベル_3', 'description' => '説明_3'],
             ],
         ];
@@ -51,14 +51,15 @@ class BinderCreateApiTest extends TestCase
         $labels = $binder->labels()->orderBy('id')->get();
 
         // -バインダー情報の確認
-        $this->assertEquals($binder->name, $form_data['binder_name']);
+        $this->assertEquals($binder->name, $form_data['name']);
  
         // - 認可情報の確認
         $binder_authority_first = BinderAuthority::first();
         $this->assertEquals($binder_authority_first->level, config('_const.BINDER_AUTHORITY.LEVEL.OWNER'));
-
+        Log::debug('hogehoge--');
+Log::debug($labels->count());
         // - ラベル情報の確認
         $this->assertEquals($labels->count(), 3);
-        $this->assertEquals($labels->first()->name, $form_data['label_names'][1]);
+        $this->assertEquals($labels->first()->name, $form_data['labels'][0]['name']);
     }
 }
