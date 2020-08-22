@@ -1,6 +1,8 @@
 <template>
     <form @submit.prevent="register" class="form--signup">
-        <FormTitle>Sign up</FormTitle>
+        <FormTitle>
+            <template v-slot:title>Sign up</template>
+        </FormTitle>
         <div class="form__wrapper--signup">
             <TextForm
                 v-model="form.name"

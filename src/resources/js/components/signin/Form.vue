@@ -1,6 +1,8 @@
 <template>
     <form @submit.prevent="signin" class="form--signin">
-        <FormTitle>Sign in</FormTitle>
+        <FormTitle>
+            <template v-slot:title>Sign in</template>
+        </FormTitle>
         <div class="form__wrapper--signin">
             <TextForm
                 v-model="form.email"

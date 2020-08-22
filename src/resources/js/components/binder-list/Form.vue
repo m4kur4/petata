@@ -1,7 +1,13 @@
 <template>
     <form class="form--binder-list">
-        <FormTitle :clazz="'form__title--binder-list'">Binder list</FormTitle>
-
+        <FormTitle :clazz="'form__title--binder-list'">
+            <template v-slot:title>Binder list</template>
+            <template v-slot:additional-content>
+                <div>
+                    <button class="form__title-button">Add binder</button>
+                </div>
+            </template>
+        </FormTitle>
         <div class="form__nav--binder-list">
             <ul class="form__tab-wrapper">
                 <li class="form__tab--selected">

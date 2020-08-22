@@ -2007,6 +2007,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -2465,6 +2467,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2548,6 +2556,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2957,6 +2968,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -3044,6 +3057,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
 //
 //
 //
@@ -21747,9 +21762,18 @@ var render = function() {
       class: ["form--binder-create", { "filtered-for-modal": _vm.isShowDialog }]
     },
     [
-      _c("FormTitle", { attrs: { clazz: "form__title" } }, [
-        _vm._v("Create binder")
-      ]),
+      _c("FormTitle", {
+        attrs: { clazz: "form__title" },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("Create binder")]
+            },
+            proxy: true
+          }
+        ])
+      }),
       _vm._v(" "),
       _c(
         "div",
@@ -22123,9 +22147,31 @@ var render = function() {
     "form",
     { staticClass: "form--binder-list" },
     [
-      _c("FormTitle", { attrs: { clazz: "form__title--binder-list" } }, [
-        _vm._v("Binder list")
-      ]),
+      _c("FormTitle", {
+        attrs: { clazz: "form__title--binder-list" },
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("Binder list")]
+            },
+            proxy: true
+          },
+          {
+            key: "additional-content",
+            fn: function() {
+              return [
+                _c("div", [
+                  _c("button", { staticClass: "form__title-button" }, [
+                    _vm._v("Add binder")
+                  ])
+                ])
+              ]
+            },
+            proxy: true
+          }
+        ])
+      }),
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
@@ -22756,24 +22802,31 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { class: _vm.clazz }, [
-    _c(
-      "h2",
-      [
-        _c("img", {
-          attrs: {
-            src: "/image/logo/logo_32.svg",
-            width: "48",
-            height: "48",
-            alt: "petata"
-          }
-        }),
-        _vm._v(" "),
-        _vm._t("default")
-      ],
-      2
-    )
-  ])
+  return _c(
+    "div",
+    { class: _vm.clazz },
+    [
+      _c(
+        "h2",
+        [
+          _c("img", {
+            attrs: {
+              src: "/image/logo/logo_32.svg",
+              width: "48",
+              height: "48",
+              alt: "petata"
+            }
+          }),
+          _vm._v(" "),
+          _vm._t("title")
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _vm._t("additional-content")
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -23493,7 +23546,17 @@ var render = function() {
       }
     },
     [
-      _c("FormTitle", [_vm._v("Sign in")]),
+      _c("FormTitle", {
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("Sign in")]
+            },
+            proxy: true
+          }
+        ])
+      }),
       _vm._v(" "),
       _c(
         "div",
@@ -23617,7 +23680,17 @@ var render = function() {
       }
     },
     [
-      _c("FormTitle", [_vm._v("Sign up")]),
+      _c("FormTitle", {
+        scopedSlots: _vm._u([
+          {
+            key: "title",
+            fn: function() {
+              return [_vm._v("Sign up")]
+            },
+            proxy: true
+          }
+        ])
+      }),
       _vm._v(" "),
       _c(
         "div",

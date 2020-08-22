@@ -2,7 +2,9 @@
     <div
         :class="['form--binder-create', { 'filtered-for-modal': isShowDialog }]"
     >
-        <FormTitle :clazz="'form__title'">Create binder</FormTitle>
+        <FormTitle :clazz="'form__title'">
+            <template v-slot:title>Create binder</template>
+        </FormTitle>
         <div class="form__wrapper--create-binder-left">
             <TextForm
                 v-model="binderName"
@@ -60,7 +62,7 @@ export default {
             this.$store.commit("mode/setIsShowDialog", false);
         },
         async doPost() {
-          await this.$store.dispatch("binderCreate/doPost");
+            await this.$store.dispatch("binderCreate/doPost");
         }
     },
     computed: {
