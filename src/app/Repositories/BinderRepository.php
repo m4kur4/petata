@@ -116,7 +116,7 @@ class BinderRepository implements BinderRepositoryInterface
 
         $binder = new Binder([
             'create_user_id' => $create_user_id,
-            'name' => $request->binder_name,
+            'name' => $request->name,
             'description' => $request->description
         ]);
         $binder->save();

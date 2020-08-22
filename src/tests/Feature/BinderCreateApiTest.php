@@ -36,16 +36,12 @@ class BinderCreateApiTest extends TestCase
         $this->actingAs($this->user);
 
         $form_data = [
-            'binder_name' => 'バインダー名',
+            'name' => 'バインダー名',
             'description' => 'バインダーの説明',
-            'label_names' => [
-                1 => 'ラベル名_0',
-                2 => 'ラベル名_1',
-                3 => 'ラベル名_2',
-            ],
-            'label_descriptions' => [
-                1 => 'ラベルの説明_0',
-                3 => 'ラベルの説明_2',
+            'labels' => [
+                ['name' => 'ラベル_1', 'description' => '説明_1'],
+                ['name' => 'ラベル_2'],
+                ['name' => 'ラベル_3', 'description' => '説明_3'],
             ],
         ];
         $response = $this->json('POST', route('api.binder.create'), $form_data);

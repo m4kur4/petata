@@ -83,7 +83,7 @@ class BinderRepositoryTest extends TestCase
         }
 
         $formData = [
-            'binder_name' => 'Test Binder',
+            'name' => 'Test Binder',
             'labels' => $label_posts,
         ];
         $request = new BinderCreateRequest($formData);
