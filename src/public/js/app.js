@@ -1954,9 +1954,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/FormTitle.vue */ "./resources/js/components/common/FormTitle.vue");
-/* harmony import */ var _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/LabelContainer.vue */ "./resources/js/components/common/LabelContainer.vue");
-/* harmony import */ var _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/TextForm.vue */ "./resources/js/components/common/TextForm.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/FormTitle.vue */ "./resources/js/components/common/FormTitle.vue");
+/* harmony import */ var _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/LabelContainer.vue */ "./resources/js/components/common/LabelContainer.vue");
+/* harmony import */ var _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/TextForm.vue */ "./resources/js/components/common/TextForm.vue");
+/* harmony import */ var _common_TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../common/TextAreaForm.vue */ "./resources/js/components/common/TextAreaForm.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -1998,25 +2007,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    LabelContainer: _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    TextForm: _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    LabelContainer: _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    TextForm: _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    TextAreaForm: _common_TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   methods: {
     openDialog: function openDialog() {
@@ -2024,6 +2024,25 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeDialog: function closeDialog() {
       this.$store.commit("mode/setIsShowDialog", false);
+    },
+    doPost: function doPost() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.dispatch("binderCreate/doPost");
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   computed: {
@@ -2035,7 +2054,7 @@ __webpack_require__.r(__webpack_exports__);
         return this.$store.state.binderCreate.binderName;
       },
       set: function set(val) {
-        this.$store.commit('binderCreate/setBinderName', val);
+        this.$store.commit("binderCreate/setBinderName", val);
       }
     },
     binderDescription: {
@@ -2043,15 +2062,12 @@ __webpack_require__.r(__webpack_exports__);
         return this.$store.state.binderCreate.binderDescription;
       },
       set: function set(val) {
-        this.$store.commit('binderCreate/setBinderDescription', val);
+        this.$store.commit("binderCreate/setBinderDescription", val);
       }
     },
     labels: {
       get: function get() {
         return this.$store.state.binderCreate.labels;
-      },
-      set: function set(val) {
-        this.$store.commit('binderCreate/setLabels', val);
       }
     }
   }
@@ -2570,6 +2586,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TextForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TextForm.vue */ "./resources/js/components/common/TextForm.vue");
+/* harmony import */ var _TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TextAreaForm.vue */ "./resources/js/components/common/TextAreaForm.vue");
 //
 //
 //
@@ -2606,29 +2624,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {
-    name: String,
-    description: String
+  data: function data() {
+    return {
+      name: null,
+      description: null
+    };
+  },
+  components: {
+    TextForm: _TextForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    TextAreaForm: _TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
     /**
      * ダイアログを閉じます。
      */
     closeDialog: function closeDialog() {
-      this.$store.commit('mode/setIsShowDialog', false);
+      this.name = null;
+      this.description = null;
+      this.$store.commit("mode/setIsShowDialog", false);
     },
 
     /**
-     * ダイアログの入力値を呼び出し元画面へｈ反映します。
+     * ダイアログの入力値を親画面へ受け渡します。
+     * カスタムイベント名："add-label-click"
      */
-    applyToForm: function applyToForm() {
+    add: function add() {
       // TODO: 実装
       var formData = {
         name: this.name,
         description: this.description
-      }; //this.$emit('add-label', formData);
+      }; // NOTE: 処理を親へ委譲することで画面ごとに振る舞いを変える
+
+      this.$emit("add-label-click", formData);
+      this.closeDialog();
     }
   },
   computed: {
@@ -2770,6 +2801,60 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isShow: function isShow() {
       return this.$store.state.mode.hasNavigation;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/TextAreaForm.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/TextAreaForm.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      errors: null
+    };
+  },
+  props: {
+    value: String,
+    title: String,
+    type: String,
+    placeholder: String
+  },
+  computed: {
+    text: {
+      get: function get() {
+        return this.value;
+      },
+      set: function set(value) {
+        this.$emit("input", value);
+      }
     }
   }
 });
@@ -3125,6 +3210,11 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Form: _components_binder_create_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     LabelAddDialog: _components_common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  methods: {
+    addLabel: function addLabel(labelData) {
+      this.$store.commit('binderCreate/addLabel', labelData);
+    }
   }
 });
 
@@ -21680,21 +21770,27 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _c("textarea", {
-            staticClass: "form__text-area",
+          _c("TextAreaForm", {
             attrs: {
-              cols: "50",
-              rows: "8",
-              wrap: "soft",
+              title: "Description",
               placeholder: "バインダーの説明を入力します。"
+            },
+            model: {
+              value: _vm.binderDescription,
+              callback: function($$v) {
+                _vm.binderDescription = $$v
+              },
+              expression: "binderDescription"
             }
           }),
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "form__button--submit", attrs: { type: "button" } },
+            {
+              staticClass: "form__button--submit",
+              attrs: { type: "button" },
+              on: { click: _vm.doPost }
+            },
             [_vm._v("\n            Create\n        ")]
           )
         ],
@@ -21738,26 +21834,12 @@ var render = function() {
           [_c("LabelContainer", { attrs: { labels: _vm.labels } })],
           1
         )
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "form__link", attrs: { href: "#" } }, [
-        _vm._v("Sign up")
       ])
     ],
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "form__label" }, [
-      _vm._v("Description\n            "),
-      _c("span", { staticClass: "form__error-message" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -22774,36 +22856,66 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "form__wrapper--add-label-dialog" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form__text",
-            attrs: { type: "text", placeholder: "ぺた太のお気に入り" }
-          }),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("textarea", {
-            staticClass: "form__text-area",
-            attrs: {
-              cols: "50",
-              rows: "8",
-              wrap: "soft",
-              placeholder: "ラベルの説明を入力します。"
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "form__button--submit",
-              attrs: { type: "button" },
-              on: { click: _vm.applyToForm }
-            },
-            [_vm._v("\r\n            Add\r\n        ")]
-          )
-        ])
+        _c(
+          "div",
+          { staticClass: "form__wrapper--add-label-dialog" },
+          [
+            _c("TextForm", {
+              attrs: {
+                title: "Label name*",
+                type: "text",
+                placeholder: "ぺた太のお気に入り"
+              },
+              model: {
+                value: _vm.name,
+                callback: function($$v) {
+                  _vm.name = $$v
+                },
+                expression: "name"
+              }
+            }),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.description,
+                  expression: "description"
+                }
+              ],
+              staticClass: "form__text-area",
+              attrs: {
+                cols: "50",
+                rows: "8",
+                wrap: "soft",
+                placeholder: "ラベルの説明を入力します。"
+              },
+              domProps: { value: _vm.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.description = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "form__button--submit",
+                attrs: { type: "button" },
+                on: { click: _vm.add }
+              },
+              [_vm._v("\n            Add\n        ")]
+            )
+          ],
+          1
+        )
       ])
     : _vm._e()
 }
@@ -22813,18 +22925,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("label", { staticClass: "form__label" }, [
-      _vm._v("Label name*\r\n            "),
-      _c("span", { staticClass: "form__error-message" }, [
-        _vm._v("ラベル名は必須です。")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "form__label" }, [
-      _vm._v("Description\r\n            "),
+      _vm._v("Description\n            "),
       _c("span", { staticClass: "form__error-message" })
     ])
   }
@@ -23138,6 +23239,71 @@ var staticRenderFns = [
     )
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/TextAreaForm.vue?vue&type=template&id=6d41b607&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/TextAreaForm.vue?vue&type=template&id=6d41b607& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("label", { staticClass: "form__label" }, [
+      _vm._v(_vm._s(_vm.title) + "\n        "),
+      _vm.errors
+        ? _c(
+            "span",
+            { staticClass: "form__error-message" },
+            _vm._l(_vm.errors, function(msg) {
+              return _c("div", { key: msg }, [_vm._v(_vm._s(msg))])
+            }),
+            0
+          )
+        : _vm._e()
+    ]),
+    _vm._v(" "),
+    _c("textarea", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.text,
+          expression: "text"
+        }
+      ],
+      staticClass: "form__text-area",
+      attrs: {
+        placeholder: _vm.placeholder,
+        cols: "50",
+        rows: "8",
+        wrap: "soft"
+      },
+      domProps: { value: _vm.text },
+      on: {
+        input: function($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.text = $event.target.value
+        }
+      }
+    })
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -23593,7 +23759,11 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "container--binder-create" },
-    [_c("Form"), _vm._v(" "), _c("LabelAddDialog")],
+    [
+      _c("Form"),
+      _vm._v(" "),
+      _c("LabelAddDialog", { on: { "add-label-click": _vm.addLabel } })
+    ],
     1
   )
 }
@@ -40284,6 +40454,7 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.baseURL = "http://localhost:8888";
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -41547,6 +41718,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/common/TextAreaForm.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/common/TextAreaForm.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TextAreaForm_vue_vue_type_template_id_6d41b607___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TextAreaForm.vue?vue&type=template&id=6d41b607& */ "./resources/js/components/common/TextAreaForm.vue?vue&type=template&id=6d41b607&");
+/* harmony import */ var _TextAreaForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TextAreaForm.vue?vue&type=script&lang=js& */ "./resources/js/components/common/TextAreaForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TextAreaForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TextAreaForm_vue_vue_type_template_id_6d41b607___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TextAreaForm_vue_vue_type_template_id_6d41b607___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/common/TextAreaForm.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/TextAreaForm.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/common/TextAreaForm.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TextAreaForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./TextAreaForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/TextAreaForm.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TextAreaForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/TextAreaForm.vue?vue&type=template&id=6d41b607&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/common/TextAreaForm.vue?vue&type=template&id=6d41b607& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TextAreaForm_vue_vue_type_template_id_6d41b607___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./TextAreaForm.vue?vue&type=template&id=6d41b607& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/TextAreaForm.vue?vue&type=template&id=6d41b607&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TextAreaForm_vue_vue_type_template_id_6d41b607___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TextAreaForm_vue_vue_type_template_id_6d41b607___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/common/TextForm.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/components/common/TextForm.vue ***!
@@ -42643,8 +42883,8 @@ var state = {
   /**
    * ラベル
    * [
-   *   label_name: String,
-   *   label_description: String
+   *   name: String,
+   *   description: String
    * ]
    */
   labels: [],
@@ -42672,30 +42912,36 @@ var mutations = {
   }
 };
 var actions = {
-  execute: function execute(context, data) {
+  doPost: function doPost(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var uri, response;
+      var data, uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              uri = 'api/binder/create';
-              _context.next = 3;
+              data = {
+                name: state.binderName,
+                description: state.binderDescription,
+                labels: state.labels
+              };
+              uri = "api/binder/create";
+              _context.next = 4;
               return axios.post("".concat(uri), data)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 3:
+            case 4:
               response = _context.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
-                _context.next = 6;
+                _context.next = 8;
                 break;
               }
 
+              alert('debug: success');
               return _context.abrupt("return", false);
 
-            case 6:
+            case 8:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
@@ -42707,7 +42953,7 @@ var actions = {
                 });
               }
 
-            case 7:
+            case 9:
             case "end":
               return _context.stop();
           }

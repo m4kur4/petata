@@ -1,7 +1,7 @@
 <template>
     <div class="container--binder-create">
         <Form />
-        <LabelAddDialog />
+        <LabelAddDialog @add-label-click="addLabel" />
     </div>
     <!-- /.container -->
 </template>
@@ -13,7 +13,12 @@ import LabelAddDialog from "../components/common/LabelAddDialog.vue";
 export default {
     components: {
         Form,
-        LabelAddDialog,
+        LabelAddDialog
     },
+    methods: {
+        addLabel(labelData) {
+          this.$store.commit('binderCreate/addLabel', labelData);
+        }
+    }
 };
 </script>

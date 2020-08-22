@@ -15,8 +15,8 @@ const state = {
     /**
      * ラベル
      * [
-     *   label_name: String,
-     *   label_description: String
+     *   name: String,
+     *   description: String
      * ]
      */
     labels: [],
@@ -46,17 +46,25 @@ const mutations = {
 };
 
 const actions = {
-    async execute(context, data) {
-        const uri = 'api/binder/create';
+    async doPost(context) {
+
+        const data = {
+            name: state.binderName,
+            description: state.binderDescription,
+            labels: state.labels
+        };
+
+        const uri = "api/binder/create";
         const response = await axios
             .post(`${uri}`, data)
             .catch(err => err.response || err);
-        
+
         // 成功
         if (
             response.status === STATUS.OK ||
             response.status === STATUS.CREATED
         ) {
+            alert('debug: success');
             return false;
         }
 

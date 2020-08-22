@@ -1,31 +1,21 @@
 <template>
-    <div :class="[
-            'form--binder-create',
-            { 'filtered-for-modal': isShowDialog }
-        ]"
+    <div
+        :class="['form--binder-create', { 'filtered-for-modal': isShowDialog }]"
     >
         <FormTitle :clazz="'form__title'">Create binder</FormTitle>
         <div class="form__wrapper--create-binder-left">
-
             <TextForm
                 v-model="binderName"
                 :title="'Binder name*'"
                 :type="'text'"
                 :placeholder="'ぺた太のアートワーク'"
             />
-
-            <label class="form__label"
-                >Description
-                <span class="form__error-message"></span>
-            </label>
-            <textarea
-                class="form__text-area"
-                cols="50"
-                rows="8"
-                wrap="soft"
-                placeholder="バインダーの説明を入力します。"
-            ></textarea>
-            <button type="button" class="form__button--submit">
+            <TextAreaForm
+                v-model="binderDescription"
+                :title="'Description'"
+                :placeholder="'バインダーの説明を入力します。'"
+            />
+            <button @click="doPost" type="button" class="form__button--submit">
                 Create
             </button>
         </div>
@@ -46,20 +36,21 @@
                 <LabelContainer :labels="labels" />
             </div>
         </div>
-        <a href="#" class="form__link">Sign up</a>
     </div>
 </template>
 
 <script>
 import FormTitle from "../common/FormTitle.vue";
-import LabelContainer from '../common/LabelContainer.vue'
+import LabelContainer from "../common/LabelContainer.vue";
 import TextForm from "../common/TextForm.vue";
+import TextAreaForm from "../common/TextAreaForm.vue";
 
 export default {
     components: {
         FormTitle,
         LabelContainer,
-        TextForm
+        TextForm,
+        TextAreaForm
     },
     methods: {
         openDialog() {
@@ -68,6 +59,9 @@ export default {
         closeDialog() {
             this.$store.commit("mode/setIsShowDialog", false);
         },
+        async doPost() {
+          await this.$store.dispatch("binderCreate/doPost");
+        }
     },
     computed: {
         isShowDialog() {
@@ -78,7 +72,7 @@ export default {
                 return this.$store.state.binderCreate.binderName;
             },
             set(val) {
-                this.$store.commit('binderCreate/setBinderName', val);
+                this.$store.commit("binderCreate/setBinderName", val);
             }
         },
         binderDescription: {
@@ -86,17 +80,14 @@ export default {
                 return this.$store.state.binderCreate.binderDescription;
             },
             set(val) {
-                this.$store.commit('binderCreate/setBinderDescription', val);
+                this.$store.commit("binderCreate/setBinderDescription", val);
             }
         },
         labels: {
             get() {
                 return this.$store.state.binderCreate.labels;
-            },
-            set(val) {
-                this.$store.commit('binderCreate/setLabels', val);
             }
-        },
-    },
+        }
+    }
 };
 </script>
