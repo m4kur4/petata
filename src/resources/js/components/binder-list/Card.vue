@@ -27,11 +27,11 @@
             />
         </div>
         <div class="binder-card__button-menu">
-            <FavoriteButton :isFavorite="isFavorite" />
+            <FavoriteBinderButton :isFavorite="isFavorite" />
         </div>
         <div class="binder-card__button-danger">
-            <DeleteButton :isShow="isOwn" />
-            <LeaveButton :isShow="!isOwn" />
+            <DeleteBinderButton :isShow="isOwn" />
+            <LeaveBinderButton :isShow="!isOwn" />
         </div>
         <!-- /.binder-card__info -->
     </div>
@@ -40,16 +40,16 @@
 
 <script>
 import CountInfo from "./CountInfo.vue";
-import FavoriteButton from "./FavoriteButton.vue";
-import DeleteButton from "./DeleteButton.vue";
-import LeaveButton from "./LeaveButton.vue";
+import FavoriteBinderButton from "./FavoriteBinderButton.vue";
+import DeleteBinderButton from "./DeleteBinderButton.vue";
+import LeaveBinderButton from "./LeaveBinderButton.vue";
 
 export default {
     components: {
         CountInfo,
-        FavoriteButton,
-        DeleteButton,
-        LeaveButton
+        FavoriteBinderButton,
+        DeleteBinderButton,
+        LeaveBinderButton
     },
     props: {
         /**

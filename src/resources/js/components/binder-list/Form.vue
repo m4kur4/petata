@@ -3,9 +3,7 @@
         <FormTitle :clazz="'form__title--binder-list'">
             <template v-slot:title>Binder list</template>
             <template v-slot:additional-content>
-                <div>
-                    <button class="form__title-button">Add binder</button>
-                </div>
+                <AddLabelButton />
             </template>
         </FormTitle>
         <div class="form__nav--binder-list">
@@ -67,11 +65,13 @@
 <script>
 import FormTitle from "../common/FormTitle.vue";
 import Card from "./Card.vue";
+import AddLabelButton from "./AddLabelButton.vue";
 
 export default {
     components: {
         FormTitle,
-        Card
+        Card,
+        AddLabelButton
     }
 };
 </script>

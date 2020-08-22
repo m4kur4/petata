@@ -1,44 +1,44 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import Test from './pages/Test.vue';
-import Binder from './pages/Binder.vue';
-import Signup from './pages/Signup.vue';
-import Signin from './pages/Signin.vue';
-import BinderList from './pages/BinderList.vue';
-import BinderCreate from './pages/BinderCreate.vue';
+import Test from "./pages/Test.vue";
+import Binder from "./pages/Binder.vue";
+import Signup from "./pages/Signup.vue";
+import Signin from "./pages/Signin.vue";
+import BinderList from "./pages/BinderList.vue";
+import BinderCreate from "./pages/BinderCreate.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
     {
-        path:'/test',
+        path: "/test",
         component: Test
     },
     {
-        path:'/',
+        path: "/",
         component: Binder
     },
     {
-        path:'/signup',
+        path: "/signup",
         component: Signup
     },
     {
-        path:'/signin',
+        path: "/signin",
         component: Signin
     },
     {
-        path:'/binders',
+        path: "/binders",
         component: BinderList
     },
     {
-        path:'/binder/create',
+        path: "/binder/create",
         component: BinderCreate
-    },
+    }
 ];
 
 const router = new VueRouter({
-    mode: 'history',
+    mode: "history",
     routes
 });
 
