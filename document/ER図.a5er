@@ -71,12 +71,13 @@ Top=1250
 Field="ID","id","BIGINT","NOT NULL",0,"","",$FFFFFFFF,""
 Field="作成ユーザーID","create_user_id","BIGINT","NOT NULL",,"","users.id",$FFFFFFFF,""
 Field="名前","name","VARCHAR","NOT NULL",,"","",$FFFFFFFF,""
+Field="説明","description","TEXT",,,"","",$FFFFFFFF,""
 Field="作成日時","created_at","DATETIME",,,"","",$FFFFFFFF,""
 Field="更新日時","updated_at","DATETIME",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20200813154254
+ModifiedDateTime=20200823060514
 Position="MAIN",350,1250,864,255
 ZOrder=1
 
