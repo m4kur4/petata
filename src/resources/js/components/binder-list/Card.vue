@@ -10,10 +10,10 @@
             <img
                 class="binder-card__info-thumbnail"
                 :src="thumbnailUrl"
-                :alt="title"
+                :alt="name"
             />
             <div class="binder-card__info-title">
-                <h3>{{ title }}</h3>
+                <h3>{{ name }}</h3>
             </div>
             <div class="binder-card__info-description">
                 <h4>
@@ -21,7 +21,7 @@
                 </h4>
             </div>
             <CountInfo
-                :countParticipated="countParticipated"
+                :countUser="countUser"
                 :countImage="countImage"
                 :countFavorite="countFavorite"
             />
@@ -53,16 +53,16 @@ export default {
     },
     props: {
         /**
-         * バインダー作成ユーザーID
+         * バインダーID
          */
-        create_user_id: {
-            type: String,
+        id: {
+            type: Number,
             required: true
         },
         /**
          * バインダー名
          */
-        title: {
+        name: {
             type: String,
             required: true
         },
@@ -83,7 +83,7 @@ export default {
         /**
          * バインダー参加者数
          */
-        countParticipated: {
+        countUser: {
             type: Number,
             default: 0
         },
@@ -95,6 +95,13 @@ export default {
             default: 0
         },
         /**
+         * バインダー登録ラベル数
+         */
+        countLabel: {
+            type: Number,
+            default: 0
+        },
+        /**
          * バインダーお気に入り登録数
          */
         countFavorite: {
@@ -102,21 +109,18 @@ export default {
             default: 0
         },
         /**
+         * バインダーがログインユーザーのものかどうか
+         */
+        isOwn: {
+            type: Boolean,
+            default: false
+        },
+        /**
          * ログインユーザーのお気に入り登録有無
          */
         isFavorite: {
             type: Boolean,
             default: false
-        }
-    },
-    computed: {
-        /**
-         * ログインユーザーが作成したバインダーかどうか
-         */
-        isOwn() {
-            // DEBUG:
-            return '1' === this.create_user_id;
-            //return this.$store.state.auth.user.id === this.create_user_id;
         }
     }
 };

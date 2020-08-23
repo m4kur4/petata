@@ -45,8 +45,8 @@ class BinderTest extends TestCase
                 'name' => 'test'
             ]);
 
-        $this->assertEquals($others_binder->isOwn(), false);
-        $this->assertEquals($my_binder->isOwn(), true);
+        $this->assertEquals($others_binder->isOwn, false);
+        $this->assertEquals($my_binder->isOwn, true);
     }
 
     /**
@@ -75,8 +75,8 @@ class BinderTest extends TestCase
                 'user_id' => $me->id
             ]);
 
-        $this->assertEquals($others_favorite_binder->isFavorite(), false);
-        $this->assertEquals($my_favorite_binder->isFavorite(), true);
+        $this->assertEquals($others_favorite_binder->isFavorite, false);
+        $this->assertEquals($my_favorite_binder->isFavorite, true);
     }
 
     

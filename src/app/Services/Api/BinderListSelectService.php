@@ -30,7 +30,24 @@ class BinderListSelectService implements BinderListSelectServiceInterface
     public function execute(string $user_id)
     {
         $binders = $this->binder_repository->selectByAuthorizedUserId($user_id);
-        return $binders;
+        $response = $binders->map(function($binder) {
+            // TODO: 画像数
+            // フロントで使用する情報
+            $visible = [
+                'id' => $binder->id,
+                'name' => $binder->name,
+                'description' => $binder->description,
+                'count_user' => $binder->binderAuthorities->count(),
+                'count_image' => 0, // TODO
+                'count_label' => $binder->labels->count(),
+                'count_favorite' => $binder->binderfavorites->count(),
+                'is_own' => $binder->isOwn,
+                'is_favorite' => $binder->isFavorite
+            ];
+            return $visible;
+        });
+
+        return $response;
     }
 
 }

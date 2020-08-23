@@ -2211,17 +2211,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     /**
-     * バインダー作成ユーザーID
+     * バインダーID
      */
-    create_user_id: {
-      type: String,
+    id: {
+      type: Number,
       required: true
     },
 
     /**
      * バインダー名
      */
-    title: {
+    name: {
       type: String,
       required: true
     },
@@ -2245,7 +2245,7 @@ __webpack_require__.r(__webpack_exports__);
     /**
      * バインダー参加者数
      */
-    countParticipated: {
+    countUser: {
       type: Number,
       "default": 0
     },
@@ -2259,6 +2259,14 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /**
+     * バインダー登録ラベル数
+     */
+    countLabel: {
+      type: Number,
+      "default": 0
+    },
+
+    /**
      * バインダーお気に入り登録数
      */
     countFavorite: {
@@ -2267,20 +2275,19 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /**
+     * バインダーがログインユーザーのものかどうか
+     */
+    isOwn: {
+      type: Boolean,
+      "default": false
+    },
+
+    /**
      * ログインユーザーのお気に入り登録有無
      */
     isFavorite: {
       type: Boolean,
       "default": false
-    }
-  },
-  computed: {
-    /**
-     * ログインユーザーが作成したバインダーかどうか
-     */
-    isOwn: function isOwn() {
-      // DEBUG:
-      return '1' === this.create_user_id; //return this.$store.state.auth.user.id === this.create_user_id;
     }
   }
 });
@@ -2326,7 +2333,7 @@ __webpack_require__.r(__webpack_exports__);
     /**
      * バインダー参加者数
      */
-    countParticipated: {
+    countUser: {
       type: Number,
       "default": 0
     },
@@ -2335,6 +2342,14 @@ __webpack_require__.r(__webpack_exports__);
      * バインダー登録画像数
      */
     countImage: {
+      type: Number,
+      "default": 0
+    },
+
+    /**
+     * バインダー登録ラベル数
+     */
+    countLabel: {
       type: Number,
       "default": 0
     },
@@ -2540,6 +2555,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2548,6 +2567,11 @@ __webpack_require__.r(__webpack_exports__);
     FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Card: _Card_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     AddLabelButton: _AddLabelButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
+  computed: {
+    binders: function binders() {
+      return this.$store.state.binderList.binders;
+    }
   }
 });
 
@@ -3325,6 +3349,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Form: _components_binder_list_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  beforeCreate: function beforeCreate() {
+    this.$store.dispatch("binderList/fetchBinders");
+    console.log(this.$store.state.binderList.binders);
   }
 });
 
@@ -22042,11 +22070,11 @@ var render = function() {
       [
         _c("img", {
           staticClass: "binder-card__info-thumbnail",
-          attrs: { src: _vm.thumbnailUrl, alt: _vm.title }
+          attrs: { src: _vm.thumbnailUrl, alt: _vm.name }
         }),
         _vm._v(" "),
         _c("div", { staticClass: "binder-card__info-title" }, [
-          _c("h3", [_vm._v(_vm._s(_vm.title))])
+          _c("h3", [_vm._v(_vm._s(_vm.name))])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "binder-card__info-description" }, [
@@ -22059,7 +22087,7 @@ var render = function() {
         _vm._v(" "),
         _c("CountInfo", {
           attrs: {
-            countParticipated: _vm.countParticipated,
+            countUser: _vm.countUser,
             countImage: _vm.countImage,
             countFavorite: _vm.countFavorite
           }
@@ -22117,7 +22145,7 @@ var render = function() {
         attrs: {
           src: "/image/icon/perm_identity-black-24dp.svg",
           alt: "参加者数",
-          count: _vm.countParticipated
+          count: _vm.countUser
         }
       }),
       _vm._v(" "),
@@ -22317,23 +22345,28 @@ var render = function() {
         "div",
         { staticClass: "form__binder-card-wrapper" },
         [
-          _c("Card", {
-            attrs: {
-              create_user_id: "1",
-              title: "バインダー１",
-              description: "自分で作成したバインダー",
-              thumbnailUrl: "/image/dummy/dummy.jpg",
-              countParticipated: 4,
-              countImage: 1,
-              countFavorite: 3,
-              isFavorite: false
-            }
+          _vm._l(_vm.binders, function(binder) {
+            return _c("Card", {
+              key: binder.id,
+              attrs: {
+                id: binder.id,
+                name: binder.name,
+                description: binder.description,
+                thumbnailUrl: "/image/dummy/dummy.jpg",
+                countUser: binder.count_user,
+                countImage: binder.count_image,
+                countLabel: binder.count_label,
+                countFavorite: binder.count_favorite,
+                isOwn: binder.is_own,
+                isFavorite: binder.is_favorite
+              }
+            })
           }),
           _vm._v(" "),
           _c("Card", {
             attrs: {
-              create_user_id: "2",
-              title: "バインダー２",
+              id: 2,
+              name: "バインダー２",
               description: "他人が作成したバインダー",
               thumbnailUrl: "/image/dummy/dummy.jpg",
               countParticipated: 4,
@@ -22345,8 +22378,8 @@ var render = function() {
           _vm._v(" "),
           _c("Card", {
             attrs: {
-              create_user_id: "2",
-              title: "バインダー３",
+              id: 2,
+              name: "バインダー３",
               description: "お気に入り登録しているバインダー",
               thumbnailUrl: "/image/dummy/dummy.jpg",
               countParticipated: 4,
@@ -22356,7 +22389,7 @@ var render = function() {
             }
           })
         ],
-        1
+        2
       )
     ],
     1
@@ -43320,6 +43353,88 @@ var actions = {
 
 /***/ }),
 
+/***/ "./resources/js/store/form/binder-list.js":
+/*!************************************************!*\
+  !*** ./resources/js/store/form/binder-list.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/**
+ * フォームデータストア - バインダー一覧
+ */
+
+var state = {
+  /**
+   * id: String
+   * name: String
+   * description: String
+   * count_user: Number
+   * count_image: Number
+   * count_label: Number
+   * count_favorite: Number
+   * is_own: Boolean
+   * is_favorite: Boolean
+   */
+  binders: []
+};
+var mutations = {
+  setBinders: function setBinders(state, data) {
+    state.binders = data;
+  }
+};
+var actions = {
+  fetchBinders: function fetchBinders(context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios.get("api/binder/list");
+
+            case 2:
+              response = _context.sent;
+
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
+                context.commit("setBinders", response.data);
+              } else {
+                // 失敗時はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 4:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -43336,6 +43451,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_error__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/error */ "./resources/js/store/common/error.js");
 /* harmony import */ var _common_mode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common/mode */ "./resources/js/store/common/mode.js");
 /* harmony import */ var _form_binder_create__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./form/binder-create */ "./resources/js/store/form/binder-create.js");
+/* harmony import */ var _form_binder_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./form/binder-list */ "./resources/js/store/form/binder-list.js");
+
 
 
 
@@ -43348,7 +43465,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     auth: _common_auth__WEBPACK_IMPORTED_MODULE_2__["default"],
     error: _common_error__WEBPACK_IMPORTED_MODULE_3__["default"],
     mode: _common_mode__WEBPACK_IMPORTED_MODULE_4__["default"],
-    binderCreate: _form_binder_create__WEBPACK_IMPORTED_MODULE_5__["default"]
+    binderCreate: _form_binder_create__WEBPACK_IMPORTED_MODULE_5__["default"],
+    binderList: _form_binder_list__WEBPACK_IMPORTED_MODULE_6__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);

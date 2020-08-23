@@ -20,26 +20,19 @@ class BinderListSelectApiTest extends TestCase
         parent::setUp();
 
         // インスタンス生成
-        $this->binderListSelectService = app()->make(BinderListSelectServiceInterface::class);
+        $this->binder_list_select_service = app()->make(BinderListSelectServiceInterface::class);
         $this->user = factory(User::class)->create();
     }
 
     /**
      * @test
-     */
-    public function avoidWarning()
-    {
-        $this->assertEquals(1,1);
-    }
-
-    /**
-     * 
      *
      * ユーザーがアクセス可能なバインダーだけを取得する。
-     * Repositoryの検証。
      */
     public function Binders_Get_OnlyAccessible()
     {
+        $this->actingAs($this->user);
+
         // アクセス可能なバインダー数
         $ACCESSIBLE_COUNT = 10;
         // アクセス不可のバインダー数
@@ -59,11 +52,9 @@ class BinderListSelectApiTest extends TestCase
         }
 
         // 検証
-        $response = $this->binderListSelectService->execute($this->user->id);
+        $response = $this->json('GET', route('api.binder.list'));
         
-        $response
-            ->assertStatus(200)
-            ->assertJsonCount($ACCESSIBLE_COUNT, 'data');
+        $response->assertStatus(200);
 
     }
 

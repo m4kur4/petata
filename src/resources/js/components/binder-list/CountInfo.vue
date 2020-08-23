@@ -3,7 +3,7 @@
         <Counter
             :src="'/image/icon/perm_identity-black-24dp.svg'"
             :alt="'参加者数'"
-            :count="countParticipated"
+            :count="countUser"
         />
         <Counter
             :src="'/image/icon/image-black-24dp.svg'"
@@ -28,7 +28,7 @@ export default {
         /**
          * バインダー参加者数
          */
-        countParticipated: {
+        countUser: {
             type: Number,
             default: 0
         },
@@ -36,6 +36,13 @@ export default {
          * バインダー登録画像数
          */
         countImage: {
+            type: Number,
+            default: 0
+        },
+        /**
+         * バインダー登録ラベル数
+         */
+        countLabel: {
             type: Number,
             default: 0
         },
