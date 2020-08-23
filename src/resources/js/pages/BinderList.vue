@@ -13,7 +13,6 @@ export default {
     },
     beforeCreate() {
         this.$store.dispatch("binderList/fetchBinders");
-        console.log(this.$store.state.binderList.binders);
     }
 };
 </script>

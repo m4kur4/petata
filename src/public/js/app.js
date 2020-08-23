@@ -2076,6 +2076,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.$store.dispatch("binderCreate/doPost");
 
               case 2:
+                _this.$router.push("/binder/list");
+
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -3323,6 +3326,9 @@ __webpack_require__.r(__webpack_exports__);
     addLabel: function addLabel(labelData) {
       this.$store.commit('binderCreate/addLabel', labelData);
     }
+  },
+  beforeCreate: function beforeCreate() {
+    this.$store.dispatch("binderCreate/initialize");
   }
 });
 
@@ -3352,7 +3358,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeCreate: function beforeCreate() {
     this.$store.dispatch("binderList/fetchBinders");
-    console.log(this.$store.state.binderList.binders);
   }
 });
 
@@ -43253,23 +43258,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   /**
-   * バインダーの名前
+   * name: String バインダー名
+   * description: String バインダーの説明
+   * labels: Array ラベルの配列
+   *   - name: String ラベル名
+   *   - description: String ラベルの説明
    */
-  binderName: null,
-
-  /**
-   * バインダーの説明
-   */
-  binderDescription: null,
-
-  /**
-   * ラベル
-   * [
-   *   name: String,
-   *   description: String
-   * ]
-   */
-  labels: [],
+  form: {
+    name: '',
+    description: '',
+    labels: []
+  },
 
   /**
    * エラーメッセージ
@@ -43278,16 +43277,16 @@ var state = {
 };
 var mutations = {
   setBinderName: function setBinderName(state, val) {
-    state.binderName = val;
+    state.form.name = val;
   },
   setBinderDescription: function setBinderDescription(state, val) {
-    state.binderDescription = val;
+    state.form.description = val;
   },
   setLabels: function setLabels(state, val) {
-    state.labels = val;
+    state.form.labels = val;
   },
   addLabel: function addLabel(state, label) {
-    state.labels.push(label);
+    state.form.labels.push(label);
   },
   removeLabel: function removeLabel(state, key) {// TODO: 実装
     // TODO: 削除対象のラベルをどうやって識別するか
@@ -43296,34 +43295,29 @@ var mutations = {
 var actions = {
   doPost: function doPost(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var data, uri, response;
+      var uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              data = {
-                name: state.binderName,
-                description: state.binderDescription,
-                labels: state.labels
-              };
               uri = "api/binder/create";
-              _context.next = 4;
-              return axios.post("".concat(uri), data)["catch"](function (err) {
+              _context.next = 3;
+              return axios.post("".concat(uri), state.form)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 4:
+            case 3:
               response = _context.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
-                _context.next = 8;
+                _context.next = 7;
                 break;
               }
 
-              alert('debug: success');
+              alert('成功しました。');
               return _context.abrupt("return", false);
 
-            case 8:
+            case 7:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
@@ -43335,13 +43329,25 @@ var actions = {
                 });
               }
 
-            case 9:
+            case 8:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
     }))();
+  },
+
+  /**
+   * フォームを初期化します。
+   */
+  initialize: function initialize() {
+    var defaultForm = {
+      name: '',
+      description: '',
+      labels: []
+    };
+    state.form = defaultForm;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43377,15 +43383,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   /**
-   * id: String
-   * name: String
-   * description: String
-   * count_user: Number
-   * count_image: Number
-   * count_label: Number
-   * count_favorite: Number
-   * is_own: Boolean
-   * is_favorite: Boolean
+   * id: String バインダーID
+   * name: String バインダー名
+   * description: String バインダーの説明
+   * count_user: Number 参加者数
+   * count_image: Number 画像数
+   * count_label: Number ラベル数
+   * count_favorite: Number お気に入り登録数
+   * is_own: Boolean ログインユーザーが作成者かどうか
+   * is_favorite: Boolean ログインユーザーがお気に入り登録しているかどうか
    */
   binders: []
 };
@@ -43395,6 +43401,9 @@ var mutations = {
   }
 };
 var actions = {
+  /**
+   * バインダー一覧情報を取得します。
+   */
   fetchBinders: function fetchBinders(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
       var response;
