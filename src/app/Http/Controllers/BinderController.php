@@ -63,9 +63,6 @@ class BinderController extends Controller
         try {
             $binder_list= $this->binder_list_select_service->execute(Auth::id());
 
-            Log::debug(Auth::id());
-            Log::debug($binder_list->count());
-
             return $binder_list;
 
         } catch (\Exception $e) {

@@ -51,7 +51,7 @@ class Binder extends Model
     /**
      * アクセサ -バインダーがログインユーザーのものかどうか
      */
-    public function isOwn()
+    public function getIsOwnAttribute()
     {
         $user_id = Auth::id();
         return $this->create_user_id == $user_id;
@@ -60,7 +60,7 @@ class Binder extends Model
     /**
      * アクセサ - バインダーがログインユーザーのお気に入りかどうか
      */
-    public function isFavorite()
+    public function getIsFavoriteAttribute()
     {
         $user_id = Auth::id();
         return $this->BinderFavorites()
