@@ -5,21 +5,18 @@ import { STATUS } from "../../const";
 
 const state = {
     /**
-     * バインダーの名前
+     * name: String バインダー名
+     * description: String バインダーの説明
+     * labels: Array ラベルの配列
+     *   - name: String ラベル名
+     *   - description: String ラベルの説明
      */
-    binderName: null,
-    /**
-     * バインダーの説明
-     */
-    binderDescription: null,
-    /**
-     * ラベル
-     * [
-     *   name: String,
-     *   description: String
-     * ]
-     */
-    labels: [],
+    form: {
+        name: '',
+        description: '',
+        labels: []
+    },
+
     /**
      * エラーメッセージ
      */
@@ -28,16 +25,16 @@ const state = {
 
 const mutations = {
     setBinderName(state, val) {
-        state.binderName = val;
+        state.form.name = val;
     },
     setBinderDescription(state, val) {
-        state.binderDescription = val;
+        state.form.description = val;
     },
     setLabels(state, val) {
-        state.labels = val;
+        state.form.labels = val;
     },
     addLabel(state, label) {
-        state.labels.push(label);
+        state.form.labels.push(label);
     },
     removeLabel(state, key) {
         // TODO: 実装
@@ -48,15 +45,9 @@ const mutations = {
 const actions = {
     async doPost(context) {
 
-        const data = {
-            name: state.binderName,
-            description: state.binderDescription,
-            labels: state.labels
-        };
-
         const uri = "api/binder/create";
         const response = await axios
-            .post(`${uri}`, data)
+            .post(`${uri}`, state.form)
             .catch(err => err.response || err);
 
         // 成功
@@ -64,7 +55,7 @@ const actions = {
             response.status === STATUS.OK ||
             response.status === STATUS.CREATED
         ) {
-            alert('debug: success');
+            alert('成功しました。');
             return false;
         }
 
@@ -78,7 +69,19 @@ const actions = {
                 root: true
             });
         }
-    }
+    },
+    /**
+     * フォームを初期化します。
+     */
+    initialize() {
+        const defaultForm = {
+            name: '',
+            description: '',
+            labels: []
+        };
+
+        state.form = defaultForm;
+    },
 };
 
 export default {

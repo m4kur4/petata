@@ -67,6 +67,7 @@ export default {
         },
         async doPost() {
             await this.$store.dispatch("binderCreate/doPost");
+            this.$router.push("/binder/list");
         }
     },
     computed: {

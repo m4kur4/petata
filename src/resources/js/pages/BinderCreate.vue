@@ -19,6 +19,9 @@ export default {
         addLabel(labelData) {
           this.$store.commit('binderCreate/addLabel', labelData);
         }
-    }
+    },
+    beforeCreate() {
+        this.$store.dispatch("binderCreate/initialize");
+    },
 };
 </script>
