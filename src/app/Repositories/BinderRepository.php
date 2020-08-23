@@ -59,8 +59,22 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function selectByAuthorizedUserId(string $user_id)
     {
-        $user = User::find($user_id);
-        return $user->accessibleBinders();
+        // アクセス可能なバインダーのIDリスト
+        $accesible_binder_ids = BinderAuthority::query()
+            ->select('binder_id')
+            ->where('user_id', $user_id)
+            ->get();
+        
+        // バインダーを取得
+        $accesible_binders = Binder::with([
+                'labels',
+                'binderAuthorities',
+                'BinderFavorites',
+            ])
+            ->whereIn('id', $accesible_binder_ids)
+            ->get();
+        
+        return $accesible_binders;
     }
 
     /**

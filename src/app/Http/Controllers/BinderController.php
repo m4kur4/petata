@@ -52,4 +52,26 @@ class BinderController extends Controller
             abort(500);
         }
     }
+
+    /**
+     * ログインユーザーがアクセス可能なバインダーの一覧を返却します。
+     *
+     * @return Collection
+     */    
+    public function list()
+    {
+        try {
+            $binder_list= $this->binder_list_select_service->execute(Auth::id());
+
+            Log::debug(Auth::id());
+            Log::debug($binder_list->count());
+
+            return $binder_list;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(500);
+        }
+    }
+
 }

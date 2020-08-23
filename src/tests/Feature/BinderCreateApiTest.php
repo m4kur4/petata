@@ -56,8 +56,7 @@ class BinderCreateApiTest extends TestCase
         // - 認可情報の確認
         $binder_authority_first = BinderAuthority::first();
         $this->assertEquals($binder_authority_first->level, config('_const.BINDER_AUTHORITY.LEVEL.OWNER'));
-        Log::debug('hogehoge--');
-Log::debug($labels->count());
+
         // - ラベル情報の確認
         $this->assertEquals($labels->count(), 3);
         $this->assertEquals($labels->first()->name, $form_data['labels'][0]['name']);

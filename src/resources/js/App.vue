@@ -2,15 +2,15 @@
     <main>
         <Header />
         <Navbar />
-        <RouterView  />
+        <RouterView />
         <ModalBackground />
     </main>
 </template>
 
 <script>
-import Header from './components/common/Header.vue';
-import Navbar from './components/common/Navbar.vue';
-import ModalBackground from './components/common/ModalBackground.vue'
+import Header from "./components/common/Header.vue";
+import Navbar from "./components/common/Navbar.vue";
+import ModalBackground from "./components/common/ModalBackground.vue";
 
 export default {
     components: {

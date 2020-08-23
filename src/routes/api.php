@@ -26,6 +26,9 @@ Route::post('user/auth/login','UserController@login')->name('api.user.login');
 // バインダー作成
 Route::post('binder/create','BinderController@create')->name('api.binder.create');
 
+// バインダー一覧取得
+Route::get('binder/list','BinderController@list')->name('api.binder.list');
+
 // TODO: ユーザー退会
 //Route::post('user/unregister','Auth\RegisterController@register')->name('user.unregister');
 

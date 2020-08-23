@@ -61,8 +61,6 @@ class BinderRepositoryTest extends TestCase
 
         // - 抽出件数
         $this->assertEquals($ACCESSIBLE_COUNT, $binders->count());
-
-        //$this->assertEquals($accessible_binders, $binders);
     }
 
     /**
