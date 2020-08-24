@@ -6,7 +6,10 @@ import store from './store';
 
 import App from './App.vue';
 
-const initialize = async => {
+const initialize = async () => {
+    // ログイン状態の反映
+    await store.dispatch('auth/getUserInfo');
+
     new Vue({
         el: '#app',
         router,

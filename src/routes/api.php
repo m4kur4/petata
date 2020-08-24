@@ -17,6 +17,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// ログインユーザー情報取得
+Route::get('user/info', 'UserController@getLoginUser')->name('api.user.info');
+
 // ユーザー登録
 Route::post('user/register','UserController@register')->name('api.user.register');
 
