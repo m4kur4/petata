@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
 
 import auth from "./common/auth";
 import error from "./common/error";
@@ -17,7 +18,7 @@ const store = new Vuex.Store({
         mode,
         binderCreate,
         binderList
-    }
+    },
 });
 
 export default store;

@@ -8,6 +8,8 @@ import Signin from "./pages/Signin.vue";
 import BinderList from "./pages/BinderList.vue";
 import BinderCreate from "./pages/BinderCreate.vue";
 
+import store from './store'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -17,23 +19,63 @@ const routes = [
     },
     {
         path: "/",
-        component: Binder
+        name: "binder",
+        component: Binder,
+        beforeEnter(to, from, next) {
+            if (store.getters["auth/check"]) {
+                next();
+            } else {
+                next({ name: "signin" });
+            }
+        }
     },
     {
         path: "/signup",
-        component: Signup
+        name: "signup",
+        component: Signup,
+        beforeEnter(to, from, next) {
+            if (store.getters["auth/check"]) {
+                next({ name: "binder-list" });
+            } else {
+                next();
+            }
+        }
     },
     {
         path: "/signin",
-        component: Signin
+        name: "signin",
+        component: Signin,
+        beforeEnter(to, from, next) {
+            if (store.getters["auth/check"]) {
+                next({ name: "binder-list" });
+            } else {
+                next();
+            }
+        }
     },
     {
         path: "/binder/list",
-        component: BinderList
+        name: "binder-list",
+        component: BinderList,
+        beforeEnter(to, from, next) {
+            if (store.getters["auth/check"]) {
+                next();
+            } else {
+                next({ name: "signin" });
+            }
+        }
     },
     {
         path: "/binder/create",
-        component: BinderCreate
+        name: "binder-create",
+        component: BinderCreate,
+        beforeEnter(to, from, next) {
+            if (store.getters["auth/check"]) {
+                next();
+            } else {
+                next({ name: "signin" });
+            }
+        }
     }
 ];
 

@@ -30,6 +30,8 @@ class BinderController extends Controller
     {
         $this->binder_create_service = $binder_create_service;
         $this->binder_list_select_service = $binder_list_select_service;
+        
+        $this->middleware('auth');
     }
 
     /**

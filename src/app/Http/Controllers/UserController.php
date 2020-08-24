@@ -6,8 +6,11 @@ use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Services\Api\Interfaces\UserRegisterServiceInterface;
 use App\Services\Api\Interfaces\UserLoginServiceInterface;
+
 use App\Models\User;
 use Illuminate\Http\Request;
+
+use Auth;
 
 /**
  * ユーザーコントローラー
@@ -30,6 +33,18 @@ class UserController extends Controller
     }
 
     /**
+     * ログインユーザー情報を取得します。
+     * ログインセッションが存在しない場合は空文字を返却します。
+     */
+    public function getLoginUser()
+    {
+        if(Auth::id() == null) {
+            return "";
+        }
+        return User::find(Auth::id());
+    }
+
+    /**
      * ユーザーを新規登録します。
      * 新規登録したユーザー情報を返却します。
      *
@@ -47,7 +62,7 @@ class UserController extends Controller
      */
     public function login(UserLoginRequest $request)
     {
-        $this->user_login_service->execute($request);
-        return 'hoge';
+        $user = $this->user_login_service->execute($request);
+        return $user;
     }
 }

@@ -37,7 +37,6 @@ class UserLoginService implements UserLoginServiceInterface
 
     /**
      * ログイン後処理です。
-     * 当該ユーザーがアクセス可能なバインダーの一覧情報を返却します。
      *
      * @see Illuminate\Foundation\Auth\AuthenticatesUsers::authenticated()
      * @param  \Illuminate\Http\Request  $request
@@ -47,5 +46,6 @@ class UserLoginService implements UserLoginServiceInterface
     protected function authenticated(UserLoginRequest $request, $user)
     {
         // TODO: 実装
+        return $user;
     }
 }

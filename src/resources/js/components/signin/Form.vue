@@ -20,7 +20,9 @@
             <button type="submit" class="form__button--submit">Sign in</button>
         </div>
         <GoogleSigninButton />
-        <a href="#" class="form__link">Sign up</a>
+        <RouterLink :to="{ name: 'signup' }" class="form__link"
+            >Sign up</RouterLink
+        >
     </form>
 </template>
 <script>
@@ -28,7 +30,6 @@ import FormTitle from "../common/FormTitle.vue";
 import TextForm from "../common/TextForm.vue";
 import AutoSigninCheckbox from "./AutoSigninCheckbox.vue";
 import GoogleSigninButton from "./GoogleSigninButton.vue";
-
 
 export default {
     components: {
@@ -50,12 +51,10 @@ export default {
          * ユーザー認証
          */
         async signin() {
-           await this.$store.dispatch('auth/login', this.form);
-           const isSuccess = this.apiStatus;
+            await this.$store.dispatch("auth/login", this.form);
+            const isSuccess = this.apiStatus;
             if (isSuccess) {
-                // TODO: バインダー一覧へ遷移
-                // DEBUG:
-                alert("成功しました。");
+                this.$router.push({ name: "binder-list" });
             } else {
                 // DEBUG:
                 alert("失敗しました。");
@@ -68,7 +67,7 @@ export default {
          */
         apiStatus() {
             return this.$store.state.auth.apiStatus;
-        },
+        }
     }
 };
 </script>

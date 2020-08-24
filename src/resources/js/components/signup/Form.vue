@@ -31,7 +31,9 @@
 
             <button type="submit" class="form__button--submit">Sign up</button>
         </div>
-        <a href="#" class="form__link">Sign in</a>
+        <RouterLink :to="{ name: 'signin' }" class="form__link"
+            >Sign in</RouterLink
+        >
     </form>
 </template>
 <script>
@@ -62,8 +64,7 @@ export default {
             const isSuccess = this.apiStatus;
             if (isSuccess) {
                 // TODO: バインダー一覧へ遷移
-                // DEBUG:
-                alert("成功しました。");
+                this.$router.push({ name: "binder-list" });
             } else {
                 // DEBUG:
                 alert("失敗しました。");

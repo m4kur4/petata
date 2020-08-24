@@ -7,6 +7,8 @@
 
 <script>
 import Form from "../components/binder-list/Form.vue";
+import { STATUS } from "../const";
+
 export default {
     components: {
         Form
