@@ -22,9 +22,5 @@ export default {
         // ナビゲーションバーを表示する
         this.$store.commit("mode/setHasNavigation", true);
     },
-    destoryed() {
-        // ナビゲーションバーを非表示にする
-        this.$store.commit("mode/setHasNavigation", false);
-    }
 };
 </script>

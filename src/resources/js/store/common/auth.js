@@ -122,8 +122,10 @@ const actions = {
      * ログインセッションが存在する場合はstateへユーザー情報を設定します。
      */
     async getUserInfo(context) {
-        const response = await axios.get('api/use/info');
+
+        const response = await axios.get('api/user/info');
         const userInfo = response.data;
+        
         if (response.data == "") {
             // 未ログイン時はnullを設定
             context.commit("setUser", null);

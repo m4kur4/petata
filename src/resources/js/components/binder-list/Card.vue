@@ -1,5 +1,5 @@
 <template>
-    <div class="form__binder-card">
+    <div class="form__binder-card" @click="moveToBinder">
         <div
             :class="{
                 'binder-card__info--favorite': isFavorite,
@@ -121,6 +121,11 @@ export default {
         isFavorite: {
             type: Boolean,
             default: false
+        }
+    },
+    methods: {
+        moveToBinder() {
+            this.$router.push({name: 'binder'});
         }
     }
 };

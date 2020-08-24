@@ -2292,6 +2292,13 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": false
     }
+  },
+  methods: {
+    moveToBinder: function moveToBinder() {
+      this.$router.push({
+        name: 'binder'
+      });
+    }
   }
 });
 
@@ -3292,10 +3299,6 @@ __webpack_require__.r(__webpack_exports__);
   beforeCreate: function beforeCreate() {
     // ナビゲーションバーを表示する
     this.$store.commit("mode/setHasNavigation", true);
-  },
-  destoryed: function destoryed() {
-    // ナビゲーションバーを非表示にする
-    this.$store.commit("mode/setHasNavigation", false);
   }
 });
 
@@ -3333,7 +3336,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeCreate: function beforeCreate() {
-    this.$store.dispatch("binderCreate/initialize");
+    this.$store.dispatch("binderCreate/initialize"); // ナビゲーションバーを表示する
+
+    this.$store.commit("mode/setHasNavigation", false);
   }
 });
 
@@ -3364,7 +3369,9 @@ __webpack_require__.r(__webpack_exports__);
     Form: _components_binder_list_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   beforeCreate: function beforeCreate() {
-    this.$store.dispatch("binderList/fetchBinders");
+    this.$store.dispatch("binderList/fetchBinders"); // ナビゲーションバーを非表示にする
+
+    this.$store.commit("mode/setHasNavigation", false);
   }
 });
 
@@ -3391,6 +3398,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Form: _components_signin_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  beforeCreate: function beforeCreate() {
+    // ナビゲーションバーを非表示にする
+    this.$store.commit("mode/setHasNavigation", false);
   }
 });
 
@@ -3417,6 +3428,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Form: _components_signup_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  beforeCreate: function beforeCreate() {
+    // ナビゲーションバーを非表示にする
+    this.$store.commit("mode/setHasNavigation", false);
   }
 });
 
@@ -22069,63 +22084,69 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "form__binder-card" }, [
-    _c(
-      "div",
-      {
-        class: {
-          "binder-card__info--favorite": _vm.isFavorite,
-          "binder-card__info--own": !_vm.isFavorite && _vm.isOwn,
-          "binder-card__info--participated": !_vm.isFavorite && !_vm.isOwn
-        }
-      },
-      [
-        _c("img", {
-          staticClass: "binder-card__info-thumbnail",
-          attrs: { src: _vm.thumbnailUrl, alt: _vm.name }
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "binder-card__info-title" }, [
-          _c("h3", [_vm._v(_vm._s(_vm.name))])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "binder-card__info-description" }, [
-          _c("h4", [
-            _vm._v(
-              "\n                " + _vm._s(_vm.description) + "\n            "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("CountInfo", {
-          attrs: {
-            countUser: _vm.countUser,
-            countImage: _vm.countImage,
-            countFavorite: _vm.countFavorite
+  return _c(
+    "div",
+    { staticClass: "form__binder-card", on: { click: _vm.moveToBinder } },
+    [
+      _c(
+        "div",
+        {
+          class: {
+            "binder-card__info--favorite": _vm.isFavorite,
+            "binder-card__info--own": !_vm.isFavorite && _vm.isOwn,
+            "binder-card__info--participated": !_vm.isFavorite && !_vm.isOwn
           }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "binder-card__button-menu" },
-      [_c("FavoriteBinderButton", { attrs: { isFavorite: _vm.isFavorite } })],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "binder-card__button-danger" },
-      [
-        _c("DeleteBinderButton", { attrs: { isShow: _vm.isOwn } }),
-        _vm._v(" "),
-        _c("LeaveBinderButton", { attrs: { isShow: !_vm.isOwn } })
-      ],
-      1
-    )
-  ])
+        },
+        [
+          _c("img", {
+            staticClass: "binder-card__info-thumbnail",
+            attrs: { src: _vm.thumbnailUrl, alt: _vm.name }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "binder-card__info-title" }, [
+            _c("h3", [_vm._v(_vm._s(_vm.name))])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "binder-card__info-description" }, [
+            _c("h4", [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.description) +
+                  "\n            "
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("CountInfo", {
+            attrs: {
+              countUser: _vm.countUser,
+              countImage: _vm.countImage,
+              countFavorite: _vm.countFavorite
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "binder-card__button-menu" },
+        [_c("FavoriteBinderButton", { attrs: { isFavorite: _vm.isFavorite } })],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "binder-card__button-danger" },
+        [
+          _c("DeleteBinderButton", { attrs: { isShow: _vm.isOwn } }),
+          _vm._v(" "),
+          _c("LeaveBinderButton", { attrs: { isShow: !_vm.isOwn } })
+        ],
+        1
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -43001,7 +43022,7 @@ var routes = [{
   path: "/test",
   component: _pages_Test_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
-  path: "/",
+  path: "/binder/detail",
   name: "binder",
   component: _pages_Binder_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
@@ -43277,7 +43298,7 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return axios.get('api/use/info');
+              return axios.get('api/user/info');
 
             case 2:
               response = _context4.sent;

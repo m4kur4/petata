@@ -15,6 +15,9 @@ export default {
     },
     beforeCreate() {
         this.$store.dispatch("binderList/fetchBinders");
+
+        // ナビゲーションバーを非表示にする
+        this.$store.commit("mode/setHasNavigation", false);
     }
 };
 </script>

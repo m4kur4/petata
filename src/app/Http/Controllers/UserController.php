@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use Auth;
+use Log;
 
 /**
  * ユーザーコントローラー
