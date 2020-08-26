@@ -21,7 +21,7 @@ const state = {
 const mutations = {
     setBinders(state, data) {
         state.binders = data;
-    },
+    }
 };
 
 const actions = {
@@ -29,19 +29,25 @@ const actions = {
      * バインダー一覧情報を取得します。
      */
     async fetchBinders(context) {
-
+        // ローディング画像の表示
+        context.commit("mode/setIsLoading", true, {
+            root: true
+        });
         const response = await axios.get("api/binder/list");
-        
-        if(response.status === STATUS.OK) {
+
+        if (response.status === STATUS.OK) {
             context.commit("setBinders", response.data);
-        
         } else {
             // 失敗時はエラーコードを格納
             context.commit("error/setCode", response.data.status, {
                 root: true
             });
         }
-    },
+        // ローディング画像を非表示
+        context.commit("mode/setIsLoading", false, {
+            root: true
+        });
+    }
 };
 
 export default {

@@ -1,10 +1,10 @@
-.left-column {
-  /* var@left-column */
-  $left-column-item-height: 48px;
+.image-list {
+  /* var@image-list */
+  $image-list-item-height: 48px;
   $search-form-height: 40px;
 
   &--show {
-      grid-area: left-column;
+      grid-area: image-list;
       background-color: #f5f5f5;
   }
   &__search {
@@ -43,12 +43,12 @@
   }
   &__item {
       display: grid;
-      grid-template-rows: $left-column-item-height;
-      grid-template-columns: $left-column-item-height 1fr;
+      grid-template-rows: $image-list-item-height;
+      grid-template-columns: $image-list-item-height 1fr;
       grid-template-areas: "image-thumbnail image-title";
       opacity: 100%;
       width: 100%;
-      height: $left-column-item-height;
+      height: $image-list-item-height;
       border-bottom: 1px solid #cbcbcb;
       transition: all 200ms 0s ease;
       &:nth-child(odd) {
@@ -69,13 +69,13 @@
               border-top: 0.5px solid #cbcbcb;
               border-bottom: 0.5px solid #cbcbcb;
               object-fit: cover;
-              width: $left-column-item-height;
-              height: $left-column-item-height;
+              width: $image-list-item-height;
+              height: $image-list-item-height;
           }
       }
       &-text {
-          width: calc(100% - #{$left-column-item-height});
-          height: $left-column-item-height;
+          width: calc(100% - #{$image-list-item-height});
+          height: $image-list-item-height;
           font-size: $font-size;
       }
   }

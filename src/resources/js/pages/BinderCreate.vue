@@ -23,7 +23,7 @@ export default {
     beforeCreate() {
         this.$store.dispatch("binderCreate/initialize");
 
-        // ナビゲーションバーを表示する
+        // ナビゲーションバーを非表示にする
         this.$store.commit("mode/setHasNavigation", false);
     },
 

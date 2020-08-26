@@ -9,7 +9,11 @@ const state = {
     /**
      * ダイアログ表示の有無
      */
-    isShowDialog: false
+    isShowDialog: false,
+    /**
+     * ローディング画像の有無
+     */
+    isLoading: false
 };
 
 const mutations = {
@@ -18,6 +22,9 @@ const mutations = {
     },
     setIsShowDialog(state, val) {
         state.isShowDialog = val;
+    },
+    setIsLoading(state, val) {
+        state.isLoading = val;
     }
 };
 

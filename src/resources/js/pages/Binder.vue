@@ -1,23 +1,28 @@
 <template>
     <div class="container--binder">
-        <LeftColumn />
+        <ImageList />
         <ImageContainer />
         <RightColumn />
+        <div class="loader"></div>
     </div>
 </template>
 
 <script>
-import LeftColumn from "../components/binder/LeftColumn.vue";
+import ImageList from "../components/binder/ImageList.vue";
 import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
 
 export default {
     components: {
-        LeftColumn,
+        ImageList,
         ImageContainer,
         RightColumn
     },
-
+    computed: {
+        isLoading() {
+            return this.$store.state.mode.isLoading;
+        }
+    },
     beforeCreate() {
         // ナビゲーションバーを表示する
         this.$store.commit("mode/setHasNavigation", true);

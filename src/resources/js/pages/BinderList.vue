@@ -1,6 +1,7 @@
 <template>
     <div class="container--binder-list">
         <Form />
+        <div v-if="isLoading" class="loader"></div>
     </div>
     <!-- /.container -->
 </template>
@@ -12,6 +13,11 @@ import { STATUS } from "../const";
 export default {
     components: {
         Form
+    },
+    computed: {
+        isLoading() {
+            return this.$store.state.mode.isLoading;
+        }
     },
     beforeCreate() {
         this.$store.dispatch("binderList/fetchBinders");
