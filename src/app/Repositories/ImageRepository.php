@@ -20,8 +20,19 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function add(ImageAddRequest $request)
     {
+        dd($request);
+
         // TODO: 実装
+        $image = new Image([
+            'upload_user_id' => Auth::id(),
+            'name' => $request->images[0]->getClientOriginalName(),
+            'visible' => config('_const.IMAGE.VISIBLE.SHOW')
+        ]);
+        $image->save();
         
+        $path = Storage::disk('s3')->putFile('myprefix', $request->images[0], 'public');
+        $post->image_url = Storage::disk('s3')->url($path);
+
     }
 
     /**

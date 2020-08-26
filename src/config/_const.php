@@ -13,4 +13,11 @@ return [
       'OWNER' => 50
     ],
   ],
+  // 画像
+  'IMAGE' => [
+      'VISIBLE' => [
+          'HIDE' => 0,
+          'SHOW' => 1
+      ]
+  ],
 ];
