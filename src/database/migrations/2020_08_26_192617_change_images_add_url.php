@@ -14,7 +14,10 @@ class ChangeImagesAddUrl extends Migration
     public function up()
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->string('path');
+            // NOTE: SQLiteにNOT NULLカラムが追加できないので、create imagesで追加
+            // 本マイグレーションは廃止
+            
+            //$table->string('path');
         });
     }
 
@@ -26,7 +29,7 @@ class ChangeImagesAddUrl extends Migration
     public function down()
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->dropColumn('path');
+            //$table->dropColumn('path');
         });
     }
 }
