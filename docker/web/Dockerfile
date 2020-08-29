@@ -8,7 +8,12 @@ RUN apt-get update \
     python3-pip \
     unzip \
     vim \
-    wget
+    wget \
+    git \
+    unzip \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev
 
 # INSTALL python-library
 RUN python3 -m pip install -U pip \
@@ -23,7 +28,9 @@ RUN python3 -m pip install -U pip \
 RUN docker-php-ext-install \
   mysqli \
   pdo \
-  pdo_mysql 
+  pdo_mysql
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+RUN docker-php-ext-install -j$(nproc) gd
 
 # INSTALL Node.js
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
