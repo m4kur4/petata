@@ -3606,7 +3606,7 @@ __webpack_require__.r(__webpack_exports__);
     // ナビゲーションバーを表示する
     this.$store.commit("mode/setHasNavigation", true); // バインダー情報を取得する。
 
-    this.$store.commit("binder/fetchBinder", $route.params.id);
+    this.$store.dispatch("binder/fetchBinder", this.$route.params.id);
   },
   mounted: function mounted() {
     // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする
@@ -44090,6 +44090,145 @@ var actions = {
 
 /***/ }),
 
+/***/ "./resources/js/store/form/binder.js":
+/*!*******************************************!*\
+  !*** ./resources/js/store/form/binder.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/**
+ * フォームデータストア - バインダー
+ */
+
+var state = {
+  /**
+   * id: String バインダーID
+   * name: String バインダー名
+   * description: String バインダーの説明
+   * count_user: Number 参加者数
+   * count_image: Number 画像数
+   * count_label: Number ラベル数
+   * count_favorite: Number お気に入り登録数
+   * labels: Array ラベル
+   *   - name: String ラベル名
+   *   - description:  ラベルの説明
+   * images: Array 画像
+   *   - name: String 画像名
+   *   - description:  画像の説明
+   *   - url: String URL
+   */
+  id: null,
+  name: null,
+  description: null,
+  count_user: 0,
+  count_image: 0,
+  count_label: 0,
+  count_favorite: 0,
+  labels: [],
+  images: []
+};
+var mutations = {
+  setId: function setId(state, val) {
+    state.id = val;
+  },
+  setName: function setName(state, val) {
+    state.name = val;
+  },
+  setDescription: function setDescription(state, val) {
+    state.description = val;
+  },
+  setCountUser: function setCountUser(state, val) {
+    state.count_user = val;
+  },
+  setCountImage: function setCountImage(state, val) {
+    state.count_image = val;
+  },
+  setCountLabel: function setCountLabel(state, val) {
+    state.count_label = val;
+  },
+  setCountFavorite: function setCountFavorite(state, val) {
+    state.count_favorite = val;
+  },
+  setLabels: function setLabels(state, val) {
+    state.labels = val;
+  },
+  setImages: function setImages(state, val) {
+    state.images = val;
+  }
+};
+var actions = {
+  /**
+   * バインダー情報を取得します。
+   */
+  fetchBinder: function fetchBinder(context, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // ローディング画像の表示
+              context.commit("mode/setIsLoading", true, {
+                root: true
+              });
+              _context.next = 3;
+              return axios.get("api/binder/detail/".concat(id));
+
+            case 3:
+              response = _context.sent;
+
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
+                context.commit("setId", response.data.id);
+                context.commit("setName", response.data.name);
+                context.commit("setDescription", response.data.description);
+                context.commit("setCountUser", response.data.count_user);
+                context.commit("setCountImage", response.data.count_image);
+                context.commit("setCountLabel", response.data.count_label);
+                context.commit("setCountFavorite", response.data.count_favorite);
+                context.commit("setLabels", response.data.labels);
+                context.commit("setImages", response.data.images);
+              } else {
+                // 失敗時はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              } // ローディング画像を非表示
+
+
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/index.js":
 /*!*************************************!*\
   !*** ./resources/js/store/index.js ***!
@@ -44108,6 +44247,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_mode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common/mode */ "./resources/js/store/common/mode.js");
 /* harmony import */ var _form_binder_create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./form/binder-create */ "./resources/js/store/form/binder-create.js");
 /* harmony import */ var _form_binder_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./form/binder-list */ "./resources/js/store/form/binder-list.js");
+/* harmony import */ var _form_binder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./form/binder */ "./resources/js/store/form/binder.js");
+
 
 
 
@@ -44123,7 +44264,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     error: _common_error__WEBPACK_IMPORTED_MODULE_4__["default"],
     mode: _common_mode__WEBPACK_IMPORTED_MODULE_5__["default"],
     binderCreate: _form_binder_create__WEBPACK_IMPORTED_MODULE_6__["default"],
-    binderList: _form_binder_list__WEBPACK_IMPORTED_MODULE_7__["default"]
+    binderList: _form_binder_list__WEBPACK_IMPORTED_MODULE_7__["default"],
+    binder: _form_binder__WEBPACK_IMPORTED_MODULE_8__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);

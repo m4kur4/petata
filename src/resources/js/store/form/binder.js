@@ -58,7 +58,7 @@ const mutations = {
     },
     setImages(state, val) {
         state.images = val;
-    },
+    }
 };
 
 const actions = {
@@ -70,7 +70,7 @@ const actions = {
         context.commit("mode/setIsLoading", true, {
             root: true
         });
-        const response = await axios.get("api/binder/detail", id);
+        const response = await axios.get(`api/binder/detail/${id}`);
 
         if (response.status === STATUS.OK) {
             context.commit("setId", response.data.id);
@@ -78,7 +78,7 @@ const actions = {
             context.commit("setDescription", response.data.description);
             context.commit("setCountUser", response.data.count_user);
             context.commit("setCountImage", response.data.count_image);
-            context.commit("setsetCountLabel", response.data.count_label);
+            context.commit("setCountLabel", response.data.count_label);
             context.commit("setCountFavorite", response.data.count_favorite);
             context.commit("setLabels", response.data.labels);
             context.commit("setImages", response.data.images);
