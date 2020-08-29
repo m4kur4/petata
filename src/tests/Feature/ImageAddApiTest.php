@@ -35,15 +35,28 @@ class ImageAddApiTest extends TestCase
     public function Image_Create_Success()
     {
         Storage::fake('s3');
+        $BINDER_ID = 1;
 
         $formData = [
             'image' => UploadedFile::fake()->image('test.jpg'),
-            'binder_id' => 1
+            'binder_id' => $BINDER_ID
         ];
 
+        // 検証
         $response = $this->actingAs($this->user)
             ->json('POST', route('api.image.add'), $formData);
-
+        $image = Image::first();
+        
+        // - ステータスコードが期待通り返却されていること
         $response->assertStatus(201);
+        
+        // - ファイルパスが期待通り設定されていること
+        $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', $image->path);
+        
+        // - ストレージに期待通りファイルがアップロードされていること
+        //   NOTE: アップロード先 ⇒ binder/<binder_id>/<path>
+        Log::debug(Storage::cloud()->allFiles());
+        Storage::cloud()->assertExists('binder/' . $BINDER_ID . '/' . $image->path);
+ 
     }
 }

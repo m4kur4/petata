@@ -50,7 +50,7 @@ class BinderCreateApiTest extends TestCase
         $binder = Binder::first();
         $labels = $binder->labels()->orderBy('id')->get();
 
-        // -バインダー情報の確認
+        // - バインダー情報の確認
         $this->assertEquals($binder->name, $form_data['name']);
  
         // - 認可情報の確認

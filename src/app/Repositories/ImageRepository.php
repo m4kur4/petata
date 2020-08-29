@@ -39,13 +39,9 @@ class ImageRepository implements ImageRepositoryInterface
             'visible' => config('_const.IMAGE.VISIBLE.SHOW')
         ]);
         $image->save();
-        
-        Log::debug('D1');
-        Log::debug($image);
-        Log::debug('/ D1');
 
         // アップロード先："binder/<バインダーID>"
-        $upload_directory = self::UPLOAD_DIRECTORY_BINDER . $request->binder_id;
+        $upload_directory = self::UPLOAD_DIRECTORY_BINDER . '/' . $request->binder_id;
         
         // アップロード
         $path = Storage::disk('s3')->putFileAs(
