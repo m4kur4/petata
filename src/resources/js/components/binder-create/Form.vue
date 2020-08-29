@@ -92,7 +92,7 @@ export default {
         },
         labels: {
             get() {
-                return this.$store.state.binderCreate.labels;
+                return this.$store.state.binderCreate.form.labels;
             }
         }
     }

@@ -2109,7 +2109,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     labels: {
       get: function get() {
-        return this.$store.state.binderCreate.labels;
+        return this.$store.state.binderCreate.form.labels;
       }
     }
   }
