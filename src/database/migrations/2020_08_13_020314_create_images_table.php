@@ -17,6 +17,7 @@ class CreateImagesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('binder_id');
             $table->unsignedBigInteger('upload_user_id');
+            $table->string('name');
             $table->string('path');
             $table->boolean('visible')->comment('表示可能フラグ');
             $table->timestamps();
