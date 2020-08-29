@@ -43,9 +43,19 @@ class Binder extends Model
      *
      * @return Collection
      */
-    public function BinderFavorites()
+    public function binderFavorites()
     {
         return $this->hasMany('App\Models\BinderFavorite', 'binder_id', 'id');
+    }
+
+    /**
+     * リレーション -画像
+     *
+     * @return Collection
+     */
+    public function images()
+    {
+        return $this->hasMany('App\Models\Image', 'binder_id', 'id');
     }
 
     /**
@@ -63,7 +73,7 @@ class Binder extends Model
     public function getIsFavoriteAttribute()
     {
         $user_id = Auth::id();
-        return $this->BinderFavorites()
+        return $this->binderFavorites()
             ->where('binder_id', $this->id)
             ->where('user_id', $user_id)
             ->exists();

@@ -38,7 +38,7 @@ class BinderListSelectService implements BinderListSelectServiceInterface
                 'name' => $binder->name,
                 'description' => $binder->description,
                 'count_user' => $binder->binderAuthorities->count(),
-                'count_image' => 0, // TODO
+                'count_image' => $binder->images->count(), 
                 'count_label' => $binder->labels->count(),
                 'count_favorite' => $binder->binderfavorites->count(),
                 'is_own' => $binder->isOwn,

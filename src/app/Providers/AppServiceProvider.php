@@ -33,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\BinderCreateServiceInterface::class,
             \App\Services\Api\BinderCreateService::class
         );
+        // バインダー情報取得サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\BinderDetailSelectServiceInterface::class,
+            \App\Services\Api\BinderDetailSelectService::class
+        );
         // バインダーお気に入りサービス
         $this->app->bind(
             \App\Services\Api\Interfaces\BinderFavoriteServiceInterface::class,

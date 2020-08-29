@@ -58,4 +58,13 @@ interface BinderRepositoryInterface
      */
     public function addLabels(string $binder_id, array $label_posts);
 
+    /**
+     * バインダーの詳細情報を取得します。
+     * 未ログイン、またはログインユーザーにアクセス権限がない場合はnullを返却します。
+     * 
+     * @param string $binder_id バインダーID
+     * @return Binder
+     */
+    public function selectOneById(string $binder_id);
+
 }

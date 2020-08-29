@@ -18,7 +18,7 @@ const routes = [
         component: Test
     },
     {
-        path: "/binder/detail",
+        path: "/binder/detail/:id",
         name: "binder",
         component: Binder,
         beforeEnter(to, from, next) {

@@ -2,9 +2,6 @@
 
 namespace App\Services\Api\Interfaces;
 
-use App\Http\Requests\UserLoginRequest;
-use App\Models\User;
-
 /**
  * バインダー一覧情報取得サービス
  */

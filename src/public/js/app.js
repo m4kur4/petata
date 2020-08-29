@@ -2296,7 +2296,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     moveToBinder: function moveToBinder() {
       this.$router.push({
-        name: 'binder'
+        name: "binder",
+        params: {
+          id: this.id
+        }
       });
     }
   }
@@ -3552,7 +3555,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 
@@ -3602,7 +3604,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeCreate: function beforeCreate() {
     // ナビゲーションバーを表示する
-    this.$store.commit("mode/setHasNavigation", true);
+    this.$store.commit("mode/setHasNavigation", true); // バインダー情報を取得する。
+
+    this.$store.commit("binder/fetchBinder", $route.params.id);
   },
   mounted: function mounted() {
     // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする
@@ -43476,7 +43480,7 @@ var routes = [{
   path: "/test",
   component: _pages_Test_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
-  path: "/binder/detail",
+  path: "/binder/detail/:id",
   name: "binder",
   component: _pages_Binder_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   beforeEnter: function beforeEnter(to, from, next) {

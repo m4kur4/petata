@@ -3,7 +3,6 @@
         <ImageList />
         <ImageContainer />
         <RightColumn />
-
         <div class="loader"></div>
     </div>
 </template>
@@ -68,6 +67,8 @@ export default {
     beforeCreate() {
         // ナビゲーションバーを表示する
         this.$store.commit("mode/setHasNavigation", true);
+        // バインダー情報を取得する。
+        this.$store.commit("binder/fetchBinder", $route.params.id);
     },
     mounted() {
         // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする

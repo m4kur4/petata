@@ -15,6 +15,13 @@ class Image extends Model
         'visible'
     ];
 
+    protected $visible = [
+        'binder_id',
+        'upload_user_id',
+        'name',
+        'visible'
+    ];
+
     /** ファイルパスの桁数 */
     const PATH_LENGTH = 12;
 

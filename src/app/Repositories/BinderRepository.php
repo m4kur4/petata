@@ -69,7 +69,7 @@ class BinderRepository implements BinderRepositoryInterface
         $accesible_binders = Binder::with([
                 'labels',
                 'binderAuthorities',
-                'BinderFavorites',
+                'binderFavorites',
             ])
             ->whereIn('id', $accesible_binder_ids)
             ->get();
@@ -115,6 +115,45 @@ class BinderRepository implements BinderRepositoryInterface
 
             $label->save();
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function selectOneById(string $binder_id)
+    {
+        $user_id = Auth::id();
+        if (empty($user_id) || !$this->isAccessible($user_id, $binder_id)) {
+            // 未ログイン、またはログインユーザーにアクセス権限がない場合
+            return null;
+        }
+
+        $binder = Binder::with([
+            'labels',
+            'binderAuthorities',
+            'binderFavorites',
+        ])
+        ->where('id', $binder_id)
+        ->first();
+
+        return $binder;
+    }
+
+    /**
+     * 指定したユーザーが指定したバインダーへアクセス可能かを判定します。
+     * 
+     * @param string $user_id ユーザーID
+     * @param string $binder_id バインダーID
+     * @return bool
+     */
+    private function isAccessible($user_id, $binder_id)
+    {
+        $result = BinderAuthority::query()
+            ->where('user_id', $user_id)
+            ->where('binder_id', $binder_id)
+            ->exists();
+        
+        return $result;
     }
 
     /**

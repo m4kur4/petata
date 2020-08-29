@@ -11,4 +11,10 @@ class Label extends Model
         'name',
         'description'
     ];
+
+    protected $visible = [
+        'binder_id',
+        'name',
+        'description'
+    ];
 }

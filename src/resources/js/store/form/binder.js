@@ -12,31 +12,76 @@ const state = {
      * count_image: Number 画像数
      * count_label: Number ラベル数
      * count_favorite: Number お気に入り登録数
-     * is_own: Boolean ログインユーザーが作成者かどうか
-     * is_favorite: Boolean ログインユーザーがお気に入り登録しているかどうか
+     * labels: Array ラベル
+     *   - name: String ラベル名
+     *   - description:  ラベルの説明
+     * images: Array 画像
+     *   - name: String 画像名
+     *   - description:  画像の説明
+     *   - url: String URL
      */
-    binders: []
+    id: null,
+    name: null,
+    description: null,
+    count_user: 0,
+    count_image: 0,
+    count_label: 0,
+    count_favorite: 0,
+    labels: [],
+    images: []
 };
 
 const mutations = {
-    setBinders(state, data) {
-        state.binders = data;
-    }
+    setId(state, val) {
+        state.id = val;
+    },
+    setName(state, val) {
+        state.name = val;
+    },
+    setDescription(state, val) {
+        state.description = val;
+    },
+    setCountUser(state, val) {
+        state.count_user = val;
+    },
+    setCountImage(state, val) {
+        state.count_image = val;
+    },
+    setCountLabel(state, val) {
+        state.count_label = val;
+    },
+    setCountFavorite(state, val) {
+        state.count_favorite = val;
+    },
+    setLabels(state, val) {
+        state.labels = val;
+    },
+    setImages(state, val) {
+        state.images = val;
+    },
 };
 
 const actions = {
     /**
-     * バインダー一覧情報を取得します。
+     * バインダー情報を取得します。
      */
-    async fetchBinders(context) {
+    async fetchBinder(context, id) {
         // ローディング画像の表示
         context.commit("mode/setIsLoading", true, {
             root: true
         });
-        const response = await axios.get("api/binder/list");
+        const response = await axios.get("api/binder/detail", id);
 
         if (response.status === STATUS.OK) {
-            context.commit("setBinders", response.data);
+            context.commit("setId", response.data.id);
+            context.commit("setName", response.data.name);
+            context.commit("setDescription", response.data.description);
+            context.commit("setCountUser", response.data.count_user);
+            context.commit("setCountImage", response.data.count_image);
+            context.commit("setsetCountLabel", response.data.count_label);
+            context.commit("setCountFavorite", response.data.count_favorite);
+            context.commit("setLabels", response.data.labels);
+            context.commit("setImages", response.data.images);
         } else {
             // 失敗時はエラーコードを格納
             context.commit("error/setCode", response.data.status, {

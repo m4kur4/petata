@@ -125,7 +125,7 @@ export default {
     },
     methods: {
         moveToBinder() {
-            this.$router.push({name: 'binder'});
+            this.$router.push({ name: "binder", params: { id: this.id } });
         }
     }
 };
