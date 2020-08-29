@@ -1,9 +1,9 @@
 <template>
-    <div id="binder-content" class="container--binder">
+    <div class="container--binder">
         <ImageList />
         <ImageContainer />
         <RightColumn />
-        <Dropzone />
+
         <div class="loader"></div>
     </div>
 </template>
@@ -12,14 +12,12 @@
 import ImageList from "../components/binder/ImageList.vue";
 import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
-import Dropzone from "../components/binder/Dropzone.vue";
 
 export default {
     components: {
         ImageList,
         ImageContainer,
-        RightColumn,
-        Dropzone
+        RightColumn
     },
     computed: {
         isLoading() {
@@ -37,11 +35,31 @@ export default {
          * ドロップゾーンの表示制御をDOMへバインドします。
          */
         initializeDropzone() {
+            // D&D禁止領域の指定
+            window.addEventListener(
+                "dragover",
+                function(ev) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                },
+                false
+            );
+            window.addEventListener(
+                "drop",
+                function(ev) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                },
+                false
+            );
+
             // NOTE: クロージャの中からコンポーネントのメソッドを呼びだす
             const self = this;
-            const imageContainer = document.getElementById("binder-content");
+            const imageContainer = document.getElementById("image-container");
 
-            imageContainer.ondragover = function(e) {
+            imageContainer.ondragover = function(ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
                 self.showDropzone();
                 console.log("おけまる");
             };

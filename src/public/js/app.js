@@ -2684,6 +2684,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {}), _defineProperty(_dropzoneOptions, "dragleave", function dragleave(file, response) {
         // Dropzoneを非表示にする
         self.hideDropzone();
+      }), _defineProperty(_dropzoneOptions, "dragend", function dragend(file, response) {
+        self.hideDropzone();
+      }), _defineProperty(_dropzoneOptions, "drop", function drop(file, response) {
+        self.hideDropzone();
       }), _dropzoneOptions)
     };
   },
@@ -2712,6 +2716,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ImageContainerThumbnail.vue */ "./resources/js/components/binder/ImageContainerThumbnail.vue");
+/* harmony import */ var _Dropzone_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dropzone.vue */ "./resources/js/components/binder/Dropzone.vue");
+//
 //
 //
 //
@@ -2739,9 +2745,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Dropzone: _Dropzone_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -3535,7 +3543,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_binder_ImageList_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/binder/ImageList.vue */ "./resources/js/components/binder/ImageList.vue");
 /* harmony import */ var _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/binder/ImageContainer.vue */ "./resources/js/components/binder/ImageContainer.vue");
 /* harmony import */ var _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/binder/RightColumn.vue */ "./resources/js/components/binder/RightColumn.vue");
-/* harmony import */ var _components_binder_Dropzone_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/binder/Dropzone.vue */ "./resources/js/components/binder/Dropzone.vue");
 //
 //
 //
@@ -3546,7 +3553,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 
 
@@ -3554,8 +3560,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ImageList: _components_binder_ImageList_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     ImageContainer: _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    RightColumn: _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Dropzone: _components_binder_Dropzone_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    RightColumn: _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   computed: {
     isLoading: function isLoading() {
@@ -3574,11 +3579,22 @@ __webpack_require__.r(__webpack_exports__);
      * ドロップゾーンの表示制御をDOMへバインドします。
      */
     initializeDropzone: function initializeDropzone() {
-      // NOTE: クロージャの中からコンポーネントのメソッドを呼びだす
-      var self = this;
-      var imageContainer = document.getElementById("binder-content");
+      // D&D禁止領域の指定
+      window.addEventListener("dragover", function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }, false);
+      window.addEventListener("drop", function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }, false); // NOTE: クロージャの中からコンポーネントのメソッドを呼びだす
 
-      imageContainer.ondragover = function (e) {
+      var self = this;
+      var imageContainer = document.getElementById("image-container");
+
+      imageContainer.ondragover = function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
         self.showDropzone();
         console.log("おけまる");
       };
@@ -22860,7 +22876,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "image-container" },
+    { staticClass: "image-container", attrs: { id: "image-container" } },
     [
       _c("ImageContainerThumbnail", {
         attrs: {
@@ -22895,7 +22911,9 @@ var render = function() {
           imageSource: "../_static/image/dummy.jpg",
           fileName: "ファイル名"
         }
-      })
+      }),
+      _vm._v(" "),
+      _c("Dropzone")
     ],
     1
   )
@@ -24112,15 +24130,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container--binder", attrs: { id: "binder-content" } },
+    { staticClass: "container--binder" },
     [
       _c("ImageList"),
       _vm._v(" "),
       _c("ImageContainer"),
       _vm._v(" "),
       _c("RightColumn"),
-      _vm._v(" "),
-      _c("Dropzone"),
       _vm._v(" "),
       _c("div", { staticClass: "loader" })
     ],

@@ -2,6 +2,7 @@
   /* var@image-container */
   $thumbnail-size: 312px;
 
+  position: relative;
   width: 100%;
   grid-area: image-container;
   overflow-y: scroll;

@@ -1,5 +1,5 @@
 <template>
-    <div class="image-container">
+    <div id="image-container" class="image-container">
         <ImageContainerThumbnail
             :imageSource="'../_static/image/dummy.jpg'"
             :fileName="'ファイル名'"
@@ -20,15 +20,18 @@
             :imageSource="'../_static/image/dummy.jpg'"
             :fileName="'ファイル名'"
         />
+        <Dropzone />
     </div>
     <!-- /.image-container -->
 </template>
 
 <script>
 import ImageContainerThumbnail from "./ImageContainerThumbnail.vue";
+import Dropzone from "./Dropzone.vue";
 export default {
     components: {
-        ImageContainerThumbnail
+        ImageContainerThumbnail,
+        Dropzone
     }
 };
 </script>

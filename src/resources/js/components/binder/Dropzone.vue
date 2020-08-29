@@ -42,6 +42,12 @@ export default {
                 dragleave: function(file, response) {
                     // Dropzoneを非表示にする
                     self.hideDropzone();
+                },
+                dragend: function(file, response) {
+                    self.hideDropzone();
+                }, 
+                drop: function(file, response) {
+                    self.hideDropzone();
                 }
             }
         };
