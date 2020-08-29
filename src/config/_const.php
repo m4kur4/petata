@@ -4,20 +4,21 @@
  * 定数クラス
  */
 return [
-  // バインダー操作権限
-  'BINDER_AUTHORITY' => [
-    // 権限レベル
-    'LEVEL' => [
+  'BINDER_AUTHORITY' => [// バインダー操作権限
+    'LEVEL' => [// 権限レベル
       'GUEST' => 0,
       'MAINTAINER' => 10,
       'OWNER' => 50
     ],
   ],
-  // 画像
-  'IMAGE' => [
+  'IMAGE' => [// 画像
       'VISIBLE' => [
           'HIDE' => 0,
           'SHOW' => 1
       ]
+  ],
+  'HTTP_STATUS' => [// HTTPステータスコード
+    'SUCCESS' => 200,
+    'CREATED' => 201,
   ],
 ];

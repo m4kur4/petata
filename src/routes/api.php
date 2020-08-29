@@ -32,6 +32,9 @@ Route::post('binder/create','BinderController@create')->name('api.binder.create'
 // バインダー一覧取得
 Route::get('binder/list','BinderController@list')->name('api.binder.list');
 
+// 画像追加
+Route::post('image/add', 'ImageController@add')->name('api.image.add');
+
 // TODO: ユーザー退会
 //Route::post('user/unregister','Auth\RegisterController@register')->name('user.unregister');
 

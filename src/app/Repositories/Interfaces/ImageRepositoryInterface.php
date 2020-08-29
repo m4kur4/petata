@@ -12,8 +12,9 @@ interface ImageRepositoryInterface
 {
     /**
      * 画像１枚を新規追加します。
+     * アップロード先のファイルパスを返却します。
      *
-     * @return Image
+     * @return string
      */
     public function add(ImageAddRequest $request);
 

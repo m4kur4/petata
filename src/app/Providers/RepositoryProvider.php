@@ -23,6 +23,11 @@ class RepositoryProvider extends ServiceProvider
             \App\Repositories\Interfaces\BinderRepositoryInterface::class,
             \App\Repositories\BinderRepository::class
         );
+        // 画像リポジトリ
+        $this->app->bind(
+            \App\Repositories\Interfaces\ImageRepositoryInterface::class,
+            \App\Repositories\ImageRepository::class
+        );
     }
 
     /**

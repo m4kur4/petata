@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Image extends Model
 {
 
     protected $fillable = [
+        'binder_id',
         'upload_user_id',
         'name',
         'visible'

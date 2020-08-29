@@ -38,7 +38,13 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\BinderFavoriteServiceInterface::class,
             \App\Services\Api\BinderFavoriteService::class
         );
+        // 画像追加サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\ImageAddServiceInterface::class,
+            \App\Services\Api\ImageAddService::class
+        );
     }
+    
 
     /**
      * Bootstrap any application services.
