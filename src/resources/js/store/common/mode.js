@@ -13,7 +13,11 @@ const state = {
     /**
      * ローディング画像の有無
      */
-    isLoading: false
+    isLoading: false,
+    /**
+     * ドロップゾーン表示の有無
+     */
+    isShowDropzone: false,
 };
 
 const mutations = {
@@ -25,6 +29,9 @@ const mutations = {
     },
     setIsLoading(state, val) {
         state.isLoading = val;
+    },
+    setIsShowDropzone(state, val) {
+        state.isShowDropzone = val;
     }
 };
 
