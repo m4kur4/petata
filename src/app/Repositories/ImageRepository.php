@@ -27,12 +27,15 @@ class ImageRepository implements ImageRepositoryInterface
         // if (empty($binder_id)) {
         // }
 
+        $original_name = $request->image->getClientOriginalName();
+        $extension = $request->image->getClientOriginalExtension();
+
         $image = new Image([
             'binder_id' => $request->binder_id,
             'upload_user_id' => Auth::id(),
-            'name' => $request->image->getClientOriginalName(),
+            'name' => str_replace(('.' . $extension) , '', $original_name), // 拡張子を除いたファイル名を設定
             'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
-            'extension' => $request->image->getClientOriginalExtension(),
+            'extension' => $extension,
         ]);
         $image->save();
 
