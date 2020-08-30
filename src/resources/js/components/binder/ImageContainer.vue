@@ -1,24 +1,10 @@
 <template>
     <div id="image-container" class="image-container">
         <ImageContainerThumbnail
-            :imageSource="'../_static/image/dummy.jpg'"
-            :fileName="'ファイル名'"
-        />
-        <ImageContainerThumbnail
-            :imageSource="'../_static/image/dummy.jpg'"
-            :fileName="'ファイル名'"
-        />
-        <ImageContainerThumbnail
-            :imageSource="'../_static/image/dummy.jpg'"
-            :fileName="'ファイル名'"
-        />
-        <ImageContainerThumbnail
-            :imageSource="'../_static/image/dummy.jpg'"
-            :fileName="'ファイル名'"
-        />
-        <ImageContainerThumbnail
-            :imageSource="'../_static/image/dummy.jpg'"
-            :fileName="'ファイル名'"
+            v-for="image in images"
+            :key="image.id"
+            :imageSource="image.storage_file_path"
+            :fileName="image.name"
         />
         <Dropzone />
     </div>
@@ -32,6 +18,11 @@ export default {
     components: {
         ImageContainerThumbnail,
         Dropzone
-    }
+    },
+    computed: {
+        images() {
+            return this.$store.state.binder.images;
+        },
+    },
 };
 </script>

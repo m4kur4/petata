@@ -41,9 +41,11 @@ class ImageRepository implements ImageRepositoryInterface
 
         // アップロード先："binder/<バインダーID>"
         $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $request->binder_id;
-        
+
         // アップロード
-        $path = Storage::disk('s3')->putFileAs(
+        // TODO: S3を使う
+        // $path = Storage::disk('s3')->putFileAs(
+        $path = Storage::disk('public')->putFileAs(
             $upload_directory, 
             $request->image, 
             ($image->path . '.' . $image->extension),

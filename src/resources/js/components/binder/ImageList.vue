@@ -9,24 +9,10 @@
         </div>
         <div class="image-list__content">
             <ImageListItem
-                :imageSource="'../_static/image/dummy.jpg'"
-                :fileName="'ファイル名'"
-            />
-            <ImageListItem
-                :imageSource="'../_static/image/dummy.jpg'"
-                :fileName="'ファイル名'"
-            />
-            <ImageListItem
-                :imageSource="'../_static/image/dummy.jpg'"
-                :fileName="'ファイル名'"
-            />
-            <ImageListItem
-                :imageSource="'../_static/image/dummy.jpg'"
-                :fileName="'ファイル名'"
-            />
-            <ImageListItem
-                :imageSource="'../_static/image/dummy.jpg'"
-                :fileName="'ファイル名'"
+                v-for="image in images"
+                :key="image.id"
+                :imageSource="image.storage_file_path"
+                :fileName="image.name"
             />
         </div>
         <!-- image-list__content -->
@@ -39,6 +25,11 @@ import ImageListItem from "./ImageListItem.vue";
 export default {
     components: {
         ImageListItem
-    }
+    },
+    computed: {
+        images() {
+            return this.$store.state.binder.images;
+        },
+    },
 };
 </script>

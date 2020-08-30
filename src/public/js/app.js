@@ -2740,26 +2740,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Dropzone: _Dropzone_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  computed: {
+    images: function images() {
+      return this.$store.state.binder.images;
+    }
   }
 });
 
@@ -2824,24 +2815,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     ImageListItem: _ImageListItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: {
+    images: function images() {
+      return this.$store.state.binder.images;
+    }
   }
 });
 
@@ -2896,6 +2878,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     LabelContainer: _common_LabelContainer_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  computed: {
+    labels: function labels() {
+      return this.$store.state.binder.labels;
+    }
   }
 });
 
@@ -22889,44 +22876,16 @@ var render = function() {
     "div",
     { staticClass: "image-container", attrs: { id: "image-container" } },
     [
-      _c("ImageContainerThumbnail", {
-        attrs: {
-          imageSource: "../_static/image/dummy.jpg",
-          fileName: "ファイル名"
-        }
-      }),
-      _vm._v(" "),
-      _c("ImageContainerThumbnail", {
-        attrs: {
-          imageSource: "../_static/image/dummy.jpg",
-          fileName: "ファイル名"
-        }
-      }),
-      _vm._v(" "),
-      _c("ImageContainerThumbnail", {
-        attrs: {
-          imageSource: "../_static/image/dummy.jpg",
-          fileName: "ファイル名"
-        }
-      }),
-      _vm._v(" "),
-      _c("ImageContainerThumbnail", {
-        attrs: {
-          imageSource: "../_static/image/dummy.jpg",
-          fileName: "ファイル名"
-        }
-      }),
-      _vm._v(" "),
-      _c("ImageContainerThumbnail", {
-        attrs: {
-          imageSource: "../_static/image/dummy.jpg",
-          fileName: "ファイル名"
-        }
+      _vm._l(_vm.images, function(image) {
+        return _c("ImageContainerThumbnail", {
+          key: image.id,
+          attrs: { imageSource: image.storage_file_path, fileName: image.name }
+        })
       }),
       _vm._v(" "),
       _c("Dropzone")
     ],
-    1
+    2
   )
 }
 var staticRenderFns = []
@@ -22986,42 +22945,12 @@ var render = function() {
     _c(
       "div",
       { staticClass: "image-list__content" },
-      [
-        _c("ImageListItem", {
-          attrs: {
-            imageSource: "../_static/image/dummy.jpg",
-            fileName: "ファイル名"
-          }
-        }),
-        _vm._v(" "),
-        _c("ImageListItem", {
-          attrs: {
-            imageSource: "../_static/image/dummy.jpg",
-            fileName: "ファイル名"
-          }
-        }),
-        _vm._v(" "),
-        _c("ImageListItem", {
-          attrs: {
-            imageSource: "../_static/image/dummy.jpg",
-            fileName: "ファイル名"
-          }
-        }),
-        _vm._v(" "),
-        _c("ImageListItem", {
-          attrs: {
-            imageSource: "../_static/image/dummy.jpg",
-            fileName: "ファイル名"
-          }
-        }),
-        _vm._v(" "),
-        _c("ImageListItem", {
-          attrs: {
-            imageSource: "../_static/image/dummy.jpg",
-            fileName: "ファイル名"
-          }
+      _vm._l(_vm.images, function(image) {
+        return _c("ImageListItem", {
+          key: image.id,
+          attrs: { imageSource: image.storage_file_path, fileName: image.name }
         })
-      ],
+      }),
       1
     )
   ])
@@ -23095,7 +23024,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("LabelContainer")
+  return _c("LabelContainer", { attrs: { labels: _vm.labels } })
 }
 var staticRenderFns = []
 render._withStripped = true

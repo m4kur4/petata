@@ -10,17 +10,21 @@ use Storage;
 class FileManageHelper
 {
     /**
-     * S3上に格納されているバインダー画像のフルパスを取得します。
+     * S3上に格納されているバインダー画像の絶対パスを取得します。
      * 
      * @param Image $image
      */
     public static function getBinderImagePath($image)
     {
-        $disk = Storage::disk('s3');
+        // TODO: S3を使う
+        //$disk = Storage::disk('s3');
+        $disk = Storage::disk('public');
+
 
         // <ベースディレクトリ> / <バインダーID> / <ファイル物理名>.<ファイル拡張子>
         $format = '%s/%s/%s.%s';
-        $full_path = sprintf(
+        // ルートディレクトリからの相対パス
+        $relative_path = sprintf(
             $format, 
             config('_const.UPLOAD_DIRECTORY.BINDER'), 
             $image->binder_id, 
@@ -28,6 +32,13 @@ class FileManageHelper
             $image->extension, 
         );
 
-        return $full_path;
+        // 絶対パスを返却
+        // TODO: S3を使う
+        //$absolute_path = $disk->url($relative_path);
+
+        // DEBUG: ローカルストレージの公開ディレクトリを参照
+        $absolute_path = asset('storage/' . $relative_path);
+
+        return $absolute_path;
     }
 }

@@ -31,6 +31,16 @@ class ImageAddApiTest extends TestCase
     /**
      * @test
      * 
+     * テストを停止中に警告が表示されないようにする
+     */
+    public function Avoid_Worning()
+    {
+        $this->assertEquals(1,1);
+    }
+
+    /**
+     * // TODO: 開発中はS3を使わないため、試験を停止中
+     * 
      * 正しいリクエストを送信し、画像の追加に成功する。
      */
     public function Image_Create_Success()
