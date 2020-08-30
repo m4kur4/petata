@@ -2670,13 +2670,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _dropzoneOptions;
 
     var self = this;
+    var csrfToken = document.getElementById("csrf-token").content;
     return {
       dropzoneOptions: (_dropzoneOptions = {
-        url: "hogehoge",
+        url: "/api/image/add",
         thumbnailWidth: 150,
         maxFilesize: 0.5,
         headers: {
-          "My-Awesome-Header": "header value"
+          "X-CSRF-TOKEN": csrfToken
+        },
+        params: {
+          'binder_id': '00000'
         },
         paramName: "image"
       }, _defineProperty(_dropzoneOptions, "maxFilesize", 2), _defineProperty(_dropzoneOptions, "clickable", false), _defineProperty(_dropzoneOptions, "processing", function processing(file, response) {
@@ -2690,6 +2694,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }), _defineProperty(_dropzoneOptions, "dragend", function dragend(file, response) {
         self.hideDropzone();
       }), _defineProperty(_dropzoneOptions, "drop", function drop(file, response) {
+        // ドロップする度にstateのバインダーIDを取得する
+        // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
+        this.options.params.binder_id = self.$store.state.binder.id;
         self.hideDropzone();
       }), _dropzoneOptions)
     };
@@ -44129,7 +44136,7 @@ var state = {
    *   - description:  画像の説明
    *   - url: String URL
    */
-  id: null,
+  id: 'hoge',
   name: null,
   description: null,
   count_user: 0,

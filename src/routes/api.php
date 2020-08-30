@@ -35,7 +35,7 @@ Route::get('binder/list','BinderController@list')->name('api.binder.list');
 // バインダー情報取得
 Route::get('binder/detail/{binder_id}','BinderController@detail')->name('api.binder.detail');
 
-// 画像追加
+// 画像追加 NOTE: Dropzone.jsの仕様(?)で呼び出しページのURLが先頭に付与される
 Route::post('image/add', 'ImageController@add')->name('api.image.add');
 
 // TODO: ユーザー退会

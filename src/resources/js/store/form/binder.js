@@ -20,7 +20,7 @@ const state = {
      *   - description:  画像の説明
      *   - url: String URL
      */
-    id: null,
+    id: 'hoge',
     name: null,
     description: null,
     count_user: 0,

@@ -5,7 +5,7 @@
         id="dropzone"
         :class="{
             'dropzone--show': isShow,
-            'dropzone--hide': !isShow,
+            'dropzone--hide': !isShow
         }"
     >
     </VueDropzone>
@@ -23,12 +23,16 @@ export default {
     },
     data: function() {
         const self = this;
+        const csrfToken = document.getElementById("csrf-token").content;
         return {
             dropzoneOptions: {
-                url: "hogehoge",
+                url: "/api/image/add",
                 thumbnailWidth: 150,
                 maxFilesize: 0.5,
-                headers: { "My-Awesome-Header": "header value" },
+                headers: { "X-CSRF-TOKEN": csrfToken },
+                params: {
+                    binder_id: ""
+                },
                 paramName: "image", // name属性として扱われる
                 maxFilesize: 2, //MB このサイズを超えるとerrorイベントが発火
                 clickable: false, // クリックでファイル保存ダイアログを表示しない
@@ -38,16 +42,21 @@ export default {
                     // Dropzoneを非表示にする
                     self.hideDropzone();
                 },
-                complete: function(file, response) {},
                 dragleave: function(file, response) {
                     // Dropzoneを非表示にする
                     self.hideDropzone();
                 },
                 dragend: function(file, response) {
                     self.hideDropzone();
-                }, 
+                },
                 drop: function(file, response) {
+                    // ドロップする度にstateのバインダーIDを取得する
+                    // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
+                    this.options.params.binder_id = self.$store.state.binder.id;
                     self.hideDropzone();
+                },
+                complete: function(file, response) {
+                    
                 }
             }
         };
@@ -55,7 +64,7 @@ export default {
     methods: {
         hideDropzone() {
             this.$store.commit("mode/setIsShowDropzone", false);
-        },
+        }
     },
     computed: {
         // NOTE: 処理完了前に非表示とすると処理が中断されるため、z-indexで表示を制御する

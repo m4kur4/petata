@@ -82,17 +82,8 @@ class BinderController extends Controller
      */
     public function detail($binder_id)
     {
-        Log::debug('D1');
-        Log::debug($binder_id);
-        Log::debug('/ D1');
-        
         try {
             $binder= $this->binder_detail_select_service->execute($binder_id);
-
-            Log::debug('D2');
-            Log::debug($binder);
-            Log::debug('/ D2');
-
             return $binder;
 
         } catch (\Exception $e) {
