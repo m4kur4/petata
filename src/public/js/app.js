@@ -2680,7 +2680,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           "X-CSRF-TOKEN": csrfToken
         },
         params: {
-          'binder_id': '00000'
+          binder_id: ""
         },
         paramName: "image"
       }, _defineProperty(_dropzoneOptions, "maxFilesize", 2), _defineProperty(_dropzoneOptions, "clickable", false), _defineProperty(_dropzoneOptions, "processing", function processing(file, response) {
@@ -2688,7 +2688,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         file.previewElement.outerHTML = ""; // Dropzoneを非表示にする
 
         self.hideDropzone();
-      }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {}), _defineProperty(_dropzoneOptions, "dragleave", function dragleave(file, response) {
+      }), _defineProperty(_dropzoneOptions, "dragleave", function dragleave(file, response) {
         // Dropzoneを非表示にする
         self.hideDropzone();
       }), _defineProperty(_dropzoneOptions, "dragend", function dragend(file, response) {
@@ -2698,7 +2698,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
         this.options.params.binder_id = self.$store.state.binder.id;
         self.hideDropzone();
-      }), _dropzoneOptions)
+      }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {}), _dropzoneOptions)
     };
   },
   methods: {

@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         // Add -----
         'PyExec' => App\Helpers\PyExec::class,
+        'FileManageHelper' => App\Helpers\FileManageHelper::class,
     ],
 
 ];

@@ -59,7 +59,7 @@ class Binder extends Model
     }
 
     /**
-     * アクセサ -バインダーがログインユーザーのものかどうか
+     * アクセサ - バインダーがログインユーザーのものかどうか
      */
     public function getIsOwnAttribute()
     {

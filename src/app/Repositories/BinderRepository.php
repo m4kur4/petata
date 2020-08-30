@@ -132,6 +132,7 @@ class BinderRepository implements BinderRepositoryInterface
             'labels',
             'binderAuthorities',
             'binderFavorites',
+            'images'
         ])
         ->where('id', $binder_id)
         ->first();

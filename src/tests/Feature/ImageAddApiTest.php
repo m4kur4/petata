@@ -12,6 +12,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
+use FileManageHelper;
 use Log;
 use Storage;
 
@@ -51,12 +52,11 @@ class ImageAddApiTest extends TestCase
         $response->assertStatus(201);
         
         // - ファイルパスが期待通り設定されていること
-        $this->assertRegExp('/^[0-9a-zA-Z-_]{12}$/', $image->path);
+        $this->assertRegExp('/^[0-9a-zA-Z-_]{24}$/', $image->path);
         
         // - ストレージに期待通りファイルがアップロードされていること
         //   NOTE: アップロード先 ⇒ binder/<binder_id>/<path>
         // Log::debug(Storage::cloud()->allFiles());
-        Storage::cloud()->assertExists('binder/' . $BINDER_ID . '/' . $image->path);
- 
+        Storage::cloud()->assertExists(FileManageHelper::getBinderImagePath($image));
     }
 }

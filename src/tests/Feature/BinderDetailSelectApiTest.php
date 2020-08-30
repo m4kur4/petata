@@ -53,7 +53,8 @@ class BinderDetailSelectApiTest extends TestCase
 
         // 画像追加
         factory(Image::class)->create([
-            'binder_id' => $binder->id
+            'binder_id' => $binder->id,
+            'extension' => 'jpg'
         ]);
 
         // 検証
@@ -88,7 +89,9 @@ class BinderDetailSelectApiTest extends TestCase
                             'binder_id' => $image->binder_id,
                             'upload_user_id' => $image->upload_user_id,
                             'name' => $image->name,
-                            'visible' => $image->visible
+                            'path' => $image->path,
+                            'visible' => $image->visible,
+                            'storage_file_path' => $image->storageFilePath
                         ];
                     })
                     ->all(),

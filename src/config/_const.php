@@ -21,4 +21,8 @@ return [
     'SUCCESS' => 200,
     'CREATED' => 201,
   ],
+  'UPLOAD_DIRECTORY' => [// ファイルアップロード先フォルダ名
+      'BINDER' => 'image/binder',
+      'USER' => 'image/user',
+  ],
 ];

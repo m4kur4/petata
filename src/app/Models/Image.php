@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
+use FileManageHelper;
+
 class Image extends Model
 {
 
@@ -12,18 +14,25 @@ class Image extends Model
         'binder_id',
         'upload_user_id',
         'name',
-        'visible'
+        'visible',
+        'extension'
     ];
 
     protected $visible = [
         'binder_id',
         'upload_user_id',
         'name',
-        'visible'
+        'path',
+        'visible',
+        'storage_file_path'
+    ];
+
+    protected $appends = [
+        'storage_file_path'
     ];
 
     /** ファイルパスの桁数 */
-    const PATH_LENGTH = 12;
+    const PATH_LENGTH = 24;
 
     public function __construct(array $attributes = [])
     {
@@ -33,6 +42,16 @@ class Image extends Model
         if (! Arr::get($this->attributes, 'id')) {
             $this->setPath();
         }
+    }
+
+    /**
+     * アクセサ - ストレージ上のファイルパス
+     * NOTE: path列の値を絶対パス変換する
+     */
+    public function getStorageFilePathAttribute()
+    {
+        $storage_file_path = FileManageHelper::getBinderImagePath($this);
+        return $storage_file_path;
     }
 
     /**

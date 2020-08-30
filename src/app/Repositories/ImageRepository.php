@@ -17,10 +17,6 @@ use Storage;
  */
 class ImageRepository implements ImageRepositoryInterface
 {
-    // アップロード先
-    const UPLOAD_DIRECTORY_BINDER = 'binder';
-    const UPLOAD_DIRECTORY_USER = 'user';
-
     /**
      * @inheritdoc
      */
@@ -31,25 +27,23 @@ class ImageRepository implements ImageRepositoryInterface
         // if (empty($binder_id)) {
         // }
 
-        // TODO: ファイル名の設定
         $image = new Image([
             'binder_id' => $request->binder_id,
             'upload_user_id' => Auth::id(),
             'name' => $request->image->getClientOriginalName(),
-            'visible' => config('_const.IMAGE.VISIBLE.SHOW')
+            'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
+            'extension' => $request->image->getClientOriginalExtension(),
         ]);
         $image->save();
 
         // アップロード先："binder/<バインダーID>"
-        $upload_directory = self::UPLOAD_DIRECTORY_BINDER . '/' . $request->binder_id;
+        $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $request->binder_id;
         
         // アップロード
-        // TODO: S3へアップロードする
-        //$path = Storage::disk('s3')->putFileAs(
-        $path = Storage::disk('local')->putFileAs(
+        $path = Storage::disk('s3')->putFileAs(
             $upload_directory, 
             $request->image, 
-            $image->path,
+            ($image->path . '.' . $image->extension),
             'public'
         );
 

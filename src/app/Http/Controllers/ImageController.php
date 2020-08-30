@@ -31,9 +31,6 @@ class ImageController extends Controller
      */
     public function add(ImageAddRequest $request)
     {
-        Log::debug('D1');
-        Log::debug($request);
-        Log::debug('/ D1');
         $response = $this->image_add_service->execute($request);
         return $response;
     }
