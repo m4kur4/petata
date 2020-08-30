@@ -3,7 +3,7 @@
         <ImageList />
         <ImageContainer />
         <RightColumn />
-        <div class="loader"></div>
+        <Loader />
     </div>
 </template>
 
@@ -11,12 +11,14 @@
 import ImageList from "../components/binder/ImageList.vue";
 import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
+import Loader from "../components/common/Loader.vue";
 
 export default {
     components: {
         ImageList,
         ImageContainer,
-        RightColumn
+        RightColumn,
+        Loader
     },
     computed: {
         isLoading() {
@@ -73,6 +75,10 @@ export default {
     mounted() {
         // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする
         this.initializeDropzone();
+    },
+    destroyed() {
+        // バインダー情報をクリアする
+        this.$store.dispatch("binder/clearBinder");
     }
 };
 </script>

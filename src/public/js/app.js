@@ -2698,7 +2698,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
         this.options.params.binder_id = self.$store.state.binder.id;
         self.hideDropzone();
-      }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {}), _dropzoneOptions)
+      }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {
+        // バインダー情報をリロード
+        self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id);
+      }), _dropzoneOptions)
     };
   },
   methods: {
@@ -3540,6 +3543,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_binder_ImageList_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/binder/ImageList.vue */ "./resources/js/components/binder/ImageList.vue");
 /* harmony import */ var _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/binder/ImageContainer.vue */ "./resources/js/components/binder/ImageContainer.vue");
 /* harmony import */ var _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/binder/RightColumn.vue */ "./resources/js/components/binder/RightColumn.vue");
+/* harmony import */ var _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/common/Loader.vue */ "./resources/js/components/common/Loader.vue");
 //
 //
 //
@@ -3549,6 +3553,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
@@ -3556,7 +3561,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     ImageList: _components_binder_ImageList_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     ImageContainer: _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    RightColumn: _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    RightColumn: _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Loader: _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   computed: {
     isLoading: function isLoading() {
@@ -3605,6 +3611,10 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする
     this.initializeDropzone();
+  },
+  destroyed: function destroyed() {
+    // バインダー情報をクリアする
+    this.$store.dispatch("binder/clearBinder");
   }
 });
 
@@ -24078,7 +24088,7 @@ var render = function() {
       _vm._v(" "),
       _c("RightColumn"),
       _vm._v(" "),
-      _c("div", { staticClass: "loader" })
+      _c("Loader")
     ],
     1
   )
@@ -44065,7 +44075,7 @@ var state = {
    *   - description:  画像の説明
    *   - url: String URL
    */
-  id: 'hoge',
+  id: null,
   name: null,
   description: null,
   count_user: 0,
@@ -44153,6 +44163,34 @@ var actions = {
           }
         }
       }, _callee);
+    }))();
+  },
+
+  /**
+   * stateに保持しているバインダー情報を初期化します。
+   */
+  clearBinder: function clearBinder(context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              context.commit("setId", null);
+              context.commit("setName", null);
+              context.commit("setDescription", null);
+              context.commit("setCountUser", 0);
+              context.commit("setCountImage", 0);
+              context.commit("setCountLabel", 0);
+              context.commit("setCountFavorite", 0);
+              context.commit("setLabels", []);
+              context.commit("setImages", []);
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
     }))();
   }
 };

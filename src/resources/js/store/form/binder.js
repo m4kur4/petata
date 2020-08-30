@@ -20,7 +20,7 @@ const state = {
      *   - description:  画像の説明
      *   - url: String URL
      */
-    id: 'hoge',
+    id: null,
     name: null,
     description: null,
     count_user: 0,
@@ -92,6 +92,20 @@ const actions = {
         context.commit("mode/setIsLoading", false, {
             root: true
         });
+    },
+    /**
+     * stateに保持しているバインダー情報を初期化します。
+     */
+    async clearBinder(context) {
+        context.commit("setId", null);
+        context.commit("setName", null);
+        context.commit("setDescription", null);
+        context.commit("setCountUser", 0);
+        context.commit("setCountImage", 0);
+        context.commit("setCountLabel", 0);
+        context.commit("setCountFavorite", 0);
+        context.commit("setLabels", []);
+        context.commit("setImages", []);
     }
 };
 

@@ -56,7 +56,8 @@ export default {
                     self.hideDropzone();
                 },
                 complete: function(file, response) {
-                    
+                    // バインダー情報をリロード
+                    self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id)
                 }
             }
         };
