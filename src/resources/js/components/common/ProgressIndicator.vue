@@ -1,5 +1,5 @@
 <template>
-  <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
+  <div role="progressbar" class="progress-indicator mdc-linear-progress mdc-linear-progress--indeterminate">
     <div class="mdc-linear-progress__buffering-dots"></div>
     <div class="mdc-linear-progress__buffer"></div>
     <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">

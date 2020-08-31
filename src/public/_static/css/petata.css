@@ -54,6 +54,8 @@ main {
 
 .nav {
   position: relative;
+  display: grid;
+  grid-template-columns: 248px auto 384px;
   z-index: 3;
   width: 100%;
   height: 64px;
@@ -61,17 +63,61 @@ main {
 }
 
 .nav__button {
+  vertical-align: middle;
   fill: #324750;
-  padding: 0;
+  opacity: 80%;
   border: none;
+  padding: 0;
   height: 64px;
   width: 64px;
   background-color: Transparent;
   background-repeat: no-repeat;
-  border: none;
   cursor: pointer;
   overflow: hidden;
   outline: none;
+  transition: all 100ms 0s ease;
+}
+
+.nav__button:hover {
+  transition: all 100ms 0s ease;
+  opacity: 100%;
+  background-color: #E9E9E9;
+}
+
+.nav__button-wide {
+  fill: white;
+  opacity: 80%;
+  border: none;
+  padding: 0;
+  height: 64px;
+  width: calc( 64px * 3 );
+  background-color: #324750;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+  transition: all 200ms 0s ease;
+}
+
+.nav__button-wide:hover {
+  transition: all 200ms 0s ease;
+  opacity: 100%;
+}
+
+.nav__button-wide:hover path.add-icon {
+  fill: none;
+}
+
+.nav__button-wide:hover path.add-icon--hover {
+  fill: white;
+}
+
+.nav__button-wrapper--right {
+  float: right;
+}
+
+.progress-indicator {
+  grid-column: 1/3;
 }
 
 .form__checkbox > label {
@@ -473,7 +519,7 @@ main {
   width: 100%;
   height: 48px;
   border-bottom: 1px solid #cbcbcb;
-  transition: all 200ms 0s ease;
+  transition: all 100ms 0s ease;
 }
 
 .image-list__item:nth-child(odd) {
@@ -482,7 +528,7 @@ main {
 
 .image-list__item:hover {
   opacity: 65%;
-  transition: all 200ms 0s ease;
+  transition: all 100ms 0s ease;
 }
 
 .image-list__item-thumbnail {

@@ -1,20 +1,61 @@
 .nav {
-  position: relative;
-  z-index: 3;
-  width: 100%;
-  height: $navbar-height;
-  background-color: #ffffff;
-  &__button {
-      fill: #324750;
-      padding: 0;
-      border: none;
-      height: $navbar-height;
-      width: $navbar-height;
-      background-color: Transparent;
-      background-repeat: no-repeat;
-      border: none;
-      cursor: pointer;
-      overflow: hidden;
-      outline: none;
-  }
+    position: relative;
+    display: grid;
+    grid-template-columns: 248px auto 384px;
+    z-index: 3;
+    width: 100%;
+    height: $navbar-height;
+    background-color: #ffffff;
+    &__button {
+        vertical-align: middle;
+        fill: #324750;
+        opacity: 80%;
+        border: none;
+        padding: 0;
+        height: $navbar-height;
+        width: $navbar-height;
+        background-color: Transparent;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        overflow: hidden;
+        outline: none;
+        transition: all 100ms 0s ease;
+        &:hover {
+            transition: all 100ms 0s ease;
+            opacity: 100%;
+            background-color: #E9E9E9;
+        }
+        &-wide {
+            fill: white;
+            opacity: 80%;
+            border: none;
+            padding: 0;
+            height: $navbar-height;
+            width: calc( #{$navbar-height} * 3 );
+            background-color: #324750;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            overflow: hidden;
+            outline: none;
+            transition: all 200ms 0s ease;
+            &:hover {
+                transition: all 200ms 0s ease;
+                opacity: 100%;
+                & path.add-icon {
+                    fill: none;
+                    &--hover {
+                        fill: white;
+                    }
+                }
+            }
+        }
+        &-wrapper--right {
+            float: right;
+        }
+    }
+}
+
+
+.progress-indicator {
+    grid-column: 1/3;
 }

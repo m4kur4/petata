@@ -50,13 +50,13 @@
       width: 100%;
       height: $image-list-item-height;
       border-bottom: 1px solid #cbcbcb;
-      transition: all 200ms 0s ease;
+      transition: all 100ms 0s ease;
       &:nth-child(odd) {
           background-color: #e4e4e4;
       }
       &:hover {
           opacity: 65%;
-          transition: all 200ms 0s ease;
+          transition: all 100ms 0s ease;
       }
       &-thumbnail {
           grid-area: image-thumbnail;
