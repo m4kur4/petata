@@ -6,6 +6,7 @@ use App\Models\Binder;
 use App\Models\BinderAuthority;
 use App\Models\User;
 use App\Models\Label;
+use App\Models\Labeling;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Http\Requests\BinderCreateRequest;
 
@@ -156,6 +157,32 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function isExistLabeling($label_id, $image_id)
+    {
+        $isExist = Labeling::query()
+            ->where('label_id', $label_id)
+            ->where('image_id', $image_id)
+            ->exists();
+        
+        return $isExist;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addLabeling($label_id, $image_id)
+    {
+        $labeling = new Labeling([
+            'label_id' => $label_id,
+            'image_id' => $image_id,
+        ]);
+
+        $labeling->save();
+    }
+
+    /**
      * 指定したユーザーが指定したバインダーへアクセス可能かを判定します。
      * 
      * @param string $user_id ユーザーID
@@ -192,4 +219,6 @@ class BinderRepository implements BinderRepositoryInterface
 
         return $binder;
     }
+
+
 }

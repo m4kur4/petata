@@ -53,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\LabelSaveServiceInterface::class,
             \App\Services\Api\LabelSaveService::class
         );
+        // ラベリングサービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\LabelingServiceInterface::class,
+            \App\Services\Api\LabelingServiceInterface::class
+        );
     }
     
 

@@ -68,4 +68,20 @@ interface BinderRepositoryInterface
      */
     public function selectOneById(string $binder_id);
 
+    /**
+     * 指定したラベルと画像の組み合わせでラベリングが存在するかを判定します。
+     * 
+     * @param string $label_id ラベルID
+     * @param string $image_id 画像ID
+     */
+    public function isExistLabeling($label_id, $image_id);
+
+    /**
+     * 指定したラベルと画像の組み合わせでラベリングを新規登録します。
+     * 
+     * @param string $label_id ラベルID
+     * @param string $image_id 画像ID
+     */
+    public function addLabeling($label_id, $image_id);
+
 }

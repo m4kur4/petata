@@ -26,7 +26,7 @@ export default {
         const csrfToken = document.getElementById("csrf-token").content;
         return {
             dropzoneOptions: {
-                url: "/api/image/add",
+                url: "/api/binder/image/add",
                 thumbnailWidth: 150,
                 maxFilesize: 0.5,
                 headers: { "X-CSRF-TOKEN": csrfToken },

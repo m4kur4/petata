@@ -115,4 +115,14 @@ class BinderController extends Controller
         }
     }
 
+    /**
+     * ラベリングを行います。
+     */
+    public function labeling(LabelingRequest $request)
+    {
+        // TODO: チェック(フォームリクエスト)
+        // - ログインユーザーのバインダーかどうか
+        // - ログインユーザーの画像かどうか
+        
+    }
 }

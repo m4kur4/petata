@@ -2674,7 +2674,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var csrfToken = document.getElementById("csrf-token").content;
     return {
       dropzoneOptions: (_dropzoneOptions = {
-        url: "/api/image/add",
+        url: "/api/binder/image/add",
         thumbnailWidth: 150,
         maxFilesize: 0.5,
         headers: {
