@@ -64,7 +64,7 @@ export default {
                 self.showDropzone();
                 console.log("おけまる");
             };
-        }
+        },
     },
     beforeCreate() {
         // ナビゲーションバーを表示する

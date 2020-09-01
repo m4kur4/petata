@@ -34,7 +34,7 @@ export default {
                     binder_id: ""
                 },
                 paramName: "image", // name属性として扱われる
-                maxFilesize: 2, //MB このサイズを超えるとerrorイベントが発火
+                maxFilesize: 10, //MB このサイズを超えるとerrorイベントが発火
                 clickable: false, // クリックでファイル保存ダイアログを表示しない
                 processing: function(file, response) {
                     // プレビューを削除する
@@ -54,6 +54,9 @@ export default {
                     // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
                     this.options.params.binder_id = self.$store.state.binder.id;
                     self.hideDropzone();
+                },
+                error: function(e) {
+                    console.log(e);
                 },
                 complete: function(file, response) {
                     // バインダー情報をリロード

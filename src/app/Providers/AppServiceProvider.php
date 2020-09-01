@@ -48,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\ImageAddServiceInterface::class,
             \App\Services\Api\ImageAddService::class
         );
+        // ラベル保存サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\LabelSaveServiceInterface::class,
+            \App\Services\Api\LabelSaveService::class
+        );
     }
     
 

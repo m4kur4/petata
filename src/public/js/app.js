@@ -2063,6 +2063,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     closeDialog: function closeDialog() {
       this.$store.commit("mode/setIsShowDialog", false);
+      this.$store.dispatch("labelAddDialog/clear");
     },
     doPost: function doPost() {
       var _this = this;
@@ -2683,7 +2684,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           binder_id: ""
         },
         paramName: "image"
-      }, _defineProperty(_dropzoneOptions, "maxFilesize", 2), _defineProperty(_dropzoneOptions, "clickable", false), _defineProperty(_dropzoneOptions, "processing", function processing(file, response) {
+      }, _defineProperty(_dropzoneOptions, "maxFilesize", 10), _defineProperty(_dropzoneOptions, "clickable", false), _defineProperty(_dropzoneOptions, "processing", function processing(file, response) {
         // プレビューを削除する
         file.previewElement.outerHTML = ""; // Dropzoneを非表示にする
 
@@ -2698,6 +2699,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
         this.options.params.binder_id = self.$store.state.binder.id;
         self.hideDropzone();
+      }), _defineProperty(_dropzoneOptions, "error", function error(e) {
+        console.log(e);
       }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {
         // バインダー情報をリロード
         self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id);
@@ -2978,16 +2981,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      name: null,
-      description: null
-    };
-  },
   components: {
     TextForm: _TextForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     TextAreaForm: _TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -3000,6 +2996,7 @@ __webpack_require__.r(__webpack_exports__);
       this.name = null;
       this.description = null;
       this.$store.commit("mode/setIsShowDialog", false);
+      this.$store.dispatch("labelAddDialog/clear");
     },
 
     /**
@@ -3009,6 +3006,7 @@ __webpack_require__.r(__webpack_exports__);
     add: function add() {
       // TODO: 実装
       var formData = {
+        id: this.id,
         name: this.name,
         description: this.description
       }; // NOTE: 処理を親へ委譲することで画面ごとに振る舞いを変える
@@ -3020,6 +3018,27 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isShowDialog: function isShowDialog() {
       return this.$store.state.mode.isShowDialog;
+    },
+    id: {
+      get: function get() {
+        return this.$store.state.labelAddDialog.id;
+      }
+    },
+    name: {
+      get: function get() {
+        return this.$store.state.labelAddDialog.name;
+      },
+      set: function set(value) {
+        this.$store.commit("labelAddDialog/setName", value);
+      }
+    },
+    description: {
+      get: function get() {
+        return this.$store.state.labelAddDialog.description;
+      },
+      set: function set(value) {
+        this.$store.commit("labelAddDialog/setDescription", value);
+      }
     }
   }
 });
@@ -3036,9 +3055,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LabelItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LabelItem */ "./resources/js/components/common/LabelItem.vue");
-//
-//
-//
 //
 //
 //
@@ -3083,6 +3099,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    id: null,
     name: '',
     description: ''
   }
@@ -3134,6 +3151,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     closeDialog: function closeDialog() {
       this.$store.commit('mode/setIsShowDialog', false);
+      this.$store.dispatch("labelAddDialog/clear");
     }
   }
 });
@@ -3150,6 +3168,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/ProgressIndicator.vue */ "./resources/js/components/common/ProgressIndicator.vue");
+/* harmony import */ var _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/LabelAddDialog.vue */ "./resources/js/components/common/LabelAddDialog.vue");
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3256,18 +3282,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ProgressIndicator: _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    ProgressIndicator: _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    LabelAddDialog: _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   computed: {
-    isShow: function isShow() {
+    isShowNav: function isShowNav() {
       return this.$store.state.mode.hasNavigation;
+    },
+    isShowDialog: function isShowDialog() {
+      return this.$store.state.mode.isShowDialog;
     }
   },
   methods: {
     moveToBinderList: function moveToBinderList() {
       this.$router.push("/binder/list");
+    },
+    openDialog: function openDialog() {
+      this.$store.commit("mode/setIsShowDialog", true);
+    },
+
+    /**
+     * ラベルダイアログの入力内容を保存します。
+     */
+    addLabel: function addLabel(labelData) {
+      // NOTE: ナビゲーションバーから展開したラベルダイアログの内容は非同期で保存する
+      labelData.binder_id = this.$store.state.binder.id;
+      this.$store.dispatch("binder/saveLabel", labelData);
     }
   }
 });
@@ -3741,7 +3784,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeCreate: function beforeCreate() {
-    this.$store.dispatch("binderCreate/initialize"); // ナビゲーションバーを非表示にする
+    this.$store.dispatch("binderCreate/clear"); // ナビゲーションバーを非表示にする
 
     this.$store.commit("mode/setHasNavigation", false);
   }
@@ -23352,27 +23395,13 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "label-container" },
-    [
-      _vm._l(_vm.labels, function(label) {
-        return _c("LabelItem", {
-          key: label.name,
-          attrs: { name: label.name, description: label.description }
-        })
-      }),
-      _vm._v(" "),
-      _c("LabelItem", {
-        attrs: { name: "ラベル名2", description: "ラベルの説明2" }
-      }),
-      _vm._v(" "),
-      _c("LabelItem", {
-        attrs: { name: "ラベル名3", description: "ラベルの説明3" }
-      }),
-      _vm._v(" "),
-      _c("LabelItem", {
-        attrs: { name: "ラベル名4", description: "ラベルの説明4" }
+    _vm._l(_vm.labels, function(label) {
+      return _c("LabelItem", {
+        key: label.id,
+        attrs: { name: label.name, description: label.description }
       })
-    ],
-    2
+    }),
+    1
   )
 }
 var staticRenderFns = []
@@ -23482,7 +23511,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.isShow
+  return _vm.isShowNav
     ? _c(
         "nav",
         { staticClass: "nav mdc-elevation--z2" },
@@ -23562,36 +23591,46 @@ var render = function() {
           _c("div"),
           _vm._v(" "),
           _c("div", [
-            _c("button", { staticClass: "nav__button-wide" }, [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    height: "48",
-                    viewBox: "0 0 24 24",
-                    width: "48"
-                  }
+            _c(
+              "button",
+              {
+                class: {
+                  "nav__button-wide": !_vm.isShowDialog,
+                  "nav__button-wide--showDialog": _vm.isShowDialog
                 },
-                [
-                  _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                  _vm._v(" "),
-                  _c("path", {
-                    staticClass: "add-icon",
-                    attrs: { d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" }
-                  }),
-                  _vm._v(" "),
-                  _c("path", {
-                    staticClass: "add-icon--hover",
+                on: { click: _vm.openDialog }
+              },
+              [
+                _c(
+                  "svg",
+                  {
                     attrs: {
-                      fill: "none",
-                      d:
-                        "M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                      xmlns: "http://www.w3.org/2000/svg",
+                      height: "48",
+                      viewBox: "0 0 24 24",
+                      width: "48"
                     }
-                  })
-                ]
-              )
-            ]),
+                  },
+                  [
+                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                    _vm._v(" "),
+                    _c("path", {
+                      staticClass: "add-icon",
+                      attrs: { d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" }
+                    }),
+                    _vm._v(" "),
+                    _c("path", {
+                      staticClass: "add-icon--hover",
+                      attrs: {
+                        fill: "none",
+                        d:
+                          "M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z"
+                      }
+                    })
+                  ]
+                )
+              ]
+            ),
             _vm._v(" "),
             _c("span", { staticClass: "nav__button-wrapper--right" }, [
               _c("button", { staticClass: "nav__button" }, [
@@ -23658,7 +23697,9 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("ProgressIndicator")
+          _c("ProgressIndicator"),
+          _vm._v(" "),
+          _c("LabelAddDialog", { on: { "add-label-click": _vm.addLabel } })
         ],
         1
       )
@@ -44088,7 +44129,7 @@ var actions = {
   /**
    * フォームを初期化します。
    */
-  initialize: function initialize() {
+  clear: function clear() {
     var defaultForm = {
       name: '',
       description: '',
@@ -44276,6 +44317,9 @@ var mutations = {
   },
   setImages: function setImages(state, val) {
     state.images = val;
+  },
+  addLabel: function addLabel(state, val) {
+    state.labels.push(val);
   }
 };
 var actions = {
@@ -44356,6 +44400,55 @@ var actions = {
         }
       }, _callee2);
     }))();
+  },
+
+  /**
+   * ラベル情報をDBへ保存します。
+   */
+  saveLabel: function saveLabel(context, labelData) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              uri = "api/binder/label/save";
+              _context3.next = 3;
+              return axios.post("".concat(uri), labelData)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 3:
+              response = _context3.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
+                _context3.next = 8;
+                break;
+              }
+
+              console.log(response.data);
+              context.commit("addLabel", response.data.label);
+              return _context3.abrupt("return", false);
+
+            case 8:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -44363,6 +44456,50 @@ var actions = {
   state: state,
   mutations: mutations,
   actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/form/label-add-dialog.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/store/form/label-add-dialog.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * ラベル追加ダイアログフォームストア
+ */
+var state = {
+  id: 0,
+  name: '',
+  description: ''
+};
+var mutations = {
+  setId: function setId(state, val) {
+    state.id = val;
+  },
+  setName: function setName(state, val) {
+    state.name = val;
+  },
+  setDescription: function setDescription(state, val) {
+    state.description = val;
+  }
+};
+var actions = {
+  clear: function clear() {
+    state.id = 0;
+    state.name = '';
+    state.description = '';
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  actions: actions,
+  mutations: mutations
 });
 
 /***/ }),
@@ -44386,6 +44523,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _form_binder_create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./form/binder-create */ "./resources/js/store/form/binder-create.js");
 /* harmony import */ var _form_binder_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./form/binder-list */ "./resources/js/store/form/binder-list.js");
 /* harmony import */ var _form_binder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./form/binder */ "./resources/js/store/form/binder.js");
+/* harmony import */ var _form_label_add_dialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./form/label-add-dialog */ "./resources/js/store/form/label-add-dialog.js");
+
 
 
 
@@ -44403,7 +44542,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     mode: _common_mode__WEBPACK_IMPORTED_MODULE_5__["default"],
     binderCreate: _form_binder_create__WEBPACK_IMPORTED_MODULE_6__["default"],
     binderList: _form_binder_list__WEBPACK_IMPORTED_MODULE_7__["default"],
-    binder: _form_binder__WEBPACK_IMPORTED_MODULE_8__["default"]
+    binder: _form_binder__WEBPACK_IMPORTED_MODULE_8__["default"],
+    labelAddDialog: _form_label_add_dialog__WEBPACK_IMPORTED_MODULE_9__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);

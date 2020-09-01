@@ -6,7 +6,6 @@
         </div>
 
         <div class="form__wrapper--add-label-dialog">
-
             <TextForm
                 v-model="name"
                 :title="'Label name*'"
@@ -39,12 +38,6 @@ import TextForm from "./TextForm.vue";
 import TextAreaForm from "./TextAreaForm.vue";
 
 export default {
-    data() {
-        return {
-            name: null,
-            description: null
-        };
-    },
     components: {
         TextForm,
         TextAreaForm
@@ -57,6 +50,7 @@ export default {
             this.name = null;
             this.description = null;
             this.$store.commit("mode/setIsShowDialog", false);
+            this.$store.dispatch("labelAddDialog/clear");
         },
         /**
          * ダイアログの入力値を親画面へ受け渡します。
@@ -65,6 +59,7 @@ export default {
         add() {
             // TODO: 実装
             const formData = {
+                id: this.id,
                 name: this.name,
                 description: this.description
             };
@@ -76,6 +71,27 @@ export default {
     computed: {
         isShowDialog() {
             return this.$store.state.mode.isShowDialog;
+        },
+        id: {
+            get() {
+                return this.$store.state.labelAddDialog.id;
+            },
+        },
+        name: {
+            get() {
+                return this.$store.state.labelAddDialog.name;
+            },
+            set(value) {
+                this.$store.commit("labelAddDialog/setName", value);
+            }
+        },
+        description: {
+            get() {
+                return this.$store.state.labelAddDialog.description;
+            },
+            set(value) {
+                this.$store.commit("labelAddDialog/setDescription", value);
+            }
         }
     }
 };

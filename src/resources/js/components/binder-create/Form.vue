@@ -64,6 +64,7 @@ export default {
         },
         closeDialog() {
             this.$store.commit("mode/setIsShowDialog", false);
+            this.$store.dispatch("labelAddDialog/clear");
         },
         async doPost() {
             await this.$store.dispatch("binderCreate/doPost");

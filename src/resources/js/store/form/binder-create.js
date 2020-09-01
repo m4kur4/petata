@@ -73,7 +73,7 @@ const actions = {
     /**
      * フォームを初期化します。
      */
-    initialize() {
+    clear() {
         const defaultForm = {
             name: '',
             description: '',

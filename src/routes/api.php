@@ -29,6 +29,9 @@ Route::post('user/auth/login','UserController@login')->name('api.user.login');
 // バインダー作成
 Route::post('binder/create','BinderController@create')->name('api.binder.create');
 
+// ラベル保存
+Route::post('binder/label/save','BinderController@saveLabel')->name('api.binder.label.save');
+
 // バインダー一覧取得
 Route::get('binder/list','BinderController@list')->name('api.binder.list');
 

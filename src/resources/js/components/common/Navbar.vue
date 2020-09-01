@@ -1,5 +1,5 @@
 <template>
-    <nav v-if="isShow" class="nav mdc-elevation--z2">
+    <nav v-if="isShowNav" class="nav mdc-elevation--z2">
         <div>
             <!-- 画像情報一括編集ボタン(えんぴつ) -->
             <button class="nav__button">
@@ -46,7 +46,13 @@
             <!-- TODO: 表示件数、レイアウト制御 -->
         </div>
         <div>
-            <button class="nav__button-wide">
+            <button
+                :class="{
+                    'nav__button-wide': !isShowDialog,
+                    'nav__button-wide--showDialog': isShowDialog
+                }"
+                @click="openDialog"
+            >
                 <!-- ラベル追加ボタン -->
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -100,24 +106,41 @@
             ></span>
         </div>
         <ProgressIndicator />
+        <LabelAddDialog @add-label-click="addLabel" />
     </nav>
 </template>
 
 <script>
 import ProgressIndicator from "../common/ProgressIndicator.vue";
+import LabelAddDialog from "../common/LabelAddDialog.vue";
 
 export default {
     components: {
-        ProgressIndicator
+        ProgressIndicator,
+        LabelAddDialog
     },
     computed: {
-        isShow() {
+        isShowNav() {
             return this.$store.state.mode.hasNavigation;
+        },
+        isShowDialog() {
+            return this.$store.state.mode.isShowDialog;
         }
     },
     methods: {
         moveToBinderList() {
             this.$router.push("/binder/list");
+        },
+        openDialog() {
+            this.$store.commit("mode/setIsShowDialog", true);
+        },
+        /**
+         * ラベルダイアログの入力内容を保存します。
+         */
+        addLabel(labelData) {
+            // NOTE: ナビゲーションバーから展開したラベルダイアログの内容は非同期で保存する
+            labelData.binder_id = this.$store.state.binder.id;
+            this.$store.dispatch("binder/saveLabel", labelData);
         }
     }
 };

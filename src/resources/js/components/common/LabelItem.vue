@@ -10,6 +10,7 @@
 <script>
 export default {
     props: {
+        id: null,
         name: '',
         description: ''
     }

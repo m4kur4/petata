@@ -35,7 +35,7 @@ class BinderRepository implements BinderRepositoryInterface
         );
 
         // ラベルの追加
-        $this->addLabels($binder->id, $request->labels);
+        $this->saveLabels($binder->id, $request->labels);
 
         return $binder;
     }
@@ -100,21 +100,36 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function addLabels(string $binder_id, ?array $label_posts)
+    public function saveLabels(string $binder_id, ?array $label_posts)
     {
         if (empty($label_posts)) {
             return;
         }
 
+        $saved_labels = [];
         foreach ($label_posts as $post) {
-            $label = new Label([
-                'binder_id' => $binder_id,
-                'name' => $post['name'],
-                'description' => $post['description']
-            ]);
+            // ラベルが新規作成のものかどうか
+            $is_new_label = ($post['id'] === 0);
+
+            if ($is_new_label) {
+                // 新規登録
+                $label = new Label([
+                    'binder_id' => $binder_id,
+                    'name' => $post['name'],
+                    'description' => $post['description']
+                ]);
+            } else {
+                // 更新登録
+                $label = Label::where('id', $post['id'])->first();
+                $label->name = $post['name'];
+                $label->description = $post['description'];
+            }
 
             $label->save();
+
+            array_push($saved_labels, $label);
         }
+        return $saved_labels;
     }
 
     /**

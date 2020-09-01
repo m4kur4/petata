@@ -10,7 +10,8 @@ export default {
     },
     methods: {
         closeDialog() {
-            this.$store.commit('mode/setIsShowDialog', false)
+            this.$store.commit('mode/setIsShowDialog', false);
+            this.$store.dispatch("labelAddDialog/clear");
         }
     }
 }

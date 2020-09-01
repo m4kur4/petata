@@ -47,6 +47,7 @@ interface BinderRepositoryInterface
     
     /**
      * バインダーへラベルを追加します。
+     * 追加したラベルのリストを返却します。
      *
      * @param string $binder_id バインダーID
      * @param array $label_posts POSTされたラベル情報
@@ -54,9 +55,9 @@ interface BinderRepositoryInterface
      *   'name' => ラベル名,
      *   'description' => ラベルの説明
      * ]
-     * @return void
+     * @return array(Label)
      */
-    public function addLabels(string $binder_id, array $label_posts);
+    public function saveLabels(string $binder_id, ?array $label_posts);
 
     /**
      * バインダーの詳細情報を取得します。

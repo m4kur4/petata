@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BinderCreateRequest;
+use App\Http\Requests\LabelSaveRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
+use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,16 +26,19 @@ class BinderController extends Controller
      * @param BinderCreateServiceInterface $binder_create_service
      * @param BinderListSelectServiceInterface $binder_list_select_service
      * @param BinderDetailSelectServiceInterface $binder_detail_select_service
+     * @param LabelSaveServiceInterface $label_save_service
      */
     public function __construct(
         BinderCreateServiceInterface $binder_create_service,
         BinderListSelectServiceInterface $binder_list_select_service,
-        BinderDetailSelectServiceInterface $binder_detail_select_service
+        BinderDetailSelectServiceInterface $binder_detail_select_service,
+        LabelSaveServiceInterface $label_save_service
     )
     {
         $this->binder_create_service = $binder_create_service;
         $this->binder_list_select_service = $binder_list_select_service;
         $this->binder_detail_select_service = $binder_detail_select_service;
+        $this->label_save_service = $label_save_service;
         
         $this->middleware('auth');
     }
@@ -55,7 +60,7 @@ class BinderController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e);
-            abort(500);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
         }
     }
 
@@ -73,12 +78,14 @@ class BinderController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e);
-            abort(500);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
         }
     }
 
     /**
      * 指定したバインダーIDを持つバインダー情報を取得します。
+     * 
+     * @param string $binder_id バインダーID
      */
     public function detail($binder_id)
     {
@@ -88,7 +95,23 @@ class BinderController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e);
-            abort(500);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
+        }
+    }
+
+    /**
+     * ラベル情報を保存します。
+     */
+    public function saveLabel(LabelSaveRequest $request)
+    {
+        try {
+            $labels = $this->label_save_service->execute($request);
+            $response = response(['label' => $labels[0]], config('_const.HTTP_STATUS.OK'));
+            return $response;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
         }
     }
 

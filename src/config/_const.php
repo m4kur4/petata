@@ -18,8 +18,9 @@ return [
       ]
   ],
   'HTTP_STATUS' => [// HTTPステータスコード
-    'SUCCESS' => 200,
+    'OK' => 200,
     'CREATED' => 201,
+    'INTERNAL_SERVER_ERROR' => 500
   ],
   'UPLOAD_DIRECTORY' => [// ファイルアップロード先フォルダ名
       'BINDER' => 'image/binder',

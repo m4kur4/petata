@@ -58,6 +58,9 @@ const mutations = {
     },
     setImages(state, val) {
         state.images = val;
+    },
+    addLabel(state, val) {
+        state.labels.push(val);
     }
 };
 
@@ -106,6 +109,36 @@ const actions = {
         context.commit("setCountFavorite", 0);
         context.commit("setLabels", []);
         context.commit("setImages", []);
+    },
+    /**
+     * ラベル情報をDBへ保存します。
+     */
+    async saveLabel(context, labelData) {
+        const uri = "api/binder/label/save";
+        const response = await axios
+            .post(`${uri}`, labelData)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (
+            response.status === STATUS.OK ||
+            response.status === STATUS.CREATED
+        ) {
+            console.log(response.data);
+            context.commit("addLabel", response.data.label);
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
     }
 };
 
