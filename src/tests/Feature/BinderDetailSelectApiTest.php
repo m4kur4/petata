@@ -76,6 +76,7 @@ class BinderDetailSelectApiTest extends TestCase
                     ->sortByDesc('id')
                     ->map(function($label) {
                         return [
+                            'id' => $label->id,
                             'binder_id' => $label->binder_id,
                             'name' => $label->name,
                             'description' => $label->description
@@ -86,6 +87,7 @@ class BinderDetailSelectApiTest extends TestCase
                     ->sortByDesc('id')
                     ->map(function($image) {
                         return [
+                            'id' => $image->id,
                             'binder_id' => $image->binder_id,
                             'upload_user_id' => $image->upload_user_id,
                             'name' => $image->name,
