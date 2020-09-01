@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Label;
 use App\Models\Labeling;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
-use App\Http\Requests\BinderCreateRequest;
+use App\Http\Requests\BinderSaveRequest;
 
 use Auth;
 use DB;
@@ -22,7 +22,7 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function create(BinderCreateRequest $request): Binder
+    public function create(BinderSaveRequest $request): Binder
     {
 
         // バインダーの作成
@@ -202,10 +202,10 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * バインダーテーブルへ新規レコードを作成します。
      *
-     * @param BinderCreateRequest $request
+     * @param BinderSaveRequest $request
      * @return Binder 
      */
-    private function createBinder(BinderCreateRequest $request): Binder
+    private function createBinder(BinderSaveRequest $request): Binder
     {
         // ログインユーザーを作成者とする
         $create_user_id = Auth::id();

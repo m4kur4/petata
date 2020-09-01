@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BinderCreateRequest;
+use App\Http\Requests\BinderSaveRequest;
 use App\Http\Requests\LabelSaveRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
@@ -47,10 +47,10 @@ class BinderController extends Controller
      * バインダーを作成します。
      * 作成後、ログインユーザーがアクセス可能なバインダーの一覧を返却します。
      *
-     * @param BinderCreateRequest $request
+     * @param BinderSaveRequest $request
      * @return Collection
      */    
-    public function create(BinderCreateRequest $request)
+    public function create(BinderSaveRequest $request)
     {
         try {
             $this->binder_create_service->execute($request);
@@ -123,6 +123,6 @@ class BinderController extends Controller
         // TODO: チェック(フォームリクエスト)
         // - ログインユーザーのバインダーかどうか
         // - ログインユーザーの画像かどうか
-        
+
     }
 }

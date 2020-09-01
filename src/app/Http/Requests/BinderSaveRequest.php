@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Log;
 
-class BinderCreateRequest extends FormRequest
+class BinderSaveRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -4,7 +4,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Binder;
 use App\Models\Label;
-use App\Http\Requests\BinderCreateRequest;
+use App\Http\Requests\BinderSaveRequest;
 
 /**
  * バインダーリポジトリ
@@ -17,7 +17,7 @@ interface BinderRepositoryInterface
      *
      * @param @param UserRegisterRequest $request
      */
-    public function create(BinderCreateRequest $request);
+    public function create(BinderSaveRequest $request);
 
     /**
      * 指定したIDを持つバインダーを削除します。

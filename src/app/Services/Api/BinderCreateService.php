@@ -3,7 +3,7 @@
 namespace App\Services\Api;
 
 use App\Models\User;
-use App\Http\Requests\BinderCreateRequest;
+use App\Http\Requests\BinderSaveRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
 use \App\Repositories\Interfaces\BinderRepositoryInterface;
 
@@ -29,7 +29,7 @@ class BinderCreateService implements BinderCreateServiceInterface
     /**
      * @inheritdoc
      */
-    public function execute(BinderCreateRequest $request)
+    public function execute(BinderSaveRequest $request)
     {
         // バインダーの新規作成
         $this->binder_repository->create($request);

@@ -7,7 +7,7 @@ use App\Models\Binder;
 use App\Models\BinderAuthority;
 use App\Models\Label;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
-use App\Http\Requests\BinderCreateRequest;
+use App\Http\Requests\BinderSaveRequest;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -89,7 +89,7 @@ class BinderRepositoryTest extends TestCase
             'name' => 'Test Binder',
             'labels' => $label_posts,
         ];
-        $request = new BinderCreateRequest($formData);
+        $request = new BinderSaveRequest($formData);
         $binder = $this->repository->create($request);
 
         // 検証
