@@ -1,57 +1,108 @@
 .label-container {
-  width: 100%;
-  height: 100%;
-  grid-area: label-container;
-  background-color: #ffffff;
-  overflow-y: scroll;
-  z-index: 1;
-  &__item {
-    /* var@label-container__item */
-    $item-width: 95%;
-    $item-height: 48px;
+    width: 100%;
+    height: 100%;
+    grid-area: label-container;
+    background-color: #ffffff;
+    overflow-y: scroll;
+    z-index: 1;
+    &__item {
+        /* var@label-container__item */
+        $item-width: 95%;
+        $item-height: 48px;
 
-    text-indent: 8px;
-    box-sizing: border-box;
-    border-right: solid 5px #7db4e6;
-    margin-top: 8px;
-    margin-left: 0;
-    margin-right: auto;
-    background-color: white;
-    width: $item-width;
-    height: $item-height;
-    cursor: pointer;
-    transition: all 150ms 0s ease;
-    &:hover {
-      transition: all 150ms 0s ease;
-      text-indent: 16px;
-      width: calc(#{$item-width} + 8px);
-      border-right: solid 5px #86ab40;
+        position: relative;
+        text-indent: 8px;
+        box-sizing: border-box;
+        border-right: solid 5px #7db4e6;
+        margin-top: 8px;
+        margin-left: 0;
+        margin-right: auto;
+        background-color: white;
+        width: $item-width;
+        height: $item-height;
+        transition: all 150ms 0s ease;
+
+        &-button {
+            padding: 0;
+            transition: all 150ms 0s ease;
+            cursor: pointer;
+            fill:#324750;
+            opacity: 0.1;
+            outline: none;
+            border-radius: 100%;
+            border: none;
+            vertical-align: middle;
+            background-color: #E9E9E9;
+            height: 32px;
+            width: 32px;
+            &:hover {
+                background-color:#324750;
+                fill: white;
+            }
+            &--danger {
+                padding: 0;
+                transition: all 150ms 0s ease;
+                cursor: pointer;
+                fill:white;
+                opacity: 0.1;
+                outline: none;
+                border-radius: 100%;
+                border: none;
+                vertical-align: middle;
+                background-color: #324750;
+                height: 32px;
+                width: 32px;
+                &:hover {
+                    background-color:#E9E9E9;
+                    fill:red;
+                }
+            }
+            &-wrapper {
+                width: auto;
+                margin-right: 8px;
+                background-color: transparent;
+                right: 0;
+                top: 50%;
+                transform: translate(0, -50%);
+                position: absolute;
+            }
+        }
+        &:hover {
+            transition: all 150ms 0s ease;
+            text-indent: 16px;
+            width: calc(#{$item-width} + 8px);
+            border-right: solid 5px #86ab40;
+            & .label-container__item-button
+            ,.label-container__item-button--danger{
+                transition: all 150ms 0s ease;
+                opacity: 1;
+            }
+        }
+        &--selected {
+            transition: all 150ms 0s ease;
+            border-right: solid 5px #7db4e6;
+            box-sizing: border-box;
+            margin-top: 8px;
+            margin-left: 0;
+            margin-right: auto;
+            background-color: white;
+            width: calc(#{$item-width} + 8px);
+            height: auto;
+        }
+        &-title {
+            margin: 0;
+            //padding-left: 8px;
+            line-height: $item-height;
+            font-size: $font-size;
+        }
+        &-description {
+            display: none;
+        }
+        &-description--show {
+            margin: 0;
+            padding-left: 16px;
+            line-height: calc(#{$font-size} + 2);
+            font-size: calc(#{$font-size} - 4);
+        }
     }
-    &--selected {
-      transition: all 150ms 0s ease;
-      border-right: solid 5px #7db4e6;
-      box-sizing: border-box;
-      margin-top: 8px;
-      margin-left: 0;
-      margin-right: auto;
-      background-color: white;
-      width: calc(#{$item-width} + 8px);
-      height: auto;
-    }
-    &-title {
-      margin: 0;
-      //padding-left: 8px;
-      line-height: $item-height;
-      font-size: $font-size;
-    }
-    &-description {
-      display: none;
-    }
-    &-description--show {
-      margin: 0;
-      padding-left: 16px;
-      line-height: calc(#{$font-size} + 2);
-      font-size: calc(#{$font-size} - 4);
-    }
-  }
 }
