@@ -71,12 +71,17 @@ class BinderRepositoryTest extends TestCase
     public function create()
     {
         $this->actingAs($this->user);
+        // 新規作成のレコードID設定値
+        $NEW_RECORD_ID = 0;
 
         // ラベル数
         $LABEL_COUNT = 5;
         $label_posts = [];
         for ($i = 0; $i < $LABEL_COUNT; $i++) {
-            $label_post = ['name' => sprintf('label_%s', $i), 'description' => sprintf('説明_%s', $i)];
+            $label_post = [
+                'id' => $NEW_RECORD_ID,
+                'name' => sprintf('label_%s', $i), 
+                'description' => sprintf('説明_%s', $i)];
             array_push($label_posts, $label_post);
         }
 

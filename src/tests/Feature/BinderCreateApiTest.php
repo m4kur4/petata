@@ -34,14 +34,16 @@ class BinderCreateApiTest extends TestCase
     public function Binder_Create_Success()
     {
         $this->actingAs($this->user);
+        // 新規作成のレコードID設定値
+        $NEW_RECORD_ID = 0;
 
         $form_data = [
             'name' => 'バインダー名',
             'description' => 'バインダーの説明',
             'labels' => [
-                ['name' => 'ラベル_1', 'description' => '説明_1'],
-                ['name' => 'ラベル_2', 'description' => ''],
-                ['name' => 'ラベル_3', 'description' => '説明_3'],
+                ['id' => $NEW_RECORD_ID, 'name' => 'ラベル_1', 'description' => '説明_1'],
+                ['id' => $NEW_RECORD_ID, 'name' => 'ラベル_2', 'description' => ''],
+                ['id' => $NEW_RECORD_ID, 'name' => 'ラベル_3', 'description' => '説明_3'],
             ],
         ];
         $response = $this->json('POST', route('api.binder.create'), $form_data);
