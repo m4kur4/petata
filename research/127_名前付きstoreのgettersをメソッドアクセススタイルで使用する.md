@@ -13,7 +13,7 @@ https://stackoverflow.com/questions/48400324/how-to-use-vuex-namespaced-getters-
  * 自身のラベルIDがstateの検索条件へ追加されているかどうか
  */
 isAddSearchCondition() {
-    return this.$store.getters["binder/isAlreadyAddSearchConditiionLabel"](
+    return this.$store.getters["binder/isAlreadyAddSearchConditionLabel"](
         this.id
     );
 }

@@ -10,7 +10,7 @@ const getters = {
     /**
      * 指定したラベルIDが既にstateの検索条件へ追加されているかどうかを判定します。
      */
-    isAlreadyAddSearchConditiionLabel: (state) => (labelId) => {
+    isAlreadyAddSearchConditionLabel: (state) => (labelId) => {
         return state.search_condition.label_ids.includes(labelId);
     },
 };

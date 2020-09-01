@@ -3200,7 +3200,7 @@ __webpack_require__.r(__webpack_exports__);
      * 自身のラベルIDがstateの検索条件へ追加されているかどうか
      */
     isAddSearchCondition: function isAddSearchCondition() {
-      return this.$store.getters["binder/isAlreadyAddSearchConditiionLabel"](this.id);
+      return this.$store.getters["binder/isAlreadyAddSearchConditionLabel"](this.id);
     }
   },
 
@@ -44641,7 +44641,7 @@ var getters = {
   /**
    * 指定したラベルIDが既にstateの検索条件へ追加されているかどうかを判定します。
    */
-  isAlreadyAddSearchConditiionLabel: function isAlreadyAddSearchConditiionLabel(state) {
+  isAlreadyAddSearchConditionLabel: function isAlreadyAddSearchConditionLabel(state) {
     return function (labelId) {
       return state.search_condition.label_ids.includes(labelId);
     };
