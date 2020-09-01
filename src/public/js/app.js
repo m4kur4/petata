@@ -3174,11 +3174,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     id: null,
     name: "",
-    description: ""
+    description: "",
+    // ドラッグイベントの制御パラメタ
+    isDragOver: false,
+    isDragEnter: false
   },
   computed: {
     /**
@@ -3187,6 +3194,13 @@ __webpack_require__.r(__webpack_exports__);
      */
     isBinderDetail: function isBinderDetail() {
       return this.$store.state.binder.id != null;
+    },
+
+    /**
+     * 自身のラベルIDがstateの検索条件へ追加されているかどうか
+     */
+    isAddSearchCondition: function isAddSearchCondition() {
+      return this.$store.getters["binder/isAlreadyAddSearchConditiionLabel"](this.id);
     }
   },
 
@@ -3197,7 +3211,7 @@ __webpack_require__.r(__webpack_exports__);
     dragEnter: function dragEnter(event) {// TODO: ドロップできる旨のUI表現
     },
     drop: function drop(event) {
-      var imageId = event.dataTransfer.getData('image-id');
+      var imageId = event.dataTransfer.getData("image-id");
 
       if (!!!imageId) {
         // バインダーの画像以外がドロップされた場合は処理なし
@@ -3211,6 +3225,17 @@ __webpack_require__.r(__webpack_exports__);
         image_id: imageId
       };
       this.$store.dispatch("binder/labeling", postData);
+    },
+
+    /**
+     * 自身に関するバインダー画面の絞り込み条件を切り替えます。
+     *
+     * 条件「対象画像が自身のIDとラベリング設定されていること」について、
+     * 条件が設定されていなければ新たに追加を行い、
+     * 既に条件が設定済みの場合は除去します。
+     */
+    switchSearchCondition: function switchSearchCondition() {
+      this.$store.commit("binder/setSearchConditionLabel", this.id);
     }
   }
 });
@@ -23589,8 +23614,13 @@ var render = function() {
           ? _c(
               "button",
               {
-                staticClass: "label-container__item-button",
-                attrs: { type: "button" }
+                class: {
+                  "label-container__item-button--selected":
+                    _vm.isAddSearchCondition,
+                  "label-container__item-button": !_vm.isAddSearchCondition
+                },
+                attrs: { type: "button" },
+                on: { click: _vm.switchSearchCondition }
               },
               [
                 _c(
@@ -44527,14 +44557,21 @@ var state = {
    * count_label: Number ラベル数
    * count_favorite: Number お気に入り登録数
    * labels: Array ラベル
+   *   [
    *   - id: Number ラベルID
    *   - name: String ラベル名
    *   - description:  ラベルの説明
+   *   ]..
    * images: Array 画像
+   *   [
    *   - id: Number 画像ID
    *   - name: String 画像名
    *   - description:  画像の説明
    *   - url: String URL
+   *   ]..
+   * search_condition: Object 画像の絞り込み条件
+   *   - image_name: String 画像名
+   *   - label_ids: Array(Number) ラベルID
    */
   id: null,
   name: null,
@@ -44544,7 +44581,11 @@ var state = {
   count_label: 0,
   count_favorite: 0,
   labels: [],
-  images: []
+  images: [],
+  search_condition: {
+    image_name: "",
+    label_ids: []
+  }
 };
 var mutations = {
   setId: function setId(state, val) {
@@ -44576,6 +44617,34 @@ var mutations = {
   },
   addLabel: function addLabel(state, val) {
     state.labels.push(val);
+  },
+  setSearchCondition: function setSearchCondition(state, val) {
+    state.search_condition = val;
+  },
+  setSearchConditionImage: function setSearchConditionImage(state, val) {
+    state.search_condition.image_name = val;
+  },
+  setSearchConditionLabel: function setSearchConditionLabel(state, val) {
+    // すでにラベルIDが設定済みの場合は除去する
+    var isAlreadyExist = state.search_condition.label_ids.includes(val);
+
+    if (isAlreadyExist) {
+      state.search_condition.label_ids = state.search_condition.label_ids.filter(function (id) {
+        return id !== val;
+      });
+    } else {
+      state.search_condition.label_ids.push(val);
+    }
+  }
+};
+var getters = {
+  /**
+   * 指定したラベルIDが既にstateの検索条件へ追加されているかどうかを判定します。
+   */
+  isAlreadyAddSearchConditiionLabel: function isAlreadyAddSearchConditiionLabel(state) {
+    return function (labelId) {
+      return state.search_condition.label_ids.includes(labelId);
+    };
   }
 };
 var actions = {
@@ -44648,8 +44717,12 @@ var actions = {
               context.commit("setCountFavorite", 0);
               context.commit("setLabels", []);
               context.commit("setImages", []);
+              context.commit("setSearchCondition", {
+                image_name: "",
+                label_ids: []
+              });
 
-            case 9:
+            case 10:
             case "end":
               return _context2.stop();
           }
@@ -44767,7 +44840,8 @@ var actions = {
   namespaced: true,
   state: state,
   mutations: mutations,
-  actions: actions
+  actions: actions,
+  getters: getters
 });
 
 /***/ }),

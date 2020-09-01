@@ -21,52 +21,6 @@
         width: $item-width;
         height: $item-height;
         transition: all 150ms 0s ease;
-
-        &-button {
-            padding: 0;
-            transition: all 150ms 0s ease;
-            cursor: pointer;
-            fill:#324750;
-            opacity: 0.1;
-            outline: none;
-            border-radius: 100%;
-            border: none;
-            vertical-align: middle;
-            background-color: #E9E9E9;
-            height: 32px;
-            width: 32px;
-            &:hover {
-                background-color:#324750;
-                fill: white;
-            }
-            &--danger {
-                padding: 0;
-                transition: all 150ms 0s ease;
-                cursor: pointer;
-                fill:white;
-                opacity: 0.1;
-                outline: none;
-                border-radius: 100%;
-                border: none;
-                vertical-align: middle;
-                background-color: #324750;
-                height: 32px;
-                width: 32px;
-                &:hover {
-                    background-color:#E9E9E9;
-                    fill:red;
-                }
-            }
-            &-wrapper {
-                width: auto;
-                margin-right: 8px;
-                background-color: transparent;
-                right: 0;
-                top: 50%;
-                transform: translate(0, -50%);
-                position: absolute;
-            }
-        }
         &:hover {
             transition: all 150ms 0s ease;
             text-indent: 16px;
@@ -103,6 +57,68 @@
             padding-left: 16px;
             line-height: calc(#{$font-size} + 2);
             font-size: calc(#{$font-size} - 4);
+        }
+        &-button {
+            padding: 0;
+            transition: all 150ms 0s ease;
+            cursor: pointer;
+            fill:#324750;
+            opacity: 0.1;
+            outline: none;
+            border-radius: 100%;
+            border: none;
+            vertical-align: middle;
+            background-color: #E9E9E9;
+            height: 32px;
+            width: 32px;
+            &:hover {
+                background-color:#324750;
+                fill: white;
+            }
+            &-wrapper {
+                width: auto;
+                margin-right: 8px;
+                background-color: transparent;
+                right: 0;
+                top: 50%;
+                transform: translate(0, -50%);
+                position: absolute;
+            }
+            &--danger {
+                padding: 0;
+                transition: all 150ms 0s ease;
+                cursor: pointer;
+                fill:white;
+                opacity: 0.1;
+                outline: none;
+                border-radius: 100%;
+                border: none;
+                vertical-align: middle;
+                background-color: #324750;
+                height: 32px;
+                width: 32px;
+                &:hover {
+                    background-color:#E9E9E9;
+                    fill:red;
+                }
+            }
+            &--selected {
+                padding: 0;
+                transition: all 150ms 0s ease;
+                cursor: pointer;
+                fill:white;
+                opacity: 1.0;
+                outline: none;
+                border-radius: 100%;
+                border: none;
+                vertical-align: middle;
+                background-color: #324750;
+                height: 32px;
+                width: 32px;
+                &:hover {
+                    opacity: 0.6;
+                }
+            }
         }
     }
 }

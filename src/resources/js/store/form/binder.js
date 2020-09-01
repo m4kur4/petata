@@ -13,14 +13,21 @@ const state = {
      * count_label: Number ラベル数
      * count_favorite: Number お気に入り登録数
      * labels: Array ラベル
+     *   [
      *   - id: Number ラベルID
      *   - name: String ラベル名
      *   - description:  ラベルの説明
+     *   ]..
      * images: Array 画像
+     *   [
      *   - id: Number 画像ID
      *   - name: String 画像名
      *   - description:  画像の説明
      *   - url: String URL
+     *   ]..
+     * search_condition: Object 画像の絞り込み条件
+     *   - image_name: String 画像名
+     *   - label_ids: Array(Number) ラベルID
      */
     id: null,
     name: null,
@@ -30,7 +37,11 @@ const state = {
     count_label: 0,
     count_favorite: 0,
     labels: [],
-    images: []
+    images: [],
+    search_condition: {
+        image_name: "",
+        label_ids: []
+    }
 };
 
 const mutations = {
@@ -63,6 +74,34 @@ const mutations = {
     },
     addLabel(state, val) {
         state.labels.push(val);
+    },
+    setSearchCondition(state, val) {
+        state.search_condition = val;
+    },
+    setSearchConditionImage(state, val) {
+        state.search_condition.image_name = val;
+    },
+    setSearchConditionLabel(state, val) {
+        // すでにラベルIDが設定済みの場合は除去する
+        const isAlreadyExist = state.search_condition.label_ids.includes(val);
+        if (isAlreadyExist) {
+            state.search_condition.label_ids = state.search_condition.label_ids.filter(
+                id => {
+                    return id !== val;
+                }
+            );
+        } else {
+            state.search_condition.label_ids.push(val);
+        }
+    }
+};
+
+const getters = {
+    /**
+     * 指定したラベルIDが既にstateの検索条件へ追加されているかどうかを判定します。
+     */
+    isAlreadyAddSearchConditiionLabel: state => labelId => {
+        return state.search_condition.label_ids.includes(labelId);
     }
 };
 
@@ -111,6 +150,10 @@ const actions = {
         context.commit("setCountFavorite", 0);
         context.commit("setLabels", []);
         context.commit("setImages", []);
+        context.commit("setSearchCondition", {
+            image_name: "",
+            label_ids: []
+        });
     },
     /**
      * ラベル情報をDBへ保存します。
@@ -156,7 +199,7 @@ const actions = {
             // TODO: API実行結果をどうUIに表現するか
             alert("ラベリングに成功しました。");
             return false;
-        } else if(response.status === STATUS.NO_CONTENT) {
+        } else if (response.status === STATUS.NO_CONTENT) {
             // すでに登録されている場合
             // TODO: UI表現
             alert("もう登録されています。");
@@ -179,5 +222,6 @@ export default {
     namespaced: true,
     state,
     mutations,
-    actions
+    actions,
+    getters
 };

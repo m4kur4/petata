@@ -334,56 +334,6 @@ main {
   transition: all 150ms 0s ease;
 }
 
-.label-container__item-button {
-  padding: 0;
-  transition: all 150ms 0s ease;
-  cursor: pointer;
-  fill: #324750;
-  opacity: 0.1;
-  outline: none;
-  border-radius: 100%;
-  border: none;
-  vertical-align: middle;
-  background-color: #E9E9E9;
-  height: 32px;
-  width: 32px;
-}
-
-.label-container__item-button:hover {
-  background-color: #324750;
-  fill: white;
-}
-
-.label-container__item-button--danger {
-  padding: 0;
-  transition: all 150ms 0s ease;
-  cursor: pointer;
-  fill: white;
-  opacity: 0.1;
-  outline: none;
-  border-radius: 100%;
-  border: none;
-  vertical-align: middle;
-  background-color: #324750;
-  height: 32px;
-  width: 32px;
-}
-
-.label-container__item-button--danger:hover {
-  background-color: #E9E9E9;
-  fill: red;
-}
-
-.label-container__item-button-wrapper {
-  width: auto;
-  margin-right: 8px;
-  background-color: transparent;
-  right: 0;
-  top: 50%;
-  transform: translate(0, -50%);
-  position: absolute;
-}
-
 .label-container__item:hover {
   transition: all 150ms 0s ease;
   text-indent: 16px;
@@ -424,6 +374,75 @@ main {
   padding-left: 16px;
   line-height: calc(20px + 2);
   font-size: calc(20px - 4);
+}
+
+.label-container__item-button {
+  padding: 0;
+  transition: all 150ms 0s ease;
+  cursor: pointer;
+  fill: #324750;
+  opacity: 0.1;
+  outline: none;
+  border-radius: 100%;
+  border: none;
+  vertical-align: middle;
+  background-color: #E9E9E9;
+  height: 32px;
+  width: 32px;
+}
+
+.label-container__item-button:hover {
+  background-color: #324750;
+  fill: white;
+}
+
+.label-container__item-button-wrapper {
+  width: auto;
+  margin-right: 8px;
+  background-color: transparent;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  position: absolute;
+}
+
+.label-container__item-button--danger {
+  padding: 0;
+  transition: all 150ms 0s ease;
+  cursor: pointer;
+  fill: white;
+  opacity: 0.1;
+  outline: none;
+  border-radius: 100%;
+  border: none;
+  vertical-align: middle;
+  background-color: #324750;
+  height: 32px;
+  width: 32px;
+}
+
+.label-container__item-button--danger:hover {
+  background-color: #E9E9E9;
+  fill: red;
+}
+
+.label-container__item-button--selected {
+  padding: 0;
+  transition: all 150ms 0s ease;
+  cursor: pointer;
+  fill: white;
+  opacity: 1;
+  outline: none;
+  border-radius: 100%;
+  border: none;
+  vertical-align: middle;
+  background-color: #324750;
+  height: 32px;
+  width: 32px;
+}
+
+.label-container__item-button--selected:hover {
+  opacity: 0.6;
 }
 
 .modal-background {

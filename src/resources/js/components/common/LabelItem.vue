@@ -8,8 +8,12 @@
         <div class="label-container__item-button-wrapper">
             <button
                 v-if="isBinderDetail"
+                @click="switchSearchCondition"
                 type="button"
-                class="label-container__item-button"
+                :class="{
+                    'label-container__item-button--selected': isAddSearchCondition,
+                    'label-container__item-button': !isAddSearchCondition
+                }"
             >
                 <!-- クリップボタン(バインダー画面のみ表示) -->
                 <svg
@@ -65,7 +69,10 @@ export default {
     props: {
         id: null,
         name: "",
-        description: ""
+        description: "",
+        // ドラッグイベントの制御パラメタ
+        isDragOver: false,
+        isDragEnter: false
     },
     computed: {
         /**
@@ -74,6 +81,14 @@ export default {
          */
         isBinderDetail() {
             return this.$store.state.binder.id != null;
+        },
+        /**
+         * 自身のラベルIDがstateの検索条件へ追加されているかどうか
+         */
+        isAddSearchCondition() {
+            return this.$store.getters["binder/isAlreadyAddSearchConditiionLabel"](
+                this.id
+            );
         }
     },
     /**
@@ -84,7 +99,7 @@ export default {
             // TODO: ドロップできる旨のUI表現
         },
         drop(event) {
-            const imageId = event.dataTransfer.getData('image-id');
+            const imageId = event.dataTransfer.getData("image-id");
             if (!!!imageId) {
                 // バインダーの画像以外がドロップされた場合は処理なし
                 return false;
@@ -97,6 +112,16 @@ export default {
                 image_id: imageId
             };
             this.$store.dispatch("binder/labeling", postData);
+        },
+        /**
+         * 自身に関するバインダー画面の絞り込み条件を切り替えます。
+         *
+         * 条件「対象画像が自身のIDとラベリング設定されていること」について、
+         * 条件が設定されていなければ新たに追加を行い、
+         * 既に条件が設定済みの場合は除去します。
+         */
+        switchSearchCondition() {
+            this.$store.commit("binder/setSearchConditionLabel", this.id);
         }
     }
 };
