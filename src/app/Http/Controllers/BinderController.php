@@ -132,8 +132,16 @@ class BinderController extends Controller
         // - 存在する画像かどうか
         
         try {
-            $this->labeling_service->executeRegister($request);
-            $response = response([''], config('_const.HTTP_STATUS.CREATED'));
+            $isSuccess = $this->labeling_service->executeRegister($request);
+
+            if ($isSuccess) {
+                $status = config('_const.HTTP_STATUS.CREATED');
+            } else {
+                // 既にラベリングが存在する場合
+                $status = config('_const.HTTP_STATUS.NO_CONTENT');
+            }
+            
+            $response = response([''], $status);
             return $response;
 
         } catch (\Exception $e) {

@@ -175,9 +175,6 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function addLabeling(LabelingRequest $request)
     {
-        Log::debug('D1');
-        Log::debug($request);
-        Log::debug('/D1');
         $labeling = new Labeling([
             'label_id' => $request->label_id,
             'image_id' => $request->image_id,

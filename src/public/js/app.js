@@ -3194,7 +3194,7 @@ __webpack_require__.r(__webpack_exports__);
    * ラベリングを実行します。
    */
   methods: {
-    dragEnter: function dragEnter(event) {// alert("hoge!");
+    dragEnter: function dragEnter(event) {// TODO: ドロップできる旨のUI表現
     },
     drop: function drop(event) {
       var imageId = event.dataTransfer.getData('image-id');
@@ -3204,8 +3204,13 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      var labelId = this.id;
-      alert("".concat(imageId, "\u3068").concat(labelId, "\u3092\u7D44\u307F\u3042\u308F\u305B\u308B\u3088...!"));
+      var labelId = this.id; // ラベルと画像を関連付ける
+
+      var postData = {
+        label_id: labelId,
+        image_id: imageId
+      };
+      this.$store.dispatch("binder/labeling", postData);
     }
   }
 });
@@ -43434,6 +43439,7 @@ __webpack_require__.r(__webpack_exports__);
 var STATUS = {
   OK: 200,
   CREATED: 201,
+  NO_CONTENT: 204,
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
@@ -44655,7 +44661,7 @@ var actions = {
   /**
    * ラベル情報をDBへ保存します。
    */
-  saveLabel: function saveLabel(context, labelData) {
+  saveLabel: function saveLabel(context, postData) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
       var uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -44664,7 +44670,7 @@ var actions = {
             case 0:
               uri = "api/binder/label/save";
               _context3.next = 3;
-              return axios.post("".concat(uri), labelData)["catch"](function (err) {
+              return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
@@ -44698,6 +44704,62 @@ var actions = {
           }
         }
       }, _callee3);
+    }))();
+  },
+
+  /**
+   * ラベリングを行います。
+   */
+  labeling: function labeling(context, postData) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              uri = "api/binder/image/labeling";
+              _context4.next = 3;
+              return axios.post("".concat(uri), postData)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 3:
+              response = _context4.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
+                _context4.next = 9;
+                break;
+              }
+
+              // TODO: API実行結果をどうUIに表現するか
+              alert("ラベリングに成功しました。");
+              return _context4.abrupt("return", false);
+
+            case 9:
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].NO_CONTENT) {
+                // すでに登録されている場合
+                // TODO: UI表現
+                alert("もう登録されています。");
+              }
+
+            case 10:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 11:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
     }))();
   }
 };

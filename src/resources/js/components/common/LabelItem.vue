@@ -81,7 +81,7 @@ export default {
      */
     methods: {
         dragEnter(event) {
-            // alert("hoge!");
+            // TODO: ドロップできる旨のUI表現
         },
         drop(event) {
             const imageId = event.dataTransfer.getData('image-id');
@@ -90,8 +90,13 @@ export default {
                 return false;
             }
             const labelId = this.id;
-            alert(`${imageId}と${labelId}を組みあわせるよ...!`);
 
+            // ラベルと画像を関連付ける
+            const postData = {
+                label_id: labelId,
+                image_id: imageId
+            };
+            this.$store.dispatch("binder/labeling", postData);
         }
     }
 };

@@ -115,10 +115,10 @@ const actions = {
     /**
      * ラベル情報をDBへ保存します。
      */
-    async saveLabel(context, labelData) {
+    async saveLabel(context, postData) {
         const uri = "api/binder/label/save";
         const response = await axios
-            .post(`${uri}`, labelData)
+            .post(`${uri}`, postData)
             .catch(err => err.response || err);
 
         // 成功
@@ -129,6 +129,37 @@ const actions = {
             console.log(response.data);
             context.commit("addLabel", response.data.label);
             return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+    },
+    /**
+     * ラベリングを行います。
+     */
+    async labeling(context, postData) {
+        const uri = "api/binder/image/labeling";
+        const response = await axios
+            .post(`${uri}`, postData)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.CREATED) {
+            // TODO: API実行結果をどうUIに表現するか
+            alert("ラベリングに成功しました。");
+            return false;
+        } else if(response.status === STATUS.NO_CONTENT) {
+            // すでに登録されている場合
+            // TODO: UI表現
+            alert("もう登録されています。");
         }
 
         // 失敗

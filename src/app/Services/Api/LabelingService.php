@@ -32,10 +32,11 @@ class LabelingService implements LabelingServiceInterface
     {
         if ($this->isExistLabeling($request->label_id, $request->image_id)) {
             // ラベリングが既に存在する場合、登録を実行しない
-            return;
+            return false;
         }
 
         $this->binder_repository->addLabeling($request);
+        return true;
     }
 
     /**
