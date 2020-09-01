@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BinderSaveRequest;
 use App\Http\Requests\LabelSaveRequest;
+use App\Http\Requests\LabelingRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
 use App\Services\Api\Interfaces\LabelSaveServiceInterface;
+use App\Services\Api\Interfaces\LabelingServiceInterface;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,18 +29,21 @@ class BinderController extends Controller
      * @param BinderListSelectServiceInterface $binder_list_select_service
      * @param BinderDetailSelectServiceInterface $binder_detail_select_service
      * @param LabelSaveServiceInterface $label_save_service
+     * @param LabelingServiceInterface $labeling_service
      */
     public function __construct(
         BinderCreateServiceInterface $binder_create_service,
         BinderListSelectServiceInterface $binder_list_select_service,
         BinderDetailSelectServiceInterface $binder_detail_select_service,
-        LabelSaveServiceInterface $label_save_service
+        LabelSaveServiceInterface $label_save_service,
+        LabelingServiceInterface $labeling_service
     )
     {
         $this->binder_create_service = $binder_create_service;
         $this->binder_list_select_service = $binder_list_select_service;
         $this->binder_detail_select_service = $binder_detail_select_service;
         $this->label_save_service = $label_save_service;
+        $this->labeling_service = $labeling_service;
         
         $this->middleware('auth');
     }
@@ -121,8 +126,19 @@ class BinderController extends Controller
     public function labeling(LabelingRequest $request)
     {
         // TODO: チェック(フォームリクエスト)
-        // - ログインユーザーのバインダーかどうか
+        // - ログインユーザーのバインダーにあるラベルかどうか
         // - ログインユーザーの画像かどうか
+        // - 存在するラベルかどうか
+        // - 存在する画像かどうか
+        
+        try {
+            $this->labeling_service->executeRegister($request);
+            $response = response([''], config('_const.HTTP_STATUS.CREATED'));
+            return $response;
 
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
+        }
     }
 }

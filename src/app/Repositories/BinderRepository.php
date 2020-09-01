@@ -9,6 +9,7 @@ use App\Models\Label;
 use App\Models\Labeling;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Http\Requests\BinderSaveRequest;
+use App\Http\Requests\LabelingRequest;
 
 use Auth;
 use DB;
@@ -172,11 +173,14 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function addLabeling($label_id, $image_id)
+    public function addLabeling(LabelingRequest $request)
     {
+        Log::debug('D1');
+        Log::debug($request);
+        Log::debug('/D1');
         $labeling = new Labeling([
-            'label_id' => $label_id,
-            'image_id' => $image_id,
+            'label_id' => $request->label_id,
+            'image_id' => $request->image_id,
         ]);
 
         $labeling->save();

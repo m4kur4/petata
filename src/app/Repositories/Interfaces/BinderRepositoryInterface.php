@@ -5,6 +5,7 @@ namespace App\Repositories\Interfaces;
 use App\Models\Binder;
 use App\Models\Label;
 use App\Http\Requests\BinderSaveRequest;
+use App\Http\Requests\LabelingRequest;
 
 /**
  * バインダーリポジトリ
@@ -79,9 +80,8 @@ interface BinderRepositoryInterface
     /**
      * 指定したラベルと画像の組み合わせでラベリングを新規登録します。
      * 
-     * @param string $label_id ラベルID
-     * @param string $image_id 画像ID
+     * @param LabelingRequest $request
      */
-    public function addLabeling($label_id, $image_id);
+    public function addLabeling(LabelingRequest $request);
 
 }

@@ -55,7 +55,7 @@ class ImageAddApiTest extends TestCase
 
         // 検証
         $response = $this->actingAs($this->user)
-            ->json('POST', route('api.image.add'), $formData);
+            ->json('POST', route('api.binder.image.add'), $formData);
         $image = Image::first();
         
         // - ステータスコードが期待通り返却されていること
