@@ -1,5 +1,9 @@
 <template>
-    <div class="label-container__item mdc-elevation--z2">
+    <div
+        @dragenter.prevent="dragEnter($event)"
+        @drop.prevent="drop($event)"
+        class="label-container__item mdc-elevation--z2"
+    >
         <p class="label-container__item-title">{{ name }}</p>
         <div class="label-container__item-button-wrapper">
             <button
@@ -70,6 +74,24 @@ export default {
          */
         isBinderDetail() {
             return this.$store.state.binder.id != null;
+        }
+    },
+    /**
+     * ラベリングを実行します。
+     */
+    methods: {
+        dragEnter(event) {
+            // alert("hoge!");
+        },
+        drop(event) {
+            const imageId = event.dataTransfer.getData('image-id');
+            if (!!!imageId) {
+                // バインダーの画像以外がドロップされた場合は処理なし
+                return false;
+            }
+            const labelId = this.id;
+            alert(`${imageId}と${labelId}を組みあわせるよ...!`);
+
         }
     }
 };

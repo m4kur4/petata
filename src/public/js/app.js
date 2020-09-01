@@ -2746,6 +2746,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2780,10 +2781,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    id: Number,
     imageSource: String,
     fileName: String
+  },
+  methods: {
+    /**
+     * ラベリング実行のためのドラッグイベントです。
+     * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
+     */
+    dragStart: function dragStart(event) {
+      event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
+      event.dataTransfer.setData('image-id', this.id);
+      console.log(this.id);
+    },
+    drag: function drag(event) {
+      console.log('移動中');
+    }
   }
 });
 
@@ -3067,6 +3090,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3146,6 +3170,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     id: null,
@@ -3159,6 +3187,25 @@ __webpack_require__.r(__webpack_exports__);
      */
     isBinderDetail: function isBinderDetail() {
       return this.$store.state.binder.id != null;
+    }
+  },
+
+  /**
+   * ラベリングを実行します。
+   */
+  methods: {
+    dragEnter: function dragEnter(event) {// alert("hoge!");
+    },
+    drop: function drop(event) {
+      var imageId = event.dataTransfer.getData('image-id');
+
+      if (!!!imageId) {
+        // バインダーの画像以外がドロップされた場合は処理なし
+        return false;
+      }
+
+      var labelId = this.id;
+      alert("".concat(imageId, "\u3068").concat(labelId, "\u3092\u7D44\u307F\u3042\u308F\u305B\u308B\u3088...!"));
     }
   }
 });
@@ -23079,7 +23126,11 @@ var render = function() {
       _vm._l(_vm.images, function(image) {
         return _c("ImageContainerThumbnail", {
           key: image.id,
-          attrs: { imageSource: image.storage_file_path, fileName: image.name }
+          attrs: {
+            id: image.id,
+            imageSource: image.storage_file_path,
+            fileName: image.name
+          }
         })
       }),
       _vm._v(" "),
@@ -23110,12 +23161,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "image-container__thumbnail" }, [
-    _c("img", {
-      staticClass: "image-container__thumbnail-image mdc-elevation--z2",
-      attrs: { src: _vm.imageSource, alt: _vm.fileName }
-    })
-  ])
+  return _c(
+    "div",
+    {
+      staticClass: "image-container__thumbnail",
+      on: {
+        dragstart: function($event) {
+          return _vm.dragStart($event)
+        },
+        drag: function($event) {
+          return _vm.drag($event)
+        }
+      }
+    },
+    [
+      _c("img", {
+        ref: "thumbnailImage",
+        staticClass: "image-container__thumbnail-image mdc-elevation--z2",
+        attrs: {
+          "image-id": _vm.id,
+          id: "image-" + _vm.id,
+          src: _vm.imageSource,
+          alt: _vm.fileName
+        }
+      })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -23456,7 +23527,11 @@ var render = function() {
     _vm._l(_vm.labels, function(label) {
       return _c("LabelItem", {
         key: label.id,
-        attrs: { name: label.name, description: label.description }
+        attrs: {
+          id: label.id,
+          name: label.name,
+          description: label.description
+        }
       })
     }),
     1
@@ -23484,112 +23559,130 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "label-container__item mdc-elevation--z2" }, [
-    _c("p", { staticClass: "label-container__item-title" }, [
-      _vm._v(_vm._s(_vm.name))
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "label-container__item-button-wrapper" }, [
-      _vm.isBinderDetail
-        ? _c(
-            "button",
-            {
-              staticClass: "label-container__item-button",
-              attrs: { type: "button" }
-            },
-            [
-              _c(
-                "svg",
-                {
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    height: "24",
-                    viewBox: "0 0 24 24",
-                    width: "24"
-                  }
-                },
-                [
-                  _c("path", { attrs: { d: "M0 0h24v24H0V0z", fill: "none" } }),
-                  _vm._v(" "),
-                  _c("path", {
+  return _c(
+    "div",
+    {
+      staticClass: "label-container__item mdc-elevation--z2",
+      on: {
+        dragenter: function($event) {
+          $event.preventDefault()
+          return _vm.dragEnter($event)
+        },
+        drop: function($event) {
+          $event.preventDefault()
+          return _vm.drop($event)
+        }
+      }
+    },
+    [
+      _c("p", { staticClass: "label-container__item-title" }, [
+        _vm._v(_vm._s(_vm.name))
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "label-container__item-button-wrapper" }, [
+        _vm.isBinderDetail
+          ? _c(
+              "button",
+              {
+                staticClass: "label-container__item-button",
+                attrs: { type: "button" }
+              },
+              [
+                _c(
+                  "svg",
+                  {
                     attrs: {
-                      d:
-                        "M2 12.5C2 9.46 4.46 7 7.5 7H18c2.21 0 4 1.79 4 4s-1.79 4-4 4H9.5C8.12 15 7 13.88 7 12.5S8.12 10 9.5 10H17v2H9.41c-.55 0-.55 1 0 1H18c1.1 0 2-.9 2-2s-.9-2-2-2H7.5C5.57 9 4 10.57 4 12.5S5.57 16 7.5 16H17v2H7.5C4.46 18 2 15.54 2 12.5z"
+                      xmlns: "http://www.w3.org/2000/svg",
+                      height: "24",
+                      viewBox: "0 0 24 24",
+                      width: "24"
                     }
-                  })
-                ]
-              )
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "label-container__item-button",
-          attrs: { type: "button" }
-        },
-        [
-          _c(
-            "svg",
-            {
-              attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                height: "24",
-                viewBox: "0 0 24 24",
-                width: "24"
-              }
-            },
-            [
-              _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-              _vm._v(" "),
-              _c("path", {
+                  },
+                  [
+                    _c("path", {
+                      attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
+                    }),
+                    _vm._v(" "),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M2 12.5C2 9.46 4.46 7 7.5 7H18c2.21 0 4 1.79 4 4s-1.79 4-4 4H9.5C8.12 15 7 13.88 7 12.5S8.12 10 9.5 10H17v2H9.41c-.55 0-.55 1 0 1H18c1.1 0 2-.9 2-2s-.9-2-2-2H7.5C5.57 9 4 10.57 4 12.5S5.57 16 7.5 16H17v2H7.5C4.46 18 2 15.54 2 12.5z"
+                      }
+                    })
+                  ]
+                )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "label-container__item-button",
+            attrs: { type: "button" }
+          },
+          [
+            _c(
+              "svg",
+              {
                 attrs: {
-                  d:
-                    "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                  xmlns: "http://www.w3.org/2000/svg",
+                  height: "24",
+                  viewBox: "0 0 24 24",
+                  width: "24"
                 }
-              })
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "label-container__item-button--danger",
-          attrs: { type: "button" }
-        },
-        [
-          _c(
-            "svg",
-            {
-              attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                viewBox: "0 0 24 24",
-                width: "24px",
-                height: "24px"
-              }
-            },
-            [
-              _c("path", { attrs: { d: "M0 0h24v24H0V0z", fill: "none" } }),
-              _vm._v(" "),
-              _c("path", {
+              },
+              [
+                _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                  }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "label-container__item-button--danger",
+            attrs: { type: "button" }
+          },
+          [
+            _c(
+              "svg",
+              {
                 attrs: {
-                  d:
-                    "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 24 24",
+                  width: "24px",
+                  height: "24px"
                 }
-              })
-            ]
-          )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("p", { staticClass: "label-container__item-description" }, [
-      _vm._v("\n        " + _vm._s(_vm.description) + "\n    ")
-    ])
-  ])
+              },
+              [
+                _c("path", { attrs: { d: "M0 0h24v24H0V0z", fill: "none" } }),
+                _vm._v(" "),
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "label-container__item-description" }, [
+        _vm._v("\n        " + _vm._s(_vm.description) + "\n    ")
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -44428,9 +44521,11 @@ var state = {
    * count_label: Number ラベル数
    * count_favorite: Number お気に入り登録数
    * labels: Array ラベル
+   *   - id: Number ラベルID
    *   - name: String ラベル名
    *   - description:  ラベルの説明
    * images: Array 画像
+   *   - id: Number 画像ID
    *   - name: String 画像名
    *   - description:  画像の説明
    *   - url: String URL

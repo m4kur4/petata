@@ -3,6 +3,7 @@
         <ImageContainerThumbnail
             v-for="image in images"
             :key="image.id"
+            :id="image.id"
             :imageSource="image.storage_file_path"
             :fileName="image.name"
         />

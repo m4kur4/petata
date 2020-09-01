@@ -13,9 +13,11 @@ const state = {
      * count_label: Number ラベル数
      * count_favorite: Number お気に入り登録数
      * labels: Array ラベル
+     *   - id: Number ラベルID
      *   - name: String ラベル名
      *   - description:  ラベルの説明
      * images: Array 画像
+     *   - id: Number 画像ID
      *   - name: String 画像名
      *   - description:  画像の説明
      *   - url: String URL

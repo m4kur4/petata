@@ -19,6 +19,7 @@ class Image extends Model
     ];
 
     protected $visible = [
+        'id',
         'binder_id',
         'upload_user_id',
         'name',
