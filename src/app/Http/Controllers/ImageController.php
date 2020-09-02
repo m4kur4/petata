@@ -44,11 +44,12 @@ class ImageController extends Controller
     /**
      * バインダーに設定されている画像を、指定の検索条件で絞り込みます。
      * 
-     * @param ImageAddRequest $request 画像追加リクエスト
+     * @param Request $request
      * @return Response
      */
     public function search(Request $request)
     {
+        Log::debug($request);
         $images = $this->image_search_service->execute($request);
         $response = response($images, config('_const.HTTP_STATUS.OK'));
 

@@ -26,6 +26,7 @@ const state = {
      *   - url: String URL
      *   ]..
      * search_condition: Object 画像の絞り込み条件
+     *   - binder_id: Number バインダーID
      *   - image_name: String 画像名
      *   - label_ids: Array(Number) ラベルID
      */
@@ -39,6 +40,7 @@ const state = {
     labels: [],
     images: [],
     search_condition: {
+        binder_id: null,
         image_name: "",
         label_ids: []
     }
@@ -47,6 +49,7 @@ const state = {
 const mutations = {
     setId(state, val) {
         state.id = val;
+        state.search_condition.binder_id = val;
     },
     setName(state, val) {
         state.name = val;
@@ -151,6 +154,7 @@ const actions = {
         context.commit("setLabels", []);
         context.commit("setImages", []);
         context.commit("setSearchCondition", {
+            binder_id: null,
             image_name: "",
             label_ids: []
         });
@@ -203,6 +207,32 @@ const actions = {
             // すでに登録されている場合
             // TODO: UI表現
             alert("もう登録されています。");
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+    },
+    /**
+     * stateに保持している条件で画像を検索します。
+     */
+    async searchBinderImage(context) {
+        const uri = "api/binder/image/search";
+        const response = await axios
+            .get(`${uri}`, {params: state.search_condition})
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            context.commit("setImages", response.data);
+            return false;
         }
 
         // 失敗

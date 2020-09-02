@@ -25,6 +25,8 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function search(Request $request)
     {
+        // Log::debug('D0');
+        // DB::enableQueryLog();
         $search_query = Image::query();
 
         $search_query->where('binder_id', $request->binder_id);
@@ -34,6 +36,9 @@ class ImageRepository implements ImageRepositoryInterface
         $this->addSearchWhereLabel($search_query, $request->label_ids);
 
         $result = $search_query->get();
+
+        // Log::debug(DB::getQueryLog());
+        // Log::debug('/ D0');
         return $result;
     }
 

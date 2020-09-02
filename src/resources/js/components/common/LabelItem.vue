@@ -120,8 +120,15 @@ export default {
          * 条件が設定されていなければ新たに追加を行い、
          * 既に条件が設定済みの場合は除去します。
          */
-        switchSearchCondition() {
-            this.$store.commit("binder/setSearchConditionLabel", this.id);
+        async switchSearchCondition() {
+            await this.$store.commit("binder/setSearchConditionLabel", this.id);
+            this.searchBinderImage();
+        },
+        /**
+         * バインダー画像の検索を呼び出します。
+         */
+        searchBinderImage() {
+            this.$store.dispatch("binder/searchBinderImage");
         }
     }
 };

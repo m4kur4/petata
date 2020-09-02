@@ -3112,6 +3112,14 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3235,7 +3243,33 @@ __webpack_require__.r(__webpack_exports__);
      * 既に条件が設定済みの場合は除去します。
      */
     switchSearchCondition: function switchSearchCondition() {
-      this.$store.commit("binder/setSearchConditionLabel", this.id);
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.commit("binder/setSearchConditionLabel", _this.id);
+
+              case 2:
+                _this.searchBinderImage();
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+
+    /**
+     * バインダー画像の検索を呼び出します。
+     */
+    searchBinderImage: function searchBinderImage() {
+      this.$store.dispatch("binder/searchBinderImage");
     }
   }
 });
@@ -44570,6 +44604,7 @@ var state = {
    *   - url: String URL
    *   ]..
    * search_condition: Object 画像の絞り込み条件
+   *   - binder_id: Number バインダーID
    *   - image_name: String 画像名
    *   - label_ids: Array(Number) ラベルID
    */
@@ -44583,6 +44618,7 @@ var state = {
   labels: [],
   images: [],
   search_condition: {
+    binder_id: null,
     image_name: "",
     label_ids: []
   }
@@ -44590,6 +44626,7 @@ var state = {
 var mutations = {
   setId: function setId(state, val) {
     state.id = val;
+    state.search_condition.binder_id = val;
   },
   setName: function setName(state, val) {
     state.name = val;
@@ -44718,6 +44755,7 @@ var actions = {
               context.commit("setLabels", []);
               context.commit("setImages", []);
               context.commit("setSearchCondition", {
+                binder_id: null,
                 image_name: "",
                 label_ids: []
               });
@@ -44833,6 +44871,56 @@ var actions = {
           }
         }
       }, _callee4);
+    }))();
+  },
+
+  /**
+   * stateに保持している条件で画像を検索します。
+   */
+  searchBinderImage: function searchBinderImage(context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      var uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              uri = "api/binder/image/search";
+              _context5.next = 3;
+              return axios.get("".concat(uri), {
+                params: state.search_condition
+              })["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 3:
+              response = _context5.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context5.next = 7;
+                break;
+              }
+
+              context.commit("setImages", response.data);
+              return _context5.abrupt("return", false);
+
+            case 7:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 8:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
     }))();
   }
 };
