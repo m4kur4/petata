@@ -29,8 +29,8 @@ Route::post('user/auth/login','UserController@login')->name('api.user.login');
 // バインダー作成
 Route::post('binder/create','BinderController@create')->name('api.binder.create');
 
-// ラベリング
-Route::post('binder/image/labeling','BinderController@labeling')->name('api.binder.image.labeling');
+// ラベリング登録
+Route::post('binder/label/register','BinderController@labeling')->name('api.binder.image.labeling');
 
 // ラベル保存
 Route::post('binder/label/save','BinderController@saveLabel')->name('api.binder.label.save');
@@ -41,8 +41,11 @@ Route::get('binder/list','BinderController@list')->name('api.binder.list');
 // バインダー情報取得
 Route::get('binder/detail/{binder_id}','BinderController@detail')->name('api.binder.detail');
 
-// 画像追加 NOTE: Dropzone.jsの仕様(?)で呼び出しページのURLが先頭に付与される
+// 画像追加
 Route::post('binder/image/add', 'ImageController@add')->name('api.binder.image.add');
+
+// 画像検索
+Route::get('binder/image/search', 'ImageController@search')->name('api.binder.image.search');
 
 // TODO: ユーザー退会
 //Route::post('user/unregister','Auth\RegisterController@register')->name('user.unregister');

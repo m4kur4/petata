@@ -44790,7 +44790,7 @@ var actions = {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              uri = "api/binder/image/labeling";
+              uri = "api/binder/label/register";
               _context4.next = 3;
               return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;

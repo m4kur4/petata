@@ -12,7 +12,6 @@ use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 use App\Services\Api\Interfaces\LabelingServiceInterface;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 
 use Auth;
 use Log;

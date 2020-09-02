@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Interfaces;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageRemoveRequest;
 
@@ -10,6 +11,8 @@ use App\Http\Requests\ImageRemoveRequest;
  */
 interface ImageRepositoryInterface
 {
+    public function search(Request $request);
+
     /**
      * 画像１枚を新規追加します。
      * アップロード先のファイルパスを返却します。

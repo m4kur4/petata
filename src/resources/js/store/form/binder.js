@@ -189,7 +189,7 @@ const actions = {
      * ラベリングを行います。
      */
     async labeling(context, postData) {
-        const uri = "api/binder/image/labeling";
+        const uri = "api/binder/label/register";
         const response = await axios
             .post(`${uri}`, postData)
             .catch(err => err.response || err);
