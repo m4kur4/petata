@@ -5,9 +5,12 @@ namespace App\Repositories;
 use App\Models\Image;
 use App\Models\Labeling;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
+use Illuminate\Http\File;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageRemoveRequest;
+use Intervention\Image\Facades\Image as InterventionImage;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -67,15 +70,19 @@ class ImageRepository implements ImageRepositoryInterface
         // アップロード先："binder/<バインダーID>"
         $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $request->binder_id;
 
-        // アップロード
+        // pngへ変換した画像のアップロード
+        $this->uploadPng($upload_directory, $request->image, $image->path);
+
+        // オリジナル画像
         // TODO: S3を使う
         // $path = Storage::disk('s3')->putFileAs(
         $path = Storage::disk('public')->putFileAs(
-            $upload_directory, 
+            $upload_directory . '/org/', 
             $request->image, 
             ($image->path . '.' . $image->extension),
             'public'
         );
+
         return $path;
     }
 
@@ -143,6 +150,39 @@ class ImageRepository implements ImageRepositoryInterface
         $search_query->where(function($query) use($image_ids) {
             $query->whereIn('id', $image_ids);
         });
+    }
 
+    /**
+     * png形式に変換した画像をストレージへアップロードします。
+     * NOTE: Async Clipborad APIで使用するためのファイル
+     * 
+     * @param string $upload_directory アップロード先
+     * @param UploadedFile $file アップロードファイル
+     * @param string $path 画像のパス属性
+     */
+    private function uploadPng($upload_directory, $file, $image_path)
+    {
+        // ファイルを変換するために一時ファイルをアップロードする
+        $now = (Carbon::now())->format('Ymd');
+        $temp_file_name = $now . '_' . $file->getClientOriginalName();
+        $temp_path = storage_path('app/temp/') . $temp_file_name;
+
+        InterventionImage::make($file)
+            ->encode('png')
+            ->save($temp_path);
+
+        $image_png = new File($temp_path);
+
+        // TODO: S3を使う
+        // $path = Storage::disk('s3')->putFileAs(
+        $path = Storage::disk('public')->putFileAs(
+            $upload_directory, 
+            $image_png, 
+            ($image_path . '.' . 'png'),
+            'public'
+        );
+
+        // 一時ファイルを削除
+        Storage::disk('local')->delete('temp/' . $temp_file_name);
     }
 }

@@ -13,7 +13,9 @@ RUN apt-get update \
     unzip \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libpng-dev
+    libpng-dev \
+    imagemagick \
+    libmagickwand-dev
 
 # INSTALL python-library
 RUN python3 -m pip install -U pip \
@@ -31,6 +33,10 @@ RUN docker-php-ext-install \
   pdo_mysql
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install -j$(nproc) gd
+
+# INSTALL Imagemagick
+RUN pecl install imagick \
+  && docker-php-ext-enable imagick
 
 # INSTALL Node.js
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \

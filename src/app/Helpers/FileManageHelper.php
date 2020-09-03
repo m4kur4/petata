@@ -13,13 +13,13 @@ class FileManageHelper
      * S3上に格納されているバインダー画像の絶対パスを取得します。
      * 
      * @param Image $image
+     * @param string [option]$extension 拡張子
      */
-    public static function getBinderImagePath($image)
+    public static function getBinderImagePath($image, $extension = null)
     {
         // TODO: S3を使う
         //$disk = Storage::disk('s3');
         $disk = Storage::disk('public');
-
 
         // <ベースディレクトリ> / <バインダーID> / <ファイル物理名>.<ファイル拡張子>
         $format = '%s/%s/%s.%s';
@@ -29,7 +29,7 @@ class FileManageHelper
             config('_const.UPLOAD_DIRECTORY.BINDER'), 
             $image->binder_id, 
             $image->path, 
-            $image->extension, 
+            empty($extension) ? $image->extension: $extension, 
         );
 
         // 絶対パスを返却

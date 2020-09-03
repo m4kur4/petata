@@ -180,6 +180,11 @@ return [
          */
         App\Providers\RepositoryProvider::class,
 
+        /**
+         * 追加
+         */
+        Intervention\Image\ImageServiceProvider::class,
+
     ],
 
     /*

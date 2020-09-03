@@ -25,7 +25,8 @@ class Image extends Model
         'name',
         'path',
         'visible',
-        'storage_file_path'
+        'storage_file_path',
+        'storage_file_path_org',
     ];
 
     protected $appends = [
@@ -46,13 +47,23 @@ class Image extends Model
     }
 
     /**
-     * アクセサ - ストレージ上のファイルパス
+     * アクセサ - ストレージ上のファイルパス(png形式画像)
      * NOTE: path列の値を絶対パス変換する
      */
     public function getStorageFilePathAttribute()
     {
-        $storage_file_path = FileManageHelper::getBinderImagePath($this);
+        $storage_file_path = FileManageHelper::getBinderImagePath($this, 'png');
         return $storage_file_path;
+    }
+
+    /**
+     * アクセサ - ストレージ上のファイルパス(オリジナル画像)
+     * NOTE: path列の値を絶対パス変換する
+     */
+    public function getStorageFilePathOrgAttribute()
+    {
+        $storage_file_path_org = FileManageHelper::getBinderImagePath($this);
+        return $storage_file_path_org;
     }
 
     /**
