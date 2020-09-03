@@ -96,7 +96,7 @@ const mutations = {
         } else {
             state.search_condition.label_ids.push(val);
         }
-    }
+    },
 };
 
 const getters = {
@@ -232,6 +232,34 @@ const actions = {
         // 成功
         if (response.status === STATUS.OK) {
             context.commit("setImages", response.data);
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+    },
+    /**
+     * ラベルを削除します。
+     */
+    async removeLabel(context, label) {
+        label.binder_id = state.id;
+        // TODO: 実装
+        const uri = "api/binder/label/delete";
+        const response = await axios
+            .post(`${uri}`, label)
+            .catch(err => err.response || err);
+        
+        // 成功
+        if (response.status === STATUS.OK) {
+            context.commit("setLabels", response.data);
             return false;
         }
 

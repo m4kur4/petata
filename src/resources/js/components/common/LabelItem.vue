@@ -118,7 +118,7 @@
 export default {
     data() {
         return {
-            isRemoveConfirm: false
+            isRemoveConfirm: false,
         };
     },
     props: {
@@ -211,13 +211,24 @@ export default {
          * ラベル削除イベントを発火します。
          * カスタムイベント名："remove-label-click"
          */
-        removeLabel() {
+        async removeLabel() {
+
             const label = {
                 index: this.index,
-                id: this.id
+                label_id: this.id
             };
+            this.isRemoveConfirm = false;
+
             // NOTE: 削除処理は親コンポーネントへ委譲する
-            this.$emit("remove-label-click", label);
+            await this.$emit("remove-label-click", label);
+
+            // バインダー画像の検索条件から自身を除去
+            if (this.isAddSearchCondition) {
+                // NOTE: stateへ設定済みの場合は削除される
+                this.$store.commit("binder/setSearchConditionLabel", this.id);
+            }
+            // バインダー画像を再検索
+            this.searchBinderImage();
         }
     }
 };

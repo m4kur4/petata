@@ -2918,6 +2918,11 @@ __webpack_require__.r(__webpack_exports__);
     labels: function labels() {
       return this.$store.state.binder.labels;
     }
+  },
+  methods: {
+    removeLabel: function removeLabel(label) {
+      this.$store.dispatch("binder/removeLabel", label);
+    }
   }
 });
 
@@ -3379,12 +3384,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * カスタムイベント名："remove-label-click"
      */
     removeLabel: function removeLabel() {
-      var label = {
-        index: this.index,
-        id: this.id
-      }; // NOTE: 削除処理は親コンポーネントへ委譲する
+      var _this2 = this;
 
-      this.$emit("remove-label-click", label);
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var label;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                label = {
+                  index: _this2.index,
+                  label_id: _this2.id
+                };
+                _this2.isRemoveConfirm = false; // NOTE: 削除処理は親コンポーネントへ委譲する
+
+                _context2.next = 4;
+                return _this2.$emit("remove-label-click", label);
+
+              case 4:
+                // バインダー画像の検索条件から自身を除去
+                if (_this2.isAddSearchCondition) {
+                  // NOTE: stateへ設定済みの場合は削除される
+                  _this2.$store.commit("binder/setSearchConditionLabel", _this2.id);
+                } // バインダー画像を再検索
+
+
+                _this2.searchBinderImage();
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 });
@@ -23479,7 +23512,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("LabelContainer", { attrs: { labels: _vm.labels } })
+  return _c("LabelContainer", {
+    attrs: { labels: _vm.labels },
+    on: { "remove-label-click": _vm.removeLabel }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45142,6 +45178,56 @@ var actions = {
           }
         }
       }, _callee5);
+    }))();
+  },
+
+  /**
+   * ラベルを削除します。
+   */
+  removeLabel: function removeLabel(context, label) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              label.binder_id = state.id; // TODO: 実装
+
+              uri = "api/binder/label/delete";
+              _context6.next = 4;
+              return axios.post("".concat(uri), label)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context6.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context6.next = 8;
+                break;
+              }
+
+              context.commit("setLabels", response.data);
+              return _context6.abrupt("return", false);
+
+            case 8:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
     }))();
   }
 };

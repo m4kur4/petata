@@ -377,7 +377,7 @@ main {
 }
 
 .label-container__item-confirm-ok {
-  fill: #007BFF;
+  fill: #DC3545;
   grid-column: 1/2;
   border: none;
   outline: none;
@@ -468,7 +468,7 @@ main {
 
 .label-container__item-button--danger:hover {
   background-color: #E9E9E9;
-  fill: red;
+  fill: #DC3545;
 }
 
 .label-container__item-button--selected {

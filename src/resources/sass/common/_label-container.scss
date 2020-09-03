@@ -60,7 +60,7 @@
         }
         &-confirm {
             &-ok {
-                fill: #007BFF;
+                fill: #DC3545;
                 grid-column: 1/2;
                 border: none;
                 outline: none;
@@ -141,7 +141,7 @@
                 width: 32px;
                 &:hover {
                     background-color:#E9E9E9;
-                    fill:red;
+                    fill:#DC3545;
                 }
             }
             &--selected {
