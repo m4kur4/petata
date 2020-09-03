@@ -59,6 +59,7 @@ export default {
         add() {
             // TODO: 実装
             const formData = {
+                index: this.index,
                 id: this.id,
                 name: this.name,
                 description: this.description
@@ -74,6 +75,11 @@ export default {
         },
         mode() {
             return this.$store.state.labelAddDialog.mode;
+        },
+        index: {
+            get() {
+                return this.$store.state.labelAddDialog.index;
+            },
         },
         id: {
             get() {

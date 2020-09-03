@@ -71,6 +71,7 @@
 <script>
 export default {
     props: {
+        index: null,
         id: null,
         name: "",
         description: "",
@@ -141,6 +142,7 @@ export default {
             // 初期値の設定
             this.$store.commit("labelAddDialog/setMode", "Edit");
             this.$store.commit("labelAddDialog/setId", this.id);
+            this.$store.commit("labelAddDialog/setIndex", this.index);
             this.$store.commit("labelAddDialog/setName", this.name);
             this.$store.commit(
                 "labelAddDialog/setDescription",

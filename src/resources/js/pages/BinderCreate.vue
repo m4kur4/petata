@@ -1,7 +1,7 @@
 <template>
     <div class="container--binder-create">
         <Form />
-        <LabelAddDialog @add-label-click="addLabel" />
+        <LabelAddDialog @add-label-click="setLabel" />
     </div>
     <!-- /.container -->
 </template>
@@ -16,8 +16,8 @@ export default {
         LabelAddDialog
     },
     methods: {
-        addLabel(labelData) {
-          this.$store.commit('binderCreate/addLabel', labelData);
+        setLabel(labelData) {
+          this.$store.commit('binderCreate/setLabel', labelData);
         }
     },
     beforeCreate() {

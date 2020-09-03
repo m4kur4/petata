@@ -2,6 +2,7 @@
  * フォームデータストア - バインダー作成
  */
 import { STATUS } from "../../const";
+import Vue from 'vue';
 
 const state = {
     /**
@@ -16,6 +17,10 @@ const state = {
         description: '',
         labels: []
     },
+    /**
+     * ラベルのカウント
+     */
+    label_count: 0,
 
     /**
      * エラーメッセージ
@@ -33,8 +38,15 @@ const mutations = {
     setLabels(state, val) {
         state.form.labels = val;
     },
-    addLabel(state, label) {
-        state.form.labels.push(label);
+    setLabel(state, label) {
+        if (label.index == null) {
+            // 新規追加の場合はstateにpushする
+            state.form.labels.push(label);
+        } else {
+            // 編集の場合はstateを更新する
+            Vue.set(state.form.labels, label.index, label);
+            console.log(state.form.labels[label.index]);
+        }
     },
     removeLabel(state, key) {
         // TODO: 実装

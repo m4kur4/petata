@@ -3029,6 +3029,7 @@ __webpack_require__.r(__webpack_exports__);
     add: function add() {
       // TODO: 実装
       var formData = {
+        index: this.index,
         id: this.id,
         name: this.name,
         description: this.description
@@ -3044,6 +3045,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     mode: function mode() {
       return this.$store.state.labelAddDialog.mode;
+    },
+    index: {
+      get: function get() {
+        return this.$store.state.labelAddDialog.index;
+      }
     },
     id: {
       get: function get() {
@@ -3081,6 +3087,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LabelItem__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LabelItem */ "./resources/js/components/common/LabelItem.vue");
+//
 //
 //
 //
@@ -3195,6 +3202,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    index: null,
     id: null,
     name: "",
     description: "",
@@ -3286,6 +3294,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // 初期値の設定
       this.$store.commit("labelAddDialog/setMode", "Edit");
       this.$store.commit("labelAddDialog/setId", this.id);
+      this.$store.commit("labelAddDialog/setIndex", this.index);
       this.$store.commit("labelAddDialog/setName", this.name);
       this.$store.commit("labelAddDialog/setDescription", this.description);
       this.$store.commit("mode/setIsShowDialog", true);
@@ -3967,8 +3976,8 @@ __webpack_require__.r(__webpack_exports__);
     LabelAddDialog: _components_common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
-    addLabel: function addLabel(labelData) {
-      this.$store.commit('binderCreate/addLabel', labelData);
+    setLabel: function setLabel(labelData) {
+      this.$store.commit('binderCreate/setLabel', labelData);
     }
   },
   beforeCreate: function beforeCreate() {
@@ -23607,10 +23616,11 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "label-container" },
-    _vm._l(_vm.labels, function(label) {
+    _vm._l(_vm.labels, function(label, index) {
       return _c("LabelItem", {
-        key: label.id,
+        key: index,
         attrs: {
+          index: index,
           id: label.id,
           name: label.name,
           description: label.description
@@ -24663,7 +24673,7 @@ var render = function() {
     [
       _c("Form"),
       _vm._v(" "),
-      _c("LabelAddDialog", { on: { "add-label-click": _vm.addLabel } })
+      _c("LabelAddDialog", { on: { "add-label-click": _vm.setLabel } })
     ],
     1
   )
@@ -44372,6 +44382,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -44381,6 +44393,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /**
  * フォームデータストア - バインダー作成
  */
+
 
 var state = {
   /**
@@ -44397,6 +44410,11 @@ var state = {
   },
 
   /**
+   * ラベルのカウント
+   */
+  label_count: 0,
+
+  /**
    * エラーメッセージ
    */
   errorMessages: null
@@ -44411,8 +44429,15 @@ var mutations = {
   setLabels: function setLabels(state, val) {
     state.form.labels = val;
   },
-  addLabel: function addLabel(state, label) {
-    state.form.labels.push(label);
+  setLabel: function setLabel(state, label) {
+    if (label.index == null) {
+      // 新規追加の場合はstateにpushする
+      state.form.labels.push(label);
+    } else {
+      // 編集の場合はstateを更新する
+      vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.form.labels, label.index, label);
+      console.log(state.form.labels[label.index]);
+    }
   },
   removeLabel: function removeLabel(state, key) {// TODO: 実装
     // TODO: 削除対象のラベルをどうやって識別するか
@@ -44971,6 +44996,7 @@ var state = {
    * 追加/編集
    */
   mode: "Add",
+  index: null,
   id: 0,
   name: '',
   description: ''
@@ -44978,6 +45004,9 @@ var state = {
 var mutations = {
   setMode: function setMode(state, val) {
     state.mode = val;
+  },
+  setIndex: function setIndex(state, val) {
+    state.index = val;
   },
   setId: function setId(state, val) {
     state.id = val;
@@ -44992,6 +45021,7 @@ var mutations = {
 var actions = {
   clear: function clear() {
     state.mode = "Add";
+    state.index = null;
     state.id = 0;
     state.name = '';
     state.description = '';

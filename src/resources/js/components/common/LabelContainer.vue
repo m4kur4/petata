@@ -1,8 +1,9 @@
 <template>
     <div class="label-container">
         <LabelItem
-            v-for="label in labels"
-            :key="label.id"
+            v-for="(label, index) in labels"
+            :index="index"
+            :key="index"
             :id="label.id"
             :name="label.name"
             :description="label.description"
