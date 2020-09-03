@@ -28,7 +28,11 @@
                     />
                 </svg>
             </button>
-            <button type="button" class="label-container__item-button">
+            <button
+                @click="openLabelAddDialogForEdit"
+                type="button"
+                class="label-container__item-button"
+            >
                 <!-- 編集ボタン -->
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -86,9 +90,9 @@ export default {
          * 自身のラベルIDがstateの検索条件へ追加されているかどうか
          */
         isAddSearchCondition() {
-            return this.$store.getters["binder/isAlreadyAddSearchConditionLabel"](
-                this.id
-            );
+            return this.$store.getters[
+                "binder/isAlreadyAddSearchConditionLabel"
+            ](this.id);
         }
     },
     /**
@@ -125,10 +129,25 @@ export default {
             this.searchBinderImage();
         },
         /**
-         * バインダー画像の検索を呼び出します。
+         * バインダー画像の検索APIを呼び出します。
          */
         searchBinderImage() {
             this.$store.dispatch("binder/searchBinderImage");
+        },
+        /**
+         * ラベル追加ダイアログを編集モードで呼び出します。
+         */
+        openLabelAddDialogForEdit() {
+            // 初期値の設定
+            this.$store.commit("labelAddDialog/setMode", "Edit");
+            this.$store.commit("labelAddDialog/setId", this.id);
+            this.$store.commit("labelAddDialog/setName", this.name);
+            this.$store.commit(
+                "labelAddDialog/setDescription",
+                this.description
+            );
+
+            this.$store.commit("mode/setIsShowDialog", true);
         }
     }
 };

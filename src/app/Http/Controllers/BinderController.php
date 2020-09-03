@@ -110,7 +110,7 @@ class BinderController extends Controller
     {
         try {
             $labels = $this->label_save_service->execute($request);
-            $response = response(['label' => $labels[0]], config('_const.HTTP_STATUS.OK'));
+            $response = response(['labels' => $labels], config('_const.HTTP_STATUS.OK'));
             return $response;
 
         } catch (\Exception $e) {

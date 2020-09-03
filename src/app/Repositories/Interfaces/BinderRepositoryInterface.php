@@ -84,4 +84,9 @@ interface BinderRepositoryInterface
      */
     public function addLabeling(LabelingRequest $request);
 
+    /**
+     * 指定したバインダーに紐づくラベルのリストを返却します。
+     */
+    public function selectLabelsRelatedToBinder(string $binder_id);
+
 }

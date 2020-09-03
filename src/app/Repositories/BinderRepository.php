@@ -184,6 +184,17 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
+     * @inheritdoc
+     */
+    public function selectLabelsRelatedToBinder(string $binder_id)
+    {
+        $labels = Label::query()
+            ->where('binder_id', $binder_id)
+            ->get();
+        return $labels;
+    }
+
+    /**
      * 指定したユーザーが指定したバインダーへアクセス可能かを判定します。
      * 
      * @param string $user_id ユーザーID

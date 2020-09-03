@@ -3042,6 +3042,9 @@ __webpack_require__.r(__webpack_exports__);
     isShowDialog: function isShowDialog() {
       return this.$store.state.mode.isShowDialog;
     },
+    mode: function mode() {
+      return this.$store.state.labelAddDialog.mode;
+    },
     id: {
       get: function get() {
         return this.$store.state.labelAddDialog.id;
@@ -3120,6 +3123,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -3266,10 +3273,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
 
     /**
-     * バインダー画像の検索を呼び出します。
+     * バインダー画像の検索APIを呼び出します。
      */
     searchBinderImage: function searchBinderImage() {
       this.$store.dispatch("binder/searchBinderImage");
+    },
+
+    /**
+     * ラベル追加ダイアログを編集モードで呼び出します。
+     */
+    openLabelAddDialogForEdit: function openLabelAddDialogForEdit() {
+      // 初期値の設定
+      this.$store.commit("labelAddDialog/setMode", "Edit");
+      this.$store.commit("labelAddDialog/setId", this.id);
+      this.$store.commit("labelAddDialog/setName", this.name);
+      this.$store.commit("labelAddDialog/setDescription", this.description);
+      this.$store.commit("mode/setIsShowDialog", true);
     }
   }
 });
@@ -3476,7 +3495,7 @@ __webpack_require__.r(__webpack_exports__);
     /**
      * ラベルダイアログの入力内容を保存します。
      */
-    addLabel: function addLabel(labelData) {
+    saveLabel: function saveLabel(labelData) {
       // NOTE: ナビゲーションバーから展開したラベルダイアログの内容は非同期で保存する
       labelData.binder_id = this.$store.state.binder.id;
       this.$store.dispatch("binder/saveLabel", labelData);
@@ -23484,7 +23503,7 @@ var render = function() {
           "div",
           { staticClass: "form__header--add-label-dialog mdc-elevation--z1" },
           [
-            _c("span", [_vm._v("Add label")]),
+            _c("span", [_vm._v(_vm._s(_vm.mode) + " label")]),
             _vm._v(" "),
             _c("button", { on: { click: _vm.closeDialog } }, [_vm._v("×")])
           ]
@@ -23545,7 +23564,7 @@ var render = function() {
                 attrs: { type: "button" },
                 on: { click: _vm.add }
               },
-              [_vm._v("\n            Add\n        ")]
+              [_vm._v("\n            " + _vm._s(_vm.mode) + "\n        ")]
             )
           ],
           1
@@ -23688,7 +23707,8 @@ var render = function() {
           "button",
           {
             staticClass: "label-container__item-button",
-            attrs: { type: "button" }
+            attrs: { type: "button" },
+            on: { click: _vm.openLabelAddDialogForEdit }
           },
           [
             _c(
@@ -24016,7 +24036,7 @@ var render = function() {
           _vm._v(" "),
           _c("ProgressIndicator"),
           _vm._v(" "),
-          _c("LabelAddDialog", { on: { "add-label-click": _vm.addLabel } })
+          _c("LabelAddDialog", { on: { "add-label-click": _vm.saveLabel } })
         ],
         1
       )
@@ -44794,7 +44814,7 @@ var actions = {
               }
 
               console.log(response.data);
-              context.commit("addLabel", response.data.label);
+              context.commit("setLabels", response.data.labels);
               return _context3.abrupt("return", false);
 
             case 8:
@@ -44947,11 +44967,18 @@ __webpack_require__.r(__webpack_exports__);
  * ラベル追加ダイアログフォームストア
  */
 var state = {
+  /**
+   * 追加/編集
+   */
+  mode: "Add",
   id: 0,
   name: '',
   description: ''
 };
 var mutations = {
+  setMode: function setMode(state, val) {
+    state.mode = val;
+  },
   setId: function setId(state, val) {
     state.id = val;
   },
@@ -44964,6 +44991,7 @@ var mutations = {
 };
 var actions = {
   clear: function clear() {
+    state.mode = "Add";
     state.id = 0;
     state.name = '';
     state.description = '';

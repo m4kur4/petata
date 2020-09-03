@@ -36,6 +36,9 @@ class LabelSaveService implements LabelSaveServiceInterface
         // ラベルの保存
         $label = $this->binder_repository->saveLabels($request->binder_id, $label_posts);
 
-        return $label;
+        // 保存後のラベルのリストを取得
+        $labels = $this->binder_repository->selectLabelsRelatedToBinder($request->binder_id);
+
+        return $labels;
     }
 }

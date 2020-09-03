@@ -106,7 +106,7 @@
             ></span>
         </div>
         <ProgressIndicator />
-        <LabelAddDialog @add-label-click="addLabel" />
+        <LabelAddDialog @add-label-click="saveLabel" />
     </nav>
 </template>
 
@@ -137,7 +137,7 @@ export default {
         /**
          * ラベルダイアログの入力内容を保存します。
          */
-        addLabel(labelData) {
+        saveLabel(labelData) {
             // NOTE: ナビゲーションバーから展開したラベルダイアログの内容は非同期で保存する
             labelData.binder_id = this.$store.state.binder.id;
             this.$store.dispatch("binder/saveLabel", labelData);

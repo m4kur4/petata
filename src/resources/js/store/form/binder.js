@@ -174,7 +174,7 @@ const actions = {
             response.status === STATUS.CREATED
         ) {
             console.log(response.data);
-            context.commit("addLabel", response.data.label);
+            context.commit("setLabels", response.data.labels);
             return false;
         }
 

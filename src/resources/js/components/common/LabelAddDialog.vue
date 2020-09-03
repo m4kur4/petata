@@ -1,7 +1,7 @@
 <template>
     <div v-if="isShowDialog" class="form--add-label-dialog">
         <div class="form__header--add-label-dialog mdc-elevation--z1">
-            <span>Add label</span>
+            <span>{{ mode }} label</span>
             <button @click="closeDialog">×</button>
         </div>
 
@@ -27,7 +27,7 @@
             ></textarea>
 
             <button @click="add" type="button" class="form__button--submit">
-                Add
+                {{ mode }}
             </button>
         </div>
     </div>
@@ -71,6 +71,9 @@ export default {
     computed: {
         isShowDialog() {
             return this.$store.state.mode.isShowDialog;
+        },
+        mode() {
+            return this.$store.state.labelAddDialog.mode;
         },
         id: {
             get() {

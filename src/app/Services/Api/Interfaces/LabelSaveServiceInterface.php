@@ -11,10 +11,10 @@ interface LabelSaveServiceInterface
 {
     /**
      * ラベルをバインダーへ設定します。
-     * アップロード先のファイルパスを返却します。
+     * 設定後のラベルのリストを返却します。
      *
      * @param LabelSaveRequest $request
-     * @return string
+     * @return Collection(Label)
      */
     public function execute(LabelSaveRequest $request);
 }
