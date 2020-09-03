@@ -1,6 +1,7 @@
 <template>
     <div class="label-container">
         <LabelItem
+            @remove-label-click="removeLabel"
             v-for="(label, index) in labels"
             :index="index"
             :key="index"
@@ -20,6 +21,15 @@ export default {
     },
     props: {
         labels: Array
+    },
+    methods: {
+        /**
+         * ラベルから発火されたラベル削除イベントを親へ委譲します。
+         * カスタムイベント名："remove-label-click"
+         */
+        removeLabel(label) {
+            this.$emit("remove-label-click", label);
+        }
     }
 };
 </script>

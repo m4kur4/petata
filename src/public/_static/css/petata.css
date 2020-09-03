@@ -376,6 +376,51 @@ main {
   font-size: calc(20px - 4);
 }
 
+.label-container__item-confirm-ok {
+  fill: #007BFF;
+  grid-column: 1/2;
+  border: none;
+  outline: none;
+  width: 64px;
+  height: 100%;
+  background-color: transparent;
+  opacity: 0.6;
+}
+
+.label-container__item-confirm-ok:hover {
+  opacity: 1;
+}
+
+.label-container__item-confirm-no {
+  fill: #6C757D;
+  grid-column: 2/3;
+  border: none;
+  outline: none;
+  width: 64px;
+  height: 100%;
+  background-color: transparent;
+  opacity: 0.6;
+}
+
+.label-container__item-confirm-no:hover {
+  opacity: 1;
+}
+
+.label-container__item-confirm-wrapper {
+  display: grid;
+  grid-template-columns: 64px 64px;
+  grid-template-rows: 48px;
+  width: 128px;
+  height: 100%;
+  margin-right: 0;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  position: absolute;
+  background-color: white;
+  z-index: 1;
+}
+
 .label-container__item-button {
   padding: 0;
   transition: all 150ms 0s ease;

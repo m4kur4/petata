@@ -38,7 +38,10 @@
                 </svg>
             </div>
             <div class="form__label-list">
-                <LabelContainer :labels="labels" />
+                <LabelContainer
+                    @remove-label-click="removeLabel"
+                    :labels="labels"
+                />
             </div>
         </div>
     </div>
@@ -69,6 +72,9 @@ export default {
         async doPost() {
             await this.$store.dispatch("binderCreate/doPost");
             this.$router.push("/binder/list");
+        },
+        removeLabel(label) {
+            this.$store.commit("binderCreate/removeLabel", label);
         }
     },
     computed: {

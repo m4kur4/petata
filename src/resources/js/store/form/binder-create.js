@@ -48,9 +48,8 @@ const mutations = {
             console.log(state.form.labels[label.index]);
         }
     },
-    removeLabel(state, key) {
-        // TODO: 実装
-        // TODO: 削除対象のラベルをどうやって識別するか
+    removeLabel(state, label) {
+        Vue.delete(state.form.labels, label.index);
     }
 };
 
