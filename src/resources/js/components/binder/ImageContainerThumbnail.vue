@@ -4,14 +4,17 @@
         @drag="drag($event)"
         class="image-container__thumbnail"
     >
-        <img
-            class="image-container__thumbnail-image mdc-elevation--z2"
-            ref="thumbnailImage"
-            :image-id="id"
-            :id="`image-${id}`"
-            :src="imageSource"
-            :alt="fileName"
-        />
+        <div class="image-container__thumbnail-inner-content-wrapper">
+            <img
+                class="image-container__thumbnail-image mdc-elevation--z2"
+                ref="thumbnailImage"
+                :image-id="id"
+                :id="`image-${id}`"
+                :src="imageSource"
+                :alt="fileName"
+            />
+            <div class="thumbnail-inner-content__button-wrapper"></div>
+        </div>
     </div>
 </template>
 <script>
@@ -28,11 +31,11 @@ export default {
          */
         dragStart(event) {
             event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
-            event.dataTransfer.setData('image-id', this.id);
+            event.dataTransfer.setData("image-id", this.id);
             console.log(this.id);
         },
         drag(event) {
-            console.log('移動中');
+            console.log("移動中");
         }
     }
 };

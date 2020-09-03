@@ -713,27 +713,56 @@ main {
   height: 312px;
   align-self: center;
   justify-self: center;
+  pointer-events: none;
 }
 
 .image-container__thumbnail-image {
-  opacity: 75%;
-  transition: all 200ms 0s ease;
   cursor: move;
   position: absolute;
-  height: 90%;
-  width: 90%;
+  height: 100%;
+  width: 100%;
   -o-object-fit: cover;
      object-fit: cover;
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   -webkit-transform: translateY(-50%) translateX(-50%);
+  opacity: 70%;
+  transition: all 100ms 0s ease;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .image-container__thumbnail-image:hover {
+  transition: all 150ms 0s ease;
   opacity: 100%;
-  transition: all 200ms 0s ease;
   box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+}
+
+.image-container__thumbnail-image:hover + .thumbnail-inner-content__button-wrapper {
+  transition: all 175ms 0s ease;
+  opacity: 0.7;
+}
+
+.image-container__thumbnail-inner-content-wrapper {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 216px auto;
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background-color: transparent;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  -webkit-transform: translateY(-50%) translateX(-50%);
+}
+
+.thumbnail-inner-content__button-wrapper {
+  grid-row: 2/3;
+  opacity: 0;
+  background-color: black;
+  z-index: 1;
 }
 
 .dropzone--show {

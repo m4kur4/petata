@@ -2794,6 +2794,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     id: Number,
@@ -2807,11 +2810,11 @@ __webpack_require__.r(__webpack_exports__);
      */
     dragStart: function dragStart(event) {
       event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
-      event.dataTransfer.setData('image-id', this.id);
+      event.dataTransfer.setData("image-id", this.id);
       console.log(this.id);
     },
     drag: function drag(event) {
-      console.log('移動中');
+      console.log("移動中");
     }
   }
 });
@@ -23392,16 +23395,24 @@ var render = function() {
       }
     },
     [
-      _c("img", {
-        ref: "thumbnailImage",
-        staticClass: "image-container__thumbnail-image mdc-elevation--z2",
-        attrs: {
-          "image-id": _vm.id,
-          id: "image-" + _vm.id,
-          src: _vm.imageSource,
-          alt: _vm.fileName
-        }
-      })
+      _c(
+        "div",
+        { staticClass: "image-container__thumbnail-inner-content-wrapper" },
+        [
+          _c("img", {
+            ref: "thumbnailImage",
+            staticClass: "image-container__thumbnail-image mdc-elevation--z2",
+            attrs: {
+              "image-id": _vm.id,
+              id: "image-" + _vm.id,
+              src: _vm.imageSource,
+              alt: _vm.fileName
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "thumbnail-inner-content__button-wrapper" })
+        ]
+      )
     ]
   )
 }
