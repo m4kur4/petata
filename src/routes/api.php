@@ -35,6 +35,9 @@ Route::post('binder/label/register','BinderController@labeling')->name('api.bind
 // ラベル保存
 Route::post('binder/label/save','BinderController@saveLabel')->name('api.binder.label.save');
 
+// ラベル削除
+Route::post('binder/label/delete','BinderController@deleteLabel')->name('api.binder.label.delete');
+
 // バインダー一覧取得
 Route::get('binder/list','BinderController@list')->name('api.binder.list');
 

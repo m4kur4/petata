@@ -137,6 +137,19 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritDoc
      */
+    public function deleteLabel(string $label_id)
+    {
+        Log::debug('D2');
+        Log::debug($label_id);
+        Log::debug('/D2');
+        Label::query()
+            ->where('id', $label_id)
+            ->delete();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function selectOneById(string $binder_id)
     {
         $user_id = Auth::id();

@@ -47,8 +47,8 @@ interface BinderRepositoryInterface
     public function addBinderAuthority($user_id, $binder_id, $level);
     
     /**
-     * バインダーへラベルを追加します。
-     * 追加したラベルのリストを返却します。
+     * バインダーへラベルを保存します。
+     * 保存後のラベルのリストを返却します。
      *
      * @param string $binder_id バインダーID
      * @param array $label_posts POSTされたラベル情報
@@ -59,6 +59,13 @@ interface BinderRepositoryInterface
      * @return array(Label)
      */
     public function saveLabels(string $binder_id, ?array $label_posts);
+
+    /**
+     * ラベルを削除します。
+     * 
+     * @param strint $label_id ラベルID
+     */
+    public function deleteLabel(string $label_id);
 
     /**
      * バインダーの詳細情報を取得します。
