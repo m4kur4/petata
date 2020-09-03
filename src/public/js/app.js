@@ -2778,6 +2778,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
 //
 //
 //
@@ -2826,6 +2827,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     id: Number,
@@ -2844,6 +2849,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     drag: function drag(event) {
       console.log("移動中");
+    },
+
+    /**
+     * 画像をクリップボードにコピーします。
+     */
+    copyImage: function copyImage() {
+      var image = this.$refs.thumbnailImage;
+      _util__WEBPACK_IMPORTED_MODULE_0__["util"].copyImageToClipBoard(image);
     }
   }
 });
@@ -23444,31 +23457,38 @@ var render = function() {
             "div",
             { staticClass: "thumbnail-inner-content__button-wrapper" },
             [
-              _c("button", { staticClass: "thumbnail-inner-content__button" }, [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      height: "48",
-                      viewBox: "0 0 24 24",
-                      width: "48"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
-                    }),
-                    _vm._v(" "),
-                    _c("path", {
+              _c(
+                "button",
+                {
+                  staticClass: "thumbnail-inner-content__button",
+                  on: { click: _vm.copyImage }
+                },
+                [
+                  _c(
+                    "svg",
+                    {
                       attrs: {
-                        d:
-                          "M2 12.5C2 9.46 4.46 7 7.5 7H18c2.21 0 4 1.79 4 4s-1.79 4-4 4H9.5C8.12 15 7 13.88 7 12.5S8.12 10 9.5 10H17v2H9.41c-.55 0-.55 1 0 1H18c1.1 0 2-.9 2-2s-.9-2-2-2H7.5C5.57 9 4 10.57 4 12.5S5.57 16 7.5 16H17v2H7.5C4.46 18 2 15.54 2 12.5z"
+                        xmlns: "http://www.w3.org/2000/svg",
+                        height: "48",
+                        viewBox: "0 0 24 24",
+                        width: "48"
                       }
-                    })
-                  ]
-                )
-              ]),
+                    },
+                    [
+                      _c("path", {
+                        attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M2 12.5C2 9.46 4.46 7 7.5 7H18c2.21 0 4 1.79 4 4s-1.79 4-4 4H9.5C8.12 15 7 13.88 7 12.5S8.12 10 9.5 10H17v2H9.41c-.55 0-.55 1 0 1H18c1.1 0 2-.9 2-2s-.9-2-2-2H7.5C5.57 9 4 10.57 4 12.5S5.57 16 7.5 16H17v2H7.5C4.46 18 2 15.54 2 12.5z"
+                        }
+                      })
+                    ]
+                  )
+                ]
+              ),
               _vm._v(" "),
               _c("button", { staticClass: "thumbnail-inner-content__button" }, [
                 _c(
@@ -45440,6 +45460,66 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
+
+/***/ }),
+
+/***/ "./resources/js/util.js":
+/*!******************************!*\
+  !*** ./resources/js/util.js ***!
+  \******************************/
+/*! exports provided: util */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "util", function() { return util; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var util = {
+  /**
+   * 指定した画像をクリップボードにコピーします。
+   */
+  copyImageToClipBoard: function copyImageToClipBoard(image) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var img, imgBlob;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return fetch(image.src);
+
+            case 2:
+              img = _context.sent;
+              _context.next = 5;
+              return img.blob();
+
+            case 5:
+              imgBlob = _context.sent;
+
+              try {
+                navigator.clipboard.write([new ClipboardItem({
+                  'image/png': imgBlob
+                })]);
+              } catch (error) {
+                console.error(error);
+              }
+
+            case 7:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+};
 
 /***/ }),
 

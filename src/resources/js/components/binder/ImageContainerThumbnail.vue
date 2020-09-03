@@ -14,7 +14,10 @@
                 :alt="fileName"
             />
             <div class="thumbnail-inner-content__button-wrapper">
-                <button class="thumbnail-inner-content__button">
+                <button
+                    @click="copyImage"
+                    class="thumbnail-inner-content__button"
+                >
                     <!-- クリップボードへコピー -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -47,6 +50,7 @@
     </div>
 </template>
 <script>
+import { util } from "../../util";
 export default {
     props: {
         id: Number,
@@ -65,6 +69,13 @@ export default {
         },
         drag(event) {
             console.log("移動中");
+        },
+        /**
+         * 画像をクリップボードにコピーします。
+         */
+        copyImage() {
+            const image = this.$refs.thumbnailImage;
+            util.copyImageToClipBoard(image);
         }
     }
 };
