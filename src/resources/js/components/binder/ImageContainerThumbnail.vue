@@ -136,6 +136,7 @@ export default {
             event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
             event.dataTransfer.setData("image-id", this.id);
             console.log(this.id);
+            
         },
         drag(event) {
             console.log("移動中");

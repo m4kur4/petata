@@ -63,6 +63,14 @@ export default {
             const imageContainer = document.getElementById("image-container");
 
             imageContainer.ondragover = function(ev) {
+
+                const isFileDragOver = (ev.dataTransfer.types[0] == "Files");
+                
+                // バインダー画像のドラッグには反応させない
+                if (!isFileDragOver) {
+                    return;
+                }
+
                 ev.preventDefault();
                 ev.stopPropagation();
                 self.showDropzone();

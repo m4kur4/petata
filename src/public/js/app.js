@@ -4284,6 +4284,12 @@ __webpack_require__(/*! vue-image-lightbox/dist/vue-image-lightbox.min.css */ ".
       var imageContainer = document.getElementById("image-container");
 
       imageContainer.ondragover = function (ev) {
+        var isFileDragOver = ev.dataTransfer.types[0] == "Files"; // バインダー画像のドラッグには反応させない
+
+        if (!isFileDragOver) {
+          return;
+        }
+
         ev.preventDefault();
         ev.stopPropagation();
         self.showDropzone();
