@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 use Auth;
 use DB;
+use FileManageHelper;
 use Log;
 use Storage;
 
@@ -100,9 +101,16 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function delete(ImageDeleteRequest $request)
     {
-        Image::query()
+        $images = Image::query()
             ->whereIn('id', $request->image_ids)
-            ->delete();
+            ->get();
+        
+        // 削除対象のパスをまとめる
+        $delete_target_paths = [];
+        foreach($images as $image) {
+            array_push($delete_target_paths, $image->storage_file_path);
+            array_push($delete_target_paths, $image->storage_file_path_org);
+        }
     }
 
     /**

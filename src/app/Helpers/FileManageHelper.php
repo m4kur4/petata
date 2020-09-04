@@ -15,7 +15,7 @@ class FileManageHelper
      * @param Image $image
      * @param string [option]$extension 拡張子
      */
-    public static function getBinderImagePath($image, $extension = null)
+    public static function getBinderImageRelativePath($image, $extension = null)
     {
         // TODO: S3を使う
         //$disk = Storage::disk('s3');
@@ -31,6 +31,20 @@ class FileManageHelper
             $image->path, 
             empty($extension) ? $image->extension: $extension, 
         );
+
+        return $relative_path;
+    }
+
+    /**
+     * S3上に格納されているバインダー画像の絶対パスを取得します。
+     * 
+     * @param Image $image
+     * @param string [option]$extension 拡張子
+     */
+    public static function getBinderImagePath($image, $extension = null)
+    {
+        // 相対パスを取得
+        $relative_path = self::getBinderImageRelativePath($image, $extension);
 
         // 絶対パスを返却
         // TODO: S3を使う

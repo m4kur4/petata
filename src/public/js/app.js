@@ -26252,7 +26252,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("LightBox", { ref: "lightBox", attrs: { media: _vm.images } })
+  return _c("LightBox", {
+    ref: "lightBox",
+    attrs: { media: _vm.images, showLightBox: false }
+  })
 }
 var staticRenderFns = []
 render._withStripped = true
