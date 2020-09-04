@@ -1,16 +1,19 @@
 <template>
     <div class="container--binder">
         <ImageList />
-        <ImageContainer />
+        <ImageContainer @show-lightbox-click="showLightBox" />
         <RightColumn />
+        <LightBox ref="lightBox" />
         <Loader />
     </div>
 </template>
 
 <script>
+require("vue-image-lightbox/dist/vue-image-lightbox.min.css");
 import ImageList from "../components/binder/ImageList.vue";
 import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
+import LightBox from "../components/binder/LightBox.vue";
 import Loader from "../components/common/Loader.vue";
 
 export default {
@@ -18,6 +21,7 @@ export default {
         ImageList,
         ImageContainer,
         RightColumn,
+        LightBox,
         Loader
     },
     computed: {
@@ -64,6 +68,13 @@ export default {
                 self.showDropzone();
                 console.log("おけまる");
             };
+        },
+        /**
+         * ライトボックスで画像を表示します。
+         * NOTE: ImageContainerThumbnailからキックする
+         */
+        showLightBox(imageIndex) {
+            this.$refs.lightBox.showLightBox(imageIndex);
         },
     },
     beforeCreate() {

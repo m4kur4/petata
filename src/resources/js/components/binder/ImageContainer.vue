@@ -1,8 +1,10 @@
 <template>
     <div id="image-container" class="image-container">
         <ImageContainerThumbnail
-            v-for="image in images"
+            v-for="(image, index) in images"
+            @show-lightbox-click="showLightBox"
             :key="image.id"
+            :index="index"
             :id="image.id"
             :imageSource="image.storage_file_path"
             :fileName="image.name"
@@ -25,5 +27,14 @@ export default {
             return this.$store.state.binder.images;
         },
     },
+    methods: {
+        /**
+         * ライトボックスで画像を表示します。
+         * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
+         */    
+        showLightBox(imageIndex) {
+            this.$emit("show-lightbox-click", imageIndex);
+        },
+    }
 };
 </script>

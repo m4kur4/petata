@@ -43,7 +43,7 @@ const state = {
         binder_id: null,
         image_name: "",
         label_ids: []
-    }
+    },
 };
 
 const mutations = {
@@ -226,7 +226,7 @@ const actions = {
     async searchBinderImage(context) {
         const uri = "api/binder/image/search";
         const response = await axios
-            .get(`${uri}`, {params: state.search_condition})
+            .get(`${uri}`, { params: state.search_condition })
             .catch(err => err.response || err);
 
         // 成功
@@ -256,7 +256,7 @@ const actions = {
         const response = await axios
             .post(`${uri}`, label)
             .catch(err => err.response || err);
-        
+
         // 成功
         if (response.status === STATUS.OK) {
             context.commit("setLabels", response.data);
@@ -273,7 +273,7 @@ const actions = {
                 root: true
             });
         }
-    }
+    },
 };
 
 export default {

@@ -3,7 +3,6 @@
       width: 100%;
       height: calc(100% - #{$header-height} - #{$navbar-height});
       position: relative;
-      z-index: 0;
       display: grid;
       grid-template-rows: 100%;
       grid-template-columns: 248px auto 384px;
