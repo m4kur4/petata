@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ImageRemoveRequest extends FormRequest
+class ImageDeleteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ImageRemoveRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            
         ];
     }
 }

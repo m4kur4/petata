@@ -139,9 +139,6 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function deleteLabel(string $label_id)
     {
-        Log::debug('D2');
-        Log::debug($label_id);
-        Log::debug('/D2');
         Label::query()
             ->where('id', $label_id)
             ->delete();

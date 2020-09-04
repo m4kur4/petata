@@ -7,7 +7,7 @@ use App\Models\Labeling;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
 use Illuminate\Http\File;
 use App\Http\Requests\ImageAddRequest;
-use App\Http\Requests\ImageRemoveRequest;
+use App\Http\Requests\ImageDeleteRequest;
 use Intervention\Image\Facades\Image as InterventionImage;
 
 use Carbon\Carbon;
@@ -92,20 +92,23 @@ class ImageRepository implements ImageRepositoryInterface
     public function addMany(ImageAddRequest $request)
     {
         // TODO: 実装
+
     }
 
     /**
      * @inheritdoc
      */
-    public function remove(ImageRemoveRequest $request)
+    public function delete(ImageDeleteRequest $request)
     {
-        // TODO: 実装
+        Image::query()
+            ->whereIn('id', $request->image_ids)
+            ->delete();
     }
 
     /**
      * @inheritdoc
      */
-    public function removeMany(ImageRemoveRequest $request)
+    public function removeMany(ImageDeleteRequest $request)
     {
         // TODO: 実装
     }

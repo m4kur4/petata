@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 use App\Http\Requests\ImageAddRequest;
-use App\Http\Requests\ImageRemoveRequest;
+use App\Http\Requests\ImageDeleteRequest;
 use App\Http\Requests\ImageRenameRequest;
 
 use Log;

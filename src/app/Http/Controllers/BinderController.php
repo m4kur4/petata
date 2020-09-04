@@ -130,9 +130,7 @@ class BinderController extends Controller
     public function deleteLabel(LabelDeleteRequest $request)
     {
         // TODO: 実装
-        Log::debug('D0');
         Log::debug($request);
-        Log::debug('/D0');
 
         $labels = $this->label_delete_service->execute($request);
         $response = response($labels, config('_const.HTTP_STATUS.OK'));

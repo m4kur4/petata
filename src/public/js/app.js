@@ -2830,6 +2830,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -23502,6 +23503,8 @@ var render = function() {
                     }
                   },
                   [
+                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                    _vm._v(" "),
                     _c("path", {
                       attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
                     }),
@@ -23509,7 +23512,7 @@ var render = function() {
                     _c("path", {
                       attrs: {
                         d:
-                          "M2 12.5C2 9.46 4.46 7 7.5 7H18c2.21 0 4 1.79 4 4s-1.79 4-4 4H9.5C8.12 15 7 13.88 7 12.5S8.12 10 9.5 10H17v2H9.41c-.55 0-.55 1 0 1H18c1.1 0 2-.9 2-2s-.9-2-2-2H7.5C5.57 9 4 10.57 4 12.5S5.57 16 7.5 16H17v2H7.5C4.46 18 2 15.54 2 12.5z"
+                          "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
                       }
                     })
                   ]

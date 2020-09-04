@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\ImageAddRequest;
+use App\Http\Requests\ImageDeleteRequest;
 use App\Services\Api\Interfaces\ImageAddServiceInterface;
+use App\Services\Api\Interfaces\ImageDeleteServiceInterface;
 use App\Services\Api\Interfaces\ImageSearchServiceInterface;
+use Illuminate\Http\Request;
 
 
 use Log;
@@ -16,13 +18,17 @@ class ImageController extends Controller
      * コンストラクタ
      * 
      * @param ImageAddServiceInterface $image_add_service
+     * @param ImageDeleteServiceInterface $image_delete_service
+     * @param ImageSearchServiceInterface $image_search_service
      */
     public function __construct(
         ImageAddServiceInterface $image_add_service,
+        ImageDeleteServiceInterface $image_delete_service,
         ImageSearchServiceInterface $image_search_service
     )
     {
         $this->image_add_service = $image_add_service;
+        $this->image_delete_service = $image_delete_service;
         $this->image_search_service = $image_search_service;
 
         $this->middleware('auth');
@@ -49,8 +55,20 @@ class ImageController extends Controller
      */
     public function search(Request $request)
     {
-        Log::debug($request);
         $images = $this->image_search_service->execute($request);
+        $response = response($images, config('_const.HTTP_STATUS.OK'));
+
+        return $response;
+    }
+
+    /**
+     * 指定した画像を削除します。
+     * 削除後の画像のリストを返却します。
+     */
+    public function delete(ImageDeleteRequest $request)
+    {
+        $images = $this->image_delete_service->execute($request);
+
         $response = response($images, config('_const.HTTP_STATUS.OK'));
 
         return $response;
