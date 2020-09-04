@@ -251,7 +251,7 @@ const actions = {
      */
     async removeLabel(context, label) {
         label.binder_id = state.id;
-        // TODO: 実装
+        
         const uri = "api/binder/label/delete";
         const response = await axios
             .post(`${uri}`, label)
@@ -260,6 +260,38 @@ const actions = {
         // 成功
         if (response.status === STATUS.OK) {
             context.commit("setLabels", response.data);
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+    },
+    /**
+     * 画像を削除します。
+     */
+    async removeImage(context, imageIds) {
+
+        const postData = {
+            binder_id: state.id,
+            image_ids: imageIds
+        };
+
+        const uri = "api/binder/image/delete";
+        const response = await axios
+            .post(`${uri}`, postData)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            context.commit("setImages", response.data);
             return false;
         }
 

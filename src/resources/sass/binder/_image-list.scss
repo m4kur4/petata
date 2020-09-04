@@ -76,7 +76,7 @@
       &-text {
           width: calc(100% - #{$image-list-item-height});
           height: $image-list-item-height;
-          font-size: $font-size;
+          font-size: 16px;
       }
   }
 }

@@ -691,7 +691,7 @@ main {
 .image-list__item-text {
   width: calc(100% - 48px);
   height: 48px;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .image-container {
@@ -769,6 +769,27 @@ main {
   height: 48px;
   width: 48px;
   margin: 8px;
+}
+
+.thumbnail-inner-content__button--danger {
+  padding: 0;
+  transition: all 150ms 0s ease;
+  cursor: pointer;
+  fill: rgba(0, 0, 0, 0.7);
+  background-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+  border-radius: 100%;
+  border: none;
+  vertical-align: middle;
+  height: 48px;
+  width: 48px;
+  margin: 8px;
+}
+
+.thumbnail-inner-content__button--danger:hover {
+  transition: all 100ms 0s ease;
+  fill: #dc3545;
+  background-color: white;
 }
 
 .thumbnail-inner-content__button:hover {

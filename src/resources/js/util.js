@@ -20,7 +20,6 @@ export const util = {
             const img = await fetch(image.src);
             imgBlob = await img.blob();
             util.cache.image[imageId] = imgBlob;
-            console.log("hoge");
         }
 
         try {

@@ -4,7 +4,10 @@
         @drag="drag($event)"
         class="image-container__thumbnail"
     >
-        <div class="image-container__thumbnail-inner-content-wrapper">
+        <div
+            @mouseleave="setIsRemoveConfirm(false)"
+            class="image-container__thumbnail-inner-content-wrapper"
+        >
             <img
                 class="image-container__thumbnail-image mdc-elevation--z2"
                 ref="thumbnailImage"
@@ -15,6 +18,7 @@
             />
             <div class="thumbnail-inner-content__button-wrapper">
                 <button
+                    v-show="!isRemoveConfirm"
                     @click="copyImage"
                     class="thumbnail-inner-content__button"
                 >
@@ -32,6 +36,7 @@
                     </svg>
                 </button>
                 <button
+                    v-show="!isRemoveConfirm"
                     @click="showLightBox"
                     class="thumbnail-inner-content__button"
                 >
@@ -48,7 +53,11 @@
                         />
                     </svg>
                 </button>
-                <button class="thumbnail-inner-content__button">
+                <button
+                    v-show="!isRemoveConfirm"
+                    @click="setIsRemoveConfirm(true)"
+                    class="thumbnail-inner-content__button"
+                >
                     <!-- バインダー画像削除 -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -63,6 +72,43 @@
                         />
                     </svg>
                 </button>
+
+                <button
+                    v-if="isRemoveConfirm"
+                    @click="removeImage"
+                    class="thumbnail-inner-content__button--danger"
+                >
+                    <!-- 画像削除確定 -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="48"
+                        viewBox="0 0 24 24"
+                        width="48"
+                    >
+                        <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        />
+                    </svg>
+                </button>
+                <button
+                    v-if="isRemoveConfirm"
+                    @click="setIsRemoveConfirm(false)"
+                    class="thumbnail-inner-content__button"
+                >
+                    <!-- 画像削除キャンセル -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="48"
+                        viewBox="0 0 24 24"
+                        width="48"
+                    >
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+                        />
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
@@ -70,11 +116,16 @@
 <script>
 import { util } from "../../util";
 export default {
+    data() {
+        return {
+            isRemoveConfirm: false
+        };
+    },
     props: {
-        index: Number,
-        id: Number,
-        imageSource: String,
-        fileName: String
+        index: null,
+        id: null,
+        imageSource: "",
+        fileName: ""
     },
     methods: {
         /**
@@ -94,15 +145,30 @@ export default {
          */
         copyImage() {
             const image = this.$refs.thumbnailImage;
-            util.copyImageToClipBoard(image);
+            util.copyImageToClipBoard(image, this.id);
         },
         /**
          * ライトボックスで画像を表示します。
          * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
-         */    
+         */
+
         showLightBox() {
             this.$emit("show-lightbox-click", this.index);
         },
+        /**
+         * 画像の削除確認表示を切り替えます。
+         */
+        setIsRemoveConfirm(val) {
+            this.isRemoveConfirm = val;
+        },
+        /**
+         * 画像を削除します。
+         */
+        async removeImage() {
+            // NOTE: 複数画像削除に対応するつくりのため、配列としてIDを渡す
+            await this.$store.dispatch("binder/removeImage", [this.id]);
+            this.setIsRemoveConfirm(false);
+        }
     }
 };
 </script>

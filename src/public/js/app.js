@@ -2789,7 +2789,61 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2861,11 +2915,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isRemoveConfirm: false
+    };
+  },
   props: {
-    index: Number,
-    id: Number,
-    imageSource: String,
-    fileName: String
+    index: null,
+    id: null,
+    imageSource: "",
+    fileName: ""
   },
   methods: {
     /**
@@ -2886,7 +2945,7 @@ __webpack_require__.r(__webpack_exports__);
      */
     copyImage: function copyImage() {
       var image = this.$refs.thumbnailImage;
-      _util__WEBPACK_IMPORTED_MODULE_0__["util"].copyImageToClipBoard(image);
+      _util__WEBPACK_IMPORTED_MODULE_1__["util"].copyImageToClipBoard(image, this.id);
     },
 
     /**
@@ -2895,6 +2954,39 @@ __webpack_require__.r(__webpack_exports__);
      */
     showLightBox: function showLightBox() {
       this.$emit("show-lightbox-click", this.index);
+    },
+
+    /**
+     * 画像の削除確認表示を切り替えます。
+     */
+    setIsRemoveConfirm: function setIsRemoveConfirm(val) {
+      this.isRemoveConfirm = val;
+    },
+
+    /**
+     * 画像を削除します。
+     */
+    removeImage: function removeImage() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.dispatch("binder/removeImage", [_this.id]);
+
+              case 2:
+                _this.setIsRemoveConfirm(false);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }
 });
@@ -26028,7 +26120,14 @@ var render = function() {
     [
       _c(
         "div",
-        { staticClass: "image-container__thumbnail-inner-content-wrapper" },
+        {
+          staticClass: "image-container__thumbnail-inner-content-wrapper",
+          on: {
+            mouseleave: function($event) {
+              return _vm.setIsRemoveConfirm(false)
+            }
+          }
+        },
         [
           _c("img", {
             ref: "thumbnailImage",
@@ -26048,6 +26147,14 @@ var render = function() {
               _c(
                 "button",
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.isRemoveConfirm,
+                      expression: "!isRemoveConfirm"
+                    }
+                  ],
                   staticClass: "thumbnail-inner-content__button",
                   on: { click: _vm.copyImage }
                 },
@@ -26081,6 +26188,14 @@ var render = function() {
               _c(
                 "button",
                 {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.isRemoveConfirm,
+                      expression: "!isRemoveConfirm"
+                    }
+                  ],
                   staticClass: "thumbnail-inner-content__button",
                   on: { click: _vm.showLightBox }
                 },
@@ -26111,33 +26226,131 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("button", { staticClass: "thumbnail-inner-content__button" }, [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      height: "48",
-                      viewBox: "0 0 24 24",
-                      width: "48"
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.isRemoveConfirm,
+                      expression: "!isRemoveConfirm"
                     }
-                  },
-                  [
-                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                    _vm._v(" "),
-                    _c("path", {
-                      attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
-                    }),
-                    _vm._v(" "),
-                    _c("path", {
+                  ],
+                  staticClass: "thumbnail-inner-content__button",
+                  on: {
+                    click: function($event) {
+                      return _vm.setIsRemoveConfirm(true)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "svg",
+                    {
                       attrs: {
-                        d:
-                          "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                        xmlns: "http://www.w3.org/2000/svg",
+                        height: "48",
+                        viewBox: "0 0 24 24",
+                        width: "48"
                       }
-                    })
-                  ]
-                )
-              ])
+                    },
+                    [
+                      _c("path", {
+                        attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"
+                        }
+                      })
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _vm.isRemoveConfirm
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "thumbnail-inner-content__button--danger",
+                      on: { click: _vm.removeImage }
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            height: "48",
+                            viewBox: "0 0 24 24",
+                            width: "48"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d: "M0 0h24v24H0V0zm0 0h24v24H0V0z",
+                              fill: "none"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                            }
+                          })
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isRemoveConfirm
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "thumbnail-inner-content__button",
+                      on: {
+                        click: function($event) {
+                          return _vm.setIsRemoveConfirm(false)
+                        }
+                      }
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            height: "48",
+                            viewBox: "0 0 24 24",
+                            width: "48"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                          }),
+                          _vm._v(" "),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+                            }
+                          })
+                        ]
+                      )
+                    ]
+                  )
+                : _vm._e()
             ]
           )
         ]
@@ -48034,8 +48247,7 @@ var actions = {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              label.binder_id = state.id; // TODO: 実装
-
+              label.binder_id = state.id;
               uri = "api/binder/label/delete";
               _context6.next = 4;
               return axios.post("".concat(uri), label)["catch"](function (err) {
@@ -48071,6 +48283,58 @@ var actions = {
           }
         }
       }, _callee6);
+    }))();
+  },
+
+  /**
+   * 画像を削除します。
+   */
+  removeImage: function removeImage(context, imageIds) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+      var postData, uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              postData = {
+                binder_id: state.id,
+                image_ids: imageIds
+              };
+              uri = "api/binder/image/delete";
+              _context7.next = 4;
+              return axios.post("".concat(uri), postData)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context7.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context7.next = 8;
+                break;
+              }
+
+              context.commit("setImages", response.data);
+              return _context7.abrupt("return", false);
+
+            case 8:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 9:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
     }))();
   }
 };
@@ -48207,26 +48471,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var util = {
   /**
+   * キャッシュ
+   */
+  cache: {
+    image: {}
+  },
+
+  /**
    * 指定した画像をクリップボードにコピーします。
    */
-  copyImageToClipBoard: function copyImageToClipBoard(image) {
+  copyImageToClipBoard: function copyImageToClipBoard(image, imageId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var img, imgBlob;
+      var hasCache, imgBlob, img;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              hasCache = !!util.cache.image[imageId];
+              imgBlob = null;
+
+              if (!hasCache) {
+                _context.next = 6;
+                break;
+              }
+
+              // キャッシュがある場合
+              imgBlob = util.cache.image[imageId];
+              _context.next = 13;
+              break;
+
+            case 6:
+              _context.next = 8;
               return fetch(image.src);
 
-            case 2:
+            case 8:
               img = _context.sent;
-              _context.next = 5;
+              _context.next = 11;
               return img.blob();
 
-            case 5:
+            case 11:
               imgBlob = _context.sent;
+              util.cache.image[imageId] = imgBlob;
 
+            case 13:
               try {
                 navigator.clipboard.write([new ClipboardItem({
                   'image/png': imgBlob
@@ -48235,7 +48522,7 @@ var util = {
                 console.error(error);
               }
 
-            case 7:
+            case 14:
             case "end":
               return _context.stop();
           }
