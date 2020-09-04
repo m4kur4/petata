@@ -28,7 +28,7 @@ class FileManageHelper
         $format = '%s/%s/%s.%s';
 
         // 拡張子が指定されていない場合はオリジナル画像のディレクトリを参照する
-        $middle_path = $is_original ? $image->binder_id : ($image->binder_id . '/org');
+        $middle_path = $is_original ? ($image->binder_id . '/org') : $image->binder_id;
 
         // ルートディレクトリからの相対パス
         $relative_path = sprintf(

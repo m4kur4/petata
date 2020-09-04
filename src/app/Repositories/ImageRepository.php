@@ -83,7 +83,6 @@ class ImageRepository implements ImageRepositoryInterface
             ($image->path . '.' . $image->extension),
             'public'
         );
-
         return $path;
     }
 
