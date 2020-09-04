@@ -17,19 +17,26 @@ class FileManageHelper
      */
     public static function getBinderImageRelativePath($image, $extension = null)
     {
+        // オリジナル画像かどうか
+        $is_original = ($extension == null);
+
         // TODO: S3を使う
         //$disk = Storage::disk('s3');
         $disk = Storage::disk('public');
 
-        // <ベースディレクトリ> / <バインダーID> / <ファイル物理名>.<ファイル拡張子>
+        // <ベースディレクトリ> / <中間パス(バインダーID | バインダーID/org)> / <ファイル物理名>.<ファイル拡張子>
         $format = '%s/%s/%s.%s';
+
+        // 拡張子が指定されていない場合はオリジナル画像のディレクトリを参照する
+        $middle_path = $is_original ? $image->binder_id : ($image->binder_id . '/org');
+
         // ルートディレクトリからの相対パス
         $relative_path = sprintf(
             $format, 
             config('_const.UPLOAD_DIRECTORY.BINDER'), 
-            $image->binder_id, 
+            $middle_path, 
             $image->path, 
-            empty($extension) ? $image->extension: $extension, 
+            $is_original ? $image->extension: $extension, 
         );
 
         return $relative_path;

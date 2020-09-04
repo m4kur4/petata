@@ -101,16 +101,32 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function delete(ImageDeleteRequest $request)
     {
-        $images = Image::query()
-            ->whereIn('id', $request->image_ids)
-            ->get();
+        $image_query = Image::query()
+            ->whereIn('id', $request->image_ids);
         
+        $images = $image_query->get();
+
         // 削除対象のパスをまとめる
         $delete_target_paths = [];
         foreach($images as $image) {
-            array_push($delete_target_paths, $image->storage_file_path);
-            array_push($delete_target_paths, $image->storage_file_path_org);
+
+            // クライアントから参照するpng画像
+            $png_path = FileManageHelper::getBinderImageRelativePath($image, 'png');
+            array_push($delete_target_paths, $png_path);
+            
+            // オリジナル画像
+            $org_path = FileManageHelper::getBinderImageRelativePath($image);
+            array_push($delete_target_paths, $org_path);
+
         }
+        
+        // TODO: データ削除に失敗した場合はファイルも消去しない
+        $image_query->delete();
+
+        // TODO: S3を使う
+        // Storage::disk('s3')->delete($delete_target_paths);
+        Log::debug($delete_target_paths);
+        Storage::disk('public')->delete($delete_target_paths);
     }
 
     /**
