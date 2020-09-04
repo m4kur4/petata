@@ -1,5 +1,5 @@
 <template>
-    <LightBox ref="lightBox" :media="images">
+    <LightBox ref="lightBox" :media="images" :showLightBox="false">
     </LightBox>
 </template>
 
