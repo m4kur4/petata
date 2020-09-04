@@ -25,6 +25,7 @@ class ChangeLabelsDescriptionNullable extends Migration
      */
     public function down()
     {
+        DB::statement('UPDATE `labels` SET `description` = "" WHERE `description` IS NULL');
         Schema::table('labels', function (Blueprint $table) {
             $table->text('description')->nullable(false)->change();
         });
