@@ -2,7 +2,11 @@
     <div
         @dragenter.prevent="dragEnter($event)"
         @drop.prevent="drop($event)"
-        class="label-container__item mdc-elevation--z2"
+        :class="[
+            'label-container__item',
+            'mdc-elevation--z2',
+            { 'already-labeling': isDraggingLabelingImage }
+        ]"
     >
         <p class="label-container__item-title">{{ name }}</p>
         <div
@@ -146,14 +150,25 @@ export default {
             return this.$store.getters[
                 "binder/isAlreadyAddSearchConditionLabel"
             ](this.id);
+        },
+        /**
+         * 自身とラベリングされている画像がドラッグ中かどうか
+         */
+        isDraggingLabelingImage() {
+            return this.$store.getters[
+                "binder/isLabelingWithDraggingImageLabel"
+            ](this.id);
         }
     },
-    /**
-     * ラベリングを実行します。
-     */
+
     methods: {
+        /**
+         * ラベリング実行のためのドラッグイベントです。
+         * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
+         */
         dragEnter(event) {
             // TODO: ドロップできる旨のUI表現
+            event.dataTransfer.setData("label-id", this.id);
         },
         drop(event) {
             const imageId = event.dataTransfer.getData("image-id");
@@ -169,6 +184,11 @@ export default {
                 image_id: imageId
             };
             this.$store.dispatch("binder/labeling", postData);
+
+            // ラベリングした画像をリロードする
+            const imageIndex = event.dataTransfer.getData("image-index");
+            this.$store.dispatch("binder/fetchImage", imageIndex);
+            
         },
         /**
          * 自身に関するバインダー画面の絞り込み条件を切り替えます。

@@ -1,6 +1,7 @@
 <template>
     <div
         @dragstart="dragStart($event)"
+        @dragend="dragEnd($event)"
         @drag="drag($event)"
         class="image-container__thumbnail"
     >
@@ -122,10 +123,11 @@ export default {
         };
     },
     props: {
-        index: null,
-        id: null,
-        imageSource: "",
-        fileName: ""
+        index: Number,
+        id: Number,
+        imageSource: String,
+        fileName: String,
+        labelingLabelIds: Array,
     },
     methods: {
         /**
@@ -133,10 +135,19 @@ export default {
          * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
          */
         dragStart(event) {
+            // ラベルへ受け渡すパラメタをdataTransferへ設定
             event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
             event.dataTransfer.setData("image-id", this.id);
-            console.log(this.id);
-            
+            event.dataTransfer.setData("image-index", this.index);
+
+            // ドラッグしている画像のラベリング情報を画面へ反映
+            this.$store.commit("binder/setDraggingImageLabelingLabelIds", this.labelingLabelIds);
+
+        },
+        dragEnd(event) {
+            this.$store.commit("binder/setDraggingImageLabelingLabelIds", []);
+
+            // ラベリング中のラベルIDを更新(ラベルへドロップした際に設定されるパラメタから取得)
         },
         drag(event) {
             console.log("移動中");

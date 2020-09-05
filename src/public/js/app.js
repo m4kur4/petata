@@ -2755,6 +2755,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2913,6 +2914,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2921,10 +2923,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   props: {
-    index: null,
-    id: null,
-    imageSource: "",
-    fileName: ""
+    index: Number,
+    id: Number,
+    imageSource: String,
+    fileName: String,
+    labelingLabelIds: Array
   },
   methods: {
     /**
@@ -2932,9 +2935,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
      */
     dragStart: function dragStart(event) {
+      // ラベルへ受け渡すパラメタをdataTransferへ設定
       event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
       event.dataTransfer.setData("image-id", this.id);
-      console.log(this.id);
+      event.dataTransfer.setData("image-index", this.index); // ドラッグしている画像のラベリング情報を画面へ反映
+
+      this.$store.commit("binder/setDraggingImageLabelingLabelIds", this.labelingLabelIds);
+    },
+    dragEnd: function dragEnd(event) {
+      this.$store.commit("binder/setDraggingImageLabelingLabelIds", []); // ラベリング中のラベルIDを更新(ラベルへドロップした際に設定されるパラメタから取得)
     },
     drag: function drag(event) {
       console.log("移動中");
@@ -3501,6 +3510,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3530,14 +3543,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     isAddSearchCondition: function isAddSearchCondition() {
       return this.$store.getters["binder/isAlreadyAddSearchConditionLabel"](this.id);
+    },
+
+    /**
+     * 自身とラベリングされている画像がドラッグ中かどうか
+     */
+    isDraggingLabelingImage: function isDraggingLabelingImage() {
+      return this.$store.getters["binder/isLabelingWithDraggingImageLabel"](this.id);
     }
   },
-
-  /**
-   * ラベリングを実行します。
-   */
   methods: {
-    dragEnter: function dragEnter(event) {// TODO: ドロップできる旨のUI表現
+    /**
+     * ラベリング実行のためのドラッグイベントです。
+     * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
+     */
+    dragEnter: function dragEnter(event) {
+      // TODO: ドロップできる旨のUI表現
+      event.dataTransfer.setData("label-id", this.id);
     },
     drop: function drop(event) {
       var imageId = event.dataTransfer.getData("image-id");
@@ -3553,7 +3575,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         label_id: labelId,
         image_id: imageId
       };
-      this.$store.dispatch("binder/labeling", postData);
+      this.$store.dispatch("binder/labeling", postData); // ラベリングした画像をリロードする
+
+      var imageIndex = event.dataTransfer.getData("image-index");
+      this.$store.dispatch("binder/fetchImage", imageIndex);
     },
 
     /**
@@ -26077,7 +26102,8 @@ var render = function() {
             index: index,
             id: image.id,
             imageSource: image.storage_file_path,
-            fileName: image.name
+            fileName: image.name,
+            labelingLabelIds: image.labeling_label_ids
           },
           on: { "show-lightbox-click": _vm.showLightBox }
         })
@@ -26117,6 +26143,9 @@ var render = function() {
       on: {
         dragstart: function($event) {
           return _vm.dragStart($event)
+        },
+        dragend: function($event) {
+          return _vm.dragEnd($event)
         },
         drag: function($event) {
           return _vm.drag($event)
@@ -26770,7 +26799,11 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "label-container__item mdc-elevation--z2",
+      class: [
+        "label-container__item",
+        "mdc-elevation--z2",
+        { "already-labeling": _vm.isDraggingLabelingImage }
+      ],
       on: {
         dragenter: function($event) {
           $event.preventDefault()
@@ -47890,6 +47923,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -47899,6 +47934,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /**
  * フォームデータストア - バインダー
  */
+
 
 var state = {
   /**
@@ -47926,6 +47962,7 @@ var state = {
    *   - binder_id: Number バインダーID
    *   - image_name: String 画像名
    *   - label_ids: Array(Number) ラベルID
+   * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
    */
   id: null,
   name: null,
@@ -47940,7 +47977,8 @@ var state = {
     binder_id: null,
     image_name: "",
     label_ids: []
-  }
+  },
+  dragging_image_labeling_label_ids: []
 };
 var mutations = {
   setId: function setId(state, val) {
@@ -47991,15 +48029,27 @@ var mutations = {
     } else {
       state.search_condition.label_ids.push(val);
     }
+  },
+  setDraggingImageLabelingLabelIds: function setDraggingImageLabelingLabelIds(state, val) {
+    state.dragging_image_labeling_label_ids = val;
   }
 };
 var getters = {
   /**
-   * 指定したラベルIDが既にstateの検索条件へ追加されているかどうかを判定します。
+   * 指定したラベルIDがstateの検索条件へ追加されているかどうかを判定します。
    */
   isAlreadyAddSearchConditionLabel: function isAlreadyAddSearchConditionLabel(state) {
     return function (labelId) {
       return state.search_condition.label_ids.includes(labelId);
+    };
+  },
+
+  /**
+   * 指定したラベルIDがドラッグ中の画像にラベリングされているかを確認します。
+   */
+  isLabelingWithDraggingImageLabel: function isLabelingWithDraggingImageLabel(state) {
+    return function (labelId) {
+      return state.dragging_image_labeling_label_ids.includes(labelId);
     };
   }
 };
@@ -48341,6 +48391,40 @@ var actions = {
           }
         }
       }, _callee7);
+    }))();
+  },
+
+  /**
+   * 指定したインデックス番号の画像情報をサーバーから再取得します。
+   * NOTE: ラベリング状態やファイル名変更の反映
+   */
+  fetchImage: function fetchImage(context, index) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+      var imageId, uri, response, image;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              imageId = state.images[index].id;
+              uri = "api/binder/image/detail/".concat(imageId);
+              _context8.next = 4;
+              return axios.get("".concat(uri), {
+                params: state.search_condition
+              })["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context8.sent;
+              image = response.data.image;
+              vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.images, index, image);
+
+            case 7:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
     }))();
   }
 };

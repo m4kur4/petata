@@ -2,6 +2,7 @@
  * フォームデータストア - バインダー
  */
 import { STATUS } from "../../const";
+import Vue from 'vue';
 
 const state = {
     /**
@@ -29,6 +30,7 @@ const state = {
      *   - binder_id: Number バインダーID
      *   - image_name: String 画像名
      *   - label_ids: Array(Number) ラベルID
+     * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
      */
     id: null,
     name: null,
@@ -44,6 +46,7 @@ const state = {
         image_name: "",
         label_ids: []
     },
+    dragging_image_labeling_label_ids: []
 };
 
 const mutations = {
@@ -97,15 +100,24 @@ const mutations = {
             state.search_condition.label_ids.push(val);
         }
     },
+    setDraggingImageLabelingLabelIds(state, val) {
+        state.dragging_image_labeling_label_ids = val;
+    },
 };
 
 const getters = {
     /**
-     * 指定したラベルIDが既にstateの検索条件へ追加されているかどうかを判定します。
+     * 指定したラベルIDがstateの検索条件へ追加されているかどうかを判定します。
      */
     isAlreadyAddSearchConditionLabel: state => labelId => {
         return state.search_condition.label_ids.includes(labelId);
-    }
+    },
+    /**
+     * 指定したラベルIDがドラッグ中の画像にラベリングされているかを確認します。
+     */
+    isLabelingWithDraggingImageLabel: state => labelId => {
+        return state.dragging_image_labeling_label_ids.includes(labelId);
+    },
 };
 
 const actions = {
@@ -306,6 +318,22 @@ const actions = {
             });
         }
     },
+    /**
+     * 指定したインデックス番号の画像情報をサーバーから再取得します。
+     * NOTE: ラベリング状態やファイル名変更の反映
+     */
+    async fetchImage(context, index) {
+
+        const imageId = state.images[index].id;
+        const uri = `api/binder/image/detail/${imageId}`;
+
+        const response = await axios
+            .get(`${uri}`, { params: state.search_condition })
+            .catch(err => err.response || err);
+        
+        const image = response.data.image;
+        Vue.set(state.images, index, image);
+    }
 };
 
 export default {

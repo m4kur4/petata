@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageDeleteRequest;
+use App\Models\Image;
 use App\Services\Api\Interfaces\ImageAddServiceInterface;
 use App\Services\Api\Interfaces\ImageDeleteServiceInterface;
 use App\Services\Api\Interfaces\ImageSearchServiceInterface;
@@ -57,6 +58,21 @@ class ImageController extends Controller
     {
         $images = $this->image_search_service->execute($request);
         $response = response($images, config('_const.HTTP_STATUS.OK'));
+
+        return $response;
+    }
+
+    /**
+     * 指定したIDを持つ画像情報を返却します。
+     * 
+     * @param string $image_id 画像ID
+     * @return Response
+     */
+    public function detail($image_id)
+    {
+        // NOTE: ロジックを含まないので直接モデルを呼びだす
+        $image = Image::find($image_id);
+        $response = response(['image' => $image], config('_const.HTTP_STATUS.OK'));
 
         return $response;
     }

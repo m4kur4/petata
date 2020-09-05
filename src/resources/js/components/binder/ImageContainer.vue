@@ -8,6 +8,7 @@
             :id="image.id"
             :imageSource="image.storage_file_path"
             :fileName="image.name"
+            :labelingLabelIds="image.labeling_label_ids"
         />
         <Dropzone />
     </div>

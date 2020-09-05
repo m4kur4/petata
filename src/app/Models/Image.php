@@ -7,6 +7,8 @@ use Illuminate\Support\Arr;
 
 use FileManageHelper;
 
+use Log;
+
 class Image extends Model
 {
 
@@ -27,10 +29,12 @@ class Image extends Model
         'visible',
         'storage_file_path',
         'storage_file_path_org',
+        'labeling_label_ids'
     ];
 
     protected $appends = [
-        'storage_file_path'
+        'storage_file_path',
+        'labeling_label_ids'
     ];
 
     /** ファイルパスの桁数 */
@@ -47,12 +51,27 @@ class Image extends Model
     }
 
     /**
+     * リレーション - ラベル
+     * 
+     * ラベリングされているラベルを返却します。
+     */
+    public function labels() {
+        return $this->belongsToMany(
+            'App\Models\Label',
+            'labelings',
+            'image_id',
+            'label_id'
+        );
+    }
+
+    /**
      * アクセサ - ストレージ上のファイルパス(png形式画像)
      * NOTE: path列の値を絶対パス変換する
      */
     public function getStorageFilePathAttribute()
     {
         $storage_file_path = FileManageHelper::getBinderImagePath($this, 'png');
+
         return $storage_file_path;
     }
 
@@ -64,6 +83,17 @@ class Image extends Model
     {
         $storage_file_path_org = FileManageHelper::getBinderImagePath($this);
         return $storage_file_path_org;
+    }
+
+    /**
+     * アクセサ - 画像とラベリングされているラベルIDのリスト
+     * NOTE: path列の値を絶対パス変換する
+     */
+    public function getLabelingLabelIdsAttribute()
+    {
+        $labeling = $this->labels()->select('labels.id')->get();
+        $label_ids = $labeling->pluck('id');
+        return $label_ids;
     }
 
     /**

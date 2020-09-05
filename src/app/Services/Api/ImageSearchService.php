@@ -31,6 +31,7 @@ class ImageSearchService implements ImageSearchServiceInterface
      */
     public function execute(Request $request)
     {
-        return $this->image_repository->search($request);
+        $images = $this->image_repository->search($request);
+        return $images;
     }
 }

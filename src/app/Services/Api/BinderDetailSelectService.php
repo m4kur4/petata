@@ -5,6 +5,8 @@ namespace App\Services\Api;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 
+use Log;
+
 /**
  * @inheritdoc
  */

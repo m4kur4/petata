@@ -93,7 +93,8 @@ class BinderDetailSelectApiTest extends TestCase
                             'name' => $image->name,
                             'path' => $image->path,
                             'visible' => $image->visible,
-                            'storage_file_path' => $image->storageFilePath
+                            'storage_file_path' => $image->storageFilePath,
+                            'labeling_label_ids' => $image->labeling_label_ids,
                         ];
                     })
                     ->all(),
