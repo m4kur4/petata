@@ -1,5 +1,6 @@
 <template>
     <Draggable
+        @start="startDraggable"
         @end="resetDraggable"
         v-model="images"
         :options="draggableOptions"
@@ -57,6 +58,15 @@ export default {
             this.$emit("show-lightbox-click", imageIndex);
         },
         /**
+         * draggableによるソートの初期処理を行います。
+         * 
+         * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
+         */
+        startDraggable() {
+            this.$store.commit("binder/setIsDraggableProcessing", true);
+            console.log("hogehoge");
+        },
+        /**
          * バインダー画像のdraggable属性を復活させます。
          * 
          * NOTE: Vue.Draggableのhandleオプションを使うと、
@@ -69,6 +79,8 @@ export default {
             for (let i = 0; i < images.length; i++) {
                 images[i].setAttribute("draggable", true);
             }
+
+            this.$store.commit("binder/setIsDraggableProcessing", false);
         }
     }
 };

@@ -63,7 +63,10 @@
                     & .thumbnail-inner-content__handle {
                         transition: all 125ms 0s ease;
                         opacity: 1;
-                        background-color: rgba(0, 0, 0, 0.7);
+                        background-color: rgba(0, 0, 0, 0.4);
+                        &:hover {
+                            background-color: rgba(0, 0, 0, 0.7);
+                        }
                     }
                 }
             }
@@ -111,6 +114,7 @@
         }
     }
     &__handle {
+        fill: rgba(255, 255, 255, 0.6);
         position: absolute;
         opacity: 0;
         outline: none;

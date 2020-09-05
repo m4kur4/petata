@@ -32,6 +32,7 @@ const state = {
      *   - label_ids: Array(Number) ラベルID
      * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
      * is_dragging_image Boolean バインダー画像をドラッグ中かどうか
+     * is_draggable_processing Boolean Draggableの操作中かどうか
      */
     id: null,
     name: null,
@@ -48,7 +49,8 @@ const state = {
         label_ids: []
     },
     dragging_image_labeling_label_ids: [],
-    is_dragging_image: false
+    is_dragging_image: false,
+    is_draggable_processing: false
 };
 
 const mutations = {
@@ -108,6 +110,10 @@ const mutations = {
     setIsDraggingImage(state, val) {
         state.is_dragging_image = val;
     },
+    setIsDraggableProcessing(state, val) 
+    {
+        state.is_draggable_processing = val;
+    }
 };
 
 const getters = {
