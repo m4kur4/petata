@@ -136,7 +136,8 @@ export default {
          */
         dragStart(event) {
             // ラベルへ受け渡すパラメタをdataTransferへ設定
-            event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
+            const dragImage = document.getElementById(`image-list-item-thumbnail-${this.id}`);
+            event.dataTransfer.setDragImage(dragImage, 20, 20);
             event.dataTransfer.setData("image-id", this.id);
             event.dataTransfer.setData("image-index", this.index);
 

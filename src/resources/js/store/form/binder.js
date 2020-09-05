@@ -212,13 +212,13 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.CREATED) {
-            // TODO: API実行結果をどうUIに表現するか
+            // ラベリングを登録した場合
             alert("ラベリングに成功しました。");
             return false;
-        } else if (response.status === STATUS.NO_CONTENT) {
-            // すでに登録されている場合
-            // TODO: UI表現
-            alert("もう登録されています。");
+        } else if (response.status === STATUS.OK) {
+            // ラベリングを登録解除した場合
+            alert("登録解除しました。");
+            return false;
         }
 
         // 失敗

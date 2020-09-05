@@ -1,11 +1,16 @@
 <template>
     <div
-        @dragenter.prevent="dragEnter($event)"
+        @dragenter="dragEnter($event)"
+        @dragleave="dragLeave($event)"
         @drop.prevent="drop($event)"
         :class="[
             'label-container__item',
             'mdc-elevation--z2',
-            { 'already-labeling': isDraggingLabelingImage }
+            {
+                'already-labeling': isDraggingLabelingImage,
+                'dragover--danger': isDraggingLabelingImage && isDragEnter,
+                dragover: !isDraggingLabelingImage && isDragEnter
+            }
         ]"
     >
         <p class="label-container__item-title">{{ name }}</p>
@@ -123,17 +128,16 @@
 export default {
     data() {
         return {
-            isRemoveConfirm: false
+            isRemoveConfirm: false,
+            // ドラッグイベントの制御パラメタ
+            isDragEnter: false
         };
     },
     props: {
         index: null,
         id: null,
         name: "",
-        description: "",
-        // ドラッグイベントの制御パラメタ
-        isDragOver: false,
-        isDragEnter: false
+        description: ""
     },
     computed: {
         /**
@@ -167,8 +171,12 @@ export default {
          * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
          */
         dragEnter(event) {
-            // TODO: ドロップできる旨のUI表現
-            event.dataTransfer.setData("label-id", this.id);
+            // スタイルを変更
+            this.isDragEnter = true;
+        },
+        dragLeave(event) {
+            // スタイルを変更
+            this.isDragEnter = false;
         },
         drop(event) {
             const imageId = event.dataTransfer.getData("image-id");
@@ -188,7 +196,9 @@ export default {
             // ラベリングした画像をリロードする
             const imageIndex = event.dataTransfer.getData("image-index");
             this.$store.dispatch("binder/fetchImage", imageIndex);
-            
+
+            // スタイルを変更
+            this.isDragEnter = false;
         },
         /**
          * 自身に関するバインダー画面の絞り込み条件を切り替えます。

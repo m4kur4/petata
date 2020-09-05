@@ -2936,7 +2936,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     dragStart: function dragStart(event) {
       // ラベルへ受け渡すパラメタをdataTransferへ設定
-      event.dataTransfer.setDragImage(this.$refs.thumbnailImage, 50, 50);
+      var dragImage = document.getElementById("image-list-item-thumbnail-".concat(this.id));
+      event.dataTransfer.setDragImage(dragImage, 20, 20);
       event.dataTransfer.setData("image-id", this.id);
       event.dataTransfer.setData("image-index", this.index); // ドラッグしている画像のラベリング情報を画面へ反映
 
@@ -3034,6 +3035,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -3071,8 +3073,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    id: Number,
     imageSource: String,
     fileName: String
   }
@@ -3514,20 +3518,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      isRemoveConfirm: false
+      isRemoveConfirm: false,
+      // ドラッグイベントの制御パラメタ
+      isDragEnter: false
     };
   },
   props: {
     index: null,
     id: null,
     name: "",
-    description: "",
-    // ドラッグイベントの制御パラメタ
-    isDragOver: false,
-    isDragEnter: false
+    description: ""
   },
   computed: {
     /**
@@ -3558,8 +3566,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
      */
     dragEnter: function dragEnter(event) {
-      // TODO: ドロップできる旨のUI表現
-      event.dataTransfer.setData("label-id", this.id);
+      // スタイルを変更
+      this.isDragEnter = true;
+    },
+    dragLeave: function dragLeave(event) {
+      // スタイルを変更
+      this.isDragEnter = false;
     },
     drop: function drop(event) {
       var imageId = event.dataTransfer.getData("image-id");
@@ -3578,7 +3590,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$store.dispatch("binder/labeling", postData); // ラベリングした画像をリロードする
 
       var imageIndex = event.dataTransfer.getData("image-index");
-      this.$store.dispatch("binder/fetchImage", imageIndex);
+      this.$store.dispatch("binder/fetchImage", imageIndex); // スタイルを変更
+
+      this.isDragEnter = false;
     },
 
     /**
@@ -26424,7 +26438,11 @@ var render = function() {
       _vm._l(_vm.images, function(image) {
         return _c("ImageListItem", {
           key: image.id,
-          attrs: { imageSource: image.storage_file_path, fileName: image.name }
+          attrs: {
+            id: image.id,
+            imageSource: image.storage_file_path,
+            fileName: image.name
+          }
         })
       }),
       1
@@ -26469,7 +26487,11 @@ var render = function() {
     _c("div", { staticClass: "image-list__item-thumbnail" }, [
       _c("img", {
         staticClass: "image-list__item-thumbnail-image",
-        attrs: { alt: _vm.fileName, src: _vm.imageSource }
+        attrs: {
+          id: "image-list-item-thumbnail-" + _vm.id,
+          alt: _vm.fileName,
+          src: _vm.imageSource
+        }
       })
     ]),
     _vm._v(" "),
@@ -26802,12 +26824,18 @@ var render = function() {
       class: [
         "label-container__item",
         "mdc-elevation--z2",
-        { "already-labeling": _vm.isDraggingLabelingImage }
+        {
+          "already-labeling": _vm.isDraggingLabelingImage,
+          "dragover--danger": _vm.isDraggingLabelingImage && _vm.isDragEnter,
+          dragover: !_vm.isDraggingLabelingImage && _vm.isDragEnter
+        }
       ],
       on: {
         dragenter: function($event) {
-          $event.preventDefault()
           return _vm.dragEnter($event)
+        },
+        dragleave: function($event) {
+          return _vm.dragLeave($event)
         },
         drop: function($event) {
           $event.preventDefault()
@@ -48211,18 +48239,21 @@ var actions = {
                 break;
               }
 
-              // TODO: API実行結果をどうUIに表現するか
+              // ラベリングを登録した場合
               alert("ラベリングに成功しました。");
               return _context4.abrupt("return", false);
 
             case 9:
-              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].NO_CONTENT) {
-                // すでに登録されている場合
-                // TODO: UI表現
-                alert("もう登録されています。");
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context4.next = 12;
+                break;
               }
 
-            case 10:
+              // ラベリングを登録解除した場合
+              alert("登録解除しました。");
+              return _context4.abrupt("return", false);
+
+            case 12:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
@@ -48234,7 +48265,7 @@ var actions = {
                 });
               }
 
-            case 11:
+            case 13:
             case "end":
               return _context4.stop();
           }

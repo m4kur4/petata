@@ -3,6 +3,7 @@
         <div class="image-list__item-thumbnail">
             <img
                 class="image-list__item-thumbnail-image"
+                :id="`image-list-item-thumbnail-${id}`"
                 :alt="fileName"
                 :src="imageSource"
             />
@@ -15,6 +16,7 @@
 <script>
 export default {
     props: {
+        id: Number,
         imageSource: String,
         fileName: String
     }

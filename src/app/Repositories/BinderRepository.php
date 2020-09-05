@@ -196,6 +196,17 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritdoc
      */
+    public function deleteLabeling(LabelingRequest $request)
+    {
+        Labeling::query()
+            ->where('label_id', $request->label_id)
+            ->where('image_id', $request->image_id)
+            ->delete();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function selectLabelsRelatedToBinder(string $binder_id)
     {
         $labels = Label::query()

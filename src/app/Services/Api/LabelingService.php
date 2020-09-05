@@ -28,15 +28,18 @@ class LabelingService implements LabelingServiceInterface
     /**
      * @inheritdoc
      */
-    public function executeRegister(LabelingRequest $request)
+    public function execute(LabelingRequest $request)
     {
         if ($this->isExistLabeling($request->label_id, $request->image_id)) {
-            // ラベリングが既に存在する場合、登録を実行しない
-            return false;
+            
+            // ラベリングが既に存在する場合は解除する
+            $this->binder_repository->deleteLabeling($request);
+            return config('_const.HTTP_STATUS.OK');
+            
+        } else {
+            $this->binder_repository->addLabeling($request);
+            return config('_const.HTTP_STATUS.CREATED');
         }
-
-        $this->binder_repository->addLabeling($request);
-        return true;
     }
 
     /**
