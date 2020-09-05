@@ -164,6 +164,7 @@
         }
         &.dragging {
             width: calc(#{$item-width} + 8px);
+            border-right: solid 5px #007BFF;
             text-indent: 16px;
         }
         &.already-labeling {
