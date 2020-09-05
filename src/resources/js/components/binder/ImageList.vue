@@ -2,6 +2,8 @@
     <div class="image-list--show mdc-elevation--z4">
         <div class="image-list__search mdc-elevation--z2">
             <input
+                @keydown.enter="searchBinderImage"
+                v-model="searchCondigionImageName"
                 class="image-list__search-form"
                 type="text"
                 placeholder="Search"
@@ -42,11 +44,27 @@ export default {
                 this.$store.commit("binder/setImages", val);
             }
         },
+        searchCondigionImageName: {
+            get() {
+                return this.$store.state.binder.search_condition.image_name;
+            },
+            set(val) {
+                this.$store.commit("binder/setSearchConditionImageName", val);
+            },
+        },
         draggableOptions() {
             return {
                 animation: 150
             };
         }
+    },
+    methods: {
+        /**
+         * バインダー画像の検索APIを呼び出します。
+         */
+        searchBinderImage() {
+            this.$store.dispatch("binder/searchBinderImage");
+        },
     }
 };
 </script>

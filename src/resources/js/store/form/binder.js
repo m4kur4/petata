@@ -88,7 +88,7 @@ const mutations = {
     setSearchCondition(state, val) {
         state.search_condition = val;
     },
-    setSearchConditionImage(state, val) {
+    setSearchConditionImageName(state, val) {
         state.search_condition.image_name = val;
     },
     setSearchConditionLabel(state, val) {
