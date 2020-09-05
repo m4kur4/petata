@@ -48420,7 +48420,7 @@ var actions = {
                 break;
               }
 
-              context.commit("setImages", response.data);
+              context.dispatch("searchBinderImage");
               return _context7.abrupt("return", false);
 
             case 8:

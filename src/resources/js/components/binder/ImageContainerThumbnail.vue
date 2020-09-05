@@ -169,7 +169,6 @@ export default {
          * ライトボックスで画像を表示します。
          * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
          */
-
         showLightBox() {
             this.$emit("show-lightbox-click", this.index);
         },

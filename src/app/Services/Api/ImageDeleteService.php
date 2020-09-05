@@ -37,6 +37,11 @@ class ImageDeleteService implements ImageDeleteServiceInterface
         // 削除後の画像のリストを取得
         $images = $this->image_repository->search($request);
 
-        return $images;
+        $sorted_images = $images
+            ->sortByDesc('id')
+            ->values()
+            ->all();
+
+        return $sorted_images;
     }
 }

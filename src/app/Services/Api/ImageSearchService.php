@@ -32,6 +32,12 @@ class ImageSearchService implements ImageSearchServiceInterface
     public function execute(Request $request)
     {
         $images = $this->image_repository->search($request);
-        return $images;
+        
+        $sorted_images = $images
+           ->sortByDesc('id')
+           ->values()
+           ->all();
+
+        return $sorted_images;
     }
 }

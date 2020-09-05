@@ -41,8 +41,11 @@ class BinderDetailSelectService implements BinderDetailSelectServiceInterface
             'count_favorite' => $binder->binderfavorites->count(),
             'labels' => $binder->labels,
             'images' => $binder->images
+                ->sortByDesc('id')
+                ->values()
+                ->all()
         ];
-
+        // NOTE: Collection::sortByDesc()は「元の配列キーを保持した新たなコレクション」を生成する
         return $response;
     }
 }
