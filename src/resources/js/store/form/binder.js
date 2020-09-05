@@ -308,7 +308,7 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
-            context.commit("setImages", response.data);
+            context.dispatch("searchBinderImage");
             return false;
         }
 
