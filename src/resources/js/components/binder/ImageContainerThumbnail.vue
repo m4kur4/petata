@@ -135,6 +135,9 @@ export default {
          * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
          */
         dragStart(event) {
+            // ラベルアイテムの表示制御用にドラッグ中であることを通知
+            this.$store.commit("binder/setIsDraggingImage", true);
+            
             // ラベルへ受け渡すパラメタをdataTransferへ設定
             const dragImage = document.getElementById(`image-list-item-thumbnail-${this.id}`);
             event.dataTransfer.setDragImage(dragImage, 20, 20);
@@ -146,9 +149,11 @@ export default {
 
         },
         dragEnd(event) {
-            this.$store.commit("binder/setDraggingImageLabelingLabelIds", []);
+            // ラベルアイテムの表示制御用にドラッグが完了したことを通知
+            this.$store.commit("binder/setIsDraggingImage", false);
 
-            // ラベリング中のラベルIDを更新(ラベルへドロップした際に設定されるパラメタから取得)
+            // ラベリングされているラベルの強調表示を終了
+            this.$store.commit("binder/setDraggingImageLabelingLabelIds", []);
         },
         drag(event) {
             console.log("移動中");

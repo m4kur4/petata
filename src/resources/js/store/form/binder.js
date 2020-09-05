@@ -31,6 +31,7 @@ const state = {
      *   - image_name: String 画像名
      *   - label_ids: Array(Number) ラベルID
      * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
+     * is_dragging_image Boolean バインダー画像をドラッグ中かどうか
      */
     id: null,
     name: null,
@@ -46,7 +47,8 @@ const state = {
         image_name: "",
         label_ids: []
     },
-    dragging_image_labeling_label_ids: []
+    dragging_image_labeling_label_ids: [],
+    is_dragging_image: false
 };
 
 const mutations = {
@@ -102,6 +104,9 @@ const mutations = {
     },
     setDraggingImageLabelingLabelIds(state, val) {
         state.dragging_image_labeling_label_ids = val;
+    },
+    setIsDraggingImage(state, val) {
+        state.is_dragging_image = val;
     },
 };
 

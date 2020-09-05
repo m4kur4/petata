@@ -2935,7 +2935,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
      */
     dragStart: function dragStart(event) {
-      // ラベルへ受け渡すパラメタをdataTransferへ設定
+      // ラベルアイテムの表示制御用にドラッグ中であることを通知
+      this.$store.commit("binder/setIsDraggingImage", true); // ラベルへ受け渡すパラメタをdataTransferへ設定
+
       var dragImage = document.getElementById("image-list-item-thumbnail-".concat(this.id));
       event.dataTransfer.setDragImage(dragImage, 20, 20);
       event.dataTransfer.setData("image-id", this.id);
@@ -2944,7 +2946,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$store.commit("binder/setDraggingImageLabelingLabelIds", this.labelingLabelIds);
     },
     dragEnd: function dragEnd(event) {
-      this.$store.commit("binder/setDraggingImageLabelingLabelIds", []); // ラベリング中のラベルIDを更新(ラベルへドロップした際に設定されるパラメタから取得)
+      // ラベルアイテムの表示制御用にドラッグが完了したことを通知
+      this.$store.commit("binder/setIsDraggingImage", false); // ラベリングされているラベルの強調表示を終了
+
+      this.$store.commit("binder/setDraggingImageLabelingLabelIds", []);
     },
     drag: function drag(event) {
       console.log("移動中");
@@ -3523,6 +3528,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3554,10 +3560,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
 
     /**
-     * 自身とラベリングされている画像がドラッグ中かどうか
+     * 自身とラベリングされているバインダー画像がドラッグ中かどうか
      */
     isDraggingLabelingImage: function isDraggingLabelingImage() {
       return this.$store.getters["binder/isLabelingWithDraggingImageLabel"](this.id);
+    },
+
+    /**
+     * バインダー画像がドラッグ中かどうか
+     */
+    isDraggingImage: function isDraggingImage() {
+      return this.$store.state.binder.is_dragging_image;
     }
   },
   methods: {
@@ -26825,6 +26838,7 @@ var render = function() {
         "label-container__item",
         "mdc-elevation--z2",
         {
+          dragging: _vm.isDraggingImage,
           "already-labeling": _vm.isDraggingLabelingImage,
           "dragover--danger": _vm.isDraggingLabelingImage && _vm.isDragEnter,
           dragover: !_vm.isDraggingLabelingImage && _vm.isDragEnter
@@ -47991,6 +48005,7 @@ var state = {
    *   - image_name: String 画像名
    *   - label_ids: Array(Number) ラベルID
    * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
+   * is_dragging_image Boolean バインダー画像をドラッグ中かどうか
    */
   id: null,
   name: null,
@@ -48006,7 +48021,8 @@ var state = {
     image_name: "",
     label_ids: []
   },
-  dragging_image_labeling_label_ids: []
+  dragging_image_labeling_label_ids: [],
+  is_dragging_image: false
 };
 var mutations = {
   setId: function setId(state, val) {
@@ -48060,6 +48076,9 @@ var mutations = {
   },
   setDraggingImageLabelingLabelIds: function setDraggingImageLabelingLabelIds(state, val) {
     state.dragging_image_labeling_label_ids = val;
+  },
+  setIsDraggingImage: function setIsDraggingImage(state, val) {
+    state.is_dragging_image = val;
   }
 };
 var getters = {

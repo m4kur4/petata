@@ -7,6 +7,7 @@
             'label-container__item',
             'mdc-elevation--z2',
             {
+                dragging: isDraggingImage,
                 'already-labeling': isDraggingLabelingImage,
                 'dragover--danger': isDraggingLabelingImage && isDragEnter,
                 dragover: !isDraggingLabelingImage && isDragEnter
@@ -156,12 +157,18 @@ export default {
             ](this.id);
         },
         /**
-         * 自身とラベリングされている画像がドラッグ中かどうか
+         * 自身とラベリングされているバインダー画像がドラッグ中かどうか
          */
         isDraggingLabelingImage() {
             return this.$store.getters[
                 "binder/isLabelingWithDraggingImageLabel"
             ](this.id);
+        },
+        /**
+         * バインダー画像がドラッグ中かどうか
+         */
+        isDraggingImage() {
+            return this.$store.state.binder.is_dragging_image;
         }
     },
 

@@ -162,6 +162,10 @@
                 }
             }
         }
+        &.dragging {
+            width: calc(#{$item-width} + 8px);
+            text-indent: 16px;
+        }
         &.already-labeling {
             background-color: #17A2B8;
             border-right: solid 5px #17A2B8;
@@ -172,14 +176,12 @@
             border-right: solid 5px #007BFF;
             transition: all 150ms 0s ease;
             text-indent: 16px;
-            width: calc(#{$item-width} + 8px);
         }
         &.dragover--danger {
             background-color: #DC3545;
             border-right: solid 5px #DC3545;
             transition: all 150ms 0s ease;
             text-indent: 16px;
-            width: calc(#{$item-width} + 8px);
         }
     }
 }
