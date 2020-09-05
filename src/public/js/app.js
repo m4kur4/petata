@@ -2764,6 +2764,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2799,6 +2800,16 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /**
+     * draggableによるソートの初期処理を行います。
+     * 
+     * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
+     */
+    startDraggable: function startDraggable() {
+      this.$store.commit("binder/setIsDraggableProcessing", true);
+      console.log("hogehoge");
+    },
+
+    /**
      * バインダー画像のdraggable属性を復活させます。
      * 
      * NOTE: Vue.Draggableのhandleオプションを使うと、
@@ -2810,6 +2821,8 @@ __webpack_require__.r(__webpack_exports__);
       for (var i = 0; i < images.length; i++) {
         images[i].setAttribute("draggable", true);
       }
+
+      this.$store.commit("binder/setIsDraggableProcessing", false);
     }
   }
 });
@@ -2834,6 +2847,30 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3045,6 +3082,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    }
+  },
+  computed: {
+    isDraggableProcessing: function isDraggableProcessing() {
+      return this.$store.state.binder.is_draggable_processing;
     }
   }
 });
@@ -29914,7 +29956,7 @@ var render = function() {
     {
       staticClass: "image-container",
       attrs: { options: _vm.draggableOptions, id: "image-container" },
-      on: { end: _vm.resetDraggable },
+      on: { start: _vm.startDraggable, end: _vm.resetDraggable },
       model: {
         value: _vm.images,
         callback: function($$v) {
@@ -30004,11 +30046,65 @@ var render = function() {
             }
           }),
           _vm._v(" "),
-          _c("button", { staticClass: "thumbnail-inner-content__handle" }),
+          _c(
+            "button",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isDraggableProcessing,
+                  expression: "!isDraggableProcessing"
+                }
+              ],
+              staticClass: "thumbnail-inner-content__handle"
+            },
+            [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    "enable-background": "new 0 0 24 24",
+                    height: "24",
+                    viewBox: "0 0 24 24",
+                    width: "24"
+                  }
+                },
+                [
+                  _c("g", [
+                    _c("rect", {
+                      attrs: { fill: "none", height: "24", width: "24" }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("g", [
+                    _c("g", [
+                      _c("g", [
+                        _c("path", {
+                          attrs: { d: "M20,9H4v2h16V9z M4,15h16v-2H4V15z" }
+                        })
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "thumbnail-inner-content__button-wrapper" },
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.isDraggableProcessing,
+                  expression: "!isDraggableProcessing"
+                }
+              ],
+              staticClass: "thumbnail-inner-content__button-wrapper"
+            },
             [
               _c(
                 "button",
@@ -54289,6 +54385,7 @@ var state = {
    *   - label_ids: Array(Number) ラベルID
    * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
    * is_dragging_image Boolean バインダー画像をドラッグ中かどうか
+   * is_draggable_processing Boolean Draggableの操作中かどうか
    */
   id: null,
   name: null,
@@ -54305,7 +54402,8 @@ var state = {
     label_ids: []
   },
   dragging_image_labeling_label_ids: [],
-  is_dragging_image: false
+  is_dragging_image: false,
+  is_draggable_processing: false
 };
 var mutations = {
   setId: function setId(state, val) {
@@ -54362,6 +54460,9 @@ var mutations = {
   },
   setIsDraggingImage: function setIsDraggingImage(state, val) {
     state.is_dragging_image = val;
+  },
+  setIsDraggableProcessing: function setIsDraggableProcessing(state, val) {
+    state.is_draggable_processing = val;
   }
 };
 var getters = {

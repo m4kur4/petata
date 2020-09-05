@@ -18,9 +18,33 @@
                 :alt="fileName"
             />
 
-            <button class="thumbnail-inner-content__handle"></button>
+            <button
+                v-show="!isDraggableProcessing"
+                class="thumbnail-inner-content__handle"
+            >
+                <!-- Draggable操作用のハンドル -->
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    enable-background="new 0 0 24 24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    width="24"
+                >
+                    <g><rect fill="none" height="24" width="24" /></g>
+                    <g>
+                        <g>
+                            <g>
+                                <path d="M20,9H4v2h16V9z M4,15h16v-2H4V15z" />
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </button>
 
-            <div class="thumbnail-inner-content__button-wrapper">
+            <div
+                v-show="!isDraggableProcessing"
+                class="thumbnail-inner-content__button-wrapper"
+            >
                 <button
                     v-show="!isRemoveConfirm"
                     @click="copyImage"
@@ -197,6 +221,11 @@ export default {
             // NOTE: 複数画像削除に対応するつくりのため、配列としてIDを渡す
             await this.$store.dispatch("binder/removeImage", [this.id]);
             this.setIsRemoveConfirm(false);
+        }
+    },
+    computed: {
+        isDraggableProcessing() {
+            return this.$store.state.binder.is_draggable_processing;
         }
     }
 };
