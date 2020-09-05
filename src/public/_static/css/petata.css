@@ -741,7 +741,8 @@ main {
 }
 
 .image-container__thumbnail-image {
-  cursor: move;
+  cursor: -webkit-grab;
+  cursor: grab;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -754,6 +755,11 @@ main {
   opacity: 70%;
   transition: all 100ms 0s ease;
   z-index: 1;
+}
+
+.image-container__thumbnail-image:active {
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .image-container__thumbnail-inner-content-wrapper {
@@ -777,6 +783,12 @@ main {
 }
 
 .image-container__thumbnail-inner-content-wrapper:hover .thumbnail-inner-content__button-wrapper {
+  transition: all 125ms 0s ease;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.image-container__thumbnail-inner-content-wrapper:hover .thumbnail-inner-content__handle {
   transition: all 125ms 0s ease;
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.7);
@@ -822,6 +834,20 @@ main {
   transition: all 100ms 0s ease;
   fill: #324750;
   background-color: white;
+}
+
+.thumbnail-inner-content__handle {
+  position: absolute;
+  opacity: 0;
+  outline: none;
+  border-radius: 15%;
+  border: none;
+  top: 8px;
+  left: 8px;
+  height: 40px;
+  width: 40px;
+  cursor: move;
+  z-index: 1;
 }
 
 .thumbnail-inner-content__button-wrapper {

@@ -178,14 +178,29 @@ export default {
          * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
          */
         dragEnter(event) {
+            // Draggableの処理はラベリング処理から切り離す
+            if (!this.isDraggingImage) {
+                return false;
+            }
+
             // スタイルを変更
             this.isDragEnter = true;
         },
         dragLeave(event) {
+            // Draggableの処理はラベリング処理から切り離す
+            if (!this.isDraggingImage) {
+                return false;
+            }
+
             // スタイルを変更
             this.isDragEnter = false;
         },
         drop(event) {
+            // Draggableの処理はラベリング処理から切り離す
+            if (!this.isDraggingImage) {
+                return false;
+            }
+
             const imageId = event.dataTransfer.getData("image-id");
             if (!!!imageId) {
                 // バインダーの画像以外がドロップされた場合は処理なし
@@ -200,7 +215,7 @@ export default {
             };
             this.$store.dispatch("binder/labeling", postData);
 
-            // ラベリングした画像をリロードする
+            // ラベリングした画像をリロードする(ラベリング情報を反映するため)
             const imageIndex = event.dataTransfer.getData("image-index");
             this.$store.dispatch("binder/fetchImage", imageIndex);
 

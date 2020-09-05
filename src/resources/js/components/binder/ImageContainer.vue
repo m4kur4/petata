@@ -1,5 +1,11 @@
 <template>
-    <div id="image-container" class="image-container">
+    <Draggable
+        @end="resetDraggable"
+        v-model="images"
+        :options="draggableOptions"
+        id="image-container"
+        class="image-container"
+    >
         <ImageContainerThumbnail
             v-for="(image, index) in images"
             @show-lightbox-click="showLightBox"
@@ -11,31 +17,59 @@
             :labelingLabelIds="image.labeling_label_ids"
         />
         <Dropzone />
-    </div>
+    </Draggable>
     <!-- /.image-container -->
 </template>
 
 <script>
 import ImageContainerThumbnail from "./ImageContainerThumbnail.vue";
 import Dropzone from "./Dropzone.vue";
+import Draggable from "vuedraggable";
 export default {
     components: {
         ImageContainerThumbnail,
-        Dropzone
+        Dropzone,
+        Draggable
     },
     computed: {
-        images() {
-            return this.$store.state.binder.images;
+        images: {
+            get() {
+                return this.$store.state.binder.images;
+            },
+            set(val) {
+                this.$store.commit("binder/setImages", val);
+            }
         },
+        draggableOptions() {
+            return {
+                animation: 150,
+                handle: ".thumbnail-inner-content__handle",
+            };
+        }
     },
     methods: {
         /**
          * ライトボックスで画像を表示します。
          * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
-         */    
+         */
+
         showLightBox(imageIndex) {
             this.$emit("show-lightbox-click", imageIndex);
         },
+        /**
+         * バインダー画像のdraggable属性を復活させます。
+         * 
+         * NOTE: Vue.Draggableのhandleオプションを使うと、
+         * ドラッグ後に`draggable="false"`が設定されてしまう。
+         */
+        resetDraggable() {
+            const images = document.getElementsByClassName(
+                "image-container__thumbnail-image"
+            );
+            for (let i = 0; i < images.length; i++) {
+                images[i].setAttribute("draggable", true);
+            }
+        }
     }
 };
 </script>

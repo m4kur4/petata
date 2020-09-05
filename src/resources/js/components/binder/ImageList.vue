@@ -7,7 +7,11 @@
                 placeholder="Search"
             />
         </div>
-        <div class="image-list__content">
+        <Draggable
+            v-model="images"
+            :options="draggableOptions"
+            class="image-list__content"
+        >
             <ImageListItem
                 v-for="image in images"
                 :key="image.id"
@@ -15,7 +19,7 @@
                 :imageSource="image.storage_file_path"
                 :fileName="image.name"
             />
-        </div>
+        </Draggable>
         <!-- image-list__content -->
     </div>
     <!-- /.image-list--show -->
@@ -23,14 +27,26 @@
 
 <script>
 import ImageListItem from "./ImageListItem.vue";
+import Draggable from "vuedraggable";
 export default {
     components: {
-        ImageListItem
+        ImageListItem,
+        Draggable
     },
     computed: {
-        images() {
-            return this.$store.state.binder.images;
+        images: {
+            get() {
+                return this.$store.state.binder.images;
+            },
+            set(val) {
+                this.$store.commit("binder/setImages", val);
+            }
         },
-    },
+        draggableOptions() {
+            return {
+                animation: 150
+            };
+        }
+    }
 };
 </script>

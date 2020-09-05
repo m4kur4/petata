@@ -32,4 +32,10 @@ export const util = {
              console.error(error);
          }
     },
+    /**
+     * 指定したドラッグイベントがDraggableによるものかどうかを判定します。
+     */
+    isDraggableEvent(event) {
+        return event.currentTarget.classList.contains("sortable-chosen");
+    }
 };

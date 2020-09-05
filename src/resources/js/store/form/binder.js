@@ -220,9 +220,13 @@ const actions = {
             // ラベリングを登録した場合
             alert("ラベリングに成功しました。");
             return false;
+
         } else if (response.status === STATUS.OK) {
             // ラベリングを登録解除した場合
             alert("登録解除しました。");
+            
+            // 解除したあとの条件で再検索
+            context.dispatch("searchBinderImage");
             return false;
         }
 

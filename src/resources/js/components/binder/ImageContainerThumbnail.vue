@@ -17,6 +17,9 @@
                 :src="imageSource"
                 :alt="fileName"
             />
+
+            <button class="thumbnail-inner-content__handle"></button>
+
             <div class="thumbnail-inner-content__button-wrapper">
                 <button
                     v-show="!isRemoveConfirm"
@@ -127,7 +130,7 @@ export default {
         id: Number,
         imageSource: String,
         fileName: String,
-        labelingLabelIds: Array,
+        labelingLabelIds: Array
     },
     methods: {
         /**
@@ -135,18 +138,27 @@ export default {
          * NOTE: ドロップ時、dataTransfer.getData('image-id')で画像のIDを取得
          */
         dragStart(event) {
+            // Draggableの処理はラベリング処理から切り離す
+            if (util.isDraggableEvent(event)) {
+                return false;
+            }
+
             // ラベルアイテムの表示制御用にドラッグ中であることを通知
             this.$store.commit("binder/setIsDraggingImage", true);
-            
+
             // ラベルへ受け渡すパラメタをdataTransferへ設定
-            const dragImage = document.getElementById(`image-list-item-thumbnail-${this.id}`);
+            const dragImage = document.getElementById(
+                `image-list-item-thumbnail-${this.id}`
+            );
             event.dataTransfer.setDragImage(dragImage, 20, 20);
             event.dataTransfer.setData("image-id", this.id);
             event.dataTransfer.setData("image-index", this.index);
 
             // ドラッグしている画像のラベリング情報を画面へ反映
-            this.$store.commit("binder/setDraggingImageLabelingLabelIds", this.labelingLabelIds);
-
+            this.$store.commit(
+                "binder/setDraggingImageLabelingLabelIds",
+                this.labelingLabelIds
+            );
         },
         dragEnd(event) {
             // ラベルアイテムの表示制御用にドラッグが完了したことを通知
