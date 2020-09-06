@@ -16,6 +16,7 @@ $factory->define(Image::class, function (Faker $faker) {
             return factory(User::class)->create()->id;
         },
         'name' => $faker->name,
+        'sort' => 0,
         'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
         'extension' => 'jpg'
     ];

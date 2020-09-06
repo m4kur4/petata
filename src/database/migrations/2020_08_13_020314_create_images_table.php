@@ -20,6 +20,7 @@ class CreateImagesTable extends Migration
             $table->string('name')->comment('アプリ上のファイル名');
             $table->string('path')->comment('ストレージ上のファイル名');
             $table->string('extension')->comment('ストレージ上のファイル拡張子');
+            $table->integer('sort');
             $table->boolean('visible')->comment('表示可能フラグ');
             $table->timestamps();
 

@@ -11,6 +11,7 @@ $factory->define(Label::class, function (Faker $faker) {
         'binder_id' => function() {
             return factory(Binder::class)->create()->id;
         },
-        'name' => $faker->name
+        'name' => $faker->name,
+        'sort' => 0,
     ];
 });

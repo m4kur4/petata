@@ -118,7 +118,8 @@ class BinderRepository implements BinderRepositoryInterface
                 $label = new Label([
                     'binder_id' => $binder_id,
                     'name' => $post['name'],
-                    'description' => $post['description']
+                    'description' => $post['description'],
+                    'sort' => 0
                 ]);
             } else {
                 // 更新登録

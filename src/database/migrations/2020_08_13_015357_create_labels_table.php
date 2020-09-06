@@ -17,6 +17,7 @@ class CreateLabelsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('binder_id');
             $table->string('name');
+            $table->integer('sort');
             $table->text('description');
             $table->timestamps();
 

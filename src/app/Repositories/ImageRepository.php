@@ -64,6 +64,7 @@ class ImageRepository implements ImageRepositoryInterface
             'binder_id' => $request->binder_id,
             'upload_user_id' => Auth::id(),
             'name' => str_replace(('.' . $extension) , '', $original_name), // 拡張子を除いたファイル名を設定
+            'sort' => 0,
             'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
             'extension' => $extension,
         ]);

@@ -17,7 +17,8 @@ class Image extends Model
         'upload_user_id',
         'name',
         'visible',
-        'extension'
+        'extension',
+        'sort'
     ];
 
     protected $visible = [

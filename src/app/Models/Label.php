@@ -9,7 +9,8 @@ class Label extends Model
     protected $fillable = [
         'binder_id',
         'name',
-        'description'
+        'description',
+        'sort'
     ];
 
     protected $visible = [
