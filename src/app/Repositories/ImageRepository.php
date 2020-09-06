@@ -8,6 +8,7 @@ use App\Repositories\Interfaces\ImageRepositoryInterface;
 use Illuminate\Http\File;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageDeleteRequest;
+use App\Http\Requests\ImageRenameRequest;
 use Intervention\Image\Facades\Image as InterventionImage;
 
 use Carbon\Carbon;
@@ -134,6 +135,19 @@ class ImageRepository implements ImageRepositoryInterface
     public function removeMany(ImageDeleteRequest $request)
     {
         // TODO: 実装
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rename(ImageRenameRequest $request)
+    {
+        $image = Image::query()
+            ->where('id', $request->id)
+            ->first();
+        
+        $image->name = $request->name;
+        $image->save();
     }
 
     /**

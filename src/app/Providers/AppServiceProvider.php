@@ -53,6 +53,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\ImageDeleteServiceInterface::class,
             \App\Services\Api\ImageDeleteService::class
         );
+        // 画像リネームサービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\ImageRenameServiceInterface::class,
+            \App\Services\Api\ImageRenameService::class
+        );
         // 画像検索サービス
         $this->app->bind(
             \App\Services\Api\Interfaces\ImageSearchServiceInterface::class,

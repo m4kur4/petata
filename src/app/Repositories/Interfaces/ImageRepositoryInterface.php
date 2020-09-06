@@ -5,6 +5,7 @@ namespace App\Repositories\Interfaces;
 use Illuminate\Http\Request;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageDeleteRequest;
+use App\Http\Requests\ImageRenameRequest;
 
 /**
  * 画像リポジトリ
@@ -37,4 +38,9 @@ interface ImageRepositoryInterface
      * 画像を複数枚削除します。
      */
     public function removeMany(ImageDeleteRequest $request);
+
+    /**
+     * 画像をリネームします。
+     */
+    public function rename(ImageRenameRequest $request);
 }

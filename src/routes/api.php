@@ -47,8 +47,11 @@ Route::get('binder/detail/{binder_id}','BinderController@detail')->name('api.bin
 // 画像追加
 Route::post('binder/image/add', 'ImageController@add')->name('api.binder.image.add');
 
-// 画像追加
+// 画像削除
 Route::post('binder/image/delete', 'ImageController@delete')->name('api.binder.image.delete');
+
+// 画像リネーム
+Route::post('binder/image/rename', 'ImageController@rename')->name('api.binder.image.rename');
 
 // 画像検索
 Route::get('binder/image/search', 'ImageController@search')->name('api.binder.image.search');
