@@ -3135,7 +3135,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -30516,7 +30515,6 @@ var render = function() {
               }
               return _vm.searchBinderImage($event)
             },
-            blur: _vm.searchBinderImage,
             input: function($event) {
               if ($event.target.composing) {
                 return

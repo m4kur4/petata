@@ -860,6 +860,7 @@ main {
 .thumbnail-inner-content__handle {
   fill: rgba(255, 255, 255, 0.6);
   position: absolute;
+  background-color: transparent;
   opacity: 0;
   outline: none;
   border-radius: 15%;
