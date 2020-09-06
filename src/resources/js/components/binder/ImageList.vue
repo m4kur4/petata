@@ -3,7 +3,6 @@
         <div class="image-list__search mdc-elevation--z2">
             <input
                 @keydown.enter="searchBinderImage"
-                @blur="searchBinderImage"
                 v-model="searchCondigionImageName"
                 class="image-list__search-form"
                 type="text"
