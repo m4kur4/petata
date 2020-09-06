@@ -1,82 +1,98 @@
 .image-list {
-  /* var@image-list */
-  $image-list-item-height: 48px;
-  $search-form-height: 40px;
+    /* var@image-list */
+    $image-list-item-height: 48px;
+    $search-form-height: 40px;
 
-  &--show {
-      grid-area: image-list;
-      background-color: #f5f5f5;
-  }
-  &__search {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      height: $search-form-height;
-      background-color: #ffffff;
-      text-align: center;
-      vertical-align: middle;
-      &-form {
-          background-image: "../image/icon/search-black-18dp.svg";
-          position: absolute;
-          box-sizing: border-box;
-          border: none;
-          transition: 0.3s;
-          border-bottom: 1px solid #33665c;
-          background: transparent;
-          width: 90%;
-          top: 60%;
-          left: 50%;
-          transform: translateY(-50%) translateX(-50%);
-          -webkit-transform: translateY(-50%) translateX(-50%);
-          &:focus {
-              border-bottom: 1px solid #86ab40;
-              outline: none;
-          }
-      }
-  }
-  &__content {
-      cursor: pointer;
-      overflow-y: scroll;
-      display: grid;
-      grid-auto-rows: 48px;
-      height: calc(100% - #{$search-form-height});
-  }
-  &__item {
-      display: grid;
-      grid-template-rows: $image-list-item-height;
-      grid-template-columns: $image-list-item-height 1fr;
-      grid-template-areas: "image-thumbnail image-title";
-      opacity: 100%;
-      width: 100%;
-      height: $image-list-item-height;
-      border-bottom: 1px solid #cbcbcb;
-      transition: all 100ms 0s ease;
-      &:nth-child(odd) {
-          background-color: #e4e4e4;
-      }
-      &:hover {
-          opacity: 65%;
-          transition: all 100ms 0s ease;
-      }
-      &-thumbnail {
-          grid-area: image-thumbnail;
-          //border-right: 1px solid black;
-          // background-color: green;
-          &-image {
-              box-sizing: border-box;
-              border-right: 1px solid #cbcbcb;
-              border-left: 1px solid #cbcbcb;
-              border-top: 0.5px solid #cbcbcb;
-              border-bottom: 0.5px solid #cbcbcb;
-              object-fit: cover;
-              width: $image-list-item-height;
-              height: $image-list-item-height;
-          }
-      }
-      &-text {
-          width: calc(100% - #{$image-list-item-height});
-          height: $image-list-item-height;
-          font-size: 16px;
-      }
-  }
+    &--show {
+        grid-area: image-list;
+        background-color: #f5f5f5;
+    }
+    &__search {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: $search-form-height;
+        background-color: #ffffff;
+        text-align: center;
+        vertical-align: middle;
+        &-form {
+            background-image: "../image/icon/search-black-18dp.svg";
+            position: absolute;
+            box-sizing: border-box;
+            border: none;
+            transition: 0.3s;
+            border-bottom: 1px solid #33665c;
+            background: transparent;
+            width: 90%;
+            top: 60%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            -webkit-transform: translateY(-50%) translateX(-50%);
+            &:focus {
+                border-bottom: 1px solid #86ab40;
+                outline: none;
+            }
+        }
+    }
+    &__content {
+        cursor: pointer;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: grid;
+        grid-auto-rows: 48px;
+        height: calc(100% - #{$search-form-height});
+    }
+    &__item {
+        display: grid;
+        grid-template-rows: $image-list-item-height;
+        grid-template-columns: $image-list-item-height 180px;
+        grid-template-areas: "image-thumbnail image-title";
+        opacity: 100%;
+        width: 100%;
+        height: $image-list-item-height;
+        border-bottom: 1px solid #cbcbcb;
+        transition: all 100ms 0s ease;
+        &:nth-child(odd) {
+            background-color: #e4e4e4;
+        }
+        &:hover {
+            opacity: 65%;
+            transition: all 100ms 0s ease;
+        }
+        &-thumbnail {
+            grid-area: image-thumbnail;
+            //border-right: 1px solid black;
+            // background-color: green;
+            &-image {
+                cursor: move;
+                box-sizing: border-box;
+                border-right: 1px solid #cbcbcb;
+                border-left: 1px solid #cbcbcb;
+                border-top: 0.5px solid #cbcbcb;
+                border-bottom: 0.5px solid #cbcbcb;
+                object-fit: cover;
+                width: $image-list-item-height;
+                height: $image-list-item-height;
+            }
+        }
+        &-text {
+            //width: calc(100% - #{$image-list-item-height});
+            width: 100%;
+            height: $image-list-item-height;
+            font-size: 16px;
+            &-read {
+                cursor: text;
+                margin: 0px;
+                width: 100%;
+                height: 100%;
+                overflow-wrap: break-word;
+                padding-left: 8px;
+            }
+            &-edit {
+                height: 85%;
+                outline: none;
+                resize: none;
+            }
+        }
+    }
 }

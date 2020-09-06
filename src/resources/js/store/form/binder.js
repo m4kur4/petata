@@ -286,7 +286,6 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
-            context.commit("setLabels", response.data);
             return false;
         }
 
@@ -332,6 +331,35 @@ const actions = {
                 root: true
             });
         }
+    },
+    /**
+     * 画像のファイル名を更新します。
+     */
+    async updateImageName(context, image) {
+        image.binder_id = state.id;
+
+        const uri = "api/binder/image/rename";
+        const response = await axios
+            .post(`${uri}`, image)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            // TODO: リネームに成功した旨をメッセージ
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+
     },
     /**
      * 指定したインデックス番号の画像情報をサーバーから再取得します。

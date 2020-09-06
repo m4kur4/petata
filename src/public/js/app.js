@@ -3134,12 +3134,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     ImageListItem: _ImageListItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_1___default.a
+  },
+  data: function data() {
+    return {
+      draggableOptions: {
+        animation: 150,
+        handle: ".image-list__item-thumbnail-image"
+      }
+    };
   },
   computed: {
     images: {
@@ -3157,11 +3167,6 @@ __webpack_require__.r(__webpack_exports__);
       set: function set(val) {
         this.$store.commit("binder/setSearchConditionImageName", val);
       }
-    },
-    draggableOptions: function draggableOptions() {
-      return {
-        animation: 150
-      };
     }
   },
   methods: {
@@ -3185,6 +3190,31 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3201,10 +3231,109 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isEditMode: false,
+      editName: this.fileName
+    };
+  },
   props: {
+    index: Number,
     id: Number,
     imageSource: String,
     fileName: String
+  },
+  methods: {
+    /**
+     * リストアイテムのファイル名編集モードを切り替えます。
+     *
+     * NOTE: クリックに開始・終了を割り当てるため
+     */
+    switchEditFileNameMode: function switchEditFileNameMode(event) {
+      var _this = this;
+
+      this.isEditMode = !this.isEditMode;
+
+      if (this.isEditMode) {
+        // NOTE: dataの更新が画面に反映されてからフォーカスを実行する
+        this.$nextTick(function () {
+          // フォーカス + テキスト全選択
+          _this.$refs.fileNameEditForm.focus();
+
+          _this.$refs.fileNameEditForm.select();
+        });
+      }
+    },
+
+    /**
+     * リストアイテムのファイル名編集をキャンセルします。
+     */
+    cancelEditFileName: function cancelEditFileName(event) {
+      // 編集前の値に戻す
+      this.editName = this.fileName;
+      this.isEditMode = false;
+    },
+
+    /**
+     * 画像のリネームを確定します。
+     * 
+     * NOTE: 画像名が変更されていない場合はリクエストを送信しない
+     */
+    doEditFileName: function doEditFileName(event) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var isBlurEvent, isNotModified, postData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                isBlurEvent = event.type == "blur";
+
+                if (!isBlurEvent) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 3:
+                _this2.isEditMode = false; // ファイル名が変更されていない場合はリクエストを送信しない。
+
+                isNotModified = _this2.fileName == _this2.editName;
+
+                if (!isNotModified) {
+                  _context.next = 7;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 7:
+                // ファイル名更新
+                postData = {
+                  id: _this2.id,
+                  name: _this2.editName
+                };
+                _context.next = 10;
+                return _this2.$store.dispatch("binder/updateImageName", postData);
+
+              case 10:
+                _context.next = 12;
+                return _this2.$store.dispatch("binder/fetchImage", _this2.index);
+
+              case 12:
+                // リロードしたファイル名を設定
+                _this2.editName = _this2.fileName;
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
   }
 });
 
@@ -30387,6 +30516,7 @@ var render = function() {
               }
               return _vm.searchBinderImage($event)
             },
+            blur: _vm.searchBinderImage,
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -30410,10 +30540,11 @@ var render = function() {
             expression: "images"
           }
         },
-        _vm._l(_vm.images, function(image) {
+        _vm._l(_vm.images, function(image, index) {
           return _c("ImageListItem", {
             key: image.id,
             attrs: {
+              index: index,
               id: image.id,
               imageSource: image.storage_file_path,
               fileName: image.name
@@ -30461,7 +30592,68 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "image-list__item-text" }, [
-      _vm._v(_vm._s(_vm.fileName))
+      _c(
+        "p",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.isEditMode,
+              expression: "!isEditMode"
+            }
+          ],
+          staticClass: "image-list__item-text-read",
+          on: {
+            dblclick: function($event) {
+              $event.stopPropagation()
+              return _vm.switchEditFileNameMode($event)
+            }
+          }
+        },
+        [_vm._v("\n            " + _vm._s(_vm.fileName) + "\n        ")]
+      ),
+      _vm._v(" "),
+      _c("textarea", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.isEditMode,
+            expression: "isEditMode"
+          },
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.editName,
+            expression: "editName"
+          }
+        ],
+        ref: "fileNameEditForm",
+        staticClass: "image-list__item-text-edit",
+        attrs: { id: "file-name-edit-" + _vm.id },
+        domProps: { value: _vm.editName },
+        on: {
+          keydown: function($event) {
+            if (
+              !$event.type.indexOf("key") &&
+              _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+            ) {
+              return null
+            }
+            return _vm.doEditFileName($event)
+          },
+          blur: function($event) {
+            return _vm.cancelEditFileName($event)
+          },
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.editName = $event.target.value
+          }
+        }
+      })
     ])
   ])
 }
@@ -54787,14 +54979,13 @@ var actions = {
               response = _context6.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context6.next = 8;
+                _context6.next = 7;
                 break;
               }
 
-              context.commit("setLabels", response.data);
               return _context6.abrupt("return", false);
 
-            case 8:
+            case 7:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
@@ -54806,7 +54997,7 @@ var actions = {
                 });
               }
 
-            case 9:
+            case 8:
             case "end":
               return _context6.stop();
           }
@@ -54868,19 +55059,67 @@ var actions = {
   },
 
   /**
-   * 指定したインデックス番号の画像情報をサーバーから再取得します。
-   * NOTE: ラベリング状態やファイル名変更の反映
+   * 画像のファイル名を更新します。
    */
-  fetchImage: function fetchImage(context, index) {
+  updateImageName: function updateImageName(context, image) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-      var imageId, uri, response, image;
+      var uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
+              image.binder_id = state.id;
+              uri = "api/binder/image/rename";
+              _context8.next = 4;
+              return axios.post("".concat(uri), image)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context8.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context8.next = 7;
+                break;
+              }
+
+              return _context8.abrupt("return", false);
+
+            case 7:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 8:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    }))();
+  },
+
+  /**
+   * 指定したインデックス番号の画像情報をサーバーから再取得します。
+   * NOTE: ラベリング状態やファイル名変更の反映
+   */
+  fetchImage: function fetchImage(context, index) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      var imageId, uri, response, image;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
               imageId = state.images[index].id;
               uri = "api/binder/image/detail/".concat(imageId);
-              _context8.next = 4;
+              _context9.next = 4;
               return axios.get("".concat(uri), {
                 params: state.search_condition
               })["catch"](function (err) {
@@ -54888,16 +55127,16 @@ var actions = {
               });
 
             case 4:
-              response = _context8.sent;
+              response = _context9.sent;
               image = response.data.image;
               vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.images, index, image);
 
             case 7:
             case "end":
-              return _context8.stop();
+              return _context9.stop();
           }
         }
-      }, _callee8);
+      }, _callee9);
     }))();
   }
 };

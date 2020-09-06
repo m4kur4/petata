@@ -3,6 +3,7 @@
         <div class="image-list__search mdc-elevation--z2">
             <input
                 @keydown.enter="searchBinderImage"
+                @blur="searchBinderImage"
                 v-model="searchCondigionImageName"
                 class="image-list__search-form"
                 type="text"
@@ -15,8 +16,9 @@
             class="image-list__content"
         >
             <ImageListItem
-                v-for="image in images"
+                v-for="(image, index) in images"
                 :key="image.id"
+                :index="index"
                 :id="image.id"
                 :imageSource="image.storage_file_path"
                 :fileName="image.name"
@@ -35,6 +37,14 @@ export default {
         ImageListItem,
         Draggable
     },
+    data() {
+        return {
+            draggableOptions: {
+                animation: 150,
+                handle: ".image-list__item-thumbnail-image",
+            }
+        };
+    },
     computed: {
         images: {
             get() {
@@ -52,11 +62,6 @@ export default {
                 this.$store.commit("binder/setSearchConditionImageName", val);
             },
         },
-        draggableOptions() {
-            return {
-                animation: 150
-            };
-        }
     },
     methods: {
         /**
