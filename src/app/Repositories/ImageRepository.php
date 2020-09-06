@@ -156,42 +156,29 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function updateSort(ImageSortRequest $request)
     {
-        Log::debug('D3');
-        
         $target_image = Image::find($request->image_id);
 
         $binder_id = $request->binder_id;
         $sort_before = $target_image->sort;
         $sort_after = $request->sort_after;
  
-        DB::enableQueryLog();
         // 並び順を前方へ更新(例：5 から 3)するかどうか
         $is_forward_update = ($sort_after < $sort_before);
-        Log::debug($is_forward_update  ? 'forward' : 'backward');
 
         if ($is_forward_update) {
             // レコードを前方に詰める
-            $query = $this->getSortUpdateQueryForward($sort_before, $sort_after);
+            $query = $this->getSortUpdateQueryForward();
             DB::update($query, [$binder_id, $sort_after]);
 
         } else {
             // レコードを後方に詰める
-            $query = $this->getSortUpdateQueryBackward($binder_id, $sort_before, $sort_after);
+            $query = $this->getSortUpdateQueryBackward();
             DB::update($query, [$binder_id, $sort_before, $sort_after]);
         }
-        Log::debug(DB::getQueryLog());
 
-        // DEBUG:
-        $sorts = Image::select('id', 'sort')->orderBy('id')->get();
-        Log::debug($sorts);
-        // // 対象の並び順を更新
+        // 対象の並び順を更新
         $target_image->sort = $sort_after;
         $target_image->save();
-
-        $sorts = Image::select('id', 'sort')->orderBy('id')->get();
-        Log::debug($sorts);
-        Log::debug($target_image);
-        Log::debug('/ D3');
     }
 
     /**
@@ -199,7 +186,7 @@ class ImageRepository implements ImageRepositoryInterface
      * 
      * @return string
      */
-    private function getSortUpdateQueryForward($binder_id, $sort_after)
+    private function getSortUpdateQueryForward()
     {
         // 関連するレコードを後ろへずらす
         $query_base = "
@@ -221,7 +208,7 @@ class ImageRepository implements ImageRepositoryInterface
      * 
      * @return string
      */
-    private function getSortUpdateQueryBackward($binder_id, $sort_before, $sort_after)
+    private function getSortUpdateQueryBackward()
     {
         // 関連するレコードを前へずらす
         $query_base = "

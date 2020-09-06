@@ -31,10 +31,6 @@ class ImageSortService implements ImageSortServiceInterface
      */
     public function execute(ImageSortRequest $request)
     {
-        Log::debug('D2');
-        Log::debug($request);
-        Log::debug('/ D2');
-
         $this->image_repository->updateSort($request);
     }
 }
