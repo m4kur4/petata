@@ -17,6 +17,7 @@ class Label extends Model
         'id',
         'binder_id',
         'name',
-        'description'
+        'description',
+        'sort'
     ];
 }

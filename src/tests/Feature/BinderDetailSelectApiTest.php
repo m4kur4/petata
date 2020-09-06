@@ -79,6 +79,7 @@ class BinderDetailSelectApiTest extends TestCase
                             'id' => $label->id,
                             'binder_id' => $label->binder_id,
                             'name' => $label->name,
+                            'sort' => $label->sort,
                             'description' => $label->description
                         ];
                     })
@@ -92,6 +93,7 @@ class BinderDetailSelectApiTest extends TestCase
                             'upload_user_id' => $image->upload_user_id,
                             'name' => $image->name,
                             'path' => $image->path,
+                            'sort' => $image->sort,
                             'visible' => $image->visible,
                             'storage_file_path' => $image->storageFilePath,
                             'labeling_label_ids' => $image->labeling_label_ids,

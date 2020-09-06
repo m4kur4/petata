@@ -27,6 +27,7 @@ class Image extends Model
         'upload_user_id',
         'name',
         'path',
+        'sort',
         'visible',
         'storage_file_path',
         'storage_file_path_org',
