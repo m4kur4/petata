@@ -22,7 +22,8 @@
 | /api/binder/image/add | POST | 2 | バインダーへ画像追加 |
 | /api/binder/image/delete | POST | 2 | バインダーから画像削除 |
 | /api/binder/image/search | GET | 2 | バインダーで管理している画像一覧の取得 |
-| /api/binder/image/detail | GET | 2 | 画像詳細表示 |
+| /api/binder/image/detail | GET | 2 | 画像情報取得 |
+| /api/binder/image/sort | POST | 2 | 画像並び順更新 |
 | /api/binder/label/save | POST | 2 | バインダーへラベル追加(更新) |
 | /api/binder/label/delete | POST | 2 | バインダーからラベル削除 |
 | /api/binder/label/register | POST | 2 | ラベリング登録 |

@@ -50,6 +50,9 @@ Route::post('binder/image/add', 'ImageController@add')->name('api.binder.image.a
 // 画像削除
 Route::post('binder/image/delete', 'ImageController@delete')->name('api.binder.image.delete');
 
+// 画像並び順更新
+Route::post('binder/image/sort', 'ImageController@sort')->name('api.binder.image.sort');
+
 // 画像リネーム
 Route::post('binder/image/rename', 'ImageController@rename')->name('api.binder.image.rename');
 

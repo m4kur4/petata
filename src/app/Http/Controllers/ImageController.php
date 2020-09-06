@@ -88,7 +88,6 @@ class ImageController extends Controller
     public function delete(ImageDeleteRequest $request)
     {
         $images = $this->image_delete_service->execute($request);
-
         $response = response($images, config('_const.HTTP_STATUS.OK'));
 
         return $response;
@@ -100,9 +99,39 @@ class ImageController extends Controller
     public function rename(ImageRenameRequest $request)
     {
         $this->image_rename_service->execute($request);
+        $response = response([''], config('_const.HTTP_STATUS.OK'));
+
+        return $response;
+    }
+
+    /**
+     * バインダー画像の並び順を更新します。
+     */
+    public function sort(Request $request)
+    {
+        /**
+         * TODO: 仕様の決定
+         * パラメタ
+         * - 対象バインダーID
+         * - 対象画像ID
+         * - 変更後の並び順※※※
+         * 
+         * NOTE: 
+         * - 対象画像IDの【変更前】【変更後】の並び順から「前後どちらへの移動なのか」を判定
+         * - 【変更前】【変更後】の並び順の間にあるレコードの並び順を±1でバルクアップデート
+         * 
+         * - 表示を絞り込んでいる間のソート処理をした場合、「変更後の並び順」はどうするか
+         *   ⇒絞り込みを解除した後の並び順を自然に保証したい
+         *   ⇒「ひとつ前の画像の並び順 - 1」で統一する
+         *   ⇒APIのパラメタに「ひとつ前の画像の並び順」を追加※※※
+         */
+        Log::debug('D0');
+        Log::debug($request);
+        Log::debug('D0');
 
         $response = response([''], config('_const.HTTP_STATUS.OK'));
 
         return $response;
     }
+
 }
