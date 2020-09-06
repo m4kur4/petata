@@ -37,5 +37,8 @@ export const util = {
      */
     isDraggableEvent(event) {
         return event.currentTarget.classList.contains("sortable-chosen");
-    }
+    },
+    /**
+     * 
+     */
 };

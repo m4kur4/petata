@@ -10,7 +10,7 @@
         </div>
         <div class="image-list__item-text">
             <p
-                @dblclick.stop="switchEditFileNameMode($event)"
+                @dblclick.stop="startEditFileNameMode($event)"
                 v-show="!isEditMode"
                 class="image-list__item-text-read"
             >
@@ -46,20 +46,16 @@ export default {
     },
     methods: {
         /**
-         * リストアイテムのファイル名編集モードを切り替えます。
-         *
-         * NOTE: クリックに開始・終了を割り当てるため
+         * リストアイテムのファイル名編集を開始します。
          */
-        switchEditFileNameMode(event) {
-            this.isEditMode = !this.isEditMode;
-            if (this.isEditMode) {
-                // NOTE: dataの更新が画面に反映されてからフォーカスを実行する
-                this.$nextTick(() => {
-                    // フォーカス + テキスト全選択
-                    this.$refs.fileNameEditForm.focus();
-                    this.$refs.fileNameEditForm.select();
-                });
-            }
+        startEditFileNameMode(event) {
+            this.isEditMode = true;
+            // NOTE: dataの更新が画面に反映されてからフォーカスを実行する
+            this.$nextTick(() => {
+                // フォーカス + テキスト全選択
+                this.$refs.fileNameEditForm.focus();
+                this.$refs.fileNameEditForm.select();
+            });
         },
         /**
          * リストアイテムのファイル名編集をキャンセルします。
@@ -71,7 +67,7 @@ export default {
         },
         /**
          * 画像のリネームを確定します。
-         * 
+         *
          * NOTE: 画像名が変更されていない場合はリクエストを送信しない
          */
         async doEditFileName(event) {
@@ -83,7 +79,7 @@ export default {
             this.isEditMode = false;
 
             // ファイル名が変更されていない場合はリクエストを送信しない。
-            const isNotModified = (this.fileName == this.editName);
+            const isNotModified = this.fileName == this.editName;
             if (isNotModified) {
                 return false;
             }

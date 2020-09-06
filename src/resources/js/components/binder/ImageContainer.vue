@@ -1,7 +1,7 @@
 <template>
     <Draggable
         @start="startDraggable"
-        @end="resetDraggable"
+        @end="endDraggable"
         v-model="images"
         :options="draggableOptions"
         id="image-container"
@@ -44,7 +44,7 @@ export default {
         draggableOptions() {
             return {
                 animation: 150,
-                handle: ".thumbnail-inner-content__handle",
+                handle: ".thumbnail-inner-content__handle"
             };
         }
     },
@@ -59,7 +59,7 @@ export default {
         },
         /**
          * draggableによるソートの初期処理を行います。
-         * 
+         *
          * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
          */
         startDraggable() {
@@ -67,8 +67,27 @@ export default {
             console.log("hogehoge");
         },
         /**
+         * draggableによるソートの後処理を行います。
+         */
+        endDraggable(event) {
+            // DOM要素の復元
+            this.resetDraggable();
+
+            // 並び順の永続化
+            const imageId = event.item.getAttribute("image-id");
+
+            const postData = this.$store.getters[
+                "binder/getDataForSaveOrderState"
+            ](imageId);
+
+            this.$store.dispatch("binder/saveOrderState", postData);
+
+            // 並び順の情報を更新するため、バインダー画像を再取得
+            this.$store.dispatch("binder/searchBinderImage");
+        },
+        /**
          * バインダー画像のdraggable属性を復活させます。
-         * 
+         *
          * NOTE: Vue.Draggableのhandleオプションを使うと、
          * ドラッグ後に`draggable="false"`が設定されてしまう。
          */

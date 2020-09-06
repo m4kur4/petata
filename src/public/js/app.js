@@ -2801,7 +2801,7 @@ __webpack_require__.r(__webpack_exports__);
 
     /**
      * draggableによるソートの初期処理を行います。
-     * 
+     *
      * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
      */
     startDraggable: function startDraggable() {
@@ -2810,8 +2810,22 @@ __webpack_require__.r(__webpack_exports__);
     },
 
     /**
+     * draggableによるソートの後処理を行います。
+     */
+    endDraggable: function endDraggable(event) {
+      // DOM要素の復元
+      this.resetDraggable(); // 並び順の永続化
+
+      var imageId = event.item.getAttribute("image-id");
+      var postData = this.$store.getters["binder/getDataForSaveOrderState"](imageId);
+      this.$store.dispatch("binder/saveOrderState", postData); // 並び順の情報を更新するため、バインダー画像を再取得
+
+      this.$store.dispatch("binder/searchBinderImage");
+    },
+
+    /**
      * バインダー画像のdraggable属性を復活させます。
-     * 
+     *
      * NOTE: Vue.Draggableのhandleオプションを使うと、
      * ドラッグ後に`draggable="false"`が設定されてしまう。
      */
@@ -2847,6 +2861,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -3244,24 +3259,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   methods: {
     /**
-     * リストアイテムのファイル名編集モードを切り替えます。
-     *
-     * NOTE: クリックに開始・終了を割り当てるため
+     * リストアイテムのファイル名編集を開始します。
      */
-    switchEditFileNameMode: function switchEditFileNameMode(event) {
+    startEditFileNameMode: function startEditFileNameMode(event) {
       var _this = this;
 
-      this.isEditMode = !this.isEditMode;
+      this.isEditMode = true; // NOTE: dataの更新が画面に反映されてからフォーカスを実行する
 
-      if (this.isEditMode) {
-        // NOTE: dataの更新が画面に反映されてからフォーカスを実行する
-        this.$nextTick(function () {
-          // フォーカス + テキスト全選択
-          _this.$refs.fileNameEditForm.focus();
+      this.$nextTick(function () {
+        // フォーカス + テキスト全選択
+        _this.$refs.fileNameEditForm.focus();
 
-          _this.$refs.fileNameEditForm.select();
-        });
-      }
+        _this.$refs.fileNameEditForm.select();
+      });
     },
 
     /**
@@ -3275,7 +3285,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     /**
      * 画像のリネームを確定します。
-     * 
+     *
      * NOTE: 画像名が変更されていない場合はリクエストを送信しない
      */
     doEditFileName: function doEditFileName(event) {
@@ -30102,7 +30112,7 @@ var render = function() {
     {
       staticClass: "image-container",
       attrs: { options: _vm.draggableOptions, id: "image-container" },
-      on: { start: _vm.startDraggable, end: _vm.resetDraggable },
+      on: { start: _vm.startDraggable, end: _vm.endDraggable },
       model: {
         value: _vm.images,
         callback: function($$v) {
@@ -30157,6 +30167,7 @@ var render = function() {
     "div",
     {
       staticClass: "image-container__thumbnail",
+      attrs: { "image-id": _vm.id },
       on: {
         dragstart: function($event) {
           return _vm.dragStart($event)
@@ -30605,7 +30616,7 @@ var render = function() {
           on: {
             dblclick: function($event) {
               $event.stopPropagation()
-              return _vm.switchEditFileNameMode($event)
+              return _vm.startEditFileNameMode($event)
             }
           }
         },
@@ -54695,6 +54706,8 @@ var mutations = {
 var getters = {
   /**
    * 指定したラベルIDがstateの検索条件へ追加されているかどうかを判定します。
+   *
+   * @param {int} labelId ラベルID
    */
   isAlreadyAddSearchConditionLabel: function isAlreadyAddSearchConditionLabel(state) {
     return function (labelId) {
@@ -54704,10 +54717,50 @@ var getters = {
 
   /**
    * 指定したラベルIDがドラッグ中の画像にラベリングされているかを確認します。
+   *
+   * @param {int} labelId ラベルID
    */
   isLabelingWithDraggingImageLabel: function isLabelingWithDraggingImageLabel(state) {
     return function (labelId) {
       return state.dragging_image_labeling_label_ids.includes(labelId);
+    };
+  },
+
+  /**
+   * Draggableによる画像の並び順を永続化するリクエスト用のデータを取得します。
+   * 
+   * NOTE: 更新後の並び順 算出仕様
+   * 画像が先頭に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
+   * それ以外の場合は「指定した画像のひとつ前に位置する画像が持つ並び順」を設定する
+   *
+   * @param {int} imageId 画像ID
+   * @return {Object} 
+   *   - binder_id : バインダーID
+   *   - image_id : 更新対象の画像ID
+   *   - sort_after : 更新後の並び順
+   */
+  getDataForSaveOrderState: function getDataForSaveOrderState(state) {
+    return function (imageId) {
+      // 並び順の更新値を持つ画像のインデックス
+      var refIndex = 1;
+      var targetImage = state.images.find(function (image, index) {
+        // 並び順更新対象かどうか
+        var isTarget = image.id == imageId;
+
+        if (isTarget && index != 0) {
+          // 並び順の更新値を持つ画像のインデックスを取得
+          refIndex = index - 1;
+        }
+
+        return isTarget;
+      });
+      var postData = {
+        binder_id: state.id,
+        image_id: imageId,
+        sort_after: state.images[refIndex].sort
+      };
+      console.log("[DEBUG]" + targetImage.sort + " => " + postData.sort_after);
+      return postData;
     };
   }
 };
@@ -55105,19 +55158,67 @@ var actions = {
   },
 
   /**
-   * 指定したインデックス番号の画像情報をサーバーから再取得します。
-   * NOTE: ラベリング状態やファイル名変更の反映
+   * 画像の並べ替え状態を永続化します。
    */
-  fetchImage: function fetchImage(context, index) {
+  saveOrderState: function saveOrderState(context, postData) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
-      var imageId, uri, response, image;
+      var uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
             case 0:
+              console.log(postData);
+              uri = "api/binder/image/sort";
+              _context9.next = 4;
+              return axios.post("".concat(uri), postData)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context9.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context9.next = 7;
+                break;
+              }
+
+              return _context9.abrupt("return", false);
+
+            case 7:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.data.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.data.status, {
+                  root: true
+                });
+              }
+
+            case 8:
+            case "end":
+              return _context9.stop();
+          }
+        }
+      }, _callee9);
+    }))();
+  },
+
+  /**
+   * 指定したインデックス番号の画像情報をサーバーから再取得します。
+   * NOTE: ラベリング状態やファイル名変更の反映
+   */
+  fetchImage: function fetchImage(context, index) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+      var imageId, uri, response, image;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
               imageId = state.images[index].id;
               uri = "api/binder/image/detail/".concat(imageId);
-              _context9.next = 4;
+              _context10.next = 4;
               return axios.get("".concat(uri), {
                 params: state.search_condition
               })["catch"](function (err) {
@@ -55125,16 +55226,16 @@ var actions = {
               });
 
             case 4:
-              response = _context9.sent;
+              response = _context10.sent;
               image = response.data.image;
               vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.images, index, image);
 
             case 7:
             case "end":
-              return _context9.stop();
+              return _context10.stop();
           }
         }
-      }, _callee9);
+      }, _callee10);
     }))();
   }
 };
@@ -55337,6 +55438,10 @@ var util = {
   isDraggableEvent: function isDraggableEvent(event) {
     return event.currentTarget.classList.contains("sortable-chosen");
   }
+  /**
+   * 
+   */
+
 };
 
 /***/ }),

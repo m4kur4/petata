@@ -2,7 +2,7 @@
  * フォームデータストア - バインダー
  */
 import { STATUS } from "../../const";
-import Vue from 'vue';
+import Vue from "vue";
 
 const state = {
     /**
@@ -110,8 +110,7 @@ const mutations = {
     setIsDraggingImage(state, val) {
         state.is_dragging_image = val;
     },
-    setIsDraggableProcessing(state, val) 
-    {
+    setIsDraggableProcessing(state, val) {
         state.is_draggable_processing = val;
     }
 };
@@ -119,16 +118,58 @@ const mutations = {
 const getters = {
     /**
      * 指定したラベルIDがstateの検索条件へ追加されているかどうかを判定します。
+     *
+     * @param {int} labelId ラベルID
      */
     isAlreadyAddSearchConditionLabel: state => labelId => {
         return state.search_condition.label_ids.includes(labelId);
     },
     /**
      * 指定したラベルIDがドラッグ中の画像にラベリングされているかを確認します。
+     *
+     * @param {int} labelId ラベルID
      */
     isLabelingWithDraggingImageLabel: state => labelId => {
         return state.dragging_image_labeling_label_ids.includes(labelId);
     },
+    /**
+     * Draggableによる画像の並び順を永続化するリクエスト用のデータを取得します。
+     * 
+     * NOTE: 更新後の並び順 算出仕様
+     * 画像が先頭に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
+     * それ以外の場合は「指定した画像のひとつ前に位置する画像が持つ並び順」を設定する
+     *
+     * @param {int} imageId 画像ID
+     * @return {Object} 
+     *   - binder_id : バインダーID
+     *   - image_id : 更新対象の画像ID
+     *   - sort_after : 更新後の並び順
+     */
+    getDataForSaveOrderState: state => imageId => {
+
+        // 並び順の更新値を持つ画像のインデックス
+        let refIndex = 1;
+
+        const targetImage = state.images.find((image, index) => {
+            // 並び順更新対象かどうか
+            const isTarget = image.id == imageId;
+
+            if (isTarget && index != 0) {
+                // 並び順の更新値を持つ画像のインデックスを取得
+                refIndex = index - 1;
+            }
+            return isTarget;
+        });
+
+        const postData = {
+            binder_id: state.id,
+            image_id: imageId,
+            sort_after: state.images[refIndex].sort
+        };
+        console.log("[DEBUG]" + targetImage.sort + " => " + postData.sort_after);
+
+        return postData;
+    }
 };
 
 const actions = {
@@ -226,11 +267,10 @@ const actions = {
             // ラベリングを登録した場合
             alert("ラベリングに成功しました。");
             return false;
-
         } else if (response.status === STATUS.OK) {
             // ラベリングを登録解除した場合
             alert("登録解除しました。");
-            
+
             // 解除したあとの条件で再検索
             context.dispatch("searchBinderImage");
             return false;
@@ -278,7 +318,7 @@ const actions = {
      */
     async removeLabel(context, label) {
         label.binder_id = state.id;
-        
+
         const uri = "api/binder/label/delete";
         const response = await axios
             .post(`${uri}`, label)
@@ -304,7 +344,6 @@ const actions = {
      * 画像を削除します。
      */
     async removeImage(context, imageIds) {
-
         const postData = {
             binder_id: state.id,
             image_ids: imageIds
@@ -359,21 +398,45 @@ const actions = {
                 root: true
             });
         }
+    },
+    /**
+     * 画像の並べ替え状態を永続化します。
+     */
+    async saveOrderState(context, postData) {
+        console.log(postData);
+        const uri = "api/binder/image/sort";
+        const response = await axios
+            .post(`${uri}`, postData)
+            .catch(err => err.response || err);
 
+        // 成功
+        if (response.status === STATUS.OK) {
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
     },
     /**
      * 指定したインデックス番号の画像情報をサーバーから再取得します。
      * NOTE: ラベリング状態やファイル名変更の反映
      */
     async fetchImage(context, index) {
-
         const imageId = state.images[index].id;
         const uri = `api/binder/image/detail/${imageId}`;
 
         const response = await axios
             .get(`${uri}`, { params: state.search_condition })
             .catch(err => err.response || err);
-        
+
         const image = response.data.image;
         Vue.set(state.images, index, image);
     }
