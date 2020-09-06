@@ -168,7 +168,7 @@ class ImageRepository implements ImageRepositoryInterface
         if ($is_forward_update) {
             // レコードを前方に詰める
             $query = $this->getSortUpdateQueryForward();
-            DB::update($query, [$binder_id, $sort_after]);
+            DB::update($query, [$binder_id, $sort_after, $sort_before]);
 
         } else {
             // レコードを後方に詰める
@@ -197,7 +197,9 @@ class ImageRepository implements ImageRepositoryInterface
             WHERE 
               binder_id = ?
             AND
-              sort >= ?;
+              sort >= ?
+            AND
+              sort < ?;
         ";
 
         return $query_base;
