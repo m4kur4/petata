@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageDeleteRequest;
 use App\Http\Requests\ImageRenameRequest;
+use App\Http\Requests\ImageSortRequest;
 use App\Models\Image;
 use App\Services\Api\Interfaces\ImageAddServiceInterface;
 use App\Services\Api\Interfaces\ImageDeleteServiceInterface;
 use App\Services\Api\Interfaces\ImageSearchServiceInterface;
 use App\Services\Api\Interfaces\ImageRenameServiceInterface;
+use App\Services\Api\Interfaces\ImageSortServiceInterface;
 use Illuminate\Http\Request;
 
 use Log;
@@ -23,18 +25,21 @@ class ImageController extends Controller
      * @param ImageDeleteServiceInterface $image_delete_service
      * @param ImageSearchServiceInterface $image_search_service
      * @param ImageRenameServiceInterface $image_rename_service
+     * @param ImageSortServiceInterface $image_sort_service
      */
     public function __construct(
         ImageAddServiceInterface $image_add_service,
         ImageDeleteServiceInterface $image_delete_service,
         ImageSearchServiceInterface $image_search_service,
-        ImageRenameServiceInterface $image_rename_service
+        ImageRenameServiceInterface $image_rename_service,
+        ImageSortServiceInterface $image_sort_service
     )
     {
         $this->image_add_service = $image_add_service;
         $this->image_delete_service = $image_delete_service;
         $this->image_search_service = $image_search_service;
         $this->image_rename_service = $image_rename_service;
+        $this->image_sort_service = $image_sort_service;
 
         $this->middleware('auth');
     }
@@ -107,13 +112,13 @@ class ImageController extends Controller
     /**
      * バインダー画像の並び順を更新します。
      */
-    public function sort(Request $request)
+    public function sort(ImageSortRequest $request)
     {
         /**
          * TODO: 仕様の決定
          * パラメタ
-         * - 対象バインダーID
-         * - 対象画像ID
+         * - 対象バインダーID binder_id
+         * - 対象画像ID image_id
          * - 変更後の並び順※※※
          * 
          * NOTE: 
@@ -125,10 +130,12 @@ class ImageController extends Controller
          *   ⇒「ひとつ前の画像の並び順 - 1」で統一する
          *   ⇒APIのパラメタに「ひとつ前の画像の並び順」を追加※※※
          */
-        Log::debug('D0');
-        Log::debug($request);
-        Log::debug('D0');
+        Log::debug('D1');
+        Log::debug('call action');
+        Log::debug('/ D1');
 
+        $this->image_sort_service->execute($request);
+        
         $response = response([''], config('_const.HTTP_STATUS.OK'));
 
         return $response;

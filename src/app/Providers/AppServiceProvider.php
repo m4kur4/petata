@@ -58,6 +58,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\ImageRenameServiceInterface::class,
             \App\Services\Api\ImageRenameService::class
         );
+        // 画像並び順更新サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\ImageSortServiceInterface::class,
+            \App\Services\Api\ImageSortService::class
+        );
         // 画像検索サービス
         $this->app->bind(
             \App\Services\Api\Interfaces\ImageSearchServiceInterface::class,

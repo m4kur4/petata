@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageDeleteRequest;
 use App\Http\Requests\ImageRenameRequest;
+use App\Http\Requests\ImageSortRequest;
 
 /**
  * 画像リポジトリ
@@ -43,4 +44,14 @@ interface ImageRepositoryInterface
      * 画像をリネームします。
      */
     public function rename(ImageRenameRequest $request);
+
+    /**
+     * 画像の並び順を更新します。
+     * 
+     * 指定した画像の並び順を指定した値とし、
+     * 当該画像の並び順が移動しただけ他の画像の並び順を詰めるように更新を行います。
+     * 
+     * @param ImageSortRequest $request
+     */
+    public function updateSort(ImageSortRequest $request);
 }
