@@ -41,7 +41,7 @@ class BinderDetailSelectService implements BinderDetailSelectServiceInterface
             'count_favorite' => $binder->binderfavorites->count(),
             'labels' => $binder->labels,
             'images' => $binder->images
-                ->sortByDesc('id')
+                ->sortBy('sort')
                 ->values()
                 ->all()
         ];

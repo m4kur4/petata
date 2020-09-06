@@ -38,7 +38,7 @@ class ImageDeleteService implements ImageDeleteServiceInterface
         $images = $this->image_repository->search($request);
 
         $sorted_images = $images
-            ->sortByDesc('id')
+            ->sortBy('sort')
             ->values()
             ->all();
 

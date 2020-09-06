@@ -34,7 +34,7 @@ class ImageSearchService implements ImageSearchServiceInterface
         $images = $this->image_repository->search($request);
         
         $sorted_images = $images
-           ->sortByDesc('id')
+           ->sortBy('sort')
            ->values()
            ->all();
 
