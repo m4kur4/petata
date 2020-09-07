@@ -109,7 +109,7 @@ class BinderRepository implements BinderRepositoryInterface
         }
 
         $saved_labels = [];
-        foreach ($label_posts as $post) {
+        foreach ($label_posts as $index => $post) {
             // ラベルが新規作成のものかどうか
             $is_new_label = ($post['id'] === 0);
 
@@ -119,13 +119,14 @@ class BinderRepository implements BinderRepositoryInterface
                     'binder_id' => $binder_id,
                     'name' => $post['name'],
                     'description' => $post['description'],
-                    'sort' => 0
+                    'sort' => $index
                 ]);
             } else {
                 // 更新登録
                 $label = Label::where('id', $post['id'])->first();
                 $label->name = $post['name'];
                 $label->description = $post['description'];
+                $label->sort = $index;
             }
 
             $label->save();

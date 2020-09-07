@@ -27,7 +27,6 @@ export default {
     props: {
         value: String,
         title: String,
-        type: String,
         placeholder: String
     },
     computed: {

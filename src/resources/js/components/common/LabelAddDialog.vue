@@ -11,6 +11,7 @@
                 :title="'Label name*'"
                 :type="'text'"
                 :placeholder="'ぺた太のお気に入り'"
+                :value="name"
             />
 
             <label class="form__label"
@@ -101,7 +102,7 @@ export default {
             set(value) {
                 this.$store.commit("labelAddDialog/setDescription", value);
             }
-        }
+        },
     }
 };
 </script>

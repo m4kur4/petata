@@ -14,11 +14,13 @@
                 :title="'Binder name*'"
                 :type="'text'"
                 :placeholder="'ぺた太のアートワーク'"
+                :value="''"
             />
             <TextAreaForm
                 v-model="binderDescription"
                 :title="'Description'"
                 :placeholder="'バインダーの説明を入力します。'"
+                :value="''"
             />
             <button @click="doPost" type="button" class="form__button--submit">
                 Create
@@ -40,6 +42,7 @@
             <div class="form__label-list">
                 <LabelContainer
                     @remove-label-click="removeLabel"
+                    @drag-label-end="saveLabelOrder"
                     :labels="labels"
                 />
             </div>
@@ -62,19 +65,38 @@ export default {
         BinderListButton
     },
     methods: {
+        /**
+         * ラベル編集ダイアログを開きます。
+         */
         openDialog() {
             this.$store.commit("mode/setIsShowDialog", true);
         },
+        /**
+         * ラベル編集ダイアログを閉じます。
+         */
         closeDialog() {
             this.$store.commit("mode/setIsShowDialog", false);
             this.$store.dispatch("labelAddDialog/clear");
         },
+        /**
+         * バインダーを登録します。
+         */
         async doPost() {
             await this.$store.dispatch("binderCreate/doPost");
             this.$router.push("/binder/list");
         },
+        /**
+         * ラベルを削除します。
+         */
         removeLabel(label) {
             this.$store.commit("binderCreate/removeLabel", label);
+        },
+        /**
+         * ラベルの並び順変更をstateへ反映します。
+         */
+        saveLabelOrder(labels) {
+            // NOTE: set()が呼びだされる
+            this.labels = labels;
         }
     },
     computed: {
@@ -100,6 +122,9 @@ export default {
         labels: {
             get() {
                 return this.$store.state.binderCreate.form.labels;
+            },
+            set(val) {
+                this.$store.commit("binderCreate/setLabels", val);
             }
         }
     }

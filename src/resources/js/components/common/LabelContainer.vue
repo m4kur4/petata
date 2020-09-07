@@ -27,6 +27,7 @@ export default {
     computed: {
         computedLabels: {
             set(val) {
+                // NOTE: 親画面毎にstoreが異なるため、stateの更新を委譲する
                 this.$emit("drag-label-end", val);
             },
             get() {

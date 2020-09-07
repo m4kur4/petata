@@ -15,7 +15,8 @@ const state = {
     form: {
         name: '',
         description: '',
-        labels: []
+        labels: [],
+        sort: null
     },
     /**
      * ラベルのカウント
