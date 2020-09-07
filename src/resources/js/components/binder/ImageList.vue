@@ -82,8 +82,8 @@ export default {
          * draggableによるソートの後処理を行います。
          */
         endDraggable(event) {
-            // 
-            console.log("びっくりドンキー");
+
+            // 並び順の永続化
             const imageId = event.item.getAttribute("image-id");
             const param = {
                 image_id: imageId,
