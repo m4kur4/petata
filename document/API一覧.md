@@ -28,3 +28,4 @@
 | /api/binder/label/delete | POST | 2 | バインダーからラベル削除 |
 | /api/binder/label/register | POST | 2 | ラベリング登録 |
 | /api/binder/label/unregister | POST | 2 | ラベリング登録解除 |
+| /api/binder/label/sort | POST | 2 | ラベル並び順更新 |
