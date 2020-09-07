@@ -1,7 +1,8 @@
 /**
  * フォームデータストア - バインダー
  */
-import { STATUS } from "../../const";
+import { STATUS, SAVE_ORDER_TYPE } from "../../const";
+
 import Vue from "vue";
 
 const state = {
@@ -133,22 +134,31 @@ const getters = {
         return state.dragging_image_labeling_label_ids.includes(labelId);
     },
     /**
-     * Draggableによる画像の並び順を永続化するリクエスト用のデータを取得します。
-     * 画像の並び順が変わらない場合はnullを返却します。
+     * Draggableによる「画像/ラベル」(以下「対象」)の並び順を永続化するリクエスト用のデータを取得します。
+     * 対象の並び順が変わらない場合はnullを返却します。
      * 
      * NOTE: 更新後の並び順 算出仕様
-     * 画像が前方に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
-     * それ以外の場合は「指定した画像のひとつ前に位置する画像が持つ並び順」を設定する
+     * 対象が前方に移動した場合、「指定した対象のひとつ後ろに位置する対象が持つ並び順」
+     * それ以外の場合は「指定した対象のひとつ前に位置する対象が持つ並び順」を設定する
      *
      * @param {Object} param
-     *   - image_id : 画像ID
+     *   - target_id : 対象のID
      *   - org_index : 移動前のインデックス 
+     *   - save_order_type : 対象の種類("image", "label")
      * @return {Object} 
      *   - binder_id : バインダーID
-     *   - image_id : 更新対象の画像ID
+     *   - target_id : 対象のID
      *   - sort_after : 更新後の並び順
      */
     getDataForSaveOrderState: state => param => {
+
+        // 並び順更新種別に応じて参照するstateを変更
+        let refs = [];
+        if (param.save_order_type == SAVE_ORDER_TYPE.IMAGE) {
+            refs = state.images;
+        } else if (param.save_order_type == SAVE_ORDER_TYPE.LABEL) {
+            refs = state.labels;
+        }
 
         // 並び順が変更されているかどうか
         let isChanged = false;
@@ -156,11 +166,11 @@ const getters = {
         // 更新後の並び順を持っている画像のインデックス
         let refIndex; 
 
-        const imageId = param.image_id;
+        const targetId = param.target_id;
 
-        const targetImage = state.images.find((image, index) => {
+        const target = refs.find((ref, index) => {
             // 並び順更新対象かどうか
-            const isTarget = image.id == imageId;
+            const isTarget = ref.id == targetId;
 
             if (isTarget) {
                 
@@ -184,7 +194,7 @@ const getters = {
                     }
                 } else {
                     // 後方移動の場合
-                    const lastIndex = state.images.length - 1;
+                    const lastIndex = refs.length - 1;
                     if (index == lastIndex) {
                         // 最後尾へ移動した場合は後ろから2番目の画像を参照
                         refIndex = lastIndex - 1;
@@ -203,18 +213,17 @@ const getters = {
         }
 
         // 更新後の並び順を取得
-        const sortAfter = state.images[refIndex].sort;
+        const sortAfter = refs[refIndex].sort;
 
-        console.log("hogehoge");
         const postData = {
             binder_id: state.id,
-            image_id: imageId,
+            target_id: targetId,
             sort_after: sortAfter 
         };
-        console.log("[DEBUG]" + targetImage.sort + " => " + postData.sort_after);
+        console.log("[DEBUG]" + target.sort + " => " + postData.sort_after);
 
         return postData;
-    }
+    },
 };
 
 const actions = {
@@ -449,9 +458,35 @@ const actions = {
     /**
      * 画像の並べ替え状態を永続化します。
      */
-    async saveOrderState(context, postData) {
+    async saveImageOrderState(context, postData) {
         console.log(postData);
         const uri = "api/binder/image/sort";
+        const response = await axios
+            .post(`${uri}`, postData)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+    },
+    /** 
+     * ラベルの並べ替え状態を永続化します。
+     */
+    async saveLabelOrderState(context, postData) {
+        console.log(postData);
+        const uri = "api/binder/label/sort";
         const response = await axios
             .post(`${uri}`, postData)
             .catch(err => err.response || err);

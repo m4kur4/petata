@@ -27,6 +27,7 @@
 import ImageContainerThumbnail from "./ImageContainerThumbnail.vue";
 import Dropzone from "./Dropzone.vue";
 import Draggable from "vuedraggable";
+import { SAVE_ORDER_TYPE } from "../../const";
 export default {
     components: {
         ImageContainerThumbnail,
@@ -89,8 +90,9 @@ export default {
             // 並び順の永続化
             const imageId = event.item.getAttribute("image-id");
             const param = {
-                image_id: imageId,
-                org_index: this.orgImageIndex
+                target_id: imageId,
+                org_index: this.orgImageIndex,
+                save_order_type: SAVE_ORDER_TYPE.IMAGE
             };
 
             const postData = this.$store.getters[
@@ -99,7 +101,7 @@ export default {
 
             if (!!postData) {
                 // ドラッグによって位置を変更した場合のみ永続化
-                this.$store.dispatch("binder/saveOrderState", postData);
+                this.$store.dispatch("binder/saveImageOrderState", postData);
 
                 // 並び順の情報を更新するため、バインダー画像を再取得
                 this.$store.dispatch("binder/searchBinderImage");

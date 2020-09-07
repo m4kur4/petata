@@ -14,3 +14,8 @@ export const BINDER_AUTHORITY_LEVEL = {
     MAINTAINER: 10,
     OWNER: 50
 };
+
+export const SAVE_ORDER_TYPE = { // バインダー画面の並べ替え更新種別
+    IMAGE: 10, // 画像
+    LABEL: 20, // ラベル
+}
