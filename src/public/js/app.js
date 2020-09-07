@@ -2765,6 +2765,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2773,6 +2774,15 @@ __webpack_require__.r(__webpack_exports__);
     ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Dropzone: _Dropzone_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_2___default.a
+  },
+  data: function data() {
+    return {
+      /**
+       * ドラッグ中画像の移動前におけるインデックス
+       * NOTE: Draggableで移動する要素の移動方向を判定するため
+       */
+      orgImageIndex: null
+    };
   },
   computed: {
     images: {
@@ -2786,7 +2796,9 @@ __webpack_require__.r(__webpack_exports__);
     draggableOptions: function draggableOptions() {
       return {
         animation: 150,
-        handle: ".thumbnail-inner-content__handle"
+        handle: ".thumbnail-inner-content__handle",
+        scrollSensitivity: 200,
+        forceFallback: true
       };
     }
   },
@@ -2804,9 +2816,10 @@ __webpack_require__.r(__webpack_exports__);
      *
      * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
      */
-    startDraggable: function startDraggable() {
-      this.$store.commit("binder/setIsDraggableProcessing", true);
-      console.log("hogehoge");
+    startDraggable: function startDraggable(event) {
+      this.$store.commit("binder/setIsDraggableProcessing", true); // 移動前のインデックスを保持
+
+      this.orgImageIndex = event.item.getAttribute("index");
     },
 
     /**
@@ -2817,10 +2830,16 @@ __webpack_require__.r(__webpack_exports__);
       this.resetDraggable(); // 並び順の永続化
 
       var imageId = event.item.getAttribute("image-id");
-      var postData = this.$store.getters["binder/getDataForSaveOrderState"](imageId);
+      var param = {
+        image_id: imageId,
+        org_index: this.orgImageIndex
+      };
+      var postData = this.$store.getters["binder/getDataForSaveOrderState"](param);
       this.$store.dispatch("binder/saveOrderState", postData); // 並び順の情報を更新するため、バインダー画像を再取得
 
-      this.$store.dispatch("binder/searchBinderImage");
+      this.$store.dispatch("binder/searchBinderImage"); // 移動方向判定用の変数をクリア
+
+      this.orgImageIndex = null;
     },
 
     /**
@@ -2861,6 +2880,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
 //
 //
 //
@@ -30111,7 +30131,11 @@ var render = function() {
     "Draggable",
     {
       staticClass: "image-container",
-      attrs: { options: _vm.draggableOptions, id: "image-container" },
+      attrs: {
+        options: _vm.draggableOptions,
+        "force-fallback": true,
+        id: "image-container"
+      },
       on: { start: _vm.startDraggable, end: _vm.endDraggable },
       model: {
         value: _vm.images,
@@ -30167,7 +30191,7 @@ var render = function() {
     "div",
     {
       staticClass: "image-container__thumbnail",
-      attrs: { "image-id": _vm.id },
+      attrs: { "image-id": _vm.id, index: _vm.index },
       on: {
         dragstart: function($event) {
           return _vm.dragStart($event)
@@ -54730,34 +54754,62 @@ var getters = {
    * Draggableによる画像の並び順を永続化するリクエスト用のデータを取得します。
    * 
    * NOTE: 更新後の並び順 算出仕様
-   * 画像が先頭に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
+   * 画像が前方に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
    * それ以外の場合は「指定した画像のひとつ前に位置する画像が持つ並び順」を設定する
    *
-   * @param {int} imageId 画像ID
+   * @param {Object} param
+   *   - image_id : 画像ID
+   *   - org_index : 移動前のインデックス 
    * @return {Object} 
    *   - binder_id : バインダーID
    *   - image_id : 更新対象の画像ID
    *   - sort_after : 更新後の並び順
    */
   getDataForSaveOrderState: function getDataForSaveOrderState(state) {
-    return function (imageId) {
-      // 並び順の更新値を持つ画像のインデックス
-      var refIndex = 1;
+    return function (param) {
+      // 更新後の並び順を持っている画像のインデックス
+      var refIndex;
+      var imageId = param.image_id;
       var targetImage = state.images.find(function (image, index) {
         // 並び順更新対象かどうか
         var isTarget = image.id == imageId;
 
-        if (isTarget && index != 0) {
-          // 並び順の更新値を持つ画像のインデックスを取得
-          refIndex = index - 1;
+        if (isTarget) {
+          // 移動方向が前方かどうか
+          var isForwardUpdate = index < param.org_index;
+
+          if (isForwardUpdate) {
+            // 前方移動の場合
+            if (index == 0) {
+              // 先頭へ移動した場合は2番目の画像を参照
+              refIndex = 1;
+            } else {
+              // それ以外の場合は1つ後ろの画像を参照
+              refIndex = index + 1;
+            }
+          } else {
+            // 後方移動の場合
+            var lastIndex = state.images.length - 1;
+
+            if (index == lastIndex) {
+              // 最後尾へ移動した場合は後ろから2番目の画像を参照
+              refIndex = lastIndex - 1;
+            } else {
+              // それ以外の場合は1つ前の画像を参照
+              refIndex = index - 1;
+            }
+          }
         }
 
         return isTarget;
-      });
+      }); // 更新後の並び順を取得
+
+      var sortAfter = state.images[refIndex].sort;
+      console.log("hogehoge");
       var postData = {
         binder_id: state.id,
         image_id: imageId,
-        sort_after: state.images[refIndex].sort
+        sort_after: sortAfter
       };
       console.log("[DEBUG]" + targetImage.sort + " => " + postData.sort_after);
       return postData;

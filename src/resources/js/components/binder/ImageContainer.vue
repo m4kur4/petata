@@ -33,6 +33,15 @@ export default {
         Dropzone,
         Draggable
     },
+    data() {
+        return {
+            /**
+             * ドラッグ中画像の移動前におけるインデックス
+             * NOTE: Draggableで移動する要素の移動方向を判定するため
+             */
+            orgImageIndex: null,
+        };
+    },
     computed: {
         images: {
             get() {
@@ -67,6 +76,8 @@ export default {
          */
         startDraggable(event) {
             this.$store.commit("binder/setIsDraggableProcessing", true);
+            // 移動前のインデックスを保持
+            this.orgImageIndex = event.item.getAttribute("index");
         },
         /**
          * draggableによるソートの後処理を行います。
@@ -77,15 +88,22 @@ export default {
 
             // 並び順の永続化
             const imageId = event.item.getAttribute("image-id");
+            const param = {
+                image_id: imageId,
+                org_index: this.orgImageIndex
+            };
 
             const postData = this.$store.getters[
                 "binder/getDataForSaveOrderState"
-            ](imageId);
+            ](param);
 
             this.$store.dispatch("binder/saveOrderState", postData);
 
             // 並び順の情報を更新するため、バインダー画像を再取得
             this.$store.dispatch("binder/searchBinderImage");
+
+            // 移動方向判定用の変数をクリア
+            this.orgImageIndex = null;
         },
         /**
          * バインダー画像のdraggable属性を復活させます。

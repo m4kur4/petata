@@ -4,6 +4,7 @@
         @dragend="dragEnd($event)"
         @drag="drag($event)"
         :image-id="id"
+        :index="index"
         class="image-container__thumbnail"
     >
         <div

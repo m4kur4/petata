@@ -139,32 +139,57 @@ const getters = {
      * 画像が前方に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
      * それ以外の場合は「指定した画像のひとつ前に位置する画像が持つ並び順」を設定する
      *
-     * @param {int} imageId 画像ID
+     * @param {Object} param
+     *   - image_id : 画像ID
+     *   - org_index : 移動前のインデックス 
      * @return {Object} 
      *   - binder_id : バインダーID
      *   - image_id : 更新対象の画像ID
      *   - sort_after : 更新後の並び順
      */
-    getDataForSaveOrderState: state => imageId => {
+    getDataForSaveOrderState: state => param => {
 
-        // 並び順の更新値を持つ画像のインデックス
-        let refIndex = 1;
+        // 更新後の並び順を持っている画像のインデックス
+        let refIndex; 
+
+        const imageId = param.image_id;
 
         const targetImage = state.images.find((image, index) => {
             // 並び順更新対象かどうか
             const isTarget = image.id == imageId;
 
-            if (isTarget && index != 0) {
-                // 並び順の更新値を持つ画像のインデックスを取得
-                refIndex = index + 1;
+            if (isTarget) {
+                // 移動方向が前方かどうか
+                const isForwardUpdate = index < param.org_index;
+                
+                if (isForwardUpdate) {
+                    // 前方移動の場合
+                    if (index == 0) {
+                        // 先頭へ移動した場合は2番目の画像を参照
+                        refIndex = 1;
+                    } else {
+                        // それ以外の場合は1つ後ろの画像を参照
+                        refIndex = index + 1;
+                    }
+                } else {
+                    // 後方移動の場合
+                    const lastIndex = state.images.length - 1;
+                    if (index == lastIndex) {
+                        // 最後尾へ移動した場合は後ろから2番目の画像を参照
+                        refIndex = lastIndex - 1;
+                    } else {
+                        // それ以外の場合は1つ前の画像を参照
+                        refIndex = index - 1;
+                    }
+                }
             }
             return isTarget;
         });
 
-        // 前方への移動の場合、「一つ後ろの画像の並び順」を参照
-        const isForwardUpdate = targetImage.sort < state.images[refIndex].sort;
-        const sortAfter = isForwardUpdate ? state.images[refIndex - 2].sort : state.images[refIndex].sort;
+        // 更新後の並び順を取得
+        const sortAfter = state.images[refIndex].sort;
 
+        console.log("hogehoge");
         const postData = {
             binder_id: state.id,
             image_id: imageId,
