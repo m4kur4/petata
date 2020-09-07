@@ -58,6 +58,9 @@ class ImageRepository implements ImageRepositoryInterface
         // if (empty($binder_id)) {
         // }
 
+        // 並び順を後ろへ詰める
+        $this->shiftSortBackwordAll($request->binder_id);
+
         $original_name = $request->image->getClientOriginalName();
         $extension = $request->image->getClientOriginalExtension();
 
@@ -69,7 +72,7 @@ class ImageRepository implements ImageRepositoryInterface
             'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
             'extension' => $extension,
         ]);
-        $image->save();
+        $image->save();        
 
         // アップロード先："binder/<バインダーID>"
         $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $request->binder_id;
@@ -125,6 +128,9 @@ class ImageRepository implements ImageRepositoryInterface
         // TODO: データ削除に失敗した場合はファイルも消去しない
         $image_query->delete();
 
+        // 削除後の全画像に並び順を割り当てる
+        $this->resetSortAll($request->binder_id);
+
         // TODO: S3を使う
         // Storage::disk('s3')->delete($delete_target_paths);
         Storage::disk('public')->delete($delete_target_paths);
@@ -179,6 +185,49 @@ class ImageRepository implements ImageRepositoryInterface
         // 対象の並び順を更新
         $target_image->sort = $sort_after;
         $target_image->save();
+    }
+
+    /**
+     * 指定したバインダーについて、全画像の並び順を一つ後ろへずらします。
+     * NOTE: 新規に追加する画像の並び順は先頭(sort = 0)のため
+     * 
+     * @param int $binder_id バインダーID
+     */
+    private function shiftSortBackwordAll($binder_id)
+    {
+        // 新規追加画像の並び順
+        $sort_after = 0;
+        
+        // <integerの最大値>から<0>へ並び順を更新する扱い
+        $query = $this->getSortUpdateQueryForward();
+        DB::update($query, [$binder_id, $sort_after, config('_const.MYSQL.INTEGER.MAX_VALUE')]);
+    }
+
+    /**
+     * 指定したバインダーについて、並び順を連番に振りなおします。
+     * NOTE: 画像削除時に並び順を整理する
+     * 
+     * @param int $binder_id バインダーID
+     */
+    private function resetSortAll($binder_id)
+    {
+        // 関連するレコードを後ろへずらす
+        $query_prepare = '
+            SET @i := 0;
+        ';
+        DB::statement($query_prepare);
+        $query_update = '
+            UPDATE 
+              images
+            SET 
+              sort = (@i := @i + 1)
+            WHERE 
+              binder_id = ?
+            ORDER BY 
+              sort DESC;
+        ';
+        DB::update($query_update, [$binder_id]);
+        return $query_update;
     }
 
     /**

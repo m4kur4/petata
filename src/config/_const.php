@@ -27,4 +27,9 @@ return [
       'BINDER' => 'image/binder',
       'USER' => 'image/user',
   ],
+  'MYSQL' => [// MYSQL
+    'INTEGER' => [
+        'MAX_VALUE' => 2147483647
+    ],
+  ]
 ];
