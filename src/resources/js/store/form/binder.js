@@ -371,6 +371,8 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
+            // バインダー情報を再取得
+            state.labels = response.data;
             return false;
         }
 
