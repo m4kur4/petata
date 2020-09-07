@@ -4,6 +4,7 @@
         @end="endDraggable"
         v-model="images"
         :options="draggableOptions"
+        :force-fallback="true"
         id="image-container"
         class="image-container"
     >
@@ -44,7 +45,9 @@ export default {
         draggableOptions() {
             return {
                 animation: 150,
-                handle: ".thumbnail-inner-content__handle"
+                handle: ".thumbnail-inner-content__handle",
+                scrollSensitivity: 200,
+                forceFallback: true
             };
         }
     },
@@ -62,9 +65,8 @@ export default {
          *
          * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
          */
-        startDraggable() {
+        startDraggable(event) {
             this.$store.commit("binder/setIsDraggableProcessing", true);
-            console.log("hogehoge");
         },
         /**
          * draggableによるソートの後処理を行います。
