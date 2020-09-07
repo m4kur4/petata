@@ -1,5 +1,5 @@
 <template>
-    <div class="label-container">
+    <Draggable v-model="computedLabels" class="label-container">
         <LabelItem
             @remove-label-click="removeLabel"
             v-for="(label, index) in labels"
@@ -9,27 +9,39 @@
             :name="label.name"
             :description="label.description"
         />
-    </div>
+    </Draggable>
     <!-- /.label-container -->
 </template>
 
 <script>
 import LabelItem from "./LabelItem";
+import Draggable from "vuedraggable";
 export default {
     components: {
-        LabelItem
+        LabelItem,
+        Draggable
     },
     props: {
         labels: Array
     },
+    computed: {
+        computedLabels: {
+            set(val) {
+                this.$emit("drag-label-end", val);
+            },
+            get() {
+                return this.labels;
+            }
+        }
+    },
     methods: {
         /**
-         * ラベルから発火されたラベル削除イベントを親へ委譲します。
+         * ラベルから発火されたラベル削除処理を親へ委譲します。
          * カスタムイベント名："remove-label-click"
          */
         removeLabel(label) {
             this.$emit("remove-label-click", label);
-        }
+        },
     }
 };
 </script>
