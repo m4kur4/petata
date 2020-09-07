@@ -1,5 +1,5 @@
 <template>
-    <div class="image-list__item">
+    <div :image-id="id" :index="index" class="image-list__item">
         <div class="image-list__item-thumbnail">
             <img
                 class="image-list__item-thumbnail-image"

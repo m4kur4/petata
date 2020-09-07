@@ -10,6 +10,8 @@
             />
         </div>
         <Draggable
+            @start="startDraggable"
+            @end="endDraggable"
             v-model="images"
             :options="draggableOptions"
             class="image-list__content"
@@ -40,7 +42,7 @@ export default {
         return {
             draggableOptions: {
                 animation: 150,
-                handle: ".image-list__item-thumbnail-image",
+                handle: ".image-list__item-thumbnail-image"
             }
         };
     },
@@ -59,8 +61,8 @@ export default {
             },
             set(val) {
                 this.$store.commit("binder/setSearchConditionImageName", val);
-            },
-        },
+            }
+        }
     },
     methods: {
         /**
@@ -69,6 +71,37 @@ export default {
         searchBinderImage() {
             this.$store.dispatch("binder/searchBinderImage");
         },
+        /**
+         * draggableによるソートの初期処理を行います。
+         */
+        startDraggable(event) {
+            // 移動前のインデックスを保持
+            this.orgImageIndex = event.item.getAttribute("index");
+        },
+        /**
+         * draggableによるソートの後処理を行います。
+         */
+        endDraggable(event) {
+            // 
+            console.log("びっくりドンキー");
+            const imageId = event.item.getAttribute("image-id");
+            const param = {
+                image_id: imageId,
+                org_index: this.orgImageIndex
+            };
+
+            const postData = this.$store.getters[
+                "binder/getDataForSaveOrderState"
+            ](param);
+
+            this.$store.dispatch("binder/saveOrderState", postData);
+
+            // 並び順の情報を更新するため、バインダー画像を再取得
+            this.$store.dispatch("binder/searchBinderImage");
+
+            // 移動方向判定用の変数をクリア
+            this.orgImageIndex = null;
+        }
     }
 };
 </script>
