@@ -144,7 +144,7 @@ const getters = {
      * @param {Object} param
      *   - target_id : 対象のID
      *   - org_index : 移動前のインデックス 
-     *   - save_order_type : 対象の種類("image", "label")
+     *   - save_order_type : 対象の種類(util.js > SAVE_ORDER_TYPE)
      * @return {Object} 
      *   - binder_id : バインダーID
      *   - target_id : 対象のID

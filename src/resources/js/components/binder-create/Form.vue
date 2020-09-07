@@ -42,7 +42,7 @@
             <div class="form__label-list">
                 <LabelContainer
                     @remove-label-click="removeLabel"
-                    @drag-label-end="saveLabelOrder"
+                    @label-state-change="saveLabelOrder"
                     :labels="labels"
                 />
             </div>

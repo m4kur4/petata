@@ -41,6 +41,12 @@ export default {
              * NOTE: Draggableで移動する要素の移動方向を判定するため
              */
             orgImageIndex: null,
+            draggableOptions: {
+                animation: 150,
+                handle: ".thumbnail-inner-content__handle",
+                scrollSensitivity: 200,
+                forceFallback: true
+            },
         };
     },
     computed: {
@@ -51,14 +57,6 @@ export default {
             set(val) {
                 this.$store.commit("binder/setImages", val);
             }
-        },
-        draggableOptions() {
-            return {
-                animation: 150,
-                handle: ".thumbnail-inner-content__handle",
-                scrollSensitivity: 200,
-                forceFallback: true
-            };
         }
     },
     methods: {
@@ -76,6 +74,9 @@ export default {
          * NOTE: バインダー画像のメニューボタンがドラッグに追従しない
          */
         startDraggable(event) {
+            console.log("D0");
+            console.log(event.item.getAttribute("image-id"));
+            console.log("/D0");
             this.$store.commit("binder/setIsDraggableProcessing", true);
             // 移動前のインデックスを保持
             this.orgImageIndex = event.item.getAttribute("index");
@@ -84,6 +85,10 @@ export default {
          * draggableによるソートの後処理を行います。
          */
         endDraggable(event) {
+            console.log("D1");
+            console.log(event.item.getAttribute("image-id"));
+            console.log("/D1");
+
             // DOM要素の復元
             this.resetDraggable();
 

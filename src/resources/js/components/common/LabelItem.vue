@@ -3,6 +3,8 @@
         @dragenter="dragEnter($event)"
         @dragleave="dragLeave($event)"
         @drop.prevent="drop($event)"
+        :index="index"
+        :label-id="id"
         :class="[
             'label-container__item',
             'mdc-elevation--z2',
