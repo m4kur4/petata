@@ -14,6 +14,7 @@
             @end="endDraggable"
             v-model="images"
             :options="draggableOptions"
+            :force-fallback="true"
             class="image-list__content"
         >
             <ImageListItem
@@ -41,9 +42,12 @@ export default {
     },
     data() {
         return {
+            orgImageIndex: null,
             draggableOptions: {
                 animation: 150,
-                handle: ".image-list__item-thumbnail-image"
+                handle: ".image-list__item-thumbnail-image",
+                scrollSensitivity: 200,
+                forceFallback: true
             }
         };
     },
@@ -83,7 +87,6 @@ export default {
          * draggableによるソートの後処理を行います。
          */
         endDraggable(event) {
-
             // 並び順の永続化
             const imageId = event.item.getAttribute("image-id");
             const param = {
