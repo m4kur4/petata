@@ -162,7 +162,9 @@ class ImageRepository implements ImageRepositoryInterface
      */
     public function updateSort(ImageSortRequest $request)
     {
-        $target_image = Image::find($request->image_id);
+        // NOTE: フロント側で並べ順変更リクエスト生成を共通化しているので「target_id」
+        $image_id = $request->target_id;
+        $target_image = Image::find($image_id);
 
         $binder_id = $request->binder_id;
         $sort_before = $target_image->sort;

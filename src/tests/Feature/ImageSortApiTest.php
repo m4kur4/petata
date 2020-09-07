@@ -58,7 +58,7 @@ class ImageSortApiTest extends TestCase
 
         $request = [
             'binder_id' => $this->binder->id,
-            'image_id' => $sort_target_image->id,
+            'target_id' => $sort_target_image->id,
             'sort_after' => $SORT_AFTER
         ];
 
@@ -114,7 +114,7 @@ class ImageSortApiTest extends TestCase
 
         $request = [
             'binder_id' => $this->binder->id,
-            'image_id' => $sort_target_image->id,
+            'target_id' => $sort_target_image->id,
             'sort_after' => $SORT_AFTER
         ];
 
