@@ -97,10 +97,13 @@ export default {
                 "binder/getDataForSaveOrderState"
             ](param);
 
-            this.$store.dispatch("binder/saveOrderState", postData);
+            if (!!postData) {
+                // ドラッグによって位置を変更した場合のみ永続化
+                this.$store.dispatch("binder/saveOrderState", postData);
 
-            // 並び順の情報を更新するため、バインダー画像を再取得
-            this.$store.dispatch("binder/searchBinderImage");
+                // 並び順の情報を更新するため、バインダー画像を再取得
+                this.$store.dispatch("binder/searchBinderImage");
+            }
 
             // 移動方向判定用の変数をクリア
             this.orgImageIndex = null;

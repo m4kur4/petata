@@ -134,6 +134,7 @@ const getters = {
     },
     /**
      * Draggableによる画像の並び順を永続化するリクエスト用のデータを取得します。
+     * 画像の並び順が変わらない場合はnullを返却します。
      * 
      * NOTE: 更新後の並び順 算出仕様
      * 画像が前方に移動した場合、「指定した画像のひとつ後ろに位置する画像が持つ並び順」
@@ -149,6 +150,9 @@ const getters = {
      */
     getDataForSaveOrderState: state => param => {
 
+        // 並び順が変更されているかどうか
+        let isChanged = false;
+
         // 更新後の並び順を持っている画像のインデックス
         let refIndex; 
 
@@ -159,6 +163,13 @@ const getters = {
             const isTarget = image.id == imageId;
 
             if (isTarget) {
+                
+                isChanged = index != param.org_index;
+                if (!isChanged) {
+                    // 並び順が変わっていない場合は後続処理なし
+                    return isTarget;
+                }
+
                 // 移動方向が前方かどうか
                 const isForwardUpdate = index < param.org_index;
                 
@@ -185,6 +196,11 @@ const getters = {
             }
             return isTarget;
         });
+
+        if (!isChanged) {
+            // 並び順が変わっていない場合はnullを返却
+            return null;
+        }
 
         // 更新後の並び順を取得
         const sortAfter = state.images[refIndex].sort;
