@@ -47,9 +47,13 @@
         </div>
         <div>
             <button
+                v-tooltip.left="{
+                    content: 'ラベルを追加します。',
+                }"
                 :class="{
-                    'nav__button-wide': !isShowDialog,
-                    'nav__button-wide--showDialog': isShowDialog
+                    'nav__button-wide': !isDraggingImage && !isShowDialog,
+                    'nav__button-wide--showDialog': isShowDialog,
+                    'nav__button-wide--draggingImage': isDraggingImage
                 }"
                 @click="openDialog"
             >
@@ -125,6 +129,9 @@ export default {
         },
         isShowDialog() {
             return this.$store.state.mode.isShowDialog;
+        },
+        isDraggingImage() {
+            return this.$store.state.binder.is_dragging_image;
         }
     },
     methods: {

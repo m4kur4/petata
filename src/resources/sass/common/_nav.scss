@@ -67,6 +67,26 @@
                     }
                 }
             }
+            &--draggingImage{
+                fill: white;
+                opacity: 100%;
+                border: none;
+                padding: 0;
+                height: $navbar-height;
+                width: calc( #{$navbar-height} * 3 );
+                background-color: #007BFF;
+                background-repeat: no-repeat;
+                cursor: pointer;
+                overflow: hidden;
+                outline: none;
+                & path.add-icon {
+                    fill: none;
+                    &--hover {
+                        fill: white;
+                    }
+                }
+            }
+
         }
         &-wrapper--right {
             float: right;
