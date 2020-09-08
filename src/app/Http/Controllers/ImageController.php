@@ -130,10 +130,6 @@ class ImageController extends Controller
          *   ⇒「<後方：ひとつ前>/<前方：ひとつ後ろ>の画像の並び順」で統一する
          *   ⇒APIのパラメタに「変更後の並び順」を追加※※※
          */
-        Log::debug('D1');
-        Log::debug('call action');
-        Log::debug('/ D1');
-
         $this->image_sort_service->execute($request);
         
         $response = response([''], config('_const.HTTP_STATUS.OK'));

@@ -39,7 +39,7 @@ class ImageDeleteApiTest extends TestCase
     }
 
     /**
-     * TODO: 画像削除時の並び順振りなおしに使うユーザー定義関数がSQLite未対応のため、試験を停止中
+     * TODO: 画像削除時の並び順振りなおしに使うユーザー定義変数がSQLite未対応のため、試験を停止中
      * 
      * 画像を削除するテスト
      * 
