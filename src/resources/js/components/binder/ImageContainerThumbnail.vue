@@ -49,6 +49,11 @@
             >
                 <button
                     v-show="!isRemoveConfirm"
+                    v-tooltip.bottom="{
+                        content: 'クリップボードにコピーしました。',
+                        trigger : 'manual',
+                        show: isShowCopiedMessage,
+                    }"
                     @click="copyImage"
                     class="thumbnail-inner-content__button"
                 >
@@ -148,7 +153,14 @@ import { util } from "../../util";
 export default {
     data() {
         return {
-            isRemoveConfirm: false
+            /**
+             * 画像の削除確認を表示しているかどうか
+             */
+            isRemoveConfirm: false,
+            /**
+             * 画像のクリップボードメッセージを表示しているかどうか
+             */
+            isShowCopiedMessage: false
         };
     },
     props: {
@@ -202,6 +214,12 @@ export default {
         copyImage() {
             const image = this.$refs.thumbnailImage;
             util.copyImageToClipBoard(image, this.id);
+
+            // メッセージの表示
+            this.isShowCopiedMessage = true;
+            setTimeout(() => {
+                this.isShowCopiedMessage = false;
+            }, 1100);
         },
         /**
          * ライトボックスで画像を表示します。
