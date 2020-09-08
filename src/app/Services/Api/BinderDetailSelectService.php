@@ -39,7 +39,10 @@ class BinderDetailSelectService implements BinderDetailSelectServiceInterface
             'count_image' => $binder->images->count(), 
             'count_label' => $binder->labels->count(),
             'count_favorite' => $binder->binderfavorites->count(),
-            'labels' => $binder->labels,
+            'labels' => $binder->labels
+                ->sortBy('sort')
+                ->values()
+                ->all(),
             'images' => $binder->images
                 ->sortBy('sort')
                 ->values()
