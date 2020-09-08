@@ -51,8 +51,8 @@
                     v-show="!isRemoveConfirm"
                     v-tooltip.bottom="{
                         content: 'クリップボードにコピーしました。',
-                        trigger : 'manual',
-                        show: isShowCopiedMessage,
+                        trigger: 'manual',
+                        show: isShowCopiedMessage
                     }"
                     @click="copyImage"
                     class="thumbnail-inner-content__button"

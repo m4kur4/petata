@@ -4,6 +4,7 @@
         <ImageContainer @show-lightbox-click="showLightBox" />
         <RightColumn />
         <LightBox ref="lightBox" />
+        <Dropzone />
         <Loader />
     </div>
 </template>
@@ -15,14 +16,15 @@ import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
 import LightBox from "../components/binder/LightBox.vue";
 import Loader from "../components/common/Loader.vue";
-
+import Dropzone from "../components/binder/Dropzone.vue";
 export default {
     components: {
         ImageList,
         ImageContainer,
         RightColumn,
         LightBox,
-        Loader
+        Loader,
+        Dropzone,
     },
     computed: {
         isLoading() {

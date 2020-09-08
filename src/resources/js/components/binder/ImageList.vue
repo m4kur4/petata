@@ -1,5 +1,5 @@
 <template>
-    <div class="image-list--show mdc-elevation--z4">
+    <div class="image-list mdc-elevation--z4">
         <div class="image-list__search mdc-elevation--z2">
             <input
                 @keydown.enter="searchBinderImage"
@@ -14,16 +14,18 @@
             @end="endDraggable"
             v-model="images"
             :options="draggableOptions"
-            class="image-list__content"
+            class="image-list__wrapper"
         >
-            <ImageListItem
-                v-for="(image, index) in images"
-                :key="image.id"
-                :index="index"
-                :id="image.id"
-                :imageSource="image.storage_file_path"
-                :fileName="image.name"
-            />
+            <transition-group class="image-list__content" tag="div" name="fade">
+                <ImageListItem
+                    v-for="(image, index) in images"
+                    :key="image.id"
+                    :index="index"
+                    :id="image.id"
+                    :imageSource="image.storage_file_path"
+                    :fileName="image.name"
+                />
+            </transition-group>
         </Draggable>
         <!-- image-list__content -->
     </div>
@@ -45,7 +47,7 @@ export default {
             draggableOptions: {
                 animation: 150,
                 handle: ".image-list__item-thumbnail-image",
-                scrollSensitivity: 20,
+                scrollSensitivity: 20
             }
         };
     },
@@ -104,7 +106,7 @@ export default {
                 // 並び順の情報を更新するため、バインダー画像を再取得
                 this.$store.dispatch("binder/searchBinderImage");
             }
-            
+
             // 移動方向判定用の変数をクリア
             this.orgImageIndex = null;
         }

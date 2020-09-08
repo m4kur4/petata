@@ -2,11 +2,10 @@
     /* var@image-list */
     $image-list-item-height: 48px;
     $search-form-height: 40px;
+    grid-area: image-list;
+    background-color: #f5f5f5;
+    z-index: 1;
 
-    &--show {
-        grid-area: image-list;
-        background-color: #f5f5f5;
-    }
     &__search {
         position: relative;
         z-index: 2;
@@ -34,13 +33,16 @@
             }
         }
     }
+    &__wrapper {
+        height: calc(100% - #{$search-form-height});
+    }
     &__content {
         cursor: pointer;
         overflow-y: scroll;
         overflow-x: hidden;
         display: grid;
         grid-auto-rows: 48px;
-        height: calc(100% - #{$search-form-height});
+        height: 100%;
     }
     &__item {
         display: grid;

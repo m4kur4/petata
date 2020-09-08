@@ -1,5 +1,5 @@
 <template>
-    <transition name="progressbar-fade">
+    <transition name="fade">
         <div
             v-if="isConnetcing"
             role="progressbar"

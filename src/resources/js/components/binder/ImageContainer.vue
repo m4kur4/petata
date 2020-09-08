@@ -6,32 +6,34 @@
         :options="draggableOptions"
         :force-fallback="true"
         id="image-container"
-        class="image-container"
     >
-        <ImageContainerThumbnail
-            v-for="(image, index) in images"
-            @show-lightbox-click="showLightBox"
-            :key="image.id"
-            :index="index"
-            :id="image.id"
-            :imageSource="image.storage_file_path"
-            :fileName="image.name"
-            :labelingLabelIds="image.labeling_label_ids"
-        />
-        <Dropzone />
+        <transition-group
+            class="image-container"
+            tag="div"
+            name="fade"
+        >
+            <ImageContainerThumbnail
+                v-for="(image, index) in images"
+                @show-lightbox-click="showLightBox"
+                :key="image.id"
+                :index="index"
+                :id="image.id"
+                :imageSource="image.storage_file_path"
+                :fileName="image.name"
+                :labelingLabelIds="image.labeling_label_ids"
+            />
+        </transition-group>
     </Draggable>
     <!-- /.image-container -->
 </template>
 
 <script>
 import ImageContainerThumbnail from "./ImageContainerThumbnail.vue";
-import Dropzone from "./Dropzone.vue";
 import Draggable from "vuedraggable";
 import { SAVE_ORDER_TYPE } from "../../const";
 export default {
     components: {
         ImageContainerThumbnail,
-        Dropzone,
         Draggable
     },
     data() {
@@ -46,7 +48,7 @@ export default {
                 handle: ".thumbnail-inner-content__handle",
                 scrollSensitivity: 200,
                 forceFallback: true
-            },
+            }
         };
     },
     computed: {

@@ -3,17 +3,19 @@
         @start="startDraggable"
         @end="endDraggable"
         v-model="computedLabels"
-        class="label-container"
+        class="label-container__wrapper"
     >
+        <transition-group class="label-container" tag="div" name="fade">
         <LabelItem
             @remove-label-click="removeLabel"
             v-for="(label, index) in labels"
             :index="index"
-            :key="index"
+            :key="(label.id == 0) ? index : label.id"
             :id="label.id"
             :name="label.name"
             :description="label.description"
         />
+        </transition-group>
     </Draggable>
     <!-- /.label-container -->
 </template>
