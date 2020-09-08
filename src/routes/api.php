@@ -38,6 +38,9 @@ Route::post('binder/label/save','BinderController@saveLabel')->name('api.binder.
 // ラベル削除
 Route::post('binder/label/delete','BinderController@deleteLabel')->name('api.binder.label.delete');
 
+// ラベル並び順更新
+Route::post('binder/label/sort','BinderController@sortLabel')->name('api.binder.label.sort');
+
 // バインダー一覧取得
 Route::get('binder/list','BinderController@list')->name('api.binder.list');
 

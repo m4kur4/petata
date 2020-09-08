@@ -6,6 +6,8 @@ use App\Models\Binder;
 use App\Models\Label;
 use App\Http\Requests\BinderSaveRequest;
 use App\Http\Requests\LabelingRequest;
+use App\Http\Requests\LabelDeleteRequest;
+use App\Http\Requests\LabelSortRequest;
 
 /**
  * バインダーリポジトリ
@@ -63,9 +65,9 @@ interface BinderRepositoryInterface
     /**
      * ラベルを削除します。
      * 
-     * @param strint $label_id ラベルID
+     * @param LabelDeleteRequest $request
      */
-    public function deleteLabel(string $label_id);
+    public function deleteLabel(LabelDeleteRequest $request);
 
     /**
      * バインダーの詳細情報を取得します。
@@ -100,7 +102,16 @@ interface BinderRepositoryInterface
 
     /**
      * 指定したバインダーに紐づくラベルのリストを返却します。
+     * 
+     * @param int $binder_id バインダーID
      */
     public function selectLabelsRelatedToBinder(string $binder_id);
+
+    /**
+     * ラベルの並び順を更新します。
+     * 
+     * @param LabelSortRequest $request
+     */
+    public function updateLabelSort(LabelSortRequest $request);
 
 }

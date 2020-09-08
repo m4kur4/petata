@@ -6,12 +6,14 @@ use App\Http\Requests\BinderSaveRequest;
 use App\Http\Requests\LabelSaveRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
+use App\Http\Requests\LabelSortRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
 use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 use App\Services\Api\Interfaces\LabelingServiceInterface;
 use App\Services\Api\Interfaces\LabelDeleteServiceInterface;
+use App\Services\Api\Interfaces\LabelSortServiceInterface;
 
 use App\Models\User;
 
@@ -31,6 +33,7 @@ class BinderController extends Controller
      * @param BinderDetailSelectServiceInterface $binder_detail_select_service ラベル詳細情報取得サービス
      * @param LabelSaveServiceInterface $label_save_service ラベル保存サービス
      * @param LabelDeleteServiceInterface $label_delete_service ラベル削除サービス
+     * @param LabelSortServiceInterface $label_sort_service ラベル並び順更新サービス
      * @param LabelingServiceInterface $labeling_service ラベリングサービス
      */
     public function __construct(
@@ -39,6 +42,7 @@ class BinderController extends Controller
         BinderDetailSelectServiceInterface $binder_detail_select_service,
         LabelSaveServiceInterface $label_save_service,
         LabelDeleteServiceInterface $label_delete_service,
+        LabelSortServiceInterface $label_sort_service,
         LabelingServiceInterface $labeling_service
     )
     {
@@ -47,6 +51,7 @@ class BinderController extends Controller
         $this->binder_detail_select_service = $binder_detail_select_service;
         $this->label_save_service = $label_save_service;
         $this->label_delete_service = $label_delete_service;
+        $this->label_sort_service = $label_sort_service;
         $this->labeling_service = $labeling_service;
         
         $this->middleware('auth');
@@ -156,5 +161,18 @@ class BinderController extends Controller
             Log::error($e);
             abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
         }
+    }
+
+    /**
+     * ラベルの並び順を更新します。
+     * 
+     * @param LabelSortRequest $request
+     */
+    public function sortLabel(LabelSortRequest $request)
+    {
+        $labels = $this->label_sort_service->execute($request);
+
+        $response = response(['labels' => $labels], config('_const.HTTP_STATUS.OK'));
+        return $response;
     }
 }

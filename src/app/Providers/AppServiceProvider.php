@@ -78,6 +78,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\LabelDeleteServiceInterface::class,
             \App\Services\Api\LabelDeleteService::class
         );
+        // ラベル並び順更新サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\LabelSortServiceInterface::class,
+            \App\Services\Api\LabelSortService::class
+        );
         // ラベリングサービス
         $this->app->bind(
             \App\Services\Api\Interfaces\LabelingServiceInterface::class,
