@@ -75,10 +75,7 @@ export default {
                 "binder/getDataForSaveOrderState"
             ](param);
 
-            //this.$store.dispatch("binder/saveLabelOrderState", postData);
-
-            // 並び順の情報を更新するため、バインダー画像を再取得
-            //this.$store.dispatch("binder/searchBinderImage");
+            this.$store.dispatch("binder/saveLabelOrderState", postData);
 
             // 移動方向判定用の変数をクリア
             this.orgLabelIndex = null;

@@ -493,6 +493,7 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
+            state.labels = response.data.labels;
             return false;
         }
 
