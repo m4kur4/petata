@@ -23,7 +23,7 @@
         &:hover {
             transition: all 100ms 0s ease;
             opacity: 100%;
-            background-color: #E9E9E9;
+            background-color: #e9e9e9;
         }
         &-wide {
             fill: white;
@@ -31,7 +31,7 @@
             border: none;
             padding: 0;
             height: $navbar-height;
-            width: calc( #{$navbar-height} * 3 );
+            width: calc(#{$navbar-height} * 3);
             background-color: #324750;
             background-repeat: no-repeat;
             cursor: pointer;
@@ -48,13 +48,13 @@
                     }
                 }
             }
-            &--showDialog{
+            &--showDialog {
                 fill: white;
                 opacity: 100%;
                 border: none;
                 padding: 0;
                 height: $navbar-height;
-                width: calc( #{$navbar-height} * 3 );
+                width: calc(#{$navbar-height} * 3);
                 background-color: #324750;
                 background-repeat: no-repeat;
                 cursor: pointer;
@@ -67,14 +67,14 @@
                     }
                 }
             }
-            &--draggingImage{
+            &--draggingImage {
                 fill: white;
                 opacity: 100%;
                 border: none;
                 padding: 0;
                 height: $navbar-height;
-                width: calc( #{$navbar-height} * 3 );
-                background-color: #007BFF;
+                width: calc(#{$navbar-height} * 3);
+                background-color: #007bff;
                 background-repeat: no-repeat;
                 cursor: pointer;
                 overflow: hidden;
@@ -86,7 +86,6 @@
                     }
                 }
             }
-
         }
         &-wrapper--right {
             float: right;
@@ -94,7 +93,14 @@
     }
 }
 
-
 .progress-indicator {
     grid-column: 1/4;
+}
+.progressbar-fade-enter-active,
+.progressbar-fade-leave-active {
+    transition: opacity 0.5s;
+}
+.progressbar-fade-enter,
+.progressbar-fade-leave-to {
+    opacity: 0;
 }
