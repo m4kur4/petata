@@ -6,6 +6,7 @@
         :options="draggableOptions"
         :force-fallback="true"
         id="image-container"
+        class="image-container__wrapper"
     >
         <transition-group
             class="image-container"

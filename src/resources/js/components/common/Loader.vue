@@ -1,5 +1,7 @@
 <template>
-    <div v-if="isLoading" class="loader"></div>
+    <transition name="fade-faster">
+        <div v-if="isLoading" class="loader"></div>
+    </transition>
 </template>
 
 <script>
@@ -8,6 +10,6 @@ export default {
         isLoading() {
             return this.$store.state.mode.isLoading;
         }
-    },
+    }
 };
 </script>
