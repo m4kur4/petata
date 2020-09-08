@@ -105,9 +105,9 @@ export default {
         /**
          * 指定したリストアイテムに該当するバインダー画像をフォーカスします。
          * 当該リストアイテムまで画像コンテナをスクロールします。
-         *
+         * 
          */
-        focusImage() {
+        focusImage(event) {
             const imageContainer = document.getElementById("image-container");
             const target = document.getElementById(`image-${this.id}`);
 
@@ -131,16 +131,27 @@ export default {
             const isInnerDisplayArea =
                 isLowerContainerTop && isUpperContainerBottom;
 
-            // TODO: 画像の枠を表示
+            // 画像の枠を表示
+            this.$store.commit("binder/setFocusedImageId", this.id);
 
             if (isInnerDisplayArea) {
                 // 表示領域内にいる場合は後続処理なし
                 return false;
             }
-            const diff = targetTop - containerTop;
-            const targetTopAfter = imageContainer.scrollTop + diff - 18;
-            imageContainer.scrollTop = targetTopAfter;
 
+            // イベントの種類に応じてスクロール処理を実行
+            let targetTopAfter;
+            
+            if (event.type == "click") {
+                // NOTE: 画像位置は「imageContainer.scrollTop」に対する位置で可変
+                const diff = targetTop - containerTop;
+                targetTopAfter = imageContainer.scrollTop + diff - 18;
+            
+            } else if (event.type == "dragend") {
+                // NOTE: ドラッグは画像が移動するため「移動後の画像位置」を基準としてスクロール
+                targetTopAfter = targetTop - containerTop - 18;
+            }
+            imageContainer.scrollTop = targetTopAfter;
         }
     }
 };

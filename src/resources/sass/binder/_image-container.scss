@@ -22,6 +22,7 @@
         height: $thumbnail-size;
         align-self: center;
         justify-self: center;
+
         &-image {
             cursor: grab;
             position: absolute;
@@ -52,6 +53,12 @@
                 left: 50%;
                 transform: translateY(-50%) translateX(-50%);
                 -webkit-transform: translateY(-50%) translateX(-50%);
+                border: 2px solid rgba(0, 123, 255, 0);
+                transition: all 300ms 0s ease;
+                &.focused {
+                    transition: all 150ms 0s ease;
+                    border: 2px solid rgba(0, 123, 255, 1);
+                }
                 &:hover {
                     & .image-container__thumbnail-image {
                         transition: all 150ms 0s ease;

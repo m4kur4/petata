@@ -34,6 +34,7 @@ const state = {
      * dragging_image_labeling_Label_ids: Array ドラッグ中の画像にラベリングされているラベルID
      * is_dragging_image Boolean バインダー画像をドラッグ中かどうか
      * is_draggable_processing Boolean Draggableの操作中かどうか
+     * focused_image_id Number フォーカスされている画像のID
      */
     id: null,
     name: null,
@@ -51,7 +52,8 @@ const state = {
     },
     dragging_image_labeling_label_ids: [],
     is_dragging_image: false,
-    is_draggable_processing: false
+    is_draggable_processing: false,
+    focused_image_id: null
 };
 
 const mutations = {
@@ -113,7 +115,16 @@ const mutations = {
     },
     setIsDraggableProcessing(state, val) {
         state.is_draggable_processing = val;
-    }
+    },
+    setFocusedImageId(state, val) {
+        state.focused_image_id = val;
+        // 2秒でフォーカスを解除
+        setTimeout(() => {
+            if (state.focused_image_id == val) {
+                state.focused_image_id = null;
+            }
+        }, 2000);
+    },
 };
 
 const getters = {
@@ -132,6 +143,12 @@ const getters = {
      */
     isLabelingWithDraggingImageLabel: state => labelId => {
         return state.dragging_image_labeling_label_ids.includes(labelId);
+    },
+    /**
+     * 指定した画像IDがフォーカス中の画像のものかどうかを判定します。
+     */
+    isFocusedImageId: state => imageId => {
+        return state.focused_image_id == imageId;
     },
     /**
      * Draggableによる「画像/ラベル」(以下「対象」)の並び順を永続化するリクエスト用のデータを取得します。
@@ -332,14 +349,13 @@ const actions = {
         // 成功
         if (response.status === STATUS.CREATED) {
             // ラベリングを登録した場合
-            alert("ラベリングに成功しました。");
+
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
-
             return false;
+
         } else if (response.status === STATUS.OK) {
             // ラベリングを登録解除した場合
-            alert("登録解除しました。");
 
             // 解除したあとの条件で再検索
             context.dispatch("searchBinderImage");

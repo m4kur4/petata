@@ -4,7 +4,6 @@
         @end="endDraggable"
         v-model="images"
         :options="draggableOptions"
-        :force-fallback="true"
         id="image-container"
         class="image-container__wrapper"
     >

@@ -9,7 +9,10 @@
     >
         <div
             @mouseleave="setIsRemoveConfirm(false)"
-            class="image-container__thumbnail-inner-content-wrapper"
+            :class="[
+                'image-container__thumbnail-inner-content-wrapper',
+                { focused: isFocused }
+            ]"
         >
             <img
                 class="image-container__thumbnail-image mdc-elevation--z2"
@@ -244,8 +247,18 @@ export default {
         }
     },
     computed: {
+        /**
+         * Draggableによるドラッグ操作をしているかどうかを判定します。
+         * NOTE: ラベリングのドラッグ操作と処理を分離する
+         */
         isDraggableProcessing() {
             return this.$store.state.binder.is_draggable_processing;
+        },
+        /**
+         * ラベルアイテムのクリックによるフォーカスが当たっているかどうかを判定します。
+         */
+        isFocused() {
+            return this.$store.getters["binder/isFocusedImageId"](this.id);
         }
     }
 };
