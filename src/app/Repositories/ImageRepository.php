@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Image;
 use App\Models\Labeling;
 use App\Repositories\Interfaces\ImageRepositoryInterface;
+use App\Traits\RawSqlBuildTrait;
 use Illuminate\Http\File;
 use App\Http\Requests\ImageAddRequest;
 use App\Http\Requests\ImageDeleteRequest;
@@ -26,6 +27,13 @@ use Storage;
  */
 class ImageRepository implements ImageRepositoryInterface
 {
+    /**
+     * Sql文生成用のトレイト
+     *  - getSortUpdateQueryForward($table_name)
+     *  - getSortUpdateQueryBackward($table_name)
+     */
+    use RawSqlBuildTrait;
+
     /**
      * @inheritdoc
      */
@@ -175,12 +183,12 @@ class ImageRepository implements ImageRepositoryInterface
 
         if ($is_forward_update) {
             // レコードを前方に詰める
-            $query = $this->getSortUpdateQueryForward();
+            $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.IMAGES'));
             DB::update($query, [$binder_id, $sort_after, $sort_before]);
 
         } else {
             // レコードを後方に詰める
-            $query = $this->getSortUpdateQueryBackward();
+            $query = $this->getSortUpdateQueryBackward(config('_const.TABLE_NAME.IMAGES'));
             DB::update($query, [$binder_id, $sort_before, $sort_after]);
         }
 
@@ -201,7 +209,7 @@ class ImageRepository implements ImageRepositoryInterface
         $sort_after = 0;
         
         // <integerの最大値>から<0>へ並び順を更新する扱い
-        $query = $this->getSortUpdateQueryForward();
+        $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.IMAGES'));
         DB::update($query, [$binder_id, $sort_after, config('_const.MYSQL.INTEGER.MAX_VALUE')]);
     }
 
@@ -230,54 +238,6 @@ class ImageRepository implements ImageRepositoryInterface
         ';
         DB::update($query_update, [$binder_id]);
         return $query_update;
-    }
-
-    /**
-     * 並び順を【前方】に更新するSQL文を返却します。
-     * 
-     * @return string
-     */
-    private function getSortUpdateQueryForward()
-    {
-        // 関連するレコードを後ろへずらす
-        $query_base = "
-            UPDATE 
-              images
-            SET 
-              sort = sort + 1
-            WHERE 
-              binder_id = ?
-            AND
-              sort >= ?
-            AND
-              sort < ?;
-        ";
-
-        return $query_base;
-    }
-
-    /**
-     * 並び順を【後方】に更新するSQL文を返却します。
-     * 
-     * @return string
-     */
-    private function getSortUpdateQueryBackward()
-    {
-        // 関連するレコードを前へずらす
-        $query_base = "
-            UPDATE 
-              images
-            SET 
-              sort = sort - 1
-            WHERE 
-              binder_id = ?
-            AND
-              sort > ?
-            AND
-              sort <= ?;
-        ";
-
-        return $query_base;
     }
 
     /**
