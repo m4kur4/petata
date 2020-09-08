@@ -14,7 +14,6 @@
             @end="endDraggable"
             v-model="images"
             :options="draggableOptions"
-            :force-fallback="true"
             class="image-list__content"
         >
             <ImageListItem
@@ -46,8 +45,7 @@ export default {
             draggableOptions: {
                 animation: 150,
                 handle: ".image-list__item-thumbnail-image",
-                scrollSensitivity: 200,
-                forceFallback: true
+                scrollSensitivity: 20,
             }
         };
     },
@@ -99,11 +97,14 @@ export default {
                 "binder/getDataForSaveOrderState"
             ](param);
 
-            this.$store.dispatch("binder/saveImageOrderState", postData);
+            if (!!postData) {
+                // ドラッグによって位置を変更した場合のみ永続化
+                this.$store.dispatch("binder/saveImageOrderState", postData);
 
-            // 並び順の情報を更新するため、バインダー画像を再取得
-            this.$store.dispatch("binder/searchBinderImage");
-
+                // 並び順の情報を更新するため、バインダー画像を再取得
+                this.$store.dispatch("binder/searchBinderImage");
+            }
+            
             // 移動方向判定用の変数をクリア
             this.orgImageIndex = null;
         }
