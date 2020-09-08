@@ -8,9 +8,11 @@ use App\Models\User;
 use App\Models\Label;
 use App\Models\Labeling;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
+use App\Traits\RawSqlBuildTrait;
 use App\Http\Requests\BinderSaveRequest;
 use App\Http\Requests\LabelingRequest;
-
+use App\Http\Requests\LabelDeleteRequest;
+use App\Http\Requests\LabelSortRequest;
 use Auth;
 use DB;
 use Log;
@@ -20,6 +22,14 @@ use Log;
  */
 class BinderRepository implements BinderRepositoryInterface
 {
+    /**
+     * Sql文生成用のトレイト
+     *  - getSortUpdateQueryForward($table_name)
+     *  - getSortUpdateQueryBackward($table_name)
+     *  - getSortResetQuery($table_name)
+     */
+    use RawSqlBuildTrait;
+
     /**
      * @inheritdoc
      */
@@ -112,21 +122,22 @@ class BinderRepository implements BinderRepositoryInterface
         foreach ($label_posts as $index => $post) {
             // ラベルが新規作成のものかどうか
             $is_new_label = ($post['id'] === 0);
-
             if ($is_new_label) {
+                // 並び順を後ろへずらす
+                $this->shiftSortBackwordAll($binder_id);
+
                 // 新規登録
                 $label = new Label([
                     'binder_id' => $binder_id,
                     'name' => $post['name'],
                     'description' => $post['description'],
-                    'sort' => $index
+                    'sort' => $index + 1
                 ]);
             } else {
                 // 更新登録
                 $label = Label::where('id', $post['id'])->first();
                 $label->name = $post['name'];
                 $label->description = $post['description'];
-                $label->sort = $index;
             }
 
             $label->save();
@@ -139,11 +150,14 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritDoc
      */
-    public function deleteLabel(string $label_id)
+    public function deleteLabel(LabelDeleteRequest $request)
     {
         Label::query()
-            ->where('id', $label_id)
+            ->where('id', $request->label_id)
             ->delete();
+        
+        // ラベルの並び順を振りなおす
+        $this->resetLabelSortAll($request->binder_id);
     }
 
     /**
@@ -213,8 +227,41 @@ class BinderRepository implements BinderRepositoryInterface
     {
         $labels = Label::query()
             ->where('binder_id', $binder_id)
+            ->orderBy('sort')
             ->get();
         return $labels;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function updateLabelSort(LabelSortRequest $request)
+    {
+        // NOTE: フロント側で並べ順変更リクエスト生成を共通化しているので「target_id」
+        $label_id = $request->target_id;
+        $target_label = Label::find($label_id);
+
+        $binder_id = $request->binder_id;
+        $sort_before = $target_label->sort;
+        $sort_after = $request->sort_after;
+ 
+        // 並び順を前方へ更新するかどうか(例：5 から 3)
+        $is_forward_update = ($sort_after < $sort_before);
+
+        if ($is_forward_update) {
+            // レコードを前方に詰める
+            $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.LABELS'));
+            DB::update($query, [$binder_id, $sort_after, $sort_before]);
+
+        } else {
+            // レコードを後方に詰める
+            $query = $this->getSortUpdateQueryBackward(config('_const.TABLE_NAME.LABELS'));
+            DB::update($query, [$binder_id, $sort_before, $sort_after]);
+        }
+
+        // 対象の並び順を更新
+        $target_label->sort = $sort_after;
+        $target_label->save();
     }
 
     /**
@@ -255,5 +302,31 @@ class BinderRepository implements BinderRepositoryInterface
         return $binder;
     }
 
+    /**
+     * 指定したバインダーの全ラベルについて、並び順を連番で振りなおします。
+     * NOTE: ラベル削除時に並び順を整理する
+     * 
+     * @param int $binder_id バインダーID
+     */
+    private function resetLabelSortAll($binder_id)
+    {
+        $query = $this->getSortResetQuery(config('_const.TABLE_NAME.LABELS'));
+        DB::update($query, [$binder_id]);
+    }
 
+    /**
+     * 指定したバインダーについて、全画像の並び順を一つ後ろへずらします。
+     * NOTE: 新規に追加する画像の並び順は先頭(sort = 1)のため
+     * 
+     * @param int $binder_id バインダーID
+     */
+    private function shiftSortBackwordAll($binder_id)
+    {
+        // 新規追加画像の並び順
+        $sort_after = 1;
+        
+        // <integerの最大値>から<0>へ並び順を更新する扱い
+        $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.LABELS'));
+        DB::update($query, [$binder_id, $sort_after, config('_const.MYSQL.INTEGER.MAX_VALUE')]);
+    }
 }

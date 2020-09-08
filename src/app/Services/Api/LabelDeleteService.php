@@ -31,7 +31,7 @@ class LabelDeleteService implements LabelDeleteServiceInterface
     public function execute(LabelDeleteRequest $request)
     {
         // ラベルの削除
-        $label = $this->binder_repository->deleteLabel($request->label_id);
+        $label = $this->binder_repository->deleteLabel($request);
 
         // 削除後のラベルのリストを取得
         $labels = $this->binder_repository->selectLabelsRelatedToBinder($request->binder_id);

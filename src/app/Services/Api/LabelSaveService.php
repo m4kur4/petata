@@ -7,6 +7,7 @@ use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 
 use Auth;
+use Log;
 
 /**
  * @inheritdoc

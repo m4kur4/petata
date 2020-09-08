@@ -31,6 +31,7 @@ class ImageRepository implements ImageRepositoryInterface
      * Sql文生成用のトレイト
      *  - getSortUpdateQueryForward($table_name)
      *  - getSortUpdateQueryBackward($table_name)
+     *  - getSortResetQuery($table_name)
      */
     use RawSqlBuildTrait;
 
@@ -66,7 +67,7 @@ class ImageRepository implements ImageRepositoryInterface
         // if (empty($binder_id)) {
         // }
 
-        // 並び順を後ろへ詰める
+        // 並び順を後ろへずらす
         $this->shiftSortBackwordAll($request->binder_id);
 
         $original_name = $request->image->getClientOriginalName();
@@ -76,7 +77,7 @@ class ImageRepository implements ImageRepositoryInterface
             'binder_id' => $request->binder_id,
             'upload_user_id' => Auth::id(),
             'name' => str_replace(('.' . $extension) , '', $original_name), // 拡張子を除いたファイル名を設定
-            'sort' => 0,
+            'sort' => 1,
             'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
             'extension' => $extension,
         ]);
@@ -178,7 +179,7 @@ class ImageRepository implements ImageRepositoryInterface
         $sort_before = $target_image->sort;
         $sort_after = $request->sort_after;
  
-        // 並び順を前方へ更新(例：5 から 3)するかどうか
+        // 並び順を前方へ更新するかどうか(例：5 から 3)
         $is_forward_update = ($sort_after < $sort_before);
 
         if ($is_forward_update) {
@@ -199,14 +200,14 @@ class ImageRepository implements ImageRepositoryInterface
 
     /**
      * 指定したバインダーについて、全画像の並び順を一つ後ろへずらします。
-     * NOTE: 新規に追加する画像の並び順は先頭(sort = 0)のため
+     * NOTE: 新規に追加する画像の並び順は先頭(sort = 1)のため
      * 
      * @param int $binder_id バインダーID
      */
     private function shiftSortBackwordAll($binder_id)
     {
         // 新規追加画像の並び順
-        $sort_after = 0;
+        $sort_after = 1;
         
         // <integerの最大値>から<0>へ並び順を更新する扱い
         $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.IMAGES'));
@@ -214,30 +215,15 @@ class ImageRepository implements ImageRepositoryInterface
     }
 
     /**
-     * 指定したバインダーについて、並び順を連番に振りなおします。
+     * 指定したバインダーの全画像について、並び順を連番で振りなおします。
      * NOTE: 画像削除時に並び順を整理する
      * 
      * @param int $binder_id バインダーID
      */
     private function resetSortAll($binder_id)
     {
-        // 関連するレコードを後ろへずらす
-        $query_prepare = '
-            SET @i := 0;
-        ';
-        DB::statement($query_prepare);
-        $query_update = '
-            UPDATE 
-              images
-            SET 
-              sort = (@i := @i + 1)
-            WHERE 
-              binder_id = ?
-            ORDER BY 
-              sort DESC;
-        ';
-        DB::update($query_update, [$binder_id]);
-        return $query_update;
+        $query = $this->getSortResetQuery(config('_const.TABLE_NAME.IMAGES'));
+        DB::update($query, [$binder_id]);
     }
 
     /**
