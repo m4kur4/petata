@@ -1,37 +1,39 @@
 <template>
-    <div v-if="isShowDialog" class="form--add-label-dialog">
-        <div class="form__header--add-label-dialog mdc-elevation--z1">
-            <span>{{ mode }} label</span>
-            <button @click="closeDialog">×</button>
+    <transition name="fade-faster">
+        <div v-if="isShowDialog" class="form--add-label-dialog">
+            <div class="form__header--add-label-dialog mdc-elevation--z1">
+                <span>{{ mode }} label</span>
+                <button @click="closeDialog">×</button>
+            </div>
+
+            <div class="form__wrapper--add-label-dialog">
+                <TextForm
+                    v-model="name"
+                    :title="'Label name*'"
+                    :type="'text'"
+                    :placeholder="'ぺた太のお気に入り'"
+                    :value="name"
+                />
+
+                <label class="form__label"
+                    >Description
+                    <span class="form__error-message"></span>
+                </label>
+                <textarea
+                    v-model="description"
+                    class="form__text-area"
+                    cols="50"
+                    rows="8"
+                    wrap="soft"
+                    placeholder="ラベルの説明を入力します。"
+                ></textarea>
+
+                <button @click="add" type="button" class="form__button--submit">
+                    {{ mode }}
+                </button>
+            </div>
         </div>
-
-        <div class="form__wrapper--add-label-dialog">
-            <TextForm
-                v-model="name"
-                :title="'Label name*'"
-                :type="'text'"
-                :placeholder="'ぺた太のお気に入り'"
-                :value="name"
-            />
-
-            <label class="form__label"
-                >Description
-                <span class="form__error-message"></span>
-            </label>
-            <textarea
-                v-model="description"
-                class="form__text-area"
-                cols="50"
-                rows="8"
-                wrap="soft"
-                placeholder="ラベルの説明を入力します。"
-            ></textarea>
-
-            <button @click="add" type="button" class="form__button--submit">
-                {{ mode }}
-            </button>
-        </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -80,12 +82,12 @@ export default {
         index: {
             get() {
                 return this.$store.state.labelAddDialog.index;
-            },
+            }
         },
         id: {
             get() {
                 return this.$store.state.labelAddDialog.id;
-            },
+            }
         },
         name: {
             get() {
@@ -102,7 +104,7 @@ export default {
             set(value) {
                 this.$store.commit("labelAddDialog/setDescription", value);
             }
-        },
+        }
     }
 };
 </script>
