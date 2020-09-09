@@ -75,8 +75,10 @@ export default {
                 "binder/getDataForSaveOrderState"
             ](param);
 
-            this.$store.dispatch("binder/saveLabelOrderState", postData);
-
+            if (!!postData) {
+                // 並び順が変わった場合のみリクエストを送信
+                this.$store.dispatch("binder/saveLabelOrderState", postData);
+            }
             // 移動方向判定用の変数をクリア
             this.orgLabelIndex = null;
         }
