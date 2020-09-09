@@ -8,7 +8,7 @@ use App\Http\Requests\LabelSaveRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
-use App\Services\Api\Interfaces\BinderCreateServiceInterface;
+use App\Services\Api\Interfaces\BinderSaveServiceInterface;
 use App\Services\Api\Interfaces\BinderFavoriteServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
@@ -30,7 +30,7 @@ class BinderController extends Controller
     /**
      * コンストラクタ
      * 
-     * @param BinderCreateServiceInterface $binder_create_service バインダー作成サービス
+     * @param BinderSaveServiceInterface $binder_save_service バインダー作成サービス
      * @param BinderFavoriteServiceInterface $binder_favorite_service バインダーお気に入りサービス
      * @param BinderListSelectServiceInterface $binder_list_select_service ラベル一覧取得サービス
      * @param BinderDetailSelectServiceInterface $binder_detail_select_service ラベル詳細情報取得サービス
@@ -40,7 +40,7 @@ class BinderController extends Controller
      * @param LabelingServiceInterface $labeling_service ラベリングサービス
      */
     public function __construct(
-        BinderCreateServiceInterface $binder_create_service,
+        BinderSaveServiceInterface $binder_save_service,
         BinderFavoriteServiceInterface $binder_favorite_service,
         BinderListSelectServiceInterface $binder_list_select_service,
         BinderDetailSelectServiceInterface $binder_detail_select_service,
@@ -50,7 +50,7 @@ class BinderController extends Controller
         LabelingServiceInterface $labeling_service
     )
     {
-        $this->binder_create_service = $binder_create_service;
+        $this->binder_save_service = $binder_save_service;
         $this->binder_favorite_service = $binder_favorite_service;
         $this->binder_list_select_service = $binder_list_select_service;
         $this->binder_detail_select_service = $binder_detail_select_service;
@@ -72,7 +72,7 @@ class BinderController extends Controller
     public function create(BinderSaveRequest $request)
     {
         try {
-            $this->binder_create_service->execute($request);
+            $this->binder_save_service->execute($request);
             $binder_list= $this->binder_list_select_service->execute(Auth::id());
             
             return $binder_list;

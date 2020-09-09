@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\Binder;
 use App\Models\BinderAuthority;
-use App\Services\Api\Interfaces\BinderCreateServiceInterface;
+use App\Services\Api\Interfaces\BinderSaveServiceInterface;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,14 +22,19 @@ class BinderCreateApiTest extends TestCase
         parent::setUp();
 
         // インスタンス生成
-        $this->binderCreateService = app()->make(BinderCreateServiceInterface::class);
+        $this->binderCreateService = app()->make(BinderSaveServiceInterface::class);
         $this->user = factory(User::class)->create();
     }
 
     /**
      * @test
      *
-     * 正しいリクエストを送信し、バインダー作成に成功する。
+     * バインダーを新規作成するテスト
+     * 
+     * - バインダーが作成されること
+     * - リクエストした値がバインダーに設定されていること
+     * - 作成したバインダーに対する期待通りの認可情報が設定されていること
+     * - リクエストしたラベルがバインダーに紐づいて作成されていること
      */
     public function Binder_Create_Success()
     {
@@ -54,7 +59,8 @@ class BinderCreateApiTest extends TestCase
 
         // - バインダー情報の確認
         $this->assertEquals($binder->name, $form_data['name']);
- 
+        $this->assertEquals($binder->description, $form_data['description']);
+        
         // - 認可情報の確認
         $binder_authority_first = BinderAuthority::first();
         $this->assertEquals($binder_authority_first->level, config('_const.BINDER_AUTHORITY.LEVEL.OWNER'));

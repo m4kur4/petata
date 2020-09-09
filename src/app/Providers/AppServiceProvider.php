@@ -30,8 +30,8 @@ class AppServiceProvider extends ServiceProvider
         );
         // バインダー作成サービス
         $this->app->bind(
-            \App\Services\Api\Interfaces\BinderCreateServiceInterface::class,
-            \App\Services\Api\BinderCreateService::class
+            \App\Services\Api\Interfaces\BinderSaveServiceInterface::class,
+            \App\Services\Api\BinderSaveService::class
         );
         // バインダー情報取得サービス
         $this->app->bind(

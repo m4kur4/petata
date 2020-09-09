@@ -37,7 +37,6 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function create(BinderSaveRequest $request): Binder
     {
-
         // バインダーの作成
         $binder = $this->createBinder($request);
 
@@ -50,6 +49,31 @@ class BinderRepository implements BinderRepositoryInterface
 
         // ラベルの追加
         $this->saveLabels($binder->id, $request->labels);
+
+        return $binder;
+    }
+
+    /**
+     * バインダーを更新します。
+     *
+     * @param @param UserRegisterRequest $request
+     */
+    public function update(BinderSaveRequest $request)
+    {
+        // バインダーの保存
+        $binder = Binder::find($request->id);
+
+        $binder->name = $request->name;
+        $binder->description = $request->description;
+        $binder->save();
+
+        // ラベルの更新
+        $this->saveLabels($binder->id, $request->labels);
+        
+        // 削除されたラベルの反映
+        $labels_before = $binder->labels->pluck('id');
+        $delete_target_ids = $labels_before->diff(collect($request->labels)->pluck('id'));
+        $this->deleteLabels($delete_target_ids);
 
         return $binder;
     }
@@ -291,6 +315,22 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
+     * 指定したラベルIDを持つ全てのラベルを削除します。
+     * 
+     * @param array $label_ids 削除対象のラベルID
+     */
+    private function deleteLabels($label_ids)
+    {
+        if (empty($label_ids) && count($label_ids) == 0) {
+            return;
+        }
+
+        Label::query()
+            ->whereIn('id', $label_ids)
+            ->delete();
+    }
+
+    /**
      * 指定したユーザーが指定したバインダーへアクセス可能かを判定します。
      * 
      * @param string $user_id ユーザーID
@@ -324,7 +364,6 @@ class BinderRepository implements BinderRepositoryInterface
             'description' => $request->description
         ]);
         $binder->save();
-
         return $binder;
     }
 

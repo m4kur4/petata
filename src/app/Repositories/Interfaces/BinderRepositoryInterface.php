@@ -24,6 +24,13 @@ interface BinderRepositoryInterface
     public function create(BinderSaveRequest $request);
 
     /**
+     * バインダーを更新します。
+     *
+     * @param @param UserRegisterRequest $request
+     */
+    public function update(BinderSaveRequest $request);
+
+    /**
      * 指定したIDを持つバインダーを削除します。
      * 対象のバインダーに関連する各種データも同時に削除します。
      *

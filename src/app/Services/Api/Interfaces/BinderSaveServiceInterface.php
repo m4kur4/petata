@@ -8,7 +8,7 @@ use App\Http\Requests\BinderSaveRequest;
 /**
  * バインダー作成サービス
  */
-interface BinderCreateServiceInterface
+interface BinderSaveServiceInterface
 {
     /**
      * バインダーを新規作成します。
