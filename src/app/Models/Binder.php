@@ -11,6 +11,7 @@ class Binder extends Model
     protected $fillable = [
         'create_user_id',
         'name',
+        'description'
     ];
 
     protected $appends = [
