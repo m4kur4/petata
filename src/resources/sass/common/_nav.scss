@@ -6,6 +6,23 @@
     width: 100%;
     height: $navbar-height;
     background-color: #ffffff;
+    &__title {
+        &-wrapper {
+            text-align: center;
+            overflow-x: hidden;
+        }
+        margin: 0;
+        font-family: Calibri;
+        font-size: 30px;
+        line-height: 64px;
+        font-weight: normal;
+        color: rgba(50, 71, 80, 0.8);
+        fill:  rgba(50, 71, 80, 0.8);;
+        text-shadow: 1px 1px 0  rgba(50, 71, 80, 0.2);
+        & > .v-popover{
+            display:inline-block;
+        }
+    }
     &__button {
         vertical-align: middle;
         fill: #324750;
@@ -87,13 +104,17 @@
                 }
             }
         }
-        &-wrapper--right {
-            float: right;
-        }
+    }
+    &__left-column-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+    &__right-column-wrapper {
+        display: grid;
+        grid-template-columns: auto auto;
     }
 }
 
 .progress-indicator {
     grid-column: 1/4;
 }
-

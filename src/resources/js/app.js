@@ -13,7 +13,9 @@ const initialize = async () => {
     await store.dispatch('auth/getUserInfo');
 
     Vue.use(VTooltip);
-    Vue.use(VueLazyLoad);
+    Vue.use(VueLazyLoad, {
+        loading: "./images/gif/Preloader_2.gif",
+    });
 
     new Vue({
         el: '#app',

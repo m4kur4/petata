@@ -5,6 +5,7 @@ namespace App\Services\Api;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 
+use Carbon\Carbon;
 use Log;
 
 /**
@@ -46,7 +47,8 @@ class BinderDetailSelectService implements BinderDetailSelectServiceInterface
             'images' => $binder->images
                 ->sortBy('sort')
                 ->values()
-                ->all()
+                ->all(),
+            'created_at' => (new Carbon($binder->created_at))->format('Y/m/d')
         ];
         // NOTE: Collection::sortByDesc()は「元の配列キーを保持した新たなコレクション」を生成する
         return $response;

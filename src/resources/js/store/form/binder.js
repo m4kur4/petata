@@ -35,6 +35,7 @@ const state = {
      * is_dragging_image Boolean バインダー画像をドラッグ中かどうか
      * is_draggable_processing Boolean Draggableの操作中かどうか
      * focused_image_id Number フォーカスされている画像のID
+     * created_at Date バインダー作成日
      */
     id: null,
     name: null,
@@ -53,7 +54,8 @@ const state = {
     dragging_image_labeling_label_ids: [],
     is_dragging_image: false,
     is_draggable_processing: false,
-    focused_image_id: null
+    focused_image_id: null,
+    created_at: null
 };
 
 const mutations = {
@@ -124,6 +126,9 @@ const mutations = {
                 state.focused_image_id = null;
             }
         }, 2000);
+    },
+    setCreatedAt(state, val) {
+        state.created_at = val;
     },
 };
 
@@ -264,6 +269,7 @@ const actions = {
             context.commit("setCountFavorite", response.data.count_favorite);
             context.commit("setLabels", response.data.labels);
             context.commit("setImages", response.data.images);
+            context.commit("setCreatedAt", response.data.created_at);
         } else {
             // 失敗時はエラーコードを格納
             context.commit("error/setCode", response.data.status, {
@@ -293,6 +299,7 @@ const actions = {
             image_name: "",
             label_ids: []
         });
+        context.commit("setCreatedAt", null);
     },
     /**
      * ラベル情報をDBへ保存します。
