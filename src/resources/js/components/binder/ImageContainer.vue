@@ -3,7 +3,12 @@
         @start="startDraggable"
         @end="endDraggable"
         v-model="images"
-        :options="draggableOptions"
+        :animation="150"
+        :handle="`.thumbnail-inner-content__handle`"
+        :scrollSensitivity="200"
+        :forceFallback="true"
+        :scrollSpeed="200"
+        :fallback-tolerance="1"
         id="image-container"
         class="image-container__wrapper"
     >
@@ -50,11 +55,9 @@ export default {
                 this.$store.commit("binder/setImages", val);
             }
         },
-        draggableOptions: {
-            animation: 150,
-            handle: ".thumbnail-inner-content__handle",
-            scrollSensitivity: 10,
-            forceFallback: true
+        draggableOptions() {
+            // NOTE: 画像のスクロールがdataだと上手くいかないのでcomputedへ定義
+            return {};
         }
     },
     methods: {
@@ -62,7 +65,6 @@ export default {
          * ライトボックスで画像を表示します。
          * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
          */
-
         showLightBox(imageIndex) {
             this.$emit("show-lightbox-click", imageIndex);
         },
