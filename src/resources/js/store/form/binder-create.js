@@ -57,7 +57,7 @@ const mutations = {
 const actions = {
     async doPost(context) {
 
-        const uri = "api/binder/create";
+        const uri = "api/binder/save";
         const response = await axios
             .post(`${uri}`, state.form)
             .catch(err => err.response || err);

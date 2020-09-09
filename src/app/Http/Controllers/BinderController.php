@@ -63,13 +63,13 @@ class BinderController extends Controller
     }
 
     /**
-     * バインダーを作成します。
+     * バインダーを保存します。
      * 作成後、ログインユーザーがアクセス可能なバインダーの一覧を返却します。
      *
      * @param BinderSaveRequest $request
      * @return Collection
      */    
-    public function create(BinderSaveRequest $request)
+    public function save(BinderSaveRequest $request)
     {
         try {
             $this->binder_save_service->execute($request);

@@ -69,10 +69,11 @@ class BinderRepository implements BinderRepositoryInterface
 
         // ラベルの更新
         $this->saveLabels($binder->id, $request->labels);
-        
+
         // 削除されたラベルの反映
-        $labels_before = $binder->labels->pluck('id');
-        $delete_target_ids = $labels_before->diff(collect($request->labels)->pluck('id'));
+        $label_ids_before = $binder->labels->pluck('id');
+        $delete_target_ids = $label_ids_before->diff(collect($request->labels)->pluck('id'));
+
         $this->deleteLabels($delete_target_ids);
 
         return $binder;
@@ -161,11 +162,10 @@ class BinderRepository implements BinderRepositoryInterface
                 ]);
             } else {
                 // 更新登録
-                $label = Label::where('id', $post['id'])->first();
+                $label = Label::find($post['id'])->first();
                 $label->name = $post['name'];
                 $label->description = $post['description'];
             }
-
             $label->save();
 
             array_push($saved_labels, $label);

@@ -51,9 +51,10 @@ class BinderCreateApiTest extends TestCase
                 ['id' => $NEW_RECORD_ID, 'name' => 'ラベル_3', 'description' => '説明_3'],
             ],
         ];
-        $response = $this->json('POST', route('api.binder.create'), $form_data);
-
         // 検証
+        $response = $this->json('POST', route('api.binder.save'), $form_data);
+        $response->assertStatus(200);
+
         $binder = Binder::first();
         $labels = $binder->labels()->orderBy('id')->get();
 
