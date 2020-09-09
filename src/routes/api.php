@@ -29,6 +29,9 @@ Route::post('user/auth/login','UserController@login')->name('api.user.login');
 // バインダー作成
 Route::post('binder/create','BinderController@create')->name('api.binder.create');
 
+// バインダーお気に入り設定
+Route::post('binder/favorite','BinderController@favorite')->name('api.binder.favorite');
+
 // ラベリング登録
 Route::post('binder/label/register','BinderController@labeling')->name('api.binder.image.labeling');
 

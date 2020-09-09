@@ -19,6 +19,7 @@
 | /api/binder/list | GET | 1 | 閲覧可能なバインダー一覧の取得 |
 | /api/binder/authorize | POST | 3 | バインダー閲覧権限の付与 |
 | /api/binder/unauthorize | POST | 3 | バインダー閲覧権限の剥奪 |
+| /api/binder/favorite | POST | 2 | バインダーのお気に入り設定 |
 | /api/binder/image/add | POST | 2 | バインダーへ画像追加 |
 | /api/binder/image/delete | POST | 2 | バインダーから画像削除 |
 | /api/binder/image/search | GET | 2 | バインダーで管理している画像一覧の取得 |

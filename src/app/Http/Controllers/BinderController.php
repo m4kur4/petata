@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BinderSaveRequest;
+use App\Http\Requests\BinderFavoriteRequest;
 use App\Http\Requests\LabelSaveRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
 use App\Services\Api\Interfaces\BinderCreateServiceInterface;
+use App\Services\Api\Interfaces\BinderFavoriteServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
 use App\Services\Api\Interfaces\LabelSaveServiceInterface;
@@ -28,7 +30,8 @@ class BinderController extends Controller
     /**
      * コンストラクタ
      * 
-     * @param BinderCreateServiceInterface $binder_create_service ラベル作成サービス
+     * @param BinderCreateServiceInterface $binder_create_service バインダー作成サービス
+     * @param BinderFavoriteServiceInterface $binder_favorite_service バインダーお気に入りサービス
      * @param BinderListSelectServiceInterface $binder_list_select_service ラベル一覧取得サービス
      * @param BinderDetailSelectServiceInterface $binder_detail_select_service ラベル詳細情報取得サービス
      * @param LabelSaveServiceInterface $label_save_service ラベル保存サービス
@@ -38,6 +41,7 @@ class BinderController extends Controller
      */
     public function __construct(
         BinderCreateServiceInterface $binder_create_service,
+        BinderFavoriteServiceInterface $binder_favorite_service,
         BinderListSelectServiceInterface $binder_list_select_service,
         BinderDetailSelectServiceInterface $binder_detail_select_service,
         LabelSaveServiceInterface $label_save_service,
@@ -47,6 +51,7 @@ class BinderController extends Controller
     )
     {
         $this->binder_create_service = $binder_create_service;
+        $this->binder_favorite_service = $binder_favorite_service;
         $this->binder_list_select_service = $binder_list_select_service;
         $this->binder_detail_select_service = $binder_detail_select_service;
         $this->label_save_service = $label_save_service;
@@ -174,5 +179,28 @@ class BinderController extends Controller
 
         $response = response(['labels' => $labels], config('_const.HTTP_STATUS.OK'));
         return $response;
+    }
+
+    /**
+     * ログインユーザーのバインダーお気に入り状態を切り替えます。
+     * 
+     * @param BinderFavoriteRequest $request
+     */
+    public function favorite(BinderFavoriteRequest $request)
+    {
+        try {
+            $this->binder_favorite_service->execute($request);
+
+            $response = response([
+                'binder_id' => $request->binder_id,
+                'is_favorite' => !$request->is_favorite
+            ], config('_const.HTTP_STATUS.OK'));
+
+            return $response;
+            
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
+        }
     }
 }

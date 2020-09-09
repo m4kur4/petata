@@ -4,12 +4,14 @@ namespace App\Repositories;
 
 use App\Models\Binder;
 use App\Models\BinderAuthority;
+use App\Models\BinderFavorite;
 use App\Models\User;
 use App\Models\Label;
 use App\Models\Labeling;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
 use App\Traits\RawSqlBuildTrait;
 use App\Http\Requests\BinderSaveRequest;
+use App\Http\Requests\BinderFavoriteRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
@@ -262,6 +264,29 @@ class BinderRepository implements BinderRepositoryInterface
         // 対象の並び順を更新
         $target_label->sort = $sort_after;
         $target_label->save();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function updateBinderFavorite(BinderFavoriteRequest $request)
+    {
+        $binderFavorite = BinderFavorite::query()
+            ->where('user_id', Auth::id())
+            ->where('binder_id', $request->binder_id)
+            ->first();
+        
+        if (empty($binderFavorite)) {
+            // 未登録の場合は新規に登録
+            $newBinderFavorite = new BinderFavorite([
+                'user_id' => $request->user_id,
+                'binder_id' => $request->binder_id
+            ]);
+            $newBinderFavorite->save();
+        } else {
+            // 登録済みの場合は解除
+            $binderFavorite->delete();
+        }
     }
 
     /**

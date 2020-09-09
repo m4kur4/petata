@@ -5,6 +5,7 @@ namespace App\Repositories\Interfaces;
 use App\Models\Binder;
 use App\Models\Label;
 use App\Http\Requests\BinderSaveRequest;
+use App\Http\Requests\BinderFavoriteRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
@@ -113,5 +114,12 @@ interface BinderRepositoryInterface
      * @param LabelSortRequest $request
      */
     public function updateLabelSort(LabelSortRequest $request);
+
+    /**
+     * バインダーのお気に入り状態を更新します。
+     * 
+     * @param BinderFavoriteRequest $request
+     */
+    public function updateBinderFavorite(BinderFavoriteRequest $request);
 
 }

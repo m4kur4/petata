@@ -11,7 +11,9 @@ use App\Http\Requests\BinderFavoriteRequest;
 interface BinderFavoriteServiceInterface
 {
     /**
-     * バインダーをお気に入りに追加します。
+     * バインダーのお気に入り設定を切り替えます。
+     * ログインユーザーが当該バインダーをお気に入り登録していない場合は新たに登録し、
+     * すでにお気に入り登録されている場合は解除します。
      *
      * @param BinderFavoriteRequest $request
      */
