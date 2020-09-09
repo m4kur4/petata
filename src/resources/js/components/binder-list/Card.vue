@@ -1,6 +1,7 @@
 <template>
-    <div class="form__binder-card" @click="moveToBinder">
+    <div class="form__binder-card">
         <div
+            @click="moveToBinder"
             :class="{
                 'binder-card__info--favorite': isFavorite,
                 'binder-card__info--own': !isFavorite && isOwn,
