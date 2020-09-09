@@ -1,9 +1,11 @@
 <template>
-    <button class="binder-card__button">
+    <button
+        :class="['binder-card__button-favorite', { 'is-favorite': isFavorite }]"
+        type="button"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
-            fill="#324750"
             width="64px"
             height="64px"
         >
@@ -17,15 +19,15 @@
 
 <script>
 export default {
-  props: {
-    /**
-     * お気に入りの登録有無
-     * TODO: 登録状態と表示をリンクさせる
-     */
-    isFavorite: {
-      type: Boolean,
-      default: false
+    props: {
+        /**
+         * お気に入りの登録有無
+         * TODO: 登録状態と表示をリンクさせる
+         */
+        isFavorite: {
+            type: Boolean,
+            default: false
+        }
     }
-  }
-}
+};
 </script>

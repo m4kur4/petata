@@ -47,7 +47,10 @@ const actions = {
         context.commit("mode/setIsLoading", false, {
             root: true
         });
-    }
+    },
+    /**
+     * 指定したバインダーをログインユーザーのお気に入りへ追加します。
+     */
 };
 
 export default {

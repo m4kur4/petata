@@ -1,7 +1,12 @@
 <template>
     <div class="form__binder-card">
         <div
-            @click="moveToBinder"
+            @dblclick.stop="moveToBinder"
+            v-tooltip.bottom-start="{
+                content: 'ダブルクリックでバインダーを開きます。',
+                delay: { show: 1250, hide: 100 },
+                hideOnTargetClick: false
+            }"
             :class="{
                 'binder-card__info--favorite': isFavorite,
                 'binder-card__info--own': !isFavorite && isOwn,
@@ -30,7 +35,7 @@
         <div class="binder-card__button-menu">
             <FavoriteBinderButton :isFavorite="isFavorite" />
         </div>
-        <div class="binder-card__button-danger">
+        <div class="binder-card__button-menu">
             <DeleteBinderButton :isShow="isOwn" />
             <LeaveBinderButton :isShow="!isOwn" />
         </div>
