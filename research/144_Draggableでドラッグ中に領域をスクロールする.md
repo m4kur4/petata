@@ -5,15 +5,15 @@
 ### 参考
 https://stackoverflow.com/questions/58505505/how-to-use-autoscroll-feature-vue-draggable
 
+
+- computedにoptionを定義しないと上手くスクロールされない。
+  - 試していないが要素のpropに直接設定してもOK
 ```js
-<draggable [...]
-           :force-fallback="true"
->
-```
-```js
+computed: {
     dragOptions() {
       return {
         forceFallback: true
       };
     }
+}
 ```

@@ -7,11 +7,7 @@
         id="image-container"
         class="image-container__wrapper"
     >
-        <transition-group
-            class="image-container"
-            tag="div"
-            name="fade"
-        >
+        <transition-group class="image-container" tag="div" name="fade">
             <ImageContainerThumbnail
                 v-for="(image, index) in images"
                 @show-lightbox-click="showLightBox"
@@ -42,13 +38,7 @@ export default {
              * ドラッグ中画像の移動前におけるインデックス
              * NOTE: Draggableで移動する要素の移動方向を判定するため
              */
-            orgImageIndex: null,
-            draggableOptions: {
-                animation: 150,
-                handle: ".thumbnail-inner-content__handle",
-                scrollSensitivity: 200,
-                forceFallback: true
-            }
+            orgImageIndex: null
         };
     },
     computed: {
@@ -59,6 +49,12 @@ export default {
             set(val) {
                 this.$store.commit("binder/setImages", val);
             }
+        },
+        draggableOptions: {
+            animation: 150,
+            handle: ".thumbnail-inner-content__handle",
+            scrollSensitivity: 10,
+            forceFallback: true
         }
     },
     methods: {
