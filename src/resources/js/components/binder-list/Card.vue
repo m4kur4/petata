@@ -33,7 +33,10 @@
             />
         </div>
         <div class="binder-card__button-menu">
-            <FavoriteBinderButton :isFavorite="isFavorite" />
+            <FavoriteBinderButton
+                @click="updateFavoriteState"
+                :isFavorite="isFavorite"
+            />
         </div>
         <div class="binder-card__button-menu">
             <DeleteBinderButton :isShow="isOwn" />
@@ -132,6 +135,12 @@ export default {
     methods: {
         moveToBinder() {
             this.$router.push({ name: "binder", params: { id: this.id } });
+        },
+        updateFavoriteState() {
+            this.$store.dispatch(
+                "binderList/updateFavoriteState",
+                this.id
+            );
         }
     }
 };

@@ -1,5 +1,6 @@
 <template>
     <button
+        @click="updateFavoriteState"
         :class="['binder-card__button-favorite', { 'is-favorite': isFavorite }]"
         type="button"
     >
@@ -27,6 +28,11 @@ export default {
         isFavorite: {
             type: Boolean,
             default: false
+        }
+    },
+    methods: {
+        updateFavoriteState() {
+            this.$emit('click');
         }
     }
 };

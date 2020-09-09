@@ -38,7 +38,6 @@ class BinderfavoriteApiTest extends TestCase
 
         $form_data = [
             'binder_id' => $binder->id,
-            'user_id' => $this->user->id
         ];
 
         // 検証
@@ -71,7 +70,6 @@ class BinderfavoriteApiTest extends TestCase
 
         $form_data = [
             'binder_id' => $binder->id,
-            'user_id' => $this->user->id
         ];
 
         // 検証

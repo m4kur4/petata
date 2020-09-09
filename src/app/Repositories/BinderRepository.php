@@ -271,15 +271,16 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function updateBinderFavorite(BinderFavoriteRequest $request)
     {
+        $user_id = Auth::id();
         $binderFavorite = BinderFavorite::query()
-            ->where('user_id', Auth::id())
+            ->where('user_id', $user_id)
             ->where('binder_id', $request->binder_id)
             ->first();
         
         if (empty($binderFavorite)) {
             // 未登録の場合は新規に登録
             $newBinderFavorite = new BinderFavorite([
-                'user_id' => $request->user_id,
+                'user_id' => $user_id,
                 'binder_id' => $request->binder_id
             ]);
             $newBinderFavorite->save();

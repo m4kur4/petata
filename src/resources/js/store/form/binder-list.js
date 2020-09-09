@@ -2,6 +2,7 @@
  * フォームデータストア - バインダー一覧
  */
 import { STATUS } from "../../const";
+import Vue from 'vue';
 
 const state = {
     /**
@@ -49,8 +50,41 @@ const actions = {
         });
     },
     /**
-     * 指定したバインダーをログインユーザーのお気に入りへ追加します。
+     * 指定したバインダーについて、ログインユーザーのお気に入り状態を変更します。
+     * お気に入り登録されていない場合は新たにお気に入りへ登録し、
+     * それ以外の場合はお気に入りを解除します。
      */
+    async updateFavoriteState(context, binderId) {
+        
+        const postData = {
+            'binder_id': binderId
+        };
+        const response = await axios.post("api/binder/favorite", postData);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            alert("okinit oK!");
+
+            // stateを更新
+            const target = state.binders.find(item => item.id == binderId);
+            target.is_favorite = !target.is_favorite;
+            const index = images.indexOf(target);
+            Vue.set(state.binders, index, target);
+
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
+    }
 };
 
 export default {

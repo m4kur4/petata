@@ -1,8 +1,7 @@
 html,
 body,
 main {
-  width: 100%;
-  height: 100%;
+  height: 100vh;
   margin: 0;
   padding: 0;
   border: 0;
@@ -16,6 +15,23 @@ main {
 .form--binder-list {
   margin: 0 auto;
   padding-top: 48px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to,
+.fade-faster-enter,
+.fade-faster-leave-to {
+  opacity: 0;
+}
+
+.fade-faster-enter-active,
+.fade-faster-leave-active {
+  transition: opacity 0.3s;
 }
 
 .header {
@@ -62,6 +78,26 @@ main {
   background-color: #ffffff;
 }
 
+.nav__title {
+  margin: 0;
+  font-family: Calibri;
+  font-size: 30px;
+  line-height: 64px;
+  font-weight: normal;
+  color: rgba(50, 71, 80, 0.8);
+  fill: rgba(50, 71, 80, 0.8);
+  text-shadow: 1px 1px 0 rgba(50, 71, 80, 0.2);
+}
+
+.nav__title-wrapper {
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.nav__title > .v-popover {
+  display: inline-block;
+}
+
 .nav__button {
   vertical-align: middle;
   fill: #324750;
@@ -81,7 +117,7 @@ main {
 .nav__button:hover {
   transition: all 100ms 0s ease;
   opacity: 100%;
-  background-color: #E9E9E9;
+  background-color: #e9e9e9;
 }
 
 .nav__button-wide {
@@ -90,7 +126,7 @@ main {
   border: none;
   padding: 0;
   height: 64px;
-  width: calc( 64px * 3 );
+  width: calc(64px * 3);
   background-color: #324750;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -118,7 +154,7 @@ main {
   border: none;
   padding: 0;
   height: 64px;
-  width: calc( 64px * 3 );
+  width: calc(64px * 3);
   background-color: #324750;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -134,8 +170,36 @@ main {
   fill: white;
 }
 
-.nav__button-wrapper--right {
-  float: right;
+.nav__button-wide--draggingImage {
+  fill: white;
+  opacity: 100%;
+  border: none;
+  padding: 0;
+  height: 64px;
+  width: calc(64px * 3);
+  background-color: #007bff;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+.nav__button-wide--draggingImage path.add-icon {
+  fill: none;
+}
+
+.nav__button-wide--draggingImage path.add-icon--hover {
+  fill: white;
+}
+
+.nav__left-column-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.nav__right-column-wrapper {
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
 .progress-indicator {
@@ -319,6 +383,10 @@ main {
   z-index: 1;
 }
 
+.label-container__wrapper {
+  height: 100%;
+}
+
 .label-container__item {
   /* var@label-container__item */
   position: relative;
@@ -331,6 +399,7 @@ main {
   background-color: white;
   width: 95%;
   height: 48px;
+  cursor: move;
   transition: all 150ms 0s ease;
 }
 
@@ -618,6 +687,108 @@ main {
   }
 }
 
+.tooltip {
+  display: block !important;
+  z-index: 10000;
+}
+
+.tooltip .tooltip-inner {
+  background: #324750;
+  color: white;
+  border-radius: 6px;
+  padding: 5px 10px 4px;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+}
+
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  position: absolute;
+  margin: 5px;
+  border-color: transparent;
+  z-index: 1;
+}
+
+.tooltip[x-placement^=top] {
+  margin-bottom: 5px;
+}
+
+.tooltip[x-placement^=top] .tooltip-arrow {
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^=bottom] {
+  margin-top: 5px;
+}
+
+.tooltip[x-placement^=bottom] .tooltip-arrow {
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-top-color: transparent !important;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^=right] {
+  margin-left: 5px;
+}
+
+.tooltip[x-placement^=right] .tooltip-arrow {
+  border-left-color: transparent !important;
+  border-top-color: transparent !important;
+  border-bottom-color: transparent !important;
+  left: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tooltip[x-placement^=left] {
+  margin-right: 5px;
+}
+
+.tooltip[x-placement^=left] .tooltip-arrow {
+  border-top-color: transparent !important;
+  border-right-color: transparent !important;
+  border-bottom-color: transparent !important;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.tooltip.popover .popover-inner {
+  background: #f9f9f9;
+  color: black;
+  padding: 24px;
+  border-radius: 5px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip.popover .popover-arrow {
+  border-color: #f9f9f9;
+}
+
+.tooltip[aria-hidden=true] {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.15s;
+}
+
+.tooltip[aria-hidden=false] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.15s;
+}
+
 .container--binder {
   width: 100%;
   height: calc(100% - 48px - 64px);
@@ -632,11 +803,9 @@ main {
 
 .image-list {
   /* var@image-list */
-}
-
-.image-list--show {
   grid-area: image-list;
   background-color: #f5f5f5;
+  z-index: 1;
 }
 
 .image-list__search {
@@ -669,13 +838,17 @@ main {
   outline: none;
 }
 
+.image-list__wrapper {
+  height: calc(100% - 40px);
+}
+
 .image-list__content {
   cursor: pointer;
   overflow-y: scroll;
   overflow-x: hidden;
   display: grid;
   grid-auto-rows: 48px;
-  height: calc(100% - 40px);
+  height: 100%;
 }
 
 .image-list__item {
@@ -740,13 +913,18 @@ main {
 .image-container {
   /* var@image-container */
   position: relative;
+  height: 100%;
   width: 100%;
   grid-area: image-container;
-  overflow-y: scroll;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(312px, 1fr));
   grid-auto-rows: 312px;
   background-color: white;
+}
+
+.image-container__wrapper {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 .image-container__thumbnail {
@@ -791,6 +969,13 @@ main {
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   -webkit-transform: translateY(-50%) translateX(-50%);
+  border: 2px solid rgba(0, 123, 255, 0);
+  transition: all 300ms 0s ease;
+}
+
+.image-container__thumbnail-inner-content-wrapper.focused {
+  transition: all 150ms 0s ease;
+  border: 2px solid #007bff;
 }
 
 .image-container__thumbnail-inner-content-wrapper:hover .image-container__thumbnail-image {
@@ -897,6 +1082,10 @@ main {
 }
 
 .dz-preview {
+  display: none;
+}
+
+.dz-message {
   display: none;
 }
 
@@ -1030,20 +1219,50 @@ main {
   grid-template-rows: 32px 32px;
   box-sizing: border-box;
   border: 2px solid #b8b8b8;
-  border-radius: 4px;
+  border-radius: 2px 4px 4px 2px;
   margin-right: 16px;
 }
 
 .binder-card__info--own {
   border-left: 4px solid #0e6464;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.binder-card__info--own:hover {
+  transition: 0.2s;
+  border-top: 2px solid #0e6464;
+  border-right: 2px solid #0e6464;
+  border-bottom: 2px solid #0e6464;
+  opacity: 0.7;
 }
 
 .binder-card__info--participated {
   border-left: 4px solid #f64e8b;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.binder-card__info--participated:hover {
+  transition: 0.2s;
+  border-top: 2px solid #f64e8b;
+  border-right: 2px solid #f64e8b;
+  border-bottom: 2px solid #f64e8b;
+  opacity: 0.7;
 }
 
 .binder-card__info--favorite {
   border-left: 4px solid #f6c90e;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.binder-card__info--favorite:hover {
+  transition: 0.2s;
+  border-top: 2px solid #f6c90e;
+  border-right: 2px solid #f6c90e;
+  border-bottom: 2px solid #f6c90e;
+  opacity: 0.7;
 }
 
 .binder-card__info-thumbnail {
@@ -1102,7 +1321,7 @@ main {
   padding-bottom: 4px;
 }
 
-.binder-card__button {
+.binder-card__button-favorite {
   height: 64px;
   margin: 0;
   padding: 0;
@@ -1110,9 +1329,23 @@ main {
   box-sizing: border-box;
   border: 2px solid #bfbfbf;
   border-radius: 4px;
+  fill: #bfbfbf;
+  outline: none;
+  cursor: pointer;
 }
 
-.binder-card__button-danger {
+.binder-card__button-favorite:hover {
+  transition: 0.2s;
+  border: 2px solid #f6c90e;
+  opacity: 0.7;
+}
+
+.binder-card__button-favorite.is-favorite {
+  border: 2px solid #f6c90e;
+  fill: #f6c90e;
+}
+
+.binder-card__button--danger {
   height: 64px;
   margin: 0;
   padding: 0;
