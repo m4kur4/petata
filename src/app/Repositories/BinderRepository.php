@@ -147,8 +147,10 @@ class BinderRepository implements BinderRepositoryInterface
 
         $saved_labels = [];
         foreach ($label_posts as $index => $post) {
+
             // ラベルが新規作成のものかどうか
             $is_new_label = ($post['id'] === 0);
+
             if ($is_new_label) {
                 // 並び順を後ろへずらす
                 $this->shiftSortBackwordAll($binder_id);
@@ -157,13 +159,18 @@ class BinderRepository implements BinderRepositoryInterface
                     'binder_id' => $binder_id,
                     'name' => $post['name'],
                     'description' => $post['description'],
-                    'sort' => $index + 1
+                    'sort' => 0
                 ]);
             } else {
                 // 更新登録
-                $label = Label::find($post['id'])->first();
+                $label = Label::where('id', $post['id'])->first();
                 $label->name = $post['name'];
                 $label->description = $post['description'];
+
+                if (count($label_posts) > 1) {
+                    // バインダー作成(編集)画面からの複数更新時は並び順を更新
+                    $label->sort = $index;
+                }
             }
             $label->save();
 
