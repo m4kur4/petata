@@ -62,4 +62,17 @@ class FileManageHelper
 
         return $absolute_path;
     }
+
+    /**
+     * S3上に格納されている指定されたバインダー画像の格納ディレクトリについて、
+     * 相対パスを取得します。
+     * NOTE: png画像
+     * 
+     * @param int $binder_id バインダーID
+     */
+    public static function getBinderImageDirectoryPath($binder_id)
+    {
+        return config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $binder_id;
+    }
+
 }

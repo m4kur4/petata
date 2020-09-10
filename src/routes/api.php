@@ -32,6 +32,9 @@ Route::post('binder/save','BinderController@save')->name('api.binder.save');
 // バインダーお気に入り設定
 Route::post('binder/favorite','BinderController@favorite')->name('api.binder.favorite');
 
+// バインダー削除
+Route::post('binder/delete','BinderController@delete')->name('api.binder.delete');
+
 // ラベリング登録
 Route::post('binder/label/register','BinderController@labeling')->name('api.binder.image.labeling');
 

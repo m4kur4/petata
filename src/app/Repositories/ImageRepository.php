@@ -148,9 +148,19 @@ class ImageRepository implements ImageRepositoryInterface
     /**
      * @inheritdoc
      */
-    public function removeMany(ImageDeleteRequest $request)
+    public function deleteAll(int $binder_id)
     {
-        // TODO: 実装
+        // 実装
+        Image::query()
+            ->where('binder_id')
+            ->delete();
+        
+        // TODO: トランザクションでエラーが発生した場合はファイル削除しない
+
+        $image_directory = FileManageHelper::getBinderImageDirectoryPath($binder_id);
+        // TODO: S3を使う
+        //Storage::disk('s3')->deleteDirectory($image_directory);
+        Storage::disk('public')->deleteDirectory($image_directory);
     }
 
     /**

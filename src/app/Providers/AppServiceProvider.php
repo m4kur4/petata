@@ -33,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\BinderSaveServiceInterface::class,
             \App\Services\Api\BinderSaveService::class
         );
+        // バインダー削除サービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\BinderDeleteServiceInterface::class,
+            \App\Services\Api\BinderDeleteService::class
+        );
         // バインダー情報取得サービス
         $this->app->bind(
             \App\Services\Api\Interfaces\BinderDetailSelectServiceInterface::class,

@@ -87,6 +87,13 @@ class BinderRepository implements BinderRepositoryInterface
         // TODO: 実装
         DB::beginTransaction();
         try {
+            Binder::query()
+                ->where('id', $binder_id)
+                ->delete();
+            
+            // FIXME: CASCADE DELETEが効かないため暫定対応
+            $this->deleteLabelsAll($binder_id);
+
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -336,6 +343,18 @@ class BinderRepository implements BinderRepositoryInterface
             ->whereIn('id', $label_ids)
             ->delete();
     }
+
+    /**
+     * 指定したバインダーに紐づくラベルを全て削除します。
+     * NOTE/FIXME: CASCATE DELETEがラベルで動作しない
+     */
+    private function deleteLabelsAll($binder_id)
+    {
+        Label::query()
+            ->where('binder_id', $binder_id)
+            ->delete();
+    }
+
 
     /**
      * 指定したユーザーが指定したバインダーへアクセス可能かを判定します。

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BinderSaveRequest;
+use App\Http\Requests\BinderDeleteRequest;
 use App\Http\Requests\BinderFavoriteRequest;
 use App\Http\Requests\LabelSaveRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
 use App\Services\Api\Interfaces\BinderSaveServiceInterface;
+use App\Services\Api\Interfaces\BinderDeleteServiceInterface;
 use App\Services\Api\Interfaces\BinderFavoriteServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
@@ -31,6 +33,7 @@ class BinderController extends Controller
      * コンストラクタ
      * 
      * @param BinderSaveServiceInterface $binder_save_service バインダー作成サービス
+     * @param BinderDeleteServiceInterface $binder_delete_service バインダー削除サービス
      * @param BinderFavoriteServiceInterface $binder_favorite_service バインダーお気に入りサービス
      * @param BinderListSelectServiceInterface $binder_list_select_service ラベル一覧取得サービス
      * @param BinderDetailSelectServiceInterface $binder_detail_select_service ラベル詳細情報取得サービス
@@ -41,6 +44,7 @@ class BinderController extends Controller
      */
     public function __construct(
         BinderSaveServiceInterface $binder_save_service,
+        BinderDeleteServiceInterface $binder_delete_service,
         BinderFavoriteServiceInterface $binder_favorite_service,
         BinderListSelectServiceInterface $binder_list_select_service,
         BinderDetailSelectServiceInterface $binder_detail_select_service,
@@ -51,6 +55,7 @@ class BinderController extends Controller
     )
     {
         $this->binder_save_service = $binder_save_service;
+        $this->binder_delete_service = $binder_delete_service;
         $this->binder_favorite_service = $binder_favorite_service;
         $this->binder_list_select_service = $binder_list_select_service;
         $this->binder_detail_select_service = $binder_detail_select_service;
@@ -81,6 +86,22 @@ class BinderController extends Controller
             Log::error($e);
             abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
         }
+    }
+
+    /**
+     * バインダーを削除します。
+     * 削除後、ログインユーザーがアクセス可能なバインダーの一覧を返却します。
+     *
+     * @param BinderSaveRequest $request
+     * @return Collection
+     */    
+    public function delete(BinderDeleteRequest $request)
+    {
+        Log::debug('D0');
+        Log::debug($request);
+        Log::debug('/ D0');
+
+        $this->binder_delete_service->execute($request);
     }
 
     /**

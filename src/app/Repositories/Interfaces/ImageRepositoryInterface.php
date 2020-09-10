@@ -36,9 +36,9 @@ interface ImageRepositoryInterface
     public function delete(ImageDeleteRequest $request);
 
     /**
-     * 画像を複数枚削除します。
+     * 指定したバインダーに紐づくすべての画像を削除します。
      */
-    public function removeMany(ImageDeleteRequest $request);
+    public function deleteAll(int $binder_id);
 
     /**
      * 画像をリネームします。
