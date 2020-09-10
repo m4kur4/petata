@@ -42,28 +42,6 @@
                 :isFavorite="binder.is_favorite"
                 :binder="binder"
             />
-            <Card
-                :id="2"
-                :name="'バインダー２'"
-                :description="'他人が作成したバインダー'"
-                :thumbnailUrl="'/image/dummy/dummy.jpg'"
-                :countParticipated="4"
-                :countImage="1"
-                :countFavorite="3"
-                :isFavorite="false"
-                :binder="null"
-            />
-            <Card
-                :id="2"
-                :name="'バインダー３'"
-                :description="'お気に入り登録しているバインダー'"
-                :thumbnailUrl="'/image/dummy/dummy.jpg'"
-                :countParticipated="4"
-                :countImage="1"
-                :countFavorite="3"
-                :isFavorite="true"
-                :binder="null"
-            />
         </div>
     </form>
     <!-- /.form -->

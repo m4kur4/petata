@@ -110,6 +110,7 @@ class BinderRepository implements BinderRepositoryInterface
                 'binderFavorites',
             ])
             ->whereIn('id', $accesible_binder_ids)
+            ->orderBy('created_at', 'desc')
             ->get();
         
         return $accesible_binders;
