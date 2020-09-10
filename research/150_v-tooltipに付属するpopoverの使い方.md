@@ -63,7 +63,7 @@ v-tooltip.right="{
                 <DeleteBinderButton :isShow="isOwn" />
 
                 <template slot="popover">
-                    <DeleteConfirmPopOver ::binderName="name" />
+                    <DeleteConfirmPopover ::binderName="name" />
                 </template>
             </v-popover>
 ```

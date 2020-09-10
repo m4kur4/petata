@@ -25,6 +25,7 @@
                 />
                 <div class="remove-binder-popover__button-wrapper">
                     <button
+                    @click="deleteBinder"
                         v-close-popover
                         :class="[
                             'remove-binder-popover__button-ok',
@@ -76,7 +77,7 @@ export default {
             if (!this.isSetBinderName) {
                 return false;
             }
-            this.$store.dispatch("binderList/deleteBinder");
+            this.$store.dispatch("binderList/deleteBinder", this.binderId);
         }
     }
 };

@@ -50,7 +50,7 @@
                 <DeleteBinderButton :isShow="isOwn" />
                 <!-- 以下にコンポーネントなどをスロットできる -->
                 <template slot="popover">
-                    <DeleteConfirmPopOver :binderName="name" :binderId="id" />
+                    <DeleteConfirmPopover :binderName="name" :binderId="id" />
                 </template>
             </v-popover>
 
@@ -67,7 +67,7 @@ import FavoriteBinderButton from "./FavoriteBinderButton.vue";
 import DeleteBinderButton from "./DeleteBinderButton.vue";
 import LeaveBinderButton from "./LeaveBinderButton.vue";
 import EditBinderButton from "./EditBinderButton.vue";
-import DeleteConfirmPopOver from "./DeleteConfirmPopOver.vue";
+import DeleteConfirmPopover from "./DeleteConfirmPopover.vue";
 
 export default {
     components: {
@@ -76,7 +76,7 @@ export default {
         DeleteBinderButton,
         LeaveBinderButton,
         EditBinderButton,
-        DeleteConfirmPopOver
+        DeleteConfirmPopover
     },
     props: {
         /**

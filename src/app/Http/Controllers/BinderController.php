@@ -97,11 +97,12 @@ class BinderController extends Controller
      */    
     public function delete(BinderDeleteRequest $request)
     {
-        Log::debug('D0');
         Log::debug($request);
-        Log::debug('/ D0');
 
-        $this->binder_delete_service->execute($request);
+        $binder_list = $this->binder_delete_service->execute($request);
+        $response = response(['biners' => $binder_list], config('_const.HTTP_STATUS.OK'));
+        return $response;
+
     }
 
     /**

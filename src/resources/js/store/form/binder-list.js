@@ -79,6 +79,35 @@ const actions = {
                 root: true
             });
         }
+    },
+    /**
+     * バインダーを削除します。
+     */
+    async deleteBinder(context, binderId) {
+
+        const uri = "api/binder/delete";
+        const postData = {
+            'binder_id': binderId
+        };
+        const response = await axios.post(uri, postData);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            // バインダー情報を再取得する
+            context.dispatch("fetchBinders");
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.data.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.data.status, {
+                root: true
+            });
+        }
     }
 };
 

@@ -62,6 +62,9 @@
             transition: 0.2s;
             border: 2px solid #dc3545;
         }
+        &::placeholder {
+            color: #b8b8b8;
+        }
     }
 
     &__button {
