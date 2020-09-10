@@ -38,7 +38,22 @@
             <FavoriteBinderButton :binderId="id" :isFavorite="isFavorite" />
         </div>
         <div class="binder-card__button-menu">
-            <DeleteBinderButton :isShow="isOwn" />
+            <v-popover
+                :trigger="'click'"
+                :popoverBaseClass="[
+                    'remove-binder-popover',
+                    'tooltip',
+                    'popover'
+                ]"
+                :placement="'left-start'"
+            >
+                <DeleteBinderButton :isShow="isOwn" />
+                <!-- 以下にコンポーネントなどをスロットできる -->
+                <template slot="popover">
+                    <DeleteConfirmPopOver :binderName="name" :binderId="id" />
+                </template>
+            </v-popover>
+
             <LeaveBinderButton :isShow="!isOwn" />
         </div>
         <!-- /.binder-card__info -->
@@ -52,6 +67,7 @@ import FavoriteBinderButton from "./FavoriteBinderButton.vue";
 import DeleteBinderButton from "./DeleteBinderButton.vue";
 import LeaveBinderButton from "./LeaveBinderButton.vue";
 import EditBinderButton from "./EditBinderButton.vue";
+import DeleteConfirmPopOver from "./DeleteConfirmPopOver.vue";
 
 export default {
     components: {
@@ -59,7 +75,8 @@ export default {
         FavoriteBinderButton,
         DeleteBinderButton,
         LeaveBinderButton,
-        EditBinderButton
+        EditBinderButton,
+        DeleteConfirmPopOver
     },
     props: {
         /**

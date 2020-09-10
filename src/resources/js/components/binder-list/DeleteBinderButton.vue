@@ -1,5 +1,5 @@
 <template>
-    <button v-if="isShow" class="binder-card__button--danger">
+    <button v-if="isShow" type="button" class="binder-card__button--danger">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
