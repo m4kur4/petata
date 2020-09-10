@@ -26,6 +26,15 @@ Route::post('user/register','UserController@register')->name('api.user.register'
 // ユーザーログイン
 Route::post('user/auth/login','UserController@login')->name('api.user.login');
 
+// バインダー一覧取得
+Route::get('binder/list','BinderController@list')->name('api.binder.list');
+
+// バインダー検索
+Route::get('binder/search/','BinderController@search')->name('api.binder.search');
+
+// バインダー情報取得
+Route::get('binder/detail/{binder_id}','BinderController@detail')->name('api.binder.detail');
+
 // バインダー保存
 Route::post('binder/save','BinderController@save')->name('api.binder.save');
 
@@ -46,12 +55,6 @@ Route::post('binder/label/delete','BinderController@deleteLabel')->name('api.bin
 
 // ラベル並び順更新
 Route::post('binder/label/sort','BinderController@sortLabel')->name('api.binder.label.sort');
-
-// バインダー一覧取得
-Route::get('binder/list','BinderController@list')->name('api.binder.list');
-
-// バインダー情報取得
-Route::get('binder/detail/{binder_id}','BinderController@detail')->name('api.binder.detail');
 
 // 画像追加
 Route::post('binder/image/add', 'ImageController@add')->name('api.binder.image.add');

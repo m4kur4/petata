@@ -13,6 +13,7 @@ use App\Services\Api\Interfaces\BinderSaveServiceInterface;
 use App\Services\Api\Interfaces\BinderDeleteServiceInterface;
 use App\Services\Api\Interfaces\BinderFavoriteServiceInterface;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
+use App\Services\Api\Interfaces\BinderSearchServiceInterface;
 use App\Services\Api\Interfaces\BinderDetailSelectServiceInterface;
 use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 use App\Services\Api\Interfaces\LabelingServiceInterface;
@@ -20,6 +21,8 @@ use App\Services\Api\Interfaces\LabelDeleteServiceInterface;
 use App\Services\Api\Interfaces\LabelSortServiceInterface;
 
 use App\Models\User;
+
+use Illuminate\Http\Request;
 
 use Auth;
 use Log;
@@ -35,8 +38,9 @@ class BinderController extends Controller
      * @param BinderSaveServiceInterface $binder_save_service バインダー作成サービス
      * @param BinderDeleteServiceInterface $binder_delete_service バインダー削除サービス
      * @param BinderFavoriteServiceInterface $binder_favorite_service バインダーお気に入りサービス
-     * @param BinderListSelectServiceInterface $binder_list_select_service ラベル一覧取得サービス
-     * @param BinderDetailSelectServiceInterface $binder_detail_select_service ラベル詳細情報取得サービス
+     * @param BinderListSelectServiceInterface $binder_list_select_service バインダー一覧取得サービス
+     * @param BinderSearchServiceInterface $binder_search_service バインダー検索サービス
+     * @param BinderDetailSelectServiceInterface $binder_detail_select_service バインダー詳細情報取得サービス
      * @param LabelSaveServiceInterface $label_save_service ラベル保存サービス
      * @param LabelDeleteServiceInterface $label_delete_service ラベル削除サービス
      * @param LabelSortServiceInterface $label_sort_service ラベル並び順更新サービス
@@ -47,6 +51,7 @@ class BinderController extends Controller
         BinderDeleteServiceInterface $binder_delete_service,
         BinderFavoriteServiceInterface $binder_favorite_service,
         BinderListSelectServiceInterface $binder_list_select_service,
+        BinderSearchServiceInterface $binder_search_service,
         BinderDetailSelectServiceInterface $binder_detail_select_service,
         LabelSaveServiceInterface $label_save_service,
         LabelDeleteServiceInterface $label_delete_service,
@@ -58,6 +63,7 @@ class BinderController extends Controller
         $this->binder_delete_service = $binder_delete_service;
         $this->binder_favorite_service = $binder_favorite_service;
         $this->binder_list_select_service = $binder_list_select_service;
+        $this->binder_search_service = $binder_search_service;
         $this->binder_detail_select_service = $binder_detail_select_service;
         $this->label_save_service = $label_save_service;
         $this->label_delete_service = $label_delete_service;
@@ -97,8 +103,6 @@ class BinderController extends Controller
      */    
     public function delete(BinderDeleteRequest $request)
     {
-        Log::debug($request);
-
         $binder_list = $this->binder_delete_service->execute($request);
         $response = response(['biners' => $binder_list], config('_const.HTTP_STATUS.OK'));
         return $response;
@@ -116,6 +120,22 @@ class BinderController extends Controller
             $binder_list= $this->binder_list_select_service->execute(Auth::id());
 
             return $binder_list;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
+        }
+    }
+
+    /**
+     * バインダーを検索します。
+     *
+     * @return Collection
+     */    
+    public function search(Request $request)
+    {
+        try {
+
 
         } catch (\Exception $e) {
             Log::error($e);
