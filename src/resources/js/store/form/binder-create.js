@@ -1,11 +1,12 @@
 /**
- * フォームデータストア - バインダー作成
+ * フォームデータストア - バインダー作成 / 編集
  */
 import { STATUS } from "../../const";
-import Vue from 'vue';
+import Vue from "vue";
 
 const state = {
     /**
+     * id: Number バインダーID
      * name: String バインダー名
      * description: String バインダーの説明
      * labels: Array ラベルの配列
@@ -13,8 +14,9 @@ const state = {
      *   - description: String ラベルの説明
      */
     form: {
-        name: '',
-        description: '',
+        id: 0,
+        name: "",
+        description: "",
         labels: [],
         sort: null
     },
@@ -30,6 +32,9 @@ const state = {
 };
 
 const mutations = {
+    setForm(state, val) {
+        state.form = val;
+    },
     setBinderName(state, val) {
         state.form.name = val;
     },
@@ -54,9 +59,18 @@ const mutations = {
     }
 };
 
+const getters = {
+    /**
+     * バインダーが新規登録かどうかを判定します。
+     */
+    isNewBinder(context) {
+        const newBinderId = 0;
+        return state.form.id == newBinderId;
+    }
+};
+
 const actions = {
     async doPost(context) {
-
         const uri = "api/binder/save";
         const response = await axios
             .post(`${uri}`, state.form)
@@ -67,7 +81,7 @@ const actions = {
             response.status === STATUS.OK ||
             response.status === STATUS.CREATED
         ) {
-            alert('成功しました。');
+            alert("成功しました。");
             return false;
         }
 
@@ -87,18 +101,20 @@ const actions = {
      */
     clear() {
         const defaultForm = {
-            name: '',
-            description: '',
+            id: 0,
+            name: "",
+            description: "",
             labels: []
         };
 
         state.form = defaultForm;
-    },
+    }
 };
 
 export default {
     namespaced: true,
     state,
     mutations,
+    getters,
     actions
 };

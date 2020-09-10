@@ -42,7 +42,11 @@ class BinderListSelectService implements BinderListSelectServiceInterface
                 'count_label' => $binder->labels->count(),
                 'count_favorite' => $binder->binderfavorites->count(),
                 'is_own' => $binder->isOwn,
-                'is_favorite' => $binder->isFavorite
+                'is_favorite' => $binder->isFavorite,
+                'labels' => $binder->labels
+                    ->sortBy('sort')
+                    ->values()
+                    ->all()
             ];
             return $visible;
         });

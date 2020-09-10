@@ -33,10 +33,8 @@
             />
         </div>
         <div class="binder-card__button-menu">
-            <FavoriteBinderButton
-                @click="updateFavoriteState"
-                :isFavorite="isFavorite"
-            />
+            <EditBinderButton v-if="isOwn" :binder="binder" />
+            <FavoriteBinderButton :binderId="id" :isFavorite="isFavorite" />
         </div>
         <div class="binder-card__button-menu">
             <DeleteBinderButton :isShow="isOwn" />
@@ -52,13 +50,15 @@ import CountInfo from "./CountInfo.vue";
 import FavoriteBinderButton from "./FavoriteBinderButton.vue";
 import DeleteBinderButton from "./DeleteBinderButton.vue";
 import LeaveBinderButton from "./LeaveBinderButton.vue";
+import EditBinderButton from "./EditBinderButton.vue";
 
 export default {
     components: {
         CountInfo,
         FavoriteBinderButton,
         DeleteBinderButton,
-        LeaveBinderButton
+        LeaveBinderButton,
+        EditBinderButton
     },
     props: {
         /**
@@ -130,17 +130,17 @@ export default {
         isFavorite: {
             type: Boolean,
             default: false
+        },
+        /**
+         * バインダー情報
+         */
+        binder: {
+            type: Object
         }
     },
     methods: {
         moveToBinder() {
             this.$router.push({ name: "binder", params: { id: this.id } });
-        },
-        updateFavoriteState() {
-            this.$store.dispatch(
-                "binderList/updateFavoriteState",
-                this.id
-            );
         }
     }
 };

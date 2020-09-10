@@ -3,7 +3,9 @@
         :class="['form--binder-create', { 'filtered-for-modal': isShowDialog }]"
     >
         <FormTitle :clazz="'form__title--binder-create'">
-            <template v-slot:title>Create binder</template>
+            <template v-slot:title
+                >{{ isNewBinder ? "Create" : "Edit" }} binder</template
+            >
             <template v-slot:additional-content>
                 <BinderListButton />
             </template>
@@ -23,7 +25,7 @@
                 :value="''"
             />
             <button @click="doPost" type="button" class="form__button--submit">
-                Create
+                {{ isNewBinder ? "Create" : "Edit" }}
             </button>
         </div>
         <div class="form__wrapper--create-binder-right">
@@ -105,7 +107,7 @@ export default {
         },
         binderName: {
             get() {
-                return this.$store.state.binderCreate.binderName;
+                return this.$store.state.binderCreate.form.name;
             },
             set(val) {
                 this.$store.commit("binderCreate/setBinderName", val);
@@ -113,7 +115,7 @@ export default {
         },
         binderDescription: {
             get() {
-                return this.$store.state.binderCreate.binderDescription;
+                return this.$store.state.binderCreate.form.description;
             },
             set(val) {
                 this.$store.commit("binderCreate/setBinderDescription", val);
@@ -126,6 +128,13 @@ export default {
             set(val) {
                 this.$store.commit("binderCreate/setLabels", val);
             }
+        },
+        /**
+         * バインダーが新規登録かどうかを判定します。
+         * NOTE: ページタイトル・ボタンの文言を切り替えるため
+         */
+        isNewBinder() {
+            return this.$store.getters["binderCreate/isNewBinder"];
         }
     }
 };
