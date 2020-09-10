@@ -3,7 +3,7 @@
         <FormTitle :clazz="'form__title--binder-list'">
             <template v-slot:title>Binder list</template>
             <template v-slot:additional-content>
-                <AddLabelButton />
+                <AddBinderButton />
             </template>
         </FormTitle>
         <div class="form__nav--binder-list">
@@ -40,6 +40,7 @@
                 :countFavorite="binder.count_favorite"
                 :isOwn="binder.is_own"
                 :isFavorite="binder.is_favorite"
+                :binder="binder"
             />
             <Card
                 :id="2"
@@ -50,6 +51,7 @@
                 :countImage="1"
                 :countFavorite="3"
                 :isFavorite="false"
+                :binder="null"
             />
             <Card
                 :id="2"
@@ -60,6 +62,7 @@
                 :countImage="1"
                 :countFavorite="3"
                 :isFavorite="true"
+                :binder="null"
             />
         </div>
     </form>
@@ -69,13 +72,13 @@
 <script>
 import FormTitle from "../common/FormTitle.vue";
 import Card from "./Card.vue";
-import AddLabelButton from "./AddLabelButton.vue";
+import AddBinderButton from "./AddBinderButton.vue";
 
 export default {
     components: {
         FormTitle,
         Card,
-        AddLabelButton
+        AddBinderButton
     },
     computed: {
         binders() {
