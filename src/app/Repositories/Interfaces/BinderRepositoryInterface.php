@@ -10,6 +10,8 @@ use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
 
+use Illuminate\Http\Request;
+
 /**
  * バインダーリポジトリ
  */
@@ -46,6 +48,13 @@ interface BinderRepositoryInterface
      * @return Collection
      */
     public function selectByAuthorizedUserId(string $user_id);
+
+    /**
+     * バインダーを検索します。
+     * 
+     * @param Request $request 
+     */
+    public function search(Request $request);
 
     /**
      * ユーザーへバインダーの操作権限を付与します。

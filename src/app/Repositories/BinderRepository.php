@@ -15,6 +15,9 @@ use App\Http\Requests\BinderFavoriteRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
+
+use Illuminate\Http\Request;
+
 use Auth;
 use DB;
 use Log;
@@ -54,9 +57,7 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
-     * バインダーを更新します。
-     *
-     * @param @param UserRegisterRequest $request
+     * @inheritdoc
      */
     public function update(BinderSaveRequest $request)
     {
@@ -98,10 +99,7 @@ class BinderRepository implements BinderRepositoryInterface
     public function selectByAuthorizedUserId(string $user_id)
     {
         // アクセス可能なバインダーのIDリスト
-        $accesible_binder_ids = BinderAuthority::query()
-            ->select('binder_id')
-            ->where('user_id', $user_id)
-            ->get();
+        $accesible_binder_ids = $this->getAccesibleBinderIds($user_id);
         
         // バインダーを取得
         $accesible_binders = Binder::with([
@@ -119,9 +117,38 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritdoc
      */
+    public function search(Request $request)
+    {
+        $user_id = Auth::id();
+        // アクセス可能なバインダーのIDリスト
+        $accesible_binder_ids = $this->getAccesibleBinderIds($user_id);
+
+        // Log::debug('D0');
+        // DB::enableQueryLog();
+        $search_query = Binder::query()
+            ->whereIn('id', $accesible_binder_ids);
+
+        // 検索条件の動的追加
+        $this->addSearchWhereOwn($search_query, $request);
+        $this->addSearchWhereOthers($search_query, $request);
+        $this->addSearchWhereFavorite($search_query, $request);
+        $this->addSearchWhereName($search_query, $request);
+
+        //$result = $search_query->get();
+        $result = $search_query
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Log::debug(DB::getQueryLog());
+        // Log::debug('/ D0');
+        return $result;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function addBinderAuthority($user_id, $binder_id, $level)
     {
-
         // 想定しない値が設定された場合はエラー
         if (!in_array($level, config('_const.BINDER_AUTHORITY.LEVEL'))) {
             throw $e;
@@ -412,5 +439,95 @@ class BinderRepository implements BinderRepositoryInterface
         // <integerの最大値>から<0>へ並び順を更新する扱い
         $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.LABELS'));
         DB::update($query, [$binder_id, $sort_after, config('_const.MYSQL.INTEGER.MAX_VALUE')]);
+    }
+
+    /**
+     * 指定したユーザーがアクセス可能なバインダーIDの一覧を返却します。
+     * 
+     * @param int $user_id ユーザーID
+     */
+    private function getAccesibleBinderIds($user_id)
+    {
+        return BinderAuthority::query()
+            ->select('binder_id')
+            ->where('user_id', $user_id)
+            ->get();
+    }
+
+    /**
+     * 自分が作成したバインダーかどうかという検索条件をクエリビルダへ設定します。
+     *
+     * @param Builder　$search_query 検索クエリビルダ
+     * @param Request $request 
+     */
+    private function addSearchWhereOwn($search_query, $request)
+    {
+        if (empty($request->is_own) || !$request->is_own) {
+            return;
+        }
+
+        $user_id = Auth::id();
+        $search_query->where(function($query) {
+            $query->where('create_user_id', $user_id);
+        });
+    }
+
+    /**
+     * 他人が作成したバインダーかどうかという検索条件をクエリビルダに設定します。
+     *
+     * @param Builder　$search_query 検索クエリビルダ
+     * @param Request $request 
+     */
+    private function addSearchWhereOthers($search_query, $request)
+    {
+        if (empty($request->is_others) || !$request->is_others) {
+            return;
+        }
+
+        $user_id = Auth::id();
+        $search_query->where(function($query) {
+            $query->where('create_user_id', '<>',  $user_id);
+        });
+    }
+    
+    /**
+     * お気に入り登録したバインダーかどうかという検索条件をクエリビルダへ設定します。
+     *
+     * @param Builder　$search_query 検索クエリビルダ
+     * @param Request $request 
+     */
+    private function addSearchWhereFavorite($search_query, $request)
+    {
+        if (empty($request->is_favorite) || !$request->is_favorite) {
+            return;
+        }
+
+        $user_id = Auth::id();
+        $favorite_binder_ids = BinderFavorite::query()
+            ->select('binder_id')
+            ->where('user_id', $user_id)
+            ->get()
+            ->pluck('binder_id');
+
+        $search_query->where(function($query) {
+            $query->whereIn('id', $favorite_binder_ids);
+        });
+    }
+
+    /**
+     * バインダー名が前方一致するかどうかという検索条件をクエリビルダへ設定します。
+     *
+     * @param Builder　$search_query 検索クエリビルダ
+     * @param Request $request 
+     */
+    private function addSearchWhereName($search_query, $request)
+    {
+        if (empty($request->binder_name)) {
+            return;
+        }
+
+        $search_query->where(function($query) use($request) {
+            $query->where('name', 'LIKE', "$request->binder_name%");
+        });
     }
 }

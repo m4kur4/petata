@@ -135,7 +135,14 @@ class BinderController extends Controller
     public function search(Request $request)
     {
         try {
+            Log::debug('D0');
+            Log::debug($request);
+            Log::debug('/ D0');
 
+            $binders = $this->binder_search_service->execute($request);
+
+            $response = response([], config('_const.HTTP_STATUS.OK'));
+            return $response;
 
         } catch (\Exception $e) {
             Log::error($e);
