@@ -21,9 +21,9 @@
 <script>
 export default {
     props: {
+        binderId: Number,
         /**
          * お気に入りの登録有無
-         * TODO: 登録状態と表示をリンクさせる
          */
         isFavorite: {
             type: Boolean,
@@ -32,8 +32,8 @@ export default {
     },
     methods: {
         updateFavoriteState() {
-            this.$emit('click');
-        }
-    }
+            this.$store.dispatch("binderList/updateFavoriteState", this.binderId);
+        },
+    },
 };
 </script>
