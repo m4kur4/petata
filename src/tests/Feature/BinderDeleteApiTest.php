@@ -44,6 +44,8 @@ class BinderDeleteApiTest extends TestCase
     public function Binder_Delete_Success()
     {
         $this->actingAs($this->user);
+        Storage::fake('public');
+
         // バインダー作成
         $binder = factory(Binder::class)->create();
 
