@@ -8,6 +8,7 @@ use App\Services\Api\Interfaces\BinderSaveServiceInterface;
 use \App\Repositories\Interfaces\BinderRepositoryInterface;
 
 use Auth;
+use Log;
 
 /**
  * @inheritdoc

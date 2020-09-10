@@ -67,12 +67,12 @@ class BinderRepository implements BinderRepositoryInterface
         $binder->description = $request->description;
         $binder->save();
 
-        // ラベルの更新
-        $this->saveLabels($binder->id, $request->labels);
-
         // 削除されたラベルの反映
         $label_ids_before = $binder->labels->pluck('id');
         $delete_target_ids = $label_ids_before->diff(collect($request->labels)->pluck('id'));
+
+        // ラベルの更新
+        $this->saveLabels($binder->id, $request->labels);
 
         $this->deleteLabels($delete_target_ids);
 
@@ -152,7 +152,6 @@ class BinderRepository implements BinderRepositoryInterface
             if ($is_new_label) {
                 // 並び順を後ろへずらす
                 $this->shiftSortBackwordAll($binder_id);
-
                 // 新規登録
                 $label = new Label([
                     'binder_id' => $binder_id,
@@ -170,6 +169,7 @@ class BinderRepository implements BinderRepositoryInterface
 
             array_push($saved_labels, $label);
         }
+
         return $saved_labels;
     }
 
