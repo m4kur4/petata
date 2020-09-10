@@ -30,6 +30,7 @@
                 :countUser="countUser"
                 :countImage="countImage"
                 :countFavorite="countFavorite"
+                :countLabel="countLabel"
             />
         </div>
         <div class="binder-card__button-menu">

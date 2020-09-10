@@ -11,9 +11,9 @@
             :count="countImage"
         />
         <Counter
-            :src="'/image/icon/star_border-black-24dp.svg'"
-            :alt="'お気に入り数'"
-            :count="countFavorite"
+            :src="'/image/icon/bookmarks-24px.svg'"
+            :alt="'ラベル数'"
+            :count="countLabel"
         />
     </div>
 </template>
