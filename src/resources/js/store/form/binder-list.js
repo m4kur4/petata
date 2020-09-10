@@ -63,14 +63,9 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
-            alert("okinit oK!");
-
             // stateを更新
             const target = state.binders.find(item => item.id == binderId);
             target.is_favorite = !target.is_favorite;
-            const index = images.indexOf(target);
-            Vue.set(state.binders, index, target);
-
             return false;
         }
 
