@@ -84,20 +84,12 @@ class BinderRepository implements BinderRepositoryInterface
      */
     public function delete(string $binder_id)
     {
-        // TODO: 実装
-        DB::beginTransaction();
-        try {
-            Binder::query()
-                ->where('id', $binder_id)
-                ->delete();
-            
-            // FIXME: CASCADE DELETEが効かないため暫定対応
-            $this->deleteLabelsAll($binder_id);
-
-        } catch (\Exception $e) {
-            DB::rollback();
-            throw $e;
-        }
+        Binder::query()
+            ->where('id', $binder_id)
+            ->delete();
+        
+        // FIXME: CASCADE DELETEが効かないため暫定対応
+        $this->deleteLabelsAll($binder_id);
     }
 
     /**
