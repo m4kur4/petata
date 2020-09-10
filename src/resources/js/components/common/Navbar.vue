@@ -59,18 +59,23 @@
                 </svg>
             </button>
         </div>
-        <div class="nav__title-wrapper">
+        <div
+            v-tooltip.bottom="{
+                content: `[${binder.created_at} -]${
+                    !!binder.description
+                        ? '<br>' + binder.description.replace(/\n/g, '<br>')
+                        : ''
+                }`,
+                trigger: 'manual',
+                show: isShowBinderInfo
+            }"
+            class="nav__title-wrapper"
+        >
             <h1 class="nav__title">
                 {{ binderTitle }}
                 <svg
-                    v-tooltip.right="{
-                        content: `[${binder.created_at} -]${
-                            !!binder.description
-                                ? '<br>' +
-                                  binder.description.replace(/\n/g, '<br>')
-                                : ''
-                        }`
-                    }"
+                    @mouseenter="switchBinderInfoVisible"
+                    @mouseleave="switchBinderInfoVisible"
                     xmlns="http://www.w3.org/2000/svg"
                     height="24"
                     viewBox="0 0 24 24"
@@ -117,7 +122,8 @@
             <span class="nav__button-wrapper--right"
                 ><button
                     v-tooltip.bottom="{
-                        content: '[未実装]画像を複数選択して一括でラベリングを行います。'
+                        content:
+                            '[未実装]画像を複数選択して一括でラベリングを行います。'
                     }"
                     class="nav__button"
                 >
@@ -164,6 +170,11 @@ import ProgressIndicator from "../common/ProgressIndicator.vue";
 import LabelAddDialog from "../common/LabelAddDialog.vue";
 
 export default {
+    data() {
+        return {
+            isShowBinderInfo: false
+        };
+    },
     components: {
         ProgressIndicator,
         LabelAddDialog
@@ -199,6 +210,12 @@ export default {
             // NOTE: ナビゲーションバーから展開したラベルダイアログの内容は非同期で保存する
             labelData.binder_id = this.$store.state.binder.id;
             this.$store.dispatch("binder/saveLabel", labelData);
+        },
+        /**
+         * バインダー情報を表示します。
+         */
+        switchBinderInfoVisible() {
+            this.isShowBinderInfo = !this.isShowBinderInfo;
         }
     }
 };
