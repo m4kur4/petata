@@ -49,3 +49,21 @@ v-tooltip.right="{
     }`
 }"
 ```
+
+#### 追記
+- 出現させる方向は`:placement`で指定する。
+  - バインダー削除ボタンに確認ポップオーバーを実装した例
+```vue
+<template>
+            <v-popover
+                :trigger="'click'"
+                :popoverBaseClass="['remove-binder-popover']"
+                :placement="'left'"
+            >
+                <DeleteBinderButton :isShow="isOwn" />
+
+                <template slot="popover">
+                    <DeleteConfirmPopOver ::binderName="name" />
+                </template>
+            </v-popover>
+```
