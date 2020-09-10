@@ -17,10 +17,10 @@
         line-height: 64px;
         font-weight: normal;
         color: rgba(50, 71, 80, 0.8);
-        fill:  rgba(50, 71, 80, 0.8);;
-        text-shadow: 1px 1px 0  rgba(50, 71, 80, 0.2);
-        & > .v-popover{
-            display:inline-block;
+        fill: rgba(50, 71, 80, 0.8);
+        text-shadow: 1px 1px 0 rgba(50, 71, 80, 0.2);
+        & > .v-popover {
+            display: inline-block;
         }
     }
     &__button {
@@ -117,4 +117,8 @@
 
 .progress-indicator {
     grid-column: 1/4;
+    &-wrapper {
+        position: absolute;
+        width: 100%;
+    }
 }

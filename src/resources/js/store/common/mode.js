@@ -37,8 +37,16 @@ const mutations = {
     setIsShowDropzone(state, val) {
         state.isShowDropzone = val;
     },
-    setIsConnecting(state, val) {
-        state.isConnecting = val;
+    async setIsConnecting(state, val) {
+        const func = () => {
+            state.isConnecting = val;
+        };
+        if (val == false) {
+            // 消す場合は最低1秒表示させる
+            await setTimeout(func, 500);
+            return false;
+        }
+        func();
     }
 };
 

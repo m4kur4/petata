@@ -634,16 +634,7 @@ const actions = {
      * 通信中であることを示すプログレスインジケーターの表示状態を設定します。
      */
     async setProgressIndicatorVisibleState(context, val) {
-        
-        const func = () => {
-            context.commit('mode/setIsConnecting', val, { root: true }) ;
-        };
-        if (val == false) {
-            // 消す場合は最低1秒表示させる
-            await setTimeout(func, 500);
-            return false;
-        }
-        func();
+        context.commit('mode/setIsConnecting', val, { root: true }) ;
     }
 };
 

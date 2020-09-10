@@ -55,7 +55,10 @@ const actions = {
      * それ以外の場合はお気に入りを解除します。
      */
     async updateFavoriteState(context, binderId) {
-        
+
+        // 通信開始
+        context.dispatch("setProgressIndicatorVisibleState", true);
+
         const postData = {
             'binder_id': binderId
         };
@@ -66,6 +69,8 @@ const actions = {
             // stateを更新
             const target = state.binders.find(item => item.id == binderId);
             target.is_favorite = !target.is_favorite;
+
+            context.dispatch("setProgressIndicatorVisibleState", false);
             return false;
         }
 
@@ -79,11 +84,15 @@ const actions = {
                 root: true
             });
         }
+        context.dispatch("setProgressIndicatorVisibleState", false);
     },
     /**
      * バインダーを削除します。
      */
     async deleteBinder(context, binderId) {
+
+        // 通信開始
+        context.dispatch("setProgressIndicatorVisibleState", true);
 
         const uri = "api/binder/delete";
         const postData = {
@@ -95,6 +104,8 @@ const actions = {
         if (response.status === STATUS.OK) {
             // バインダー情報を再取得する
             context.dispatch("fetchBinders");
+
+            context.dispatch("setProgressIndicatorVisibleState", false);
             return false;
         }
 
@@ -108,6 +119,13 @@ const actions = {
                 root: true
             });
         }
+        context.dispatch("setProgressIndicatorVisibleState", false);
+    },
+    /**
+     * 通信中であることを示すプログレスインジケーターの表示状態を設定します。
+     */
+    async setProgressIndicatorVisibleState(context, val) {
+        context.commit('mode/setIsConnecting', val, { root: true }) ;
     }
 };
 
