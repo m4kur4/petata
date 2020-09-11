@@ -1,6 +1,11 @@
 <template>
     <button
         @click="updateFavoriteState"
+        v-tooltip.bottom-start="{
+            content: 'バインダーをお気に入りに登録します。',
+            delay: { show: 1250, hide: 100 },
+            hideOnTargetClick: false
+        }"
         :class="['binder-card__button-favorite', { 'is-favorite': isFavorite }]"
         type="button"
     >
@@ -32,8 +37,11 @@ export default {
     },
     methods: {
         updateFavoriteState() {
-            this.$store.dispatch("binderList/updateFavoriteState", this.binderId);
-        },
-    },
+            this.$store.dispatch(
+                "binderList/updateFavoriteState",
+                this.binderId
+            );
+        }
+    }
 };
 </script>

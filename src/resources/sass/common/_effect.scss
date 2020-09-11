@@ -1,0 +1,27 @@
+.ripple {
+    background-position: center;
+    transition: background 0.6s;
+    &:hover {
+        background: #b8b8b8 radial-gradient(circle, transparent 1%, #b8b8b8 1%)
+        center/15000%;
+    }
+    &:active {
+        background-color: white;
+        background-size: 100%;
+        transition: background 0s;
+    }
+}
+
+.ripple-outline {
+    background-position: center;
+    transition: background 0.6s;
+    &:hover {
+        background: #b8b8b8 radial-gradient(circle, transparent 1%, #b8b8b8 1%)
+        center/15000%;
+    }
+    &:active {
+        background-color: white;
+        background-size: 100%;
+        transition: background 0s;
+    }
+}

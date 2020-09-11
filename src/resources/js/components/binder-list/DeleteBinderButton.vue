@@ -1,5 +1,14 @@
 <template>
-    <button v-if="isShow" type="button" class="binder-card__button--danger">
+    <button
+        v-if="isShow"
+        v-tooltip.bottom-start="{
+            content: 'バインダーを削除します。',
+            delay: { show: 1250, hide: 100 },
+            hideOnTargetClick: false
+        }"
+        type="button"
+        class="binder-card__button--danger"
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -16,15 +25,15 @@
 
 <script>
 export default {
-  props: {
-    /**
-     * 削除ボタンの表示有無
-     * - 自分で作成したバインダー以外は削除不可なので表示しない
-     */
-    isShow: {
-      type: Boolean,
-      default: false
+    props: {
+        /**
+         * 削除ボタンの表示有無
+         * - 自分で作成したバインダー以外は削除不可なので表示しない
+         */
+        isShow: {
+            type: Boolean,
+            default: false
+        }
     }
-  }
-}
+};
 </script>

@@ -30,7 +30,14 @@
         </div>
         <div class="form__wrapper--create-binder-right">
             <label class="form__label">Labels</label>
-            <div @click="openDialog" class="form__button--add-label">
+            <div
+                @click="openDialog"
+                　
+                v-tooltip.top-end="{
+                    content: 'ラベルを追加します。'
+                }"
+                class="form__button--add-label"
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="56"

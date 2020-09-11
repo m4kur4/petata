@@ -27,6 +27,7 @@
         -webkit-transform: translateY(-50%) translateX(50%);
         outline: none;
         transition: all 150ms 0s ease;
+        cursor: pointer;
         &:hover {
           transition: all 150ms 0s ease;
           width: 40px;

@@ -1,6 +1,11 @@
 <template>
     <button
         @click="moveToBinderEdit"
+        v-tooltip.bottom-start="{
+            content: 'バインダー情報を編集します。',
+            delay: { show: 1250, hide: 100 },
+            hideOnTargetClick: false
+        }"
         :class="['binder-card__button-edit']"
         type="button"
     >

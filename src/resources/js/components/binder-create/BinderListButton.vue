@@ -2,8 +2,11 @@
     <div>
         <button
             @click="moveToBinderList"
+            v-tooltip.left="{
+                content: 'バインダー一覧へ戻ります。'
+            }"
             type="button"
-            class="form__title-button--return"
+            class="form__title-button--return mdc-elevation--z1"
         >
             Binder list
         </button>
