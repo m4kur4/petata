@@ -31,10 +31,6 @@ class BinderSearchService implements BinderSearchServiceInterface
      */
     public function execute(Request $request)
     {
-        Log::debug('D1');
-        Log::debug('call service');
-        Log::debug('/ D1');
-
         $binders = $this->binder_repository->search($request);
         $response = $binders->map(function($binder) {
             // フロントで使用する情報

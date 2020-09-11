@@ -123,8 +123,8 @@ class BinderRepository implements BinderRepositoryInterface
         // アクセス可能なバインダーのIDリスト
         $accesible_binder_ids = $this->getAccesibleBinderIds($user_id);
 
-        // Log::debug('D0');
-        // DB::enableQueryLog();
+        //Log::debug('D2');
+        //DB::enableQueryLog();
         $search_query = Binder::query()
             ->whereIn('id', $accesible_binder_ids);
 
@@ -139,8 +139,8 @@ class BinderRepository implements BinderRepositoryInterface
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Log::debug(DB::getQueryLog());
-        // Log::debug('/ D0');
+        //Log::debug(DB::getQueryLog());
+        //Log::debug('/ D2');
         return $result;
     }
 
@@ -467,7 +467,7 @@ class BinderRepository implements BinderRepositoryInterface
         }
 
         $user_id = Auth::id();
-        $search_query->where(function($query) {
+        $search_query->where(function($query) use($user_id){
             $query->where('create_user_id', $user_id);
         });
     }
@@ -480,12 +480,12 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function addSearchWhereOthers($search_query, $request)
     {
-        if (empty($request->is_others) || !$request->is_others) {
+        if (empty($request->is_other) || !$request->is_other) {
             return;
         }
 
         $user_id = Auth::id();
-        $search_query->where(function($query) {
+        $search_query->where(function($query) use($user_id){
             $query->where('create_user_id', '<>',  $user_id);
         });
     }
@@ -509,7 +509,7 @@ class BinderRepository implements BinderRepositoryInterface
             ->get()
             ->pluck('binder_id');
 
-        $search_query->where(function($query) {
+        $search_query->where(function($query) use($favorite_binder_ids){
             $query->whereIn('id', $favorite_binder_ids);
         });
     }
