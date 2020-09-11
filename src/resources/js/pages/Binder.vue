@@ -92,6 +92,8 @@ export default {
         this.$store.commit("mode/setHasNavigation", true);
         // バインダー情報を取得する。
         this.$store.dispatch("binder/fetchBinder", this.$route.params.id);
+        // トランジション遷移の制御
+        this.$store.commit("mode/setIsInnerPage", true);
     },
     mounted() {
         // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする

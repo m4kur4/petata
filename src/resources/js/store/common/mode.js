@@ -21,7 +21,12 @@ const state = {
     /**
      * プログレスバー表示の有無
      */
-    isConnecting: false
+    isConnecting: false,
+    /**
+     * ページ内にいるかどうか
+     * NOTE: ページ遷移のトランジションを制御する
+     */
+    isInnerPage: false
 };
 
 const mutations = {
@@ -47,6 +52,9 @@ const mutations = {
             return false;
         }
         func();
+    },
+    setIsInnerPage(state, val) {
+        state.isInnerPage = val;
     }
 };
 

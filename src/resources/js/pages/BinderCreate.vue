@@ -23,6 +23,8 @@ export default {
     beforeCreate() {
         // ナビゲーションバーを非表示にする
         this.$store.commit("mode/setHasNavigation", false);
+        // トランジション遷移の制御
+        this.$store.commit("mode/setIsInnerPage", true);
     },
 
 };

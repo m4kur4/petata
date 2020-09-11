@@ -6,17 +6,16 @@ $font-family: Calibri;
 html,
 body,
 main {
-
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
 }
 
 %form-base {
-  margin: 0 auto;
-  padding-top: 48px;
+    margin: 0 auto;
+    padding-top: 48px;
 }
 
 .fade-enter-active,
@@ -33,4 +32,25 @@ main {
 .fade-faster-enter-active,
 .fade-faster-leave-active {
     transition: opacity 0.3s;
+}
+
+.page-in-enter-active,
+.page-in-leave-active,
+.page-out-enter-active,
+.page-out-leave-active {
+    transition: 0.2s;
+}
+.page-in-enter,
+.page-in-leave-to,
+.page-out-enter,
+.page-out-leave-to {
+    opacity: 0;
+}
+.page-in-enter,
+.page-out-leave-to {
+    transform: scale(0.5);
+}
+.page-in-leave-to,
+.page-out-enter {
+    transform: scale(1);
 }
