@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="form__binder-card-wrapper">
+        <transition-group name="fade-faster" tag="div" class="form__binder-card-wrapper">
             <Card
                 v-for="binder in binders"
                 :key="binder.id"
@@ -91,7 +91,7 @@
                 :isFavorite="binder.is_favorite"
                 :binder="binder"
             />
-        </div>
+        </transition-group>
     </form>
     <!-- /.form -->
 </template>
