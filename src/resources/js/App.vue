@@ -7,9 +7,9 @@
         <transition :name="getTransitionName()" mode="out-in">
             <RouterView />
         </transition>
-        <transitoin name="fade-faster">
+        <transition name="fade-faster">
             <ModalBackground />
-        </transitoin>
+        </transition>
     </main>
 </template>
 
