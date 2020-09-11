@@ -38,7 +38,7 @@ export default {
                 labels: this.binder.labels
             };
             this.$store.commit("binderCreate/setForm", formData);
-            this.$router.push("/binder/create");
+            this.$router.push({ name: "binder-create" });
         }
     }
 };

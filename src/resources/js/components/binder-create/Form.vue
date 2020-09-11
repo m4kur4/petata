@@ -92,7 +92,7 @@ export default {
          */
         async doPost() {
             await this.$store.dispatch("binderCreate/doPost");
-            this.$router.push("/binder/list");
+            this.$router.push({ name: "binder-list" });
         },
         /**
          * ラベルを削除します。

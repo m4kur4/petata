@@ -17,7 +17,7 @@
 export default {
     methods: {
         moveToBinderList() {
-            this.$router.push("/binder/list");
+            this.$router.push({ name: "binder-list" });
         }
     }
 };

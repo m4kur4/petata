@@ -19,7 +19,7 @@ export default {
         moveToBinderCreate() {
             // バインダー作成画面の入力状態をクリア
             this.$store.dispatch("binderCreate/clear");
-            this.$router.push("/binder/create");
+            this.$router.push({ name: "binder-create" });
         }
     }
 };
