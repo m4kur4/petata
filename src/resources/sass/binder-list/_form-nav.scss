@@ -1,59 +1,125 @@
 .form {
-  &__nav {
-      &--binder-list {
-          display: grid;
-          grid-template-columns: 768px 1fr;
-          border-bottom: 1px solid #b8b8b8;
-      }
-  }
-  &__tab {
-    width: 192px;
-    height: 100%;
-    padding: 0;
-    background-color: white;
-    &:hover {
-        background-color: #666666;
-        opacity: 80%;
-        cursor: pointer;
-    }
-    &--selected {
-        width: 192px;
-        height: 100%;
-        padding-left: 0;
-        background-color: #999999;
-    }
-    &-wrapper {
-        padding: 0;
-        display: flex;
-        margin: 0;
-        height: 32px;
-        list-style: none;
-    }
-    &-text {
-        font-family: $font-family;
-        font-size: 20px;
-        font-weight: normal;
-        margin: 0;
-        padding-left: 8px;
-        line-height: 32px;
-    }
-    &-search {
-        box-sizing: border-box;
-        padding-top: 2px;
-        padding-bottom: 0;
-        border: none;
-        background: transparent;
-        float: right;
-        line-height: 30px;
-        font-size: 18px;
-        &:focus {
-            outline: none;
-        }
-        &::placeholder {
-            color: #b8b8b8;
-            line-height: 30px;
+    &__nav {
+        &--binder-list {
+            display: grid;
+            grid-template-columns: 640px auto 320px;
         }
     }
-}
-
+    &__tab {
+        &-all,
+        &-own,
+        &-others,
+        &-favorite {
+            width: 160px;
+            height: 100%;
+            padding-left: 0;
+            background-color: white;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        &-all {
+            :hover {
+                transition: 0.1s;
+                background-color: #b8b8b8;
+            }
+            &--select {
+                opacity: 1;
+            }
+        }
+        &-own {
+            :hover {
+                transition: 0.1s;
+                background-color: #0e6464;
+                color: white;
+            }
+            &--select {
+                opacity: 1;
+            }
+        }
+        &-others:hover {
+            :hover {
+                transition: 0.1s;
+                background-color: #f64e8b;
+                color: white;
+            }
+            &--select {
+                opacity: 1;
+            }
+        }
+        &-favorite:hover {
+            :hover {
+                transition: 0.1s;
+                background-color: #f6c90e;
+            }
+            &--select {
+                opacity: 1;
+            }
+        }
+        &-wrapper {
+            padding: 0;
+            display: flex;
+            margin: 0;
+            height: 32px;
+            list-style: none;
+            border-bottom: 1px solid #b8b8b8;
+        }
+        &-text {
+            font-family: $font-family;
+            font-size: 20px;
+            font-weight: normal;
+            margin: 0;
+            padding-left: 8px;
+            line-height: 32px;
+        }
+        &-search {
+            &-wrapper {
+                display: flex;
+                justify-content: right;
+            }
+            &-button {
+                height:30px;
+                width: 30px;
+                background-color:transparent;
+                outline:none;
+                fill: #b8b8b8;
+                border-left: none;
+                border-top: none;
+                border-right: none;
+                border-bottom: 1px solid #b8b8b8;
+                padding-top: 2px;
+                padding-right: 0;
+                padding-bottom: 0;
+                cursor: pointer;
+                box-sizing: content-box;
+                transition: 0.2s;
+                :hover {
+                    transition: 0.2s;
+                    fill: #0e6464;
+                }
+            }
+            &-text {
+                width: 320px;
+                box-sizing: border-box;
+                padding-top: 2px;
+                padding-bottom: 0;
+                border-bottom: 1px solid #b8b8b8;
+                border-left: none;
+                border-top: none;
+                border-right: none;
+                background: transparent;
+                line-height: 30px;
+                font-size: 18px;
+                outline: none;
+                &::placeholder {
+                    color: #b8b8b8;
+                    line-height: 30px;
+                }
+            }
+        }
+        &-sort {
+            &-wrapper {
+                border-bottom: 1px solid #b8b8b8;
+            }
+        }
+    }
 }

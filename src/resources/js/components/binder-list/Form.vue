@@ -8,21 +8,35 @@
         </FormTitle>
         <div class="form__nav--binder-list">
             <ul class="form__tab-wrapper">
-                <li class="form__tab--selected">
+                <li class="form__tab-all">
                     <h3 class="form__tab-text">All</h3>
                 </li>
-                <li class="form__tab">
-                    <h3 class="form__tab-text">Your own</h3>
+                <li class="form__tab-own">
+                    <h3 class="form__tab-text">Own</h3>
                 </li>
-                <li class="form__tab">
-                    <h3 class="form__tab-text">Paricipated</h3>
+                <li class="form__tab-others">
+                    <h3 class="form__tab-text">Others</h3>
                 </li>
-                <li>
+                <li class="form__tab-favorite">
                     <h3 class="form__tab-text">Favorite</h3>
                 </li>
             </ul>
-            <div>
-                <input class="form__tab-search" placeholder="Search" />
+            <div class="form__tab-sort-wrapper"></div>
+            <div class="form__tab-search-wrapper">
+                <button type="button" class="form__tab-search-button">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="30px"
+                        height="30px"
+                    >
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                        />
+                    </svg>
+                </button>
+                <input class="form__tab-search-text" placeholder="Search" />
             </div>
         </div>
 
@@ -62,6 +76,6 @@ export default {
         binders() {
             return this.$store.state.binderList.binders;
         }
-    },
+    }
 };
 </script>
