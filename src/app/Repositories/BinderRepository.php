@@ -480,7 +480,7 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function addSearchWhereOthers($search_query, $request)
     {
-        if (empty($request->is_other) || !$request->is_other) {
+        if (empty($request->is_others) || !$request->is_others) {
             return;
         }
 

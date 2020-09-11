@@ -86,7 +86,7 @@ class BinderSearchApiTest extends TestCase
         $this->createTestData();
 
         // 検証
-        $request = ['is_other' => true];
+        $request = ['is_others' => true];
         $response = $this->json('GET', route('api.binder.search', $request));
         $response->assertStatus(200);
 
