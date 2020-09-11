@@ -25,7 +25,9 @@ class UserLoginApiTest extends TestCase
     /**
      * @test
      *
-     * 正しい認証情報を送信し、ログインに成功する。
+     * ログインに成功する場合のテスト
+     * 
+     * - 正しい認証情報でユーザーがログインできること
      */
     public function User_Login_Success()
     {

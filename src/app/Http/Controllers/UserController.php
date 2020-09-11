@@ -6,6 +6,7 @@ use App\Http\Requests\UserRegisterRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Services\Api\Interfaces\UserRegisterServiceInterface;
 use App\Services\Api\Interfaces\UserLoginServiceInterface;
+use App\Services\Api\Interfaces\UserLogoutServiceInterface;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,14 +24,19 @@ class UserController extends Controller
      * 
      * @param UserRegisterServiceInterface $user_register_service
      * @param UserLoginServiceInterface $user_login_service
+     * @param UserLogoutService $user_logout_service
      */
     public function __construct(
         UserRegisterServiceInterface $user_register_service,
-        UserLoginServiceInterface $user_login_service
+        UserLoginServiceInterface $user_login_service,
+        UserLogoutServiceInterface $user_logout_service
     )
     {
         $this->user_register_service = $user_register_service;
         $this->user_login_service = $user_login_service;
+        $this->user_logout_service = $user_logout_service;
+
+        $this->middleware('guest')->except('logout');
     }
 
     /**
@@ -65,5 +71,13 @@ class UserController extends Controller
     {
         $user = $this->user_login_service->execute($request);
         return $user;
+    }
+
+    /**
+     * ユーザーをログアウトさせます。
+     */
+    public function logout(Request $request)
+    {
+        $user = $this->user_logout_service->execute($request);
     }
 }

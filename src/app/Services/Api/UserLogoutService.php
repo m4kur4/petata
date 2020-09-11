@@ -3,15 +3,16 @@
 namespace App\Services\Api;
 
 use App\Models\User;
-use App\Http\Requests\UserLoginRequest;
-use App\Services\Api\Interfaces\UserLoginServiceInterface;
+use App\Services\Api\Interfaces\UserLogoutServiceInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
+
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 /**
  * @inheritdoc
  */
-class UserLoginService implements UserLoginServiceInterface
+class UserLogoutService implements UserLogoutServiceInterface
 {
     use AuthenticatesUsers;
 
@@ -30,16 +31,17 @@ class UserLoginService implements UserLoginServiceInterface
     /**
      * @inheritdoc
      */
-    public function execute(UserLoginRequest $request)
+    public function execute(Request $request)
     {
-        return $this->login($request);
+        $this->logout($request);
     }
 
     /**
-     * @see AuthenticatesUsers#authenticated
+     * @see AuthenticatesUsers#loggedOut
      */
-    protected function authenticated($request, $user)
+    protected function loggedOut($request)
     {
-        return $user;
+        $request->session()->regenerate();
+        return $request;
     }
 }

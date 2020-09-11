@@ -26,6 +26,9 @@ Route::post('user/register','UserController@register')->name('api.user.register'
 // ユーザーログイン
 Route::post('user/auth/login','UserController@login')->name('api.user.login');
 
+// ユーザーログアウト
+Route::post('user/auth/logout','UserController@logout')->name('api.user.logout');
+
 // バインダー一覧取得
 Route::get('binder/list','BinderController@list')->name('api.binder.list');
 
