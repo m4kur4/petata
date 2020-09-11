@@ -8,22 +8,50 @@
         </FormTitle>
         <div class="form__nav--binder-list">
             <ul class="form__tab-wrapper">
-                <li class="form__tab-all">
+                <li
+                    @click="clearAllFlagCondition"
+                    :class="{
+                        'form__tab-all': isSetFlagConditions,
+                        'form__tab-all--select': !isSetFlagConditions
+                    }"
+                >
                     <h3 class="form__tab-text">All</h3>
                 </li>
-                <li class="form__tab-own">
+                <li
+                    @click="setConditionOwn"
+                    :class="{
+                        'form__tab-own': !isSetConditionOwn,
+                        'form__tab-own--select': isSetConditionOwn
+                    }"
+                >
                     <h3 class="form__tab-text">Own</h3>
                 </li>
-                <li class="form__tab-others">
+                <li
+                    @click="setConditionOthers"
+                    :class="{
+                        'form__tab-others': !isSetConditionOthers,
+                        'form__tab-others--select': isSetConditionOthers
+                    }"
+                >
                     <h3 class="form__tab-text">Others</h3>
                 </li>
-                <li class="form__tab-favorite">
+                <li
+                    @click="setConditionFavorite"
+                    :class="{
+                        'form__tab-favorite': !isSetConditionFavorite,
+                        'form__tab-favorite--select': isSetConditionFavorite
+                    }"
+                >
                     <h3 class="form__tab-text">Favorite</h3>
                 </li>
             </ul>
             <div class="form__tab-sort-wrapper"></div>
             <div class="form__tab-search-wrapper">
-                <button type="button" class="form__tab-search-button">
+                <button
+                    @click="searchBinder"
+                    type="button"
+                    class="form__tab-search-button"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -36,7 +64,14 @@
                         />
                     </svg>
                 </button>
-                <input class="form__tab-search-text" placeholder="Search" />
+                <input
+                    @keydown.enter.prevent="searchBinder"
+                    v-model="searchConditionBinderName"
+                    ref="searchTextForm"
+                    class="form__tab-search-text"
+                    type="text"
+                    placeholder="Search"
+                />
             </div>
         </div>
 
@@ -75,6 +110,111 @@ export default {
     computed: {
         binders() {
             return this.$store.state.binderList.binders;
+        },
+        /**
+         * 検索条件「自分が作成したバインダー」が設定されているかどうかを判定します。
+         */
+        isSetConditionOwn() {
+            return this.$store.state.binderList.search_condition.is_own;
+        },
+        /**
+         * 検索条件「他人が作成したバインダー」が設定されているかどうかを判定します。
+         */
+        isSetConditionOthers() {
+            return this.$store.state.binderList.search_condition.is_others;
+        },
+        /**
+         * 検索条件「自分がお気に入り登録したバインダー」が設定されているかどうかを判定します。
+         */
+        isSetConditionFavorite() {
+            return this.$store.state.binderList.search_condition.is_favorite;
+        },
+        /**
+         * フラグ値の検索条件が設定されているかどうかを判定します。
+         */
+        isSetFlagConditions() {
+            const result =
+                this.isSetConditionOwn ||
+                this.isSetConditionOthers ||
+                this.isSetConditionFavorite;
+
+            return result;
+        },
+        /**
+         * 検索条件「バインダー名」を双方向バインドします。
+         */
+        searchConditionBinderName: {
+            get() {
+                return this.$store.state.binderList.search_condition
+                    .binder_name;
+            },
+            set(val) {
+                this.$store.commit(
+                    "binderList/setSearchConditionBinderName",
+                    val
+                );
+            }
+        }
+    },
+    methods: {
+        /**
+         * フラグ値の検索条件設定状態をクリアして再検索します。
+         */
+        clearAllFlagCondition() {
+            if (!this.isSetFlagConditions) {
+                // クリア済みの場合は実行しない
+                return;
+            }
+            this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+            this.searchBinder();
+        },
+        /**
+         * 検索条件「自分が作成したバインダー」を設定して再検索します。
+         */
+        setConditionOwn() {
+            if (this.isSetConditionOwn) {
+                // 設定済みの場合は実行しない
+                return;
+            }
+            this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+            this.$store.commit("binderList/setSearchConditionBinderOwn", true);
+            this.searchBinder();
+        },
+        /**
+         * 検索条件「他人が作成したバインダー」を設定して再検索します。
+         */
+        setConditionOthers() {
+            if (this.isSetConditionOthers) {
+                // 設定済みの場合は実行しない
+                return;
+            }
+            this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+            this.$store.commit(
+                "binderList/setSearchConditionBinderOthers",
+                true
+            );
+            this.searchBinder();
+        },
+        /**
+         * 検索条件「自分がお気に入り登録したバインダー」を設定して再検索します。
+         */
+        setConditionFavorite() {
+            if (this.isSetConditionFavorite) {
+                // 設定済みの場合は実行しない
+                return;
+            }
+            this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+            this.$store.commit(
+                "binderList/setSearchConditionBinderFavorite",
+                true
+            );
+            this.searchBinder();
+        },
+        /**
+         * バインダーの検索を実行します。
+         */
+        searchBinder() {
+            this.$store.dispatch("binderList/searchBinder");
         }
     }
 };

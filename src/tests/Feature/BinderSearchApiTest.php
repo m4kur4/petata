@@ -63,7 +63,7 @@ class BinderSearchApiTest extends TestCase
         $this->createTestData();
 
         // 検証
-        $request = ['is_own' => true];
+        $request = ['is_own' => 'true'];
         $response = $this->json('GET', route('api.binder.search', $request));
         $response->assertStatus(200);
 
@@ -86,7 +86,7 @@ class BinderSearchApiTest extends TestCase
         $this->createTestData();
 
         // 検証
-        $request = ['is_others' => true];
+        $request = ['is_others' => 'true'];
         $response = $this->json('GET', route('api.binder.search', $request));
         $response->assertStatus(200);
 
@@ -108,7 +108,7 @@ class BinderSearchApiTest extends TestCase
         $this->createTestData();
 
         // 検証
-        $request = ['is_favorite' => true];
+        $request = ['is_favorite' => 'true'];
         $response = $this->json('GET', route('api.binder.search', $request));
         $response->assertStatus(200);
 

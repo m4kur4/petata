@@ -123,8 +123,8 @@ class BinderRepository implements BinderRepositoryInterface
         // アクセス可能なバインダーのIDリスト
         $accesible_binder_ids = $this->getAccesibleBinderIds($user_id);
 
-        //Log::debug('D2');
-        //DB::enableQueryLog();
+        // Log::debug('D2');
+        // DB::enableQueryLog();
         $search_query = Binder::query()
             ->whereIn('id', $accesible_binder_ids);
 
@@ -139,8 +139,8 @@ class BinderRepository implements BinderRepositoryInterface
             ->orderBy('created_at', 'desc')
             ->get();
 
-        //Log::debug(DB::getQueryLog());
-        //Log::debug('/ D2');
+        // Log::debug(DB::getQueryLog());
+        // Log::debug('/ D2');
         return $result;
     }
 
@@ -462,7 +462,7 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function addSearchWhereOwn($search_query, $request)
     {
-        if (empty($request->is_own) || !$request->is_own) {
+        if (empty($request->is_own) || $request->is_own == 'false') {
             return;
         }
 
@@ -480,7 +480,7 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function addSearchWhereOthers($search_query, $request)
     {
-        if (empty($request->is_others) || !$request->is_others) {
+        if (empty($request->is_others) || $request->is_others == 'false') {
             return;
         }
 
@@ -498,7 +498,7 @@ class BinderRepository implements BinderRepositoryInterface
      */
     private function addSearchWhereFavorite($search_query, $request)
     {
-        if (empty($request->is_favorite) || !$request->is_favorite) {
+        if (empty($request->is_favorite) || $request->is_favorite == 'false') {
             return;
         }
 

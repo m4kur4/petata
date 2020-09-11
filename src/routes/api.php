@@ -30,7 +30,7 @@ Route::post('user/auth/login','UserController@login')->name('api.user.login');
 Route::get('binder/list','BinderController@list')->name('api.binder.list');
 
 // バインダー検索
-Route::get('binder/search/','BinderController@search')->name('api.binder.search');
+Route::get('binder/search','BinderController@search')->name('api.binder.search');
 
 // バインダー情報取得
 Route::get('binder/detail/{binder_id}','BinderController@detail')->name('api.binder.detail');

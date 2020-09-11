@@ -13,46 +13,72 @@
             width: 160px;
             height: 100%;
             padding-left: 0;
-            background-color: white;
             cursor: pointer;
             transition: 0.1s;
+            background-color: white;
         }
         &-all {
-            :hover {
+            &:hover {
                 transition: 0.1s;
+                opacity:0.8;
                 background-color: #b8b8b8;
             }
             &--select {
-                opacity: 1;
+                background-color: #b8b8b8;
+                width: 160px;
+                height: 100%;
+                padding-left: 0;
+                cursor: pointer;
+                transition: 0.1s;
             }
         }
         &-own {
-            :hover {
+            &:hover {
                 transition: 0.1s;
+                opacity:0.8;
                 background-color: #0e6464;
                 color: white;
             }
             &--select {
-                opacity: 1;
+                background-color: #0e6464;
+                color: white;
+                width: 160px;
+                height: 100%;
+                padding-left: 0;
+                cursor: pointer;
+                transition: 0.1s;
             }
         }
-        &-others:hover {
-            :hover {
+        &-others {
+            &:hover {
                 transition: 0.1s;
+                opacity:0.8;
                 background-color: #f64e8b;
                 color: white;
             }
             &--select {
-                opacity: 1;
+                background-color: #f64e8b;
+                color: white;
+                width: 160px;
+                height: 100%;
+                padding-left: 0;
+                cursor: pointer;
+                transition: 0.1s;
             }
         }
-        &-favorite:hover {
+        &-favorite {
             :hover {
                 transition: 0.1s;
+                opacity:0.8;
                 background-color: #f6c90e;
             }
             &--select {
-                opacity: 1;
+                background-color: #f6c90e;
+                width: 160px;
+                height: 100%;
+                padding-left: 0;
+                cursor: pointer;
+                transition: 0.1s;   
             }
         }
         &-wrapper {
