@@ -176,12 +176,13 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /**
-         * Petata サービスプロバイダー
+         * 独自に作成したプロバイダ
          */
         App\Providers\RepositoryProvider::class,
+        App\Providers\ValidatorProvider::class,
 
         /**
-         * 追加
+         * ライブラリ用のプロバイダ
          */
         Intervention\Image\ImageServiceProvider::class,
 
