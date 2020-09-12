@@ -62,7 +62,7 @@ class BinderDeleteApiTest extends TestCase
 
         // 画像追加(ファイルもアップロードするためAPI経由でテストデータを作成する)
         $form_data_for_add_image = [
-            'image' => UploadedFile::fake()->image('test.jpg'),
+            'images' => [UploadedFile::fake()->image('test.jpg')],
             'binder_id' => $binder->id
         ];
         $this->json('POST', route('api.binder.image.add'), $form_data_for_add_image);

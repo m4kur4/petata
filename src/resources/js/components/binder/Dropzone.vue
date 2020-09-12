@@ -33,9 +33,10 @@ export default {
                 params: {
                     binder_id: ""
                 },
-                paramName: "image", // name属性として扱われる
+                paramName: "images", // name属性として扱われる
                 maxFilesize: 10, //MB このサイズを超えるとerrorイベントが発火
                 clickable: false, // クリックでファイル保存ダイアログを表示しない
+                uploadMultiple: true, // 複数ファイルアップロードのイベントを利用する
                 processing: function(file, response) {
                     // プレビューを削除する
                     file.previewElement.outerHTML = "";
@@ -58,7 +59,7 @@ export default {
                 error: function(e) {
                     console.log(e);
                 },
-                complete: function(file, response) {
+                completemultiple: function(file, response) {
                     // バインダー情報をリロード
                     self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id)
                 }

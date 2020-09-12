@@ -31,8 +31,8 @@ class ImageAddService implements ImageAddServiceInterface
      */
     public function execute(ImageAddRequest $request)
     {
-        $filepath = $this->image_repository->add($request);
-        $response = ['path' => $filepath];
+        $this->image_repository->add($request);
+        $response = [''];
         return response($response, config('_const.HTTP_STATUS.CREATED'));
     }
 }

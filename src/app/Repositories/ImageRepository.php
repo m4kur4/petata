@@ -66,39 +66,15 @@ class ImageRepository implements ImageRepositoryInterface
         // $binder_id = Session::get('binder-id');
         // if (empty($binder_id)) {
         // }
+        foreach($request->images as $image_file) {
+            // 並び順を後ろへずらす
+            $this->shiftSortBackwordAll($request->binder_id);
 
-        // 並び順を後ろへずらす
-        $this->shiftSortBackwordAll($request->binder_id);
-
-        $original_name = $request->image->getClientOriginalName();
-        $extension = $request->image->getClientOriginalExtension();
-
-        $image = new Image([
-            'binder_id' => $request->binder_id,
-            'upload_user_id' => Auth::id(),
-            'name' => str_replace(('.' . $extension) , '', $original_name), // 拡張子を除いたファイル名を設定
-            'sort' => 1,
-            'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
-            'extension' => $extension,
-        ]);
-        $image->save();        
-
-        // アップロード先："binder/<バインダーID>"
-        $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $request->binder_id;
-
-        // pngへ変換した画像のアップロード
-        $this->uploadPng($upload_directory, $request->image, $image->path);
-
-        // オリジナル画像
-        // TODO: S3を使う
-        // $path = Storage::disk('s3')->putFileAs(
-        $path = Storage::disk('public')->putFileAs(
-            $upload_directory . '/org/', 
-            $request->image, 
-            ($image->path . '.' . $image->extension),
-            'public'
-        );
-        return $path;
+            // DBへ画像データを保存
+            $image_data = $this->saveImageData($request->binder_id, $image_file);
+            // ストレージへ画像ファイルを保存
+            $this->saveImageFile($image_file, $image_data);
+        }
     }
 
     /**
@@ -311,4 +287,54 @@ class ImageRepository implements ImageRepositoryInterface
         // 一時ファイルを削除
         Storage::disk('local')->delete('temp/' . $temp_file_name);
     }
+
+    /**
+     * 画像情報をデータベースに保存します。
+     * 
+     * @param string $binder_id バインダーID
+     * @param UploadedFile $image_file アップロード画像ファイル
+     */
+    private function saveImageData($binder_id, $image_file)
+    {
+        $original_name = $image_file->getClientOriginalName();
+        $extension = $image_file->getClientOriginalExtension();
+    
+        $new_image = new Image([
+            'binder_id' => $binder_id,
+            'upload_user_id' => Auth::id(),
+            'name' => str_replace(('.' . $extension) , '', $original_name), // 拡張子を除いたファイル名を設定
+            'sort' => 1,
+            'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
+            'extension' => $extension,
+        ]);
+        $new_image->save();
+
+        return $new_image;
+    }
+
+    /**
+     * 画像ファイルをストレージに保存します。
+     * 
+     * @param UploadedFile $image_file アップロード画像ファイル
+     * @param Image $image_data アップロード画像のDBデータ
+     */
+    private function saveImageFile($image_file, $image_data)
+    {
+        // アップロード先："binder/<バインダーID>"
+        $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' .$image_data->binder_id;
+    
+        // pngへ変換した画像のアップロード
+        $this->uploadPng($upload_directory, $image_file, $image_data->path);
+    
+        // オリジナル画像のアップロード
+        // TODO: S3を使う
+        // $path = Storage::disk('s3')->putFileAs(
+        $path = Storage::disk('public')->putFileAs(
+            $upload_directory . '/org/', 
+            $image_file, 
+            ($image_data->path . '.' . $image_data->extension),
+            'public'
+        );
+    }
+    
 }
