@@ -1,25 +1,27 @@
 <template>
-    <form @submit.prevent="signin" class="form--signin">
+    <form @submit.prevent="signin" class="form--signup">
         <FormTitle>
             <template v-slot:title>Sign in</template>
         </FormTitle>
-        <div class="form__wrapper--signin">
+        <div class="form__wrapper--signup">
             <TextForm
                 v-model="form.email"
                 :title="'Email'"
                 :type="'text'"
-                :placeholder="'taro-2525@petata.com'"
+                :placeholder="'taro-1234@petata.com'"
+                :value="''"
             />
             <TextForm
                 v-model="form.password"
                 :title="'Password'"
                 :type="'password'"
                 :placeholder="''"
+                :value="''"
             />
             <AutoSigninCheckbox />
             <button type="submit" class="form__button--submit">Sign in</button>
         </div>
-        <GoogleSigninButton />
+
         <RouterLink :to="{ name: 'signup' }" class="form__link"
             >Sign up</RouterLink
         >

@@ -9,24 +9,28 @@
                 :title="'User name*'"
                 :type="'text'"
                 :placeholder="'ぺったん太郎'"
+                :value="''"
             />
             <TextForm
                 v-model="form.email"
                 :title="'Email*'"
                 :type="'text'"
                 :placeholder="'taro-1234@petata.com'"
+                :value="''"
             />
             <TextForm
                 v-model="form.password"
                 :title="'Password*'"
                 :type="'password'"
                 :placeholder="'半角英数字8文字以上'"
+                :value="''"
             />
             <TextForm
                 v-model="form.password_confirmation"
                 :title="'Password (Confirm)*'"
                 :type="'password'"
                 :placeholder="''"
+                :value="''"
             />
 
             <button type="submit" class="form__button--submit">Sign up</button>
