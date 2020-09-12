@@ -10,6 +10,7 @@
                 :type="'text'"
                 :placeholder="'ぺったん太郎'"
                 :value="''"
+                :errors="errors.name"
             />
             <TextForm
                 v-model="form.email"
@@ -17,6 +18,7 @@
                 :type="'text'"
                 :placeholder="'taro-1234@petata.com'"
                 :value="''"
+                :errors="errors.email"
             />
             <TextForm
                 v-model="form.password"
@@ -24,6 +26,7 @@
                 :type="'password'"
                 :placeholder="'半角英数字8文字以上'"
                 :value="''"
+                :errors="errors.password"
             />
             <TextForm
                 v-model="form.password_confirmation"
@@ -56,7 +59,7 @@ export default {
                 email: "",
                 password: "",
                 password_confirmation: ""
-            }
+            },
         };
     },
     methods: {
@@ -66,12 +69,10 @@ export default {
         async register() {
             await this.$store.dispatch("auth/register", this.form);
             const isSuccess = this.apiStatus;
+
             if (isSuccess) {
                 // TODO: バインダー一覧へ遷移
                 this.$router.push({ name: "binder-list" });
-            } else {
-                // DEBUG:
-                alert("失敗しました。");
             }
         }
     },
@@ -82,6 +83,12 @@ export default {
         apiStatus() {
             return this.$store.state.auth.apiStatus;
         },
+        /**
+         * エラーメッセージ
+         */
+        errors() {
+            return this.$store.state.error.messages;
+        }
     }
 };
 </script>

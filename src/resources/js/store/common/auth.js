@@ -131,10 +131,11 @@ const actions = {
         context.commit("setApiStatus", false);
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
-            context.commit("setErrorMessages", response.data.errors);
+            context.commit("error/setMessages", response.data.errors, { root: true });
+
         } else {
             // その他のエラーの場合はエラーコードを格納
-            context.commit("error/setCode", response.data.status, {
+            context.commit("error/setCode", response.status, {
                 root: true
             });
         }

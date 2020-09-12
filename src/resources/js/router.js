@@ -51,6 +51,8 @@ const routes = [
                 );
                 next({ name: "binder-list" });
             } else {
+                // エラー情報をクリア
+                store.dispatch("error/clearMessages");
                 store.commit(
                     "mode/setTransitionType",
                     TRANSITION_TYPE.FADE_FASTER
@@ -73,6 +75,8 @@ const routes = [
                 );
                 next({ name: "binder-list" });
             } else {
+                // エラー情報をクリア
+                store.dispatch("error/clearMessages");
                 store.commit(
                     "mode/setTransitionType",
                     TRANSITION_TYPE.FADE_FASTER
@@ -110,6 +114,8 @@ const routes = [
         component: BinderCreate,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                // エラー情報をクリア
+                store.dispatch("error/clearMessages");
                 store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {
@@ -129,6 +135,8 @@ const routes = [
         component: BinderCreate,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                // エラー情報をクリア
+                store.dispatch("error/clearMessages");
                 store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {

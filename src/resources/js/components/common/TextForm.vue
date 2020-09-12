@@ -1,11 +1,13 @@
 <template>
     <div>
-        <label class="form__label"
-            >{{ title }}
-            <span v-if="errors" class="form__error-message">
-                <div v-for="msg in errors" :key="msg">{{ msg }}</div></span
-            >
-        </label>
+
+            <label class="form__label"
+                ><span>{{ title }}</span>
+                <span v-if="errors" class="form__error-message">
+                    <div v-for="msg in errors" :key="msg">{{ msg }}</div></span
+                >
+            </label>
+
         <input
             v-model="text"
             :placeholder="placeholder"
@@ -17,16 +19,15 @@
 
 <script>
 export default {
-    data() {
-        return {
-            errors: null
-        };
-    },
     props: {
         value: String,
         title: String,
         type: String,
-        placeholder: String
+        placeholder: String,
+        errors: {
+            type: Array,
+            default: null
+        }
     },
     computed: {
         text: {

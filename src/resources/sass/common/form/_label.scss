@@ -1,5 +1,12 @@
 .form {
   &__label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    width: 100%;
+    margin-bottom: 8px;
+
     font-family: $font-family;
     font-size: 20px;
     line-height: 16px;
