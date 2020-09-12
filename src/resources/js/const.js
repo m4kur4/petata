@@ -26,3 +26,16 @@ export const TRANSITION_TYPE = {// トランジションの種類(src\resources\
     PAGE_IN: 'page-in',
     PAGE_OUT: 'page-out',
 }
+
+export const MESSAGE = {
+    COMMON: {
+        SYSTEM_ERROR: "システムエラーが発生しました。",
+    },
+    SIGNIN: {
+        FAIL: "ログインに失敗しました。",
+        NOTIFY: "メールアドレスかパスワードが正しくありません。",
+    },
+    SIGNUP: {
+        FAIL: "入力内容をご確認ください。",
+    },
+};

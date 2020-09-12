@@ -11,6 +11,7 @@
             <ModalBackground />
         </transition>
         <Loader />
+        <MessageBox />
     </main>
 </template>
 
@@ -19,13 +20,15 @@ import Header from "./components/common/Header.vue";
 import Navbar from "./components/common/Navbar.vue";
 import ModalBackground from "./components/common/ModalBackground.vue";
 import Loader from "./components/common/Loader.vue";
+import MessageBox from "./components/common/MessageBox.vue"
 
 export default {
     components: {
         Navbar,
         Header,
         ModalBackground,
-        Loader
+        Loader,
+        MessageBox
     },
     methods: {
         /**

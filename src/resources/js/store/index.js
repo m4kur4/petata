@@ -5,6 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 import auth from "./common/auth";
 import error from "./common/error";
 import mode from "./common/mode";
+import messageBox from "./common/message-box";
 
 import binderCreate from "./form/binder-create";
 import binderList from "./form/binder-list";
@@ -18,6 +19,7 @@ const store = new Vuex.Store({
         auth,
         error,
         mode,
+        messageBox,
         binderCreate,
         binderList,
         binder,
