@@ -35,6 +35,8 @@ class UserLoginService implements UserLoginServiceInterface
      */
     public function execute(UserLoginRequest $request)
     {
+        $user = $this->login($request);
+
         // 継続ログインの設定
         if (!empty($request->remember)) {
             Auth::attempt(['email' => $request->email, 'password' => $request->password], true);
