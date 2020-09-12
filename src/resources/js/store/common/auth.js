@@ -77,6 +77,21 @@ const actions = {
         await context.dispatch("callApi", param);
     },
     /**
+     * ログアウト
+     */
+    async logout(context) {
+        const param = {
+            data: {},
+            uri: "api/user/auth/logout",
+            fnSuccess: response => {
+                context.commit('setApiStatus', true)
+                context.commit('setUser', null)
+                return false;
+            }
+        };
+        await context.dispatch("callApi", param);
+    },
+    /**
      * 認証API呼び出しの基底処理
      * @param {obj} param
      * {
@@ -120,12 +135,15 @@ const actions = {
     /**
      * ログインユーザーの情報を取得します。
      * ログインセッションが存在する場合はstateへユーザー情報を設定します。
+     * 
+     * NOTE: ページをリロードするとstoreが初期化されてログイン状態が保持できないため
      */
     async getUserInfo(context) {
 
         const response = await axios.get('api/user/info');
-        const userInfo = response.data;
         
+        const userInfo = response.data;
+        console.log(response);
         if (response.data == "") {
             // 未ログイン時はnullを設定
             context.commit("setUser", null);
