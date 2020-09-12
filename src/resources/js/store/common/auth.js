@@ -5,15 +5,15 @@ import { STATUS, MESSAGE } from "../../const";
 
 const state = {
     /**
-     * ログイン中のユーザー
-     */
-    user: null,
-    /**
-     * ユーザー認証に関するAPIの実行結果
+     * APIの実行結果
      * true: 成功
      * false: 失敗
      */
     apiStatus: null,
+    /**
+     * ログイン中のユーザー
+     */
+    user: null,
     /**
      * ユーザー認証に関するAPIのエラーメッセージ
      */

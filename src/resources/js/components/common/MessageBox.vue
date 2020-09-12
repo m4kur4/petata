@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade-faster">
+    <transition name="fade">
         <div v-if="haeMessage" class="message-box__wrapper mdc-elevation--z4">
             <div @click="close" class="message-box__close">
                 <svg

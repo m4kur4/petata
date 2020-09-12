@@ -1,10 +1,16 @@
 /**
  * フォームデータストア - バインダー作成 / 編集
  */
-import { STATUS } from "../../const";
+import { STATUS, MESSAGE } from "../../const";
 import Vue from "vue";
 
 const state = {
+    /**
+     * APIの実行結果
+     * true: 成功
+     * false: 失敗
+     */
+    apiStatus: null,
     /**
      * id: Number バインダーID
      * name: String バインダー名
@@ -56,6 +62,9 @@ const mutations = {
     },
     removeLabel(state, label) {
         Vue.delete(state.form.labels, label.index);
+    },
+    setApiStatus(state, val) {
+        state.apiStatus = val;
     }
 };
 
@@ -81,17 +90,26 @@ const actions = {
             response.status === STATUS.OK ||
             response.status === STATUS.CREATED
         ) {
-            alert("成功しました。");
+            context.commit("setApiStatus", true);
             return false;
         }
 
         // 失敗
+        context.commit("setApiStatus", false);
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
-            context.commit("setErrorMessages", response.errors);
+            context.commit("error/setMessages", response.data.errors, {
+                root: true
+            });
+            context.dispatch("messageBox/add", MESSAGE.BINDER_CREATE.FAIL, {
+                root: true
+            });
         } else {
             // その他のエラーの場合はエラーコードを格納
             context.commit("error/setCode", response.status, {
+                root: true
+            });
+            context.dispatch("messageBox/add", MESSAGE.COMMON.SYSTEM_ERROR, {
                 root: true
             });
         }

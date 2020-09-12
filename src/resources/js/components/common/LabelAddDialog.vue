@@ -13,6 +13,7 @@
                     :type="'text'"
                     :placeholder="'ぺた太のお気に入り'"
                     :value="name"
+                    :errors="errors"
                 />
 
                 <label class="form__label"
@@ -39,11 +40,17 @@
 <script>
 import TextForm from "./TextForm.vue";
 import TextAreaForm from "./TextAreaForm.vue";
+import { MESSAGE } from '../../const';
 
 export default {
     components: {
         TextForm,
         TextAreaForm
+    },
+    data() {
+        return {
+            errors: [],
+        };
     },
     methods: {
         /**
@@ -52,6 +59,7 @@ export default {
         closeDialog() {
             this.name = null;
             this.description = null;
+            this.errors = [];
             this.$store.commit("mode/setIsShowDialog", false);
             this.$store.dispatch("labelAddDialog/clear");
         },
@@ -60,6 +68,12 @@ export default {
          * カスタムイベント名："add-label-click"
          */
         add() {
+            const isValid = this.validate();
+            if (!isValid) {
+                // 入力値が不正な場合は後続処理なし
+                return false;
+            }
+            
             // TODO: 実装
             const formData = {
                 index: this.index,
@@ -70,6 +84,27 @@ export default {
             // NOTE: 処理を親へ委譲することで画面ごとに振る舞いを変える
             this.$emit("add-label-click", formData);
             this.closeDialog();
+        },
+        /**
+         * 入力値を検証します。
+         * NOTE: 直接ダイアログからサーバーへ送信しない場合があるため
+         */
+        validate() {
+            // 初期化
+            this.errors = [];
+            // 名前は必須
+            if (!!!this.name) {
+                this.errors.push(MESSAGE.LABEL_ADD_DLG.NOTIFY.NAME.REQUIRED);
+            }
+            // 名前は20字以内
+            if (this.name.length > 20) {
+                this.errors.push(MESSAGE.LABEL_ADD_DLG.NOTIFY.NAME.MAX);
+            }
+            if (this.errors.length > 0) {
+                this.$store.dispatch("messageBox/add", MESSAGE.LABEL_ADD_DLG.FAIL)
+                return false;
+            }
+            return true;
         }
     },
     computed: {

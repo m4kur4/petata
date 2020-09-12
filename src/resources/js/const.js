@@ -38,4 +38,16 @@ export const MESSAGE = {
     SIGNUP: {
         FAIL: "入力内容をご確認ください。",
     },
+    BINDER_CREATE: {
+        FAIL: "入力内容をご確認ください。",
+    },
+    LABEL_ADD_DLG: {
+        FAIL: "入力内容をご確認ください。",
+        NOTIFY: {
+            NAME:{
+                REQUIRED: "ラベル名は必須です。",
+                MAX: "ラベル名は20字以内で設定してください。",
+            }
+        }
+    }
 };

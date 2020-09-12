@@ -17,12 +17,14 @@
                 :type="'text'"
                 :placeholder="'ぺた太のアートワーク'"
                 :value="''"
+                :errors="errors.name"
             />
             <TextAreaForm
                 v-model="binderDescription"
                 :title="'Description'"
                 :placeholder="'バインダーの説明を入力します。'"
                 :value="''"
+                :errors="errors.description"
             />
             <button @click="doPost" type="button" class="form__button--submit">
                 {{ isNewBinder ? "Create" : "Edit" }}
@@ -92,7 +94,11 @@ export default {
          */
         async doPost() {
             await this.$store.dispatch("binderCreate/doPost");
-            this.$router.push({ name: "binder-list" });
+
+            const isSuccess = this.apiStatus;
+            if (isSuccess) {
+                this.$router.push({ name: "binder-list" });
+            }
         },
         /**
          * ラベルを削除します。
@@ -142,6 +148,18 @@ export default {
          */
         isNewBinder() {
             return this.$store.getters["binderCreate/isNewBinder"];
+        },
+        /**
+         * エラーメッセージ
+         */
+        errors() {
+            return this.$store.state.error.messages;
+        },
+        /**
+         * API実行結果
+         */
+        apiStatus() {
+            return this.$store.state.apiStatus;
         }
     }
 };
