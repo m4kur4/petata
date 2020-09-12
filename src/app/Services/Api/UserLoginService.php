@@ -8,6 +8,9 @@ use App\Services\Api\Interfaces\UserLoginServiceInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
+use Auth;
+use Log;
+
 /**
  * @inheritdoc
  */
@@ -32,7 +35,15 @@ class UserLoginService implements UserLoginServiceInterface
      */
     public function execute(UserLoginRequest $request)
     {
-        return $this->login($request);
+        // 継続ログインの設定
+        if (!empty($request->remember)) {
+            Auth::attempt(['email' => $request->email, 'password' => $request->password], true);
+        } else {
+            $user->setRememberToken(null);
+            $user->save();
+        }
+
+        return $user;
     }
 
     /**

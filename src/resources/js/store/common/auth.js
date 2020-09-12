@@ -17,7 +17,11 @@ const state = {
     /**
      * ユーザー認証に関するAPIのエラーメッセージ
      */
-    errorMessages: null
+    errorMessages: null,
+    /**
+     * 継続ログインの有無
+     */
+    isEnabledAutoLogin: false,
 };
 
 const getters = {
@@ -40,6 +44,9 @@ const mutations = {
     },
     setErrorMessages(state, messages) {
         state.apiStatus = messages;
+    },
+    setIsEnableAutoLogin(state, val) {
+        state.isEnabledAutoLogin = val;
     }
 };
 

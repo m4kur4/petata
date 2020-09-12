@@ -53,6 +53,11 @@ export default {
          * ユーザー認証
          */
         async signin() {
+
+            if (this.$store.state.auth.isEnabledAutoLogin) {
+                // 継続ログインの有効化
+                this.form.remember = true;
+            }
             await this.$store.dispatch("auth/login", this.form);
             const isSuccess = this.apiStatus;
             if (isSuccess) {
