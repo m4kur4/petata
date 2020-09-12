@@ -10,6 +10,7 @@
                 :type="'text'"
                 :placeholder="'taro-1234@petata.com'"
                 :value="''"
+                :errors="loginFailureError"
             />
             <TextForm
                 v-model="form.password"
@@ -17,6 +18,7 @@
                 :type="'password'"
                 :placeholder="''"
                 :value="''"
+                :errors="[]"
             />
             <AutoSigninCheckbox />
             <button type="submit" class="form__button--submit">Sign in</button>
@@ -32,6 +34,7 @@ import FormTitle from "../common/FormTitle.vue";
 import TextForm from "../common/TextForm.vue";
 import AutoSigninCheckbox from "./AutoSigninCheckbox.vue";
 import GoogleSigninButton from "./GoogleSigninButton.vue";
+import { util } from "../../util";
 
 export default {
     components: {
@@ -74,6 +77,16 @@ export default {
          */
         apiStatus() {
             return this.$store.state.auth.apiStatus;
+        },
+        /**
+         * エラーメッセージ
+         */
+        loginFailureError() {
+            const errorResponses = this.$store.state.error.messages;
+            // 一律でログイン失敗のメッセージを表示
+            if (!util.isEmptyObject(errorResponses)) {
+                return ['メールアドレスかパスワードが正しくありません。'];
+            }
         }
     }
 };

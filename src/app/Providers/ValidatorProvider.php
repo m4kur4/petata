@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\Validator;
 
 /**
  * カスタムバリデーションプロバイダ
- * 
- * 独自のバリデーションをここに定義する。
- * バリデーション名にはカスタマイズ版と分かるように「c_」を頭に付けること。
  */
 class ValidatorProvider extends ServiceProvider
 {

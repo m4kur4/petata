@@ -39,6 +39,11 @@ export const util = {
         return event.currentTarget.classList.contains("sortable-chosen");
     },
     /**
-     * 
+     * オブジェクトが空かどうかを判定します。
+     * NOTE: 空 = {}
      */
+    isEmptyObject(obj) {
+        const len = Object.keys(obj).length;
+        return len === 0;
+    },
 };
