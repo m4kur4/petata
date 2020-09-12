@@ -19,3 +19,10 @@ export const SAVE_ORDER_TYPE = { // バインダー画面の並べ替え更新�
     IMAGE: 10, // 画像
     LABEL: 20, // ラベル
 }
+
+export const TRANSITION_TYPE = {// トランジションの種類(src\resources\sass\common\_base.scss)
+    FADE: 'fade',
+    FADE_FASTER: 'fade-faster',
+    PAGE_IN: 'page-in',
+    PAGE_OUT: 'page-out',
+}

@@ -30,12 +30,7 @@ export default {
          * 画面操作に応じてトランジションのスタイルを動的に切り替えます。
          */
         getTransitionName() {
-            const isInnerPage = this.$store.state.mode.isInnerPage;
-            if (isInnerPage) {
-                return "page-out";
-            } else {
-                return "page-in";
-            }
+            return this.$store.state.mode.isInnerPage;
         }
     }
 };

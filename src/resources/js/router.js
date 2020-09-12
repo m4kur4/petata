@@ -9,6 +9,7 @@ import BinderList from "./pages/BinderList.vue";
 import BinderCreate from "./pages/BinderCreate.vue";
 
 import store from "./store";
+import { TRANSITION_TYPE } from "./const";
 
 Vue.use(VueRouter);
 
@@ -24,8 +25,14 @@ const routes = [
         component: Binder,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {
+                // 未ログインの場合はログインページへリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next({ name: "signin" });
             }
         }
@@ -37,8 +44,17 @@ const routes = [
         component: Signup,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                // ログイン済みの場合はバインダー一覧へリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next({ name: "binder-list" });
             } else {
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next();
             }
         }
@@ -50,8 +66,17 @@ const routes = [
         component: Signin,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                // ログイン済みの場合はバインダー一覧へリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next({ name: "binder-list" });
             } else {
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next();
             }
         }
@@ -63,8 +88,17 @@ const routes = [
         component: BinderList,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.PAGE_OUT
+                );
                 next();
             } else {
+                // 未ログインの場合はログインページへリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next({ name: "signin" });
             }
         }
@@ -76,8 +110,14 @@ const routes = [
         component: BinderCreate,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {
+                // 未ログインの場合はログインページへリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next({ name: "signin" });
             }
         }
@@ -89,12 +129,18 @@ const routes = [
         component: BinderCreate,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {
+                // 未ログインの場合はログインページへリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
                 next({ name: "signin" });
             }
         }
-    },
+    }
 ];
 
 const router = new VueRouter({

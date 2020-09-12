@@ -23,10 +23,9 @@ const state = {
      */
     isConnecting: false,
     /**
-     * ページ内にいるかどうか
-     * NOTE: ページ遷移のトランジションを制御する
+     * ページ遷移のトランジション
      */
-    isInnerPage: false
+    transitionType: 'fade-faster'
 };
 
 const mutations = {
@@ -42,18 +41,21 @@ const mutations = {
     setIsShowDropzone(state, val) {
         state.isShowDropzone = val;
     },
-    async setIsConnecting(state, val) {
+    /**
+     * プログレスインジケーターの表示制御
+     */
+    setIsConnecting(state, val) {
         const func = () => {
             state.isConnecting = val;
         };
         if (val == false) {
             // 消す場合は最低1秒表示させる
-            await setTimeout(func, 500);
+            setTimeout(func, 500);
             return false;
         }
         func();
     },
-    setIsInnerPage(state, val) {
+    setTransitionType(state, val) {
         state.isInnerPage = val;
     }
 };
@@ -61,5 +63,5 @@ const mutations = {
 export default {
     namespaced: true,
     state,
-    mutations
+    mutations,
 };
