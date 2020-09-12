@@ -36,7 +36,7 @@ class UserController extends Controller
         $this->user_login_service = $user_login_service;
         $this->user_logout_service = $user_logout_service;
 
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except(['getLoginUser', 'logout']);
     }
 
     /**
@@ -46,7 +46,7 @@ class UserController extends Controller
     public function getLoginUser()
     {
         if(Auth::id() == null) {
-            return "";
+            return '';
         }
         return User::find(Auth::id());
     }
