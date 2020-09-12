@@ -64,7 +64,7 @@ const actions = {
             context.commit("setBinders", response.data);
         } else {
             // 失敗時はエラーコードを格納
-            context.commit("error/setCode", response.data.status, {
+            context.commit("error/setCode", response.status, {
                 root: true
             });
         }
@@ -102,10 +102,10 @@ const actions = {
         // 失敗
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
-            context.commit("setErrorMessages", response.data.errors);
+            context.commit("setErrorMessages", response.errors);
         } else {
             // その他のエラーの場合はエラーコードを格納
-            context.commit("error/setCode", response.data.status, {
+            context.commit("error/setCode", response.status, {
                 root: true
             });
         }
@@ -136,10 +136,10 @@ const actions = {
         // 失敗
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
-            context.commit("setErrorMessages", response.data.errors);
+            context.commit("setErrorMessages", response.errors);
         } else {
             // その他のエラーの場合はエラーコードを格納
-            context.commit("error/setCode", response.data.status, {
+            context.commit("error/setCode", response.status, {
                 root: true
             });
         }
@@ -174,10 +174,10 @@ const actions = {
         // 失敗
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
-            context.commit("setErrorMessages", response.data.errors);
+            context.commit("setErrorMessages", response.errors);
         } else {
             // その他のエラーの場合はエラーコードを格納
-            context.commit("error/setCode", response.data.status, {
+            context.commit("error/setCode", response.status, {
                 root: true
             });
         }
