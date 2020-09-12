@@ -10,6 +10,7 @@
         <transition name="fade-faster">
             <ModalBackground />
         </transition>
+        <Loader />
     </main>
 </template>
 
@@ -17,12 +18,14 @@
 import Header from "./components/common/Header.vue";
 import Navbar from "./components/common/Navbar.vue";
 import ModalBackground from "./components/common/ModalBackground.vue";
+import Loader from "./components/common/Loader.vue";
 
 export default {
     components: {
         Navbar,
         Header,
-        ModalBackground
+        ModalBackground,
+        Loader
     },
     methods: {
         /**

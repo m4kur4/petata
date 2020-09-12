@@ -5,7 +5,6 @@
         <RightColumn />
         <LightBox ref="lightBox" />
         <Dropzone />
-        <Loader />
     </div>
 </template>
 
@@ -15,7 +14,6 @@ import ImageList from "../components/binder/ImageList.vue";
 import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
 import LightBox from "../components/binder/LightBox.vue";
-import Loader from "../components/common/Loader.vue";
 import Dropzone from "../components/binder/Dropzone.vue";
 export default {
     components: {
@@ -23,7 +21,6 @@ export default {
         ImageContainer,
         RightColumn,
         LightBox,
-        Loader,
         Dropzone,
     },
     computed: {
