@@ -93,6 +93,8 @@ const actions = {
             const target = state.binders.find(item => item.id == binderId);
             target.is_favorite = !target.is_favorite;
 
+            // バインダーを再検索
+            context.dispatch("searchBinder");
             context.dispatch("setProgressIndicatorVisibleState", false);
             return false;
         }
