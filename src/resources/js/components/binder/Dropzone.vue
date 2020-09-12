@@ -37,12 +37,7 @@ export default {
                 maxFilesize: 10, //MB このサイズを超えるとerrorイベントが発火
                 clickable: false, // クリックでファイル保存ダイアログを表示しない
                 uploadMultiple: true, // 複数ファイルアップロードのイベントを利用する
-                processing: function(file, response) {
-                    // プレビューを削除する
-                    file.previewElement.outerHTML = "";
-                    // Dropzoneを非表示にする
-                    self.hideDropzone();
-                },
+                parallelUploads: 10, // 一度のリクエストでアップロードするファイル数
                 dragleave: function(file, response) {
                     // Dropzoneを非表示にする
                     self.hideDropzone();
@@ -59,9 +54,20 @@ export default {
                 error: function(e) {
                     console.log(e);
                 },
+                processing: function(file, response) {
+                    // プレビューを削除する
+                    file.previewElement.outerHTML = "";
+                    // Dropzoneを非表示にする
+                    self.hideDropzone();
+                    // プログレスインジケーターを表示する
+                    self.$store.commit("mode/setIsConnecting", true);
+                },
                 completemultiple: function(file, response) {
+                    // プログレスインジケーターを消す
+                    self.$store.commit("mode/setIsConnecting", false);
                     // バインダー情報をリロード
-                    self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id)
+                    self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id);
+                    
                 }
             }
         };
