@@ -8,7 +8,9 @@
                 type="checkbox"
             />Remember me
         </label>
+        <!--
         <a href="#" class="form__link--right">Forget password</a>
+        -->
     </span>
 </template>
 <script>
