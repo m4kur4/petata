@@ -1,7 +1,7 @@
 /**
  * 認証関係ストア
  */
-import { STATUS } from "../../const";
+import { STATUS, MESSAGE } from "../../const";
 
 const state = {
     /**
@@ -21,7 +21,7 @@ const state = {
     /**
      * 継続ログインの有無
      */
-    isEnabledAutoLogin: false,
+    isEnabledAutoLogin: false
 };
 
 const getters = {
@@ -56,32 +56,80 @@ const actions = {
      * @param {obj} フォームデータ
      */
     async register(context, data) {
-        const param = {
-            data: data,
-            uri: "api/user/register",
-            fnSuccess: response => {
-                context.commit("setApiStatus", true);
-                context.commit("setUser", response.data);
-                return false;
-            }
-        };
-        await context.dispatch("callApi", param);
+        const uri = "api/user/register";
+
+        // API呼び出し
+        context.commit("setApiStatus", null);
+        const response = await axios
+            .post(`${uri}`, data)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.CREATED) {
+            context.commit("setApiStatus", true);
+            context.commit("setUser", response.data);
+            return false;
+        }
+
+        // 失敗
+        context.commit("setApiStatus", false);
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("error/setMessages", response.data.errors, {
+                root: true
+            });
+            context.dispatch("messageBox/add", MESSAGE.SIGNUP.FAIL, {
+                root: true
+            });
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+            context.dispatch("messageBox/add", MESSAGE.COMMON.SYSTEM_ERROR, {
+                root: true
+            });
+        }
     },
     /**
      * ユーザー認証
      * @param {obj} フォームデータ
      */
     async login(context, data) {
-        const param = {
-            data: data,
-            uri: "api/user/auth/login",
-            fnSuccess: response => {
-                context.commit("setApiStatus", true);
-                context.commit("setUser", response.data);
-                return false;
-            }
-        };
-        await context.dispatch("callApi", param);
+        const uri = "api/user/auth/login";
+
+        // API呼び出し
+        context.commit("setApiStatus", null);
+        const response = await axios
+            .post(`${uri}`, data)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            context.commit("setApiStatus", true);
+            context.commit("setUser", response.data);
+            return false;
+        }
+
+        // 失敗
+        context.commit("setApiStatus", false);
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("error/setMessages", response.data.errors, {
+                root: true
+            });
+            context.dispatch("messageBox/add", MESSAGE.SIGNIN.FAIL, {
+                root: true
+            });
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+            context.dispatch("messageBox/add", MESSAGE.COMMON.SYSTEM_ERROR, {
+                root: true
+            });
+        }
     },
     /**
      * ログアウト
@@ -91,8 +139,8 @@ const actions = {
             data: {},
             uri: "api/user/auth/logout",
             fnSuccess: response => {
-                context.commit('setApiStatus', true)
-                context.commit('setUser', null)
+                context.commit("setApiStatus", true);
+                context.commit("setUser", null);
                 return false;
             }
         };
@@ -112,44 +160,16 @@ const actions = {
         const data = param["data"];
         const uri = param["uri"];
         const fnSuccess = param["fnSuccess"];
-
-        // API呼び出し
-        context.commit("setApiStatus", null);
-        const response = await axios
-            .post(`${uri}`, data)
-            .catch(err => err.response || err);
-
-        // 成功
-        if (
-            response.status === STATUS.OK ||
-            response.status === STATUS.CREATED
-        ) {
-            return fnSuccess(response);
-        }
-
-        // 失敗
-        context.commit("setApiStatus", false);
-        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
-            // バリデーションエラーの場合はエラーメッセージを格納
-            context.commit("error/setMessages", response.data.errors, { root: true });
-
-        } else {
-            // その他のエラーの場合はエラーコードを格納
-            context.commit("error/setCode", response.status, {
-                root: true
-            });
-        }
     },
     /**
      * ログインユーザーの情報を取得します。
      * ログインセッションが存在する場合はstateへユーザー情報を設定します。
-     * 
+     *
      * NOTE: ページをリロードするとstoreが初期化されてログイン状態が保持できないため
      */
     async getUserInfo(context) {
+        const response = await axios.get("api/user/info");
 
-        const response = await axios.get('api/user/info');
-        
         const userInfo = response.data;
         console.log(response);
         if (response.data == "") {

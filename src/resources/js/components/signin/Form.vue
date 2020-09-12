@@ -35,6 +35,7 @@ import TextForm from "../common/TextForm.vue";
 import AutoSigninCheckbox from "./AutoSigninCheckbox.vue";
 import GoogleSigninButton from "./GoogleSigninButton.vue";
 import { util } from "../../util";
+import { MESSAGE } from '../../const'; 
 
 export default {
     components: {
@@ -65,9 +66,6 @@ export default {
             const isSuccess = this.apiStatus;
             if (isSuccess) {
                 this.$router.push({ name: "binder-list" });
-            } else {
-                // DEBUG:
-                alert("失敗しました。");
             }
         }
     },
@@ -83,9 +81,9 @@ export default {
          */
         loginFailureError() {
             const errorResponses = this.$store.state.error.messages;
-            // 一律でログイン失敗のメッセージを表示
+            // エラー内容に関わらずログイン失敗の通知を表示
             if (!util.isEmptyObject(errorResponses)) {
-                return ['メールアドレスかパスワードが正しくありません。'];
+                return [MESSAGE.SIGNIN.NOTIFY];
             }
         }
     }
