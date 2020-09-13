@@ -118,9 +118,9 @@ class ImageRepository implements ImageRepositoryInterface
         // 削除後の全画像に並び順を割り当てる
         $this->resetSortAll($request->binder_id);
 
-        // TODO: S3を使う
-        // Storage::disk('s3')->delete($delete_target_paths);
-        Storage::disk('public')->delete($delete_target_paths);
+        Storage::disk('s3')->delete($delete_target_paths);
+        // DEBUG: public
+        //Storage::disk('public')->delete($delete_target_paths);
     }
 
     /**
@@ -136,9 +136,10 @@ class ImageRepository implements ImageRepositoryInterface
         // TODO: トランザクションでエラーが発生した場合はファイル削除しない
 
         $image_directory = FileManageHelper::getBinderImageDirectoryPath($binder_id);
-        // TODO: S3を使う
-        //Storage::disk('s3')->deleteDirectory($image_directory);
-        Storage::disk('public')->deleteDirectory($image_directory);
+        Storage::disk('s3')->deleteDirectory($image_directory);
+        
+        // DEBUG: public
+        // Storage::disk('public')->deleteDirectory($image_directory);
     }
 
     /**
@@ -277,9 +278,9 @@ class ImageRepository implements ImageRepositoryInterface
 
         $image_png = new File($temp_path);
 
-        // TODO: S3を使う
-        // $path = Storage::disk('s3')->putFileAs(
-        $path = Storage::disk('public')->putFileAs(
+        // DEBUG: public
+        //$path = Storage::disk('public')->putFileAs(
+        $path = Storage::disk('s3')->putFileAs(
             $upload_directory, 
             $image_png, 
             ($image_path . '.' . 'png'),
@@ -338,9 +339,9 @@ class ImageRepository implements ImageRepositoryInterface
         $this->uploadPng($upload_directory, $image_file, $image_data->path);
     
         // オリジナル画像のアップロード
-        // TODO: S3を使う
-        // $path = Storage::disk('s3')->putFileAs(
-        $path = Storage::disk('public')->putFileAs(
+        // DEBUG: public
+        // $path = Storage::disk('public')->putFileAs(
+        $path = Storage::disk('s3')->putFileAs(
             $upload_directory . '/org/', 
             $image_file, 
             ($image_data->path . '.' . $image_data->extension),

@@ -31,16 +31,6 @@ class ImageAddApiTest extends TestCase
     /**
      * @test
      * 
-     * テストを停止中に警告が表示されないようにする
-     */
-    public function Avoid_Worning()
-    {
-        $this->assertEquals(1,1);
-    }
-
-    /**
-     * // TODO: 開発中はS3を使わないため、試験を停止中
-     * 
      * 正しいリクエストを送信し、画像の追加に成功する。
      */
     public function Image_Create_Success()
@@ -49,7 +39,7 @@ class ImageAddApiTest extends TestCase
         $BINDER_ID = 1;
 
         $formData = [
-            'image' => UploadedFile::fake()->image('test.jpg'),
+            'images' => [UploadedFile::fake()->image('test.jpg')],
             'binder_id' => $BINDER_ID
         ];
 
@@ -66,7 +56,7 @@ class ImageAddApiTest extends TestCase
         
         // - ストレージに期待通りファイルがアップロードされていること
         //   NOTE: アップロード先 ⇒ binder/<binder_id>/<path>
-        // Log::debug(Storage::cloud()->allFiles());
-        Storage::cloud()->assertExists(FileManageHelper::getBinderImagePath($image));
+        Log::debug(Storage::cloud()->allFiles());
+        // Storage::cloud()->assertExists(FileManageHelper::getBinderImagePath($image));
     }
 }
