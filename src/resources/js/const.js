@@ -27,6 +27,11 @@ export const TRANSITION_TYPE = {// トランジションの種類(src\resources\
     PAGE_OUT: 'page-out',
 }
 
+export const MESSAGE_TYPE = {
+    ERROR: 'error',
+    SUCCESS: 'success',
+};
+
 export const MESSAGE = {
     COMMON: {
         SYSTEM_ERROR: "システムエラーが発生しました。",
@@ -37,6 +42,9 @@ export const MESSAGE = {
     },
     SIGNUP: {
         FAIL: "入力内容をご確認ください。",
+    },
+    SIGNOUT: {
+        FAIL: "ログアウトに失敗しました。"
     },
     BINDER_CREATE: {
         FAIL: "入力内容をご確認ください。",

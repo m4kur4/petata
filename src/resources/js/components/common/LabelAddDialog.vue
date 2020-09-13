@@ -40,7 +40,8 @@
 <script>
 import TextForm from "./TextForm.vue";
 import TextAreaForm from "./TextAreaForm.vue";
-import { MESSAGE } from '../../const';
+import { MESSAGE, MESSAGE_TYPE } from '../../const';
+import { util } from '../../util';
 
 export default {
     components: {
@@ -101,7 +102,8 @@ export default {
                 this.errors.push(MESSAGE.LABEL_ADD_DLG.NOTIFY.NAME.MAX);
             }
             if (this.errors.length > 0) {
-                this.$store.dispatch("messageBox/add", MESSAGE.LABEL_ADD_DLG.FAIL)
+                const message = util.createMessage(MESSAGE.LABEL_ADD_DLG.FAIL, MESSAGE_TYPE.ERROR);
+                this.$store.dispatch("messageBox/add", message);
                 return false;
             }
             return true;

@@ -46,4 +46,13 @@ export const util = {
         const len = Object.keys(obj).length;
         return len === 0;
     },
+    /**
+     * 通知メッセージを生成します。
+     * 
+     * @param {String} val メッセージテキスト
+     * @param {String} type メッセージのタイプ（成功/エラー）
+     */
+    createMessage(val, type) {
+        return {val: val, type: type};
+    },
 };

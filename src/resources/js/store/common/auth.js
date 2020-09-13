@@ -1,7 +1,8 @@
 /**
  * 認証関係ストア
  */
-import { STATUS, MESSAGE } from "../../const";
+import { STATUS, MESSAGE, MESSAGE_TYPE } from "../../const";
+import { util } from "../../util";
 
 const state = {
     /**
@@ -78,7 +79,8 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            context.dispatch("messageBox/add", MESSAGE.SIGNUP.FAIL, {
+            const message = util.createMessage(MESSAGE.SIGNUP.FAIL, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
                 root: true
             });
         } else {
@@ -86,7 +88,8 @@ const actions = {
             context.commit("error/setCode", response.status, {
                 root: true
             });
-            context.dispatch("messageBox/add", MESSAGE.COMMON.SYSTEM_ERROR, {
+            const message = util.createMessage(MESSAGE.COMMON.SYSTEM_ERROR, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
                 root: true
             });
         }
@@ -118,7 +121,8 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            context.dispatch("messageBox/add", MESSAGE.SIGNIN.FAIL, {
+            const message = util.createMessage(MESSAGE.SIGNIN.FAIL, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
                 root: true
             });
         } else {
@@ -126,7 +130,8 @@ const actions = {
             context.commit("error/setCode", response.status, {
                 root: true
             });
-            context.dispatch("messageBox/add", MESSAGE.COMMON.SYSTEM_ERROR, {
+            const message = util.createMessage(MESSAGE.COMMON.SYSTEM_ERROR, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
                 root: true
             });
         }
@@ -135,31 +140,38 @@ const actions = {
      * ログアウト
      */
     async logout(context) {
-        const param = {
-            data: {},
-            uri: "api/user/auth/logout",
-            fnSuccess: response => {
-                context.commit("setApiStatus", true);
-                context.commit("setUser", null);
-                return false;
-            }
-        };
-        await context.dispatch("callApi", param);
-    },
-    /**
-     * 認証API呼び出しの基底処理
-     * @param {obj} param
-     * {
-     *   'data': フォームデータ,
-     *   'uri': APIのURI,
-     *   'fnSuccess': APIが正常に実行された際の処理
-     * }
-     */
-    async callApi(context, param) {
-        // パラメタの展開
-        const data = param["data"];
-        const uri = param["uri"];
-        const fnSuccess = param["fnSuccess"];
+        const uri = "api/user/auth/logout";
+
+        // API呼び出し
+        context.commit("setApiStatus", null);
+        const response = await axios
+            .post(`${uri}`)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            context.commit("setApiStatus", true);
+            context.commit("setUser", response.data);
+            return false;
+        }
+
+        // 失敗
+        context.commit("setApiStatus", false);
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            const message = util.createMessage(MESSAGE.SIGNOUT.FAIL, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+            const message = util.createMessage(MESSAGE.COMMON.SYSTEM_ERROR, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+        }
     },
     /**
      * ログインユーザーの情報を取得します。

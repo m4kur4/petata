@@ -20,11 +20,12 @@ const mutations = {
     setMessages(state, val) {
         state.messages = val;
     },
-    addMessage(state, val) {
+    addMessage(state, message) {
         // 先頭に追加
         state.messages.unshift({
             count: state.count,
-            val: val
+            val: message.val,
+            type: message.type
         });
     },
     removeMessage(state, message) {

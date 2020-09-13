@@ -1,7 +1,8 @@
 /**
  * フォームデータストア - バインダー作成 / 編集
  */
-import { STATUS, MESSAGE } from "../../const";
+import { STATUS, MESSAGE, MESSAGE_TYPE } from "../../const";
+import { util } from '../../util'
 import Vue from "vue";
 
 const state = {
@@ -80,6 +81,8 @@ const getters = {
 
 const actions = {
     async doPost(context) {
+        context.commit("setApiStatus", null);
+
         const uri = "api/binder/save";
         const response = await axios
             .post(`${uri}`, state.form)
@@ -97,11 +100,13 @@ const actions = {
         // 失敗
         context.commit("setApiStatus", false);
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            console.log(response.data.errors);
             // バリデーションエラーの場合はエラーメッセージを格納
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            context.dispatch("messageBox/add", MESSAGE.BINDER_CREATE.FAIL, {
+            const message = util.createMessage(MESSAGE.BINDER_CREATE.FAIL, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
                 root: true
             });
         } else {
@@ -109,7 +114,8 @@ const actions = {
             context.commit("error/setCode", response.status, {
                 root: true
             });
-            context.dispatch("messageBox/add", MESSAGE.COMMON.SYSTEM_ERROR, {
+            const message = util.createMessage(MESSAGE.COMMON.SYSTEM_ERROR, MESSAGE_TYPE.ERROR);
+            context.dispatch("messageBox/add", message, {
                 root: true
             });
         }

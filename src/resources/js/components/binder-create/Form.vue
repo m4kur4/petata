@@ -96,6 +96,7 @@ export default {
             await this.$store.dispatch("binderCreate/doPost");
 
             const isSuccess = this.apiStatus;
+            console.log(isSuccess);
             if (isSuccess) {
                 this.$router.push({ name: "binder-list" });
             }
@@ -159,7 +160,7 @@ export default {
          * API実行結果
          */
         apiStatus() {
-            return this.$store.state.apiStatus;
+            return this.$store.state.binderCreate.apiStatus;
         }
     }
 };
