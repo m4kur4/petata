@@ -51,7 +51,7 @@ export default {
                     this.options.params.binder_id = self.$store.state.binder.id;
                     self.hideDropzone();
                 },
-                processing: function(file, response) {
+                processingmultiple: function(file, response) {
                     // プレビューを削除する
                     file.previewElement.outerHTML = "";
                     // Dropzoneを非表示にする

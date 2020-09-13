@@ -2,7 +2,7 @@
  * フォームデータストア - バインダー
  */
 import { STATUS, SAVE_ORDER_TYPE, MESSAGE, MESSAGE_TYPE } from "../../const";
-import { util } from '../../util'
+import { util } from "../../util";
 import Vue from "vue";
 
 const state = {
@@ -129,7 +129,7 @@ const mutations = {
     },
     setCreatedAt(state, val) {
         state.created_at = val;
-    },
+    }
 };
 
 const getters = {
@@ -158,22 +158,21 @@ const getters = {
     /**
      * Draggableによる「画像/ラベル」(以下「対象」)の並び順を永続化するリクエスト用のデータを取得します。
      * 対象の並び順が変わらない場合はnullを返却します。
-     * 
+     *
      * NOTE: 更新後の並び順 算出仕様
      * 対象が前方に移動した場合、「指定した対象のひとつ後ろに位置する対象が持つ並び順」
      * それ以外の場合は「指定した対象のひとつ前に位置する対象が持つ並び順」を設定する
      *
      * @param {Object} param
      *   - target_id : 対象のID
-     *   - org_index : 移動前のインデックス 
+     *   - org_index : 移動前のインデックス
      *   - save_order_type : 対象の種類(util.js > SAVE_ORDER_TYPE)
-     * @return {Object} 
+     * @return {Object}
      *   - binder_id : バインダーID
      *   - target_id : 対象のID
      *   - sort_after : 更新後の並び順
      */
     getDataForSaveOrderState: state => param => {
-
         // 並び順更新種別に応じて参照するstateを変更
         let refs = [];
         if (param.save_order_type == SAVE_ORDER_TYPE.IMAGE) {
@@ -186,7 +185,7 @@ const getters = {
         let isChanged = false;
 
         // 更新後の並び順を持っている画像のインデックス
-        let refIndex; 
+        let refIndex;
 
         const targetId = param.target_id;
 
@@ -195,7 +194,6 @@ const getters = {
             const isTarget = ref.id == targetId;
 
             if (isTarget) {
-                
                 isChanged = index != param.org_index;
                 if (!isChanged) {
                     // 並び順が変わっていない場合は後続処理なし
@@ -204,7 +202,7 @@ const getters = {
 
                 // 移動方向が前方かどうか
                 const isForwardUpdate = index < param.org_index;
-                
+
                 if (isForwardUpdate) {
                     // 前方移動の場合
                     if (index == 0) {
@@ -240,12 +238,12 @@ const getters = {
         const postData = {
             binder_id: state.id,
             target_id: targetId,
-            sort_after: sortAfter 
+            sort_after: sortAfter
         };
         console.log("[DEBUG]" + target.sort + " => " + postData.sort_after);
 
         return postData;
-    },
+    }
 };
 
 const actions = {
@@ -305,7 +303,6 @@ const actions = {
      * ラベル情報をDBへ保存します。
      */
     async saveLabel(context, postData) {
-
         // 通信開始
         context.dispatch("setProgressIndicatorVisibleState", true);
 
@@ -344,10 +341,9 @@ const actions = {
      * ラベリングを行います。
      */
     async labeling(context, postData) {
-
         // 通信開始
         context.dispatch("setProgressIndicatorVisibleState", true);
-        
+
         const uri = "api/binder/label/register";
         const response = await axios
             .post(`${uri}`, postData)
@@ -360,7 +356,6 @@ const actions = {
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
             return false;
-
         } else if (response.status === STATUS.OK) {
             // ラベリングを登録解除した場合
 
@@ -376,7 +371,6 @@ const actions = {
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
             // バリデーションエラーの場合はエラーメッセージを格納
             context.commit("setErrorMessages", response.errors);
-
         } else {
             // その他のエラーの場合はエラーコードを格納
             context.commit("error/setCode", response.status, {
@@ -389,10 +383,14 @@ const actions = {
     /**
      * stateに保持している条件で画像を検索します。
      */
-    async searchBinderImage(context) {
-
+    async searchBinderImage(context, isShowProgress = true) {
         // 通信開始
-        context.dispatch("setProgressIndicatorVisibleState", true);
+        if (isShowProgress) {
+            // NOTE: ローディング画像を表示しないケース(並び順永続化)に対応
+            context.commit("mode/setIsLoading", true, {
+                root: true
+            });
+        }
 
         const uri = "api/binder/image/search";
         const response = await axios
@@ -402,9 +400,10 @@ const actions = {
         // 成功
         if (response.status === STATUS.OK) {
             context.commit("setImages", response.data);
-            
-            // 通信完了
-            context.dispatch("setProgressIndicatorVisibleState", false);
+
+            context.commit("mode/setIsLoading", false, {
+                root: true
+            });
 
             return false;
         }
@@ -419,17 +418,17 @@ const actions = {
                 root: true
             });
         }
-        // 通信完了
-        context.dispatch("setProgressIndicatorVisibleState", false);
+        context.commit("mode/setIsLoading", false, {
+            root: true
+        });
     },
     /**
      * ラベルを削除します。
      */
     async removeLabel(context, label) {
-
         // 通信開始
         context.dispatch("setProgressIndicatorVisibleState", true);
-        
+
         label.binder_id = state.id;
 
         const uri = "api/binder/label/delete";
@@ -444,7 +443,7 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
-            
+
             return false;
         }
 
@@ -465,7 +464,6 @@ const actions = {
      * 画像を削除します。
      */
     async removeImage(context, imageIds) {
-
         // 通信開始
         context.dispatch("setProgressIndicatorVisibleState", true);
 
@@ -505,7 +503,6 @@ const actions = {
      * 画像のファイル名を更新します。
      */
     async updateImageName(context, image) {
-
         // 通信開始
         context.dispatch("setProgressIndicatorVisibleState", true);
 
@@ -542,10 +539,6 @@ const actions = {
      * 画像の並べ替え状態を永続化します。
      */
     async saveImageOrderState(context, postData) {
-
-        // 通信開始
-        context.dispatch("setProgressIndicatorVisibleState", true);
-        
         console.log(postData);
         const uri = "api/binder/image/sort";
         const response = await axios
@@ -554,8 +547,6 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
-            // 通信完了
-            context.dispatch("setProgressIndicatorVisibleState", false);
             return false;
         }
 
@@ -569,17 +560,11 @@ const actions = {
                 root: true
             });
         }
-        // 通信完了
-        context.dispatch("setProgressIndicatorVisibleState", false);
     },
-    /** 
+    /**
      * ラベルの並べ替え状態を永続化します。
      */
     async saveLabelOrderState(context, postData) {
-
-        // 通信開始
-        context.dispatch("setProgressIndicatorVisibleState", true);
-
         console.log(postData);
         const uri = "api/binder/label/sort";
         const response = await axios
@@ -589,10 +574,6 @@ const actions = {
         // 成功
         if (response.status === STATUS.OK) {
             state.labels = response.data.labels;
-
-            // 通信完了
-            context.dispatch("setProgressIndicatorVisibleState", false);
-            return false;
         }
 
         // 失敗
@@ -605,15 +586,12 @@ const actions = {
                 root: true
             });
         }
-        // 通信完了
-        context.dispatch("setProgressIndicatorVisibleState", false);
     },
     /**
      * 指定したインデックス番号の画像情報をサーバーから再取得します。
      * NOTE: ラベリング状態やファイル名変更の反映
      */
     async fetchImage(context, index) {
-
         // 通信開始
         context.dispatch("setProgressIndicatorVisibleState", true);
 
@@ -634,7 +612,7 @@ const actions = {
      * 通信中であることを示すプログレスインジケーターの表示状態を設定します。
      */
     async setProgressIndicatorVisibleState(context, val) {
-        context.commit('mode/setIsConnecting', val, { root: true }) ;
+        context.commit("mode/setIsConnecting", val, { root: true });
     }
 };
 
