@@ -14,6 +14,8 @@
 
 <script>
 import vue2Dropzone from "vue2-dropzone";
+import { STATUS, MESSAGE, MESSAGE_TYPE } from "../../const";
+import { util } from "../../util";
 
 import ImageContainerThumbnail from "./ImageContainerThumbnail.vue";
 export default {
@@ -27,8 +29,6 @@ export default {
         return {
             dropzoneOptions: {
                 url: "/api/binder/image/add",
-                thumbnailWidth: 150,
-                maxFilesize: 0.5,
                 headers: { "X-CSRF-TOKEN": csrfToken },
                 params: {
                     binder_id: ""
@@ -51,9 +51,6 @@ export default {
                     this.options.params.binder_id = self.$store.state.binder.id;
                     self.hideDropzone();
                 },
-                error: function(e) {
-                    console.log(e);
-                },
                 processing: function(file, response) {
                     // プレビューを削除する
                     file.previewElement.outerHTML = "";
@@ -62,12 +59,35 @@ export default {
                     // プログレスインジケーターを表示する
                     self.$store.commit("mode/setIsConnecting", true);
                 },
+                errormultiple: function(file, response) {
+
+                    // レスポンスに含まれるメッセージを展開
+                    const errorMessageValues = Object.values(response.errors).flat(1);
+                    // 重複を除去
+                    const uniquedErrorMessageValues = [...(new Set(errorMessageValues))];
+
+                    // エラーメッセージの表示
+                    const errorMessages = uniquedErrorMessageValues.map(text => {
+                        // 通知メッセージのフォーマットへレスポンスを変換
+                        return util.createMessage(
+                            text,
+                            MESSAGE_TYPE.ERROR
+                        );
+                    });
+                    self.$store.dispatch("messageBox/addMany", errorMessages);
+                },
+                successmultiple: function() {
+                    
+                    // バインダー情報をリロード
+                    self.$store.dispatch(
+                        "binder/fetchBinder",
+                        self.$store.state.binder.id
+                    );
+                    return false;
+                },
                 completemultiple: function(file, response) {
                     // プログレスインジケーターを消す
                     self.$store.commit("mode/setIsConnecting", false);
-                    // バインダー情報をリロード
-                    self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id);
-                    
                 }
             }
         };

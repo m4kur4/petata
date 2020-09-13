@@ -1,8 +1,8 @@
 /**
  * フォームデータストア - バインダー
  */
-import { STATUS, SAVE_ORDER_TYPE } from "../../const";
-
+import { STATUS, SAVE_ORDER_TYPE, MESSAGE, MESSAGE_TYPE } from "../../const";
+import { util } from '../../util'
 import Vue from "vue";
 
 const state = {
