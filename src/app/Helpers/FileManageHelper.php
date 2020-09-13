@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Log;
 use Storage;
 
 /**
@@ -20,9 +21,9 @@ class FileManageHelper
         // オリジナル画像かどうか
         $is_original = ($extension == null);
 
-        // TODO: S3を使う
-        //$disk = Storage::disk('s3');
-        $disk = Storage::disk('public');
+        $disk = Storage::disk('s3');
+        // DEBUG: public
+        //$disk = Storage::disk('public');
 
         // <ベースディレクトリ> / <中間パス(バインダーID | バインダーID/org)> / <ファイル物理名>.<ファイル拡張子>
         $format = '%s/%s/%s.%s';
@@ -50,15 +51,16 @@ class FileManageHelper
      */
     public static function getBinderImagePath($image, $extension = null)
     {
+        $disk = Storage::disk('s3');
+
         // 相対パスを取得
         $relative_path = self::getBinderImageRelativePath($image, $extension);
 
         // 絶対パスを返却
-        // TODO: S3を使う
-        //$absolute_path = $disk->url($relative_path);
+        $absolute_path = $disk->url($relative_path);
 
-        // DEBUG: ローカルストレージの公開ディレクトリを参照
-        $absolute_path = asset('storage/' . $relative_path);
+        // DEBUG: public
+        //$absolute_path = asset('storage/' . $relative_path);
 
         return $absolute_path;
     }

@@ -103,15 +103,15 @@ class BinderDeleteApiTest extends TestCase
         })());
         //   - オリジナル画像
         $this->assertEquals(false, (function() use($image) {
-            // TODO: S3を使う
-            //return Storage::disk('s3')->(FileManageHelper::getBinderImageRelativePath($image));
-            return Storage::disk('public')->exists(FileManageHelper::getBinderImageRelativePath($image));
+            return Storage::disk('s3')->exists(FileManageHelper::getBinderImageRelativePath($image));
+            // DEBUG: public
+            //return Storage::disk('public')->exists(FileManageHelper::getBinderImageRelativePath($image));
         })());
         //   - png画像
         $this->assertEquals(false, (function() use($image) {
-            // TODO: S3を使う
-            //return Storage::disk('s3')->(FileManageHelper::getBinderImageRelativePath($image, 'png'));
-            return Storage::disk('public')->exists(FileManageHelper::getBinderImageRelativePath($image, 'png'));
+            return Storage::disk('s3')->exists(FileManageHelper::getBinderImageRelativePath($image, 'png'));
+            // DEBUG: public
+            // return Storage::disk('public')->exists(FileManageHelper::getBinderImageRelativePath($image, 'png'));
         })());
 
         // - 削除したバインダーに紐づくラベルとラベリングが削除されること
