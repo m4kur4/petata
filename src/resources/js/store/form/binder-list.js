@@ -35,6 +35,9 @@ const mutations = {
     setBinders(state, data) {
         state.binders = data;
     },
+    setSearchCondition(state, val) {
+        state.search_condition = val;
+    },
     setSearchConditionBinderOwn(state, val) {
         state.search_condition.is_own = val;
     },
@@ -59,6 +62,9 @@ const actions = {
             root: true
         });
         const response = await axios.get("api/binder/list");
+
+        // 検索条件を初期化
+        context.dispatch("clearSearchCondition");
 
         if (response.status === STATUS.OK) {
             context.commit("setBinders", response.data);
@@ -200,6 +206,18 @@ const actions = {
         context.commit("setSearchConditionBinderOwn", false);
         context.commit("setSearchConditionBinderOthers", false);
         context.commit("setSearchConditionBinderFavorite", false);
+    },
+    /**
+     * 検索条件をクリアします。
+     */
+    clearSearchCondition(context) {
+        const defaultSearchCondition = {
+            is_own: false,
+            is_others: false,
+            is_favorite: false,
+            binder_name: ""
+        };
+        context.commit("setSearchCondition", defaultSearchCondition);
     }
 };
 
