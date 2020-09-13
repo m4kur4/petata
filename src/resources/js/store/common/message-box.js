@@ -24,6 +24,9 @@ const getters = {
 };
 
 const mutations = {
+    setMessages(state, val) {
+        state.messages = val;
+    },
     addMessage(state, message) {
         // 先頭に追加
         state.messages.unshift({
@@ -64,7 +67,7 @@ const actions = {
     addMany(context, messages) {
         const messageCount = messages.length;
         for (let i = 0; i < messageCount; i++) {
-            
+
             const message = messages[i];
             const isExist = context.getters["exist"](message);
             

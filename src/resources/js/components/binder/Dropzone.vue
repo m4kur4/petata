@@ -34,7 +34,7 @@ export default {
                     binder_id: ""
                 },
                 paramName: "images", // name属性として扱われる
-                maxFilesize: 10, //MB このサイズを超えるとerrorイベントが発火
+                maxFilesize: 265, //MB このサイズを超えるとerrorイベントが発火
                 clickable: false, // クリックでファイル保存ダイアログを表示しない
                 uploadMultiple: true, // 複数ファイルアップロードのイベントを利用する
                 parallelUploads: 10, // 一度のリクエストでアップロードするファイル数
