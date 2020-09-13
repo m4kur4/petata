@@ -52,8 +52,7 @@ export default {
                     self.hideDropzone();
                 },
                 processingmultiple: function(file, response) {
-                    // プレビューを削除する
-                    file.previewElement.outerHTML = "";
+
                     // Dropzoneを非表示にする
                     self.hideDropzone();
                     // プログレスインジケーターを表示する
