@@ -1923,6 +1923,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_common_Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/common/Header.vue */ "./resources/js/components/common/Header.vue");
 /* harmony import */ var _components_common_Navbar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/common/Navbar.vue */ "./resources/js/components/common/Navbar.vue");
 /* harmony import */ var _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/common/ModalBackground.vue */ "./resources/js/components/common/ModalBackground.vue");
+/* harmony import */ var _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/common/Loader.vue */ "./resources/js/components/common/Loader.vue");
+/* harmony import */ var _components_common_MessageBox_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/common/MessageBox.vue */ "./resources/js/components/common/MessageBox.vue");
 //
 //
 //
@@ -1932,6 +1934,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -1939,7 +1951,18 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Navbar: _components_common_Navbar_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Header: _components_common_Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    ModalBackground: _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    ModalBackground: _components_common_ModalBackground_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Loader: _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    MessageBox: _components_common_MessageBox_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  methods: {
+    /**
+     * ページ遷移のトランジションを制御します。
+     * 画面操作に応じてトランジションのスタイルを動的に切り替えます。
+     */
+    getTransitionName: function getTransitionName() {
+      return this.$store.state.mode.isInnerPage;
+    }
   }
 });
 
@@ -1966,10 +1989,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     moveToBinderList: function moveToBinderList() {
-      this.$router.push("/binder/list");
+      this.$router.push({
+        name: "binder-list"
+      });
     }
   }
 });
@@ -1998,6 +2026,17 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2086,6 +2125,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var isSuccess;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2094,9 +2134,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _this.$store.dispatch("binderCreate/doPost");
 
               case 2:
-                _this.$router.push("/binder/list");
+                isSuccess = _this.apiStatus;
+                console.log(isSuccess);
 
-              case 3:
+                if (isSuccess) {
+                  _this.$router.push({
+                    name: "binder-list"
+                  });
+                }
+
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2126,7 +2173,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     binderName: {
       get: function get() {
-        return this.$store.state.binderCreate.binderName;
+        return this.$store.state.binderCreate.form.name;
       },
       set: function set(val) {
         this.$store.commit("binderCreate/setBinderName", val);
@@ -2134,7 +2181,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     binderDescription: {
       get: function get() {
-        return this.$store.state.binderCreate.binderDescription;
+        return this.$store.state.binderCreate.form.description;
       },
       set: function set(val) {
         this.$store.commit("binderCreate/setBinderDescription", val);
@@ -2147,16 +2194,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       set: function set(val) {
         this.$store.commit("binderCreate/setLabels", val);
       }
+    },
+
+    /**
+     * バインダーが新規登録かどうかを判定します。
+     * NOTE: ページタイトル・ボタンの文言を切り替えるため
+     */
+    isNewBinder: function isNewBinder() {
+      return this.$store.getters["binderCreate/isNewBinder"];
+    },
+
+    /**
+     * エラーメッセージ
+     */
+    errors: function errors() {
+      return this.$store.state.error.messages;
+    },
+
+    /**
+     * API実行結果
+     */
+    apiStatus: function apiStatus() {
+      return this.$store.state.binderCreate.apiStatus;
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddLabelButton.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/AddLabelButton.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddBinderButton.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/AddBinderButton.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2174,10 +2243,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     moveToBinderCreate: function moveToBinderCreate() {
-      this.$router.push("/binder/create");
+      // バインダー作成画面の入力状態をクリア
+      this.$store.dispatch("binderCreate/clear");
+      this.$router.push({
+        name: "binder-create"
+      });
     }
   }
 });
@@ -2197,6 +2273,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FavoriteBinderButton_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FavoriteBinderButton.vue */ "./resources/js/components/binder-list/FavoriteBinderButton.vue");
 /* harmony import */ var _DeleteBinderButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeleteBinderButton.vue */ "./resources/js/components/binder-list/DeleteBinderButton.vue");
 /* harmony import */ var _LeaveBinderButton_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LeaveBinderButton.vue */ "./resources/js/components/binder-list/LeaveBinderButton.vue");
+/* harmony import */ var _EditBinderButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EditBinderButton.vue */ "./resources/js/components/binder-list/EditBinderButton.vue");
+/* harmony import */ var _DeleteConfirmPopover_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./DeleteConfirmPopover.vue */ "./resources/js/components/binder-list/DeleteConfirmPopover.vue");
 //
 //
 //
@@ -2246,6 +2324,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -2255,7 +2349,9 @@ __webpack_require__.r(__webpack_exports__);
     CountInfo: _CountInfo_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     FavoriteBinderButton: _FavoriteBinderButton_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     DeleteBinderButton: _DeleteBinderButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    LeaveBinderButton: _LeaveBinderButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+    LeaveBinderButton: _LeaveBinderButton_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    EditBinderButton: _EditBinderButton_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    DeleteConfirmPopover: _DeleteConfirmPopover_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   props: {
     /**
@@ -2336,6 +2432,13 @@ __webpack_require__.r(__webpack_exports__);
     isFavorite: {
       type: Boolean,
       "default": false
+    },
+
+    /**
+     * バインダー情報
+     */
+    binder: {
+      type: Object
     }
   },
   methods: {
@@ -2346,9 +2449,6 @@ __webpack_require__.r(__webpack_exports__);
           id: this.id
         }
       });
-    },
-    updateFavoriteState: function updateFavoriteState() {
-      this.$store.dispatch("binderList/updateFavoriteState", this.id);
     }
   }
 });
@@ -2484,6 +2584,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     /**
@@ -2493,6 +2601,159 @@ __webpack_require__.r(__webpack_exports__);
     isShow: {
       type: Boolean,
       "default": false
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isSetBinderName: false
+    };
+  },
+  props: {
+    binderId: Number,
+    binderName: String
+  },
+  methods: {
+    /**
+     * 削除対象のバインダー名がテキストフォームに設定されているかどうかを判定します。
+     */
+    checkIsSetBinderName: function checkIsSetBinderName() {
+      var input = this.$refs.binderNameTextForm.value;
+      this.isSetBinderName = input == this.binderName;
+    },
+
+    /**
+     * バインダーの削除を実行します。
+     */
+    deleteBinder: function deleteBinder() {
+      if (!this.isSetBinderName) {
+        return false;
+      }
+
+      this.$store.dispatch("binderList/deleteBinder", this.binderId);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/EditBinderButton.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/EditBinderButton.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    binder: Object
+  },
+  methods: {
+    moveToBinderEdit: function moveToBinderEdit() {
+      // 更新データを設定してバインダー編集画面を開く
+      var formData = {
+        id: this.binder.id,
+        name: this.binder.name,
+        description: this.binder.description,
+        labels: this.binder.labels
+      };
+      this.$store.commit("binderCreate/setForm", formData);
+      this.$router.push({
+        name: "binder-create"
+      });
     }
   }
 });
@@ -2528,11 +2789,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    binderId: Number,
+
     /**
      * お気に入りの登録有無
-     * TODO: 登録状態と表示をリンクさせる
      */
     isFavorite: {
       type: Boolean,
@@ -2541,7 +2808,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateFavoriteState: function updateFavoriteState() {
-      this.$emit('click');
+      this.$store.dispatch("binderList/updateFavoriteState", this.binderId);
     }
   }
 });
@@ -2559,7 +2826,37 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/FormTitle.vue */ "./resources/js/components/common/FormTitle.vue");
 /* harmony import */ var _Card_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Card.vue */ "./resources/js/components/binder-list/Card.vue");
-/* harmony import */ var _AddLabelButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddLabelButton.vue */ "./resources/js/components/binder-list/AddLabelButton.vue");
+/* harmony import */ var _AddBinderButton_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AddBinderButton.vue */ "./resources/js/components/binder-list/AddBinderButton.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2635,11 +2932,115 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     FormTitle: _common_FormTitle_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Card: _Card_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    AddLabelButton: _AddLabelButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    AddBinderButton: _AddBinderButton_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   computed: {
     binders: function binders() {
       return this.$store.state.binderList.binders;
+    },
+
+    /**
+     * 検索条件「自分が作成したバインダー」が設定されているかどうかを判定します。
+     */
+    isSetConditionOwn: function isSetConditionOwn() {
+      return this.$store.state.binderList.search_condition.is_own;
+    },
+
+    /**
+     * 検索条件「他人が作成したバインダー」が設定されているかどうかを判定します。
+     */
+    isSetConditionOthers: function isSetConditionOthers() {
+      return this.$store.state.binderList.search_condition.is_others;
+    },
+
+    /**
+     * 検索条件「自分がお気に入り登録したバインダー」が設定されているかどうかを判定します。
+     */
+    isSetConditionFavorite: function isSetConditionFavorite() {
+      return this.$store.state.binderList.search_condition.is_favorite;
+    },
+
+    /**
+     * フラグ値の検索条件が設定されているかどうかを判定します。
+     */
+    isSetFlagConditions: function isSetFlagConditions() {
+      var result = this.isSetConditionOwn || this.isSetConditionOthers || this.isSetConditionFavorite;
+      return result;
+    },
+
+    /**
+     * 検索条件「バインダー名」を双方向バインドします。
+     */
+    searchConditionBinderName: {
+      get: function get() {
+        return this.$store.state.binderList.search_condition.binder_name;
+      },
+      set: function set(val) {
+        this.$store.commit("binderList/setSearchConditionBinderName", val);
+      }
+    }
+  },
+  methods: {
+    /**
+     * フラグ値の検索条件設定状態をクリアして再検索します。
+     */
+    clearAllFlagCondition: function clearAllFlagCondition() {
+      if (!this.isSetFlagConditions) {
+        // クリア済みの場合は実行しない
+        return;
+      }
+
+      this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+      this.searchBinder();
+    },
+
+    /**
+     * 検索条件「自分が作成したバインダー」を設定して再検索します。
+     */
+    setConditionOwn: function setConditionOwn() {
+      if (this.isSetConditionOwn) {
+        // 設定済みの場合は実行しない
+        return;
+      }
+
+      this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+      this.$store.commit("binderList/setSearchConditionBinderOwn", true);
+      this.searchBinder();
+    },
+
+    /**
+     * 検索条件「他人が作成したバインダー」を設定して再検索します。
+     */
+    setConditionOthers: function setConditionOthers() {
+      if (this.isSetConditionOthers) {
+        // 設定済みの場合は実行しない
+        return;
+      }
+
+      this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+      this.$store.commit("binderList/setSearchConditionBinderOthers", true);
+      this.searchBinder();
+    },
+
+    /**
+     * 検索条件「自分がお気に入り登録したバインダー」を設定して再検索します。
+     */
+    setConditionFavorite: function setConditionFavorite() {
+      if (this.isSetConditionFavorite) {
+        // 設定済みの場合は実行しない
+        return;
+      }
+
+      this.$store.dispatch("binderList/clearAllFlagSearchCondition");
+      this.$store.commit("binderList/setSearchConditionBinderFavorite", true);
+      this.searchBinder();
+    },
+
+    /**
+     * バインダーの検索を実行します。
+     */
+    searchBinder: function searchBinder() {
+      this.$store.dispatch("binderList/searchBinder");
     }
   }
 });
@@ -2698,8 +3099,20 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-dropzone */ "./node_modules/vue2-dropzone/dist/vue2Dropzone.js");
 /* harmony import */ var vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_dropzone__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ImageContainerThumbnail.vue */ "./resources/js/components/binder/ImageContainerThumbnail.vue");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
+/* harmony import */ var _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ImageContainerThumbnail.vue */ "./resources/js/components/binder/ImageContainerThumbnail.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 //
 //
@@ -2715,51 +3128,79 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     VueDropzone: vue2_dropzone__WEBPACK_IMPORTED_MODULE_0___default.a,
-    ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
-    var _dropzoneOptions;
-
     var self = this;
     var csrfToken = document.getElementById("csrf-token").content;
     return {
-      dropzoneOptions: (_dropzoneOptions = {
+      dropzoneOptions: {
         url: "/api/binder/image/add",
-        thumbnailWidth: 150,
-        maxFilesize: 0.5,
         headers: {
           "X-CSRF-TOKEN": csrfToken
         },
         params: {
           binder_id: ""
         },
-        paramName: "image"
-      }, _defineProperty(_dropzoneOptions, "maxFilesize", 10), _defineProperty(_dropzoneOptions, "clickable", false), _defineProperty(_dropzoneOptions, "processing", function processing(file, response) {
-        // プレビューを削除する
-        file.previewElement.outerHTML = ""; // Dropzoneを非表示にする
+        paramName: "images",
+        // name属性として扱われる
+        maxFilesize: 265,
+        //MB このサイズを超えるとerrorイベントが発火
+        clickable: false,
+        // クリックでファイル保存ダイアログを表示しない
+        uploadMultiple: true,
+        // 複数ファイルアップロードのイベントを利用する
+        parallelUploads: 10,
+        // 一度のリクエストでアップロードするファイル数
+        dragleave: function dragleave(file, response) {
+          // Dropzoneを非表示にする
+          self.hideDropzone();
+        },
+        dragend: function dragend(file, response) {
+          self.hideDropzone();
+        },
+        drop: function drop(file, response) {
+          // ドロップする度にstateのバインダーIDを取得する
+          // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
+          this.options.params.binder_id = self.$store.state.binder.id;
+          self.hideDropzone();
+        },
+        processingmultiple: function processingmultiple(file, response) {
+          // Dropzoneを非表示にする
+          self.hideDropzone(); // プログレスインジケーターを表示する
 
-        self.hideDropzone();
-      }), _defineProperty(_dropzoneOptions, "dragleave", function dragleave(file, response) {
-        // Dropzoneを非表示にする
-        self.hideDropzone();
-      }), _defineProperty(_dropzoneOptions, "dragend", function dragend(file, response) {
-        self.hideDropzone();
-      }), _defineProperty(_dropzoneOptions, "drop", function drop(file, response) {
-        // ドロップする度にstateのバインダーIDを取得する
-        // NOTE: Dropzone初期化時点でバインダー情報取得APIの処理が終了していないため
-        this.options.params.binder_id = self.$store.state.binder.id;
-        self.hideDropzone();
-      }), _defineProperty(_dropzoneOptions, "error", function error(e) {
-        console.log(e);
-      }), _defineProperty(_dropzoneOptions, "complete", function complete(file, response) {
-        // バインダー情報をリロード
-        self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id);
-      }), _dropzoneOptions)
+          self.$store.commit("mode/setIsConnecting", true);
+        },
+        errormultiple: function errormultiple(file, response) {
+          // レスポンスに含まれるメッセージを展開
+          var errorMessageValues = Object.values(response.errors).flat(1); // 重複を除去
+
+          var uniquedErrorMessageValues = _toConsumableArray(new Set(errorMessageValues)); // エラーメッセージの表示
+
+
+          var errorMessages = uniquedErrorMessageValues.map(function (text) {
+            // 通知メッセージのフォーマットへレスポンスを変換
+            return _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(text, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+          });
+          self.$store.dispatch("messageBox/addMany", errorMessages);
+        },
+        successmultiple: function successmultiple() {
+          // バインダー情報をリロード
+          self.$store.dispatch("binder/fetchBinder", self.$store.state.binder.id);
+          return false;
+        },
+        completemultiple: function completemultiple(file, response) {
+          // プログレスインジケーターを消す
+          self.$store.commit("mode/setIsConnecting", false);
+        }
+      }
     };
   },
   methods: {
@@ -2896,7 +3337,7 @@ __webpack_require__.r(__webpack_exports__);
         // ドラッグによって位置を変更した場合のみ永続化
         this.$store.dispatch("binder/saveImageOrderState", postData); // 並び順の情報を更新するため、バインダー画像を再取得
 
-        this.$store.dispatch("binder/searchBinderImage");
+        this.$store.dispatch("binder/searchBinderImage", false);
       } // 移動方向判定用の変数をクリア
 
 
@@ -3339,7 +3780,7 @@ __webpack_require__.r(__webpack_exports__);
         // ドラッグによって位置を変更した場合のみ永続化
         this.$store.dispatch("binder/saveImageOrderState", postData); // 並び順の情報を更新するため、バインダー画像を再取得
 
-        this.$store.dispatch("binder/searchBinderImage");
+        this.$store.dispatch("binder/searchBinderImage", false);
       } // 移動方向判定用の変数をクリア
 
 
@@ -3752,6 +4193,114 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/Header.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/Header.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isOpenUserMenu: false
+    };
+  },
+  methods: {
+    switchUserMenu: function switchUserMenu() {
+      this.isOpenUserMenu = !this.isOpenUserMenu;
+    },
+    closeUserMenu: function closeUserMenu() {
+      this.isOpenUserMenu = false;
+    },
+    logout: function logout() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.closeUserMenu();
+
+                _context.next = 3;
+                return _this.$store.dispatch("auth/logout");
+
+              case 3:
+                // サインイン画面へ遷移
+                _this.$router.push({
+                  name: "signin"
+                });
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  computed: {
+    isLoggedIn: function isLoggedIn() {
+      return this.$store.getters["auth/check"];
+    },
+    userName: function userName() {
+      return this.$store.getters["auth/username"];
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/LabelAddDialog.vue?vue&type=script&lang=js&":
 /*!********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/LabelAddDialog.vue?vue&type=script&lang=js& ***!
@@ -3763,6 +4312,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TextForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TextForm.vue */ "./resources/js/components/common/TextForm.vue");
 /* harmony import */ var _TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TextAreaForm.vue */ "./resources/js/components/common/TextAreaForm.vue");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
 //
 //
 //
@@ -3801,12 +4352,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     TextForm: _TextForm_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     TextAreaForm: _TextAreaForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  data: function data() {
+    return {
+      errors: []
+    };
   },
   methods: {
     /**
@@ -3815,6 +4374,7 @@ __webpack_require__.r(__webpack_exports__);
     closeDialog: function closeDialog() {
       this.name = null;
       this.description = null;
+      this.errors = [];
       this.$store.commit("mode/setIsShowDialog", false);
       this.$store.dispatch("labelAddDialog/clear");
     },
@@ -3824,7 +4384,14 @@ __webpack_require__.r(__webpack_exports__);
      * カスタムイベント名："add-label-click"
      */
     add: function add() {
-      // TODO: 実装
+      var isValid = this.validate();
+
+      if (!isValid) {
+        // 入力値が不正な場合は後続処理なし
+        return false;
+      } // TODO: 実装
+
+
       var formData = {
         index: this.index,
         id: this.id,
@@ -3834,6 +4401,32 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$emit("add-label-click", formData);
       this.closeDialog();
+    },
+
+    /**
+     * 入力値を検証します。
+     * NOTE: 直接ダイアログからサーバーへ送信しない場合があるため
+     */
+    validate: function validate() {
+      // 初期化
+      this.errors = []; // 名前は必須
+
+      if (!!!this.name) {
+        this.errors.push(_const__WEBPACK_IMPORTED_MODULE_2__["MESSAGE"].LABEL_ADD_DLG.NOTIFY.NAME.REQUIRED);
+      } // 名前は20字以内
+
+
+      if (this.name.length > 20) {
+        this.errors.push(_const__WEBPACK_IMPORTED_MODULE_2__["MESSAGE"].LABEL_ADD_DLG.NOTIFY.NAME.MAX);
+      }
+
+      if (this.errors.length > 0) {
+        var message = _util__WEBPACK_IMPORTED_MODULE_3__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_2__["MESSAGE"].LABEL_ADD_DLG.FAIL, _const__WEBPACK_IMPORTED_MODULE_2__["MESSAGE_TYPE"].ERROR);
+        this.$store.dispatch("messageBox/add", message);
+        return false;
+      }
+
+      return true;
     }
   },
   computed: {
@@ -4372,6 +4965,84 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/MessageBox.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/MessageBox.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  prop: {
+    errors: {
+      type: Object,
+      "default": {}
+    }
+  },
+  computed: {
+    haeMessage: function haeMessage() {
+      return this.messages.length > 0;
+    },
+    messages: function messages() {
+      return this.$store.state.messageBox.messages;
+    }
+  },
+  methods: {
+    /**
+     * メッセージを閉じます
+     */
+    close: function close() {
+      this.$store.dispatch("messageBox/clear");
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ModalBackground.vue?vue&type=script&lang=js& ***!
@@ -4572,9 +5243,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      isShowBinderInfo: false
+    };
+  },
   components: {
     ProgressIndicator: _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     LabelAddDialog: _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -4598,7 +5280,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     moveToBinderList: function moveToBinderList() {
-      this.$router.push("/binder/list");
+      this.$router.push({
+        name: "binder-list"
+      });
     },
     openDialog: function openDialog() {
       this.$store.commit("mode/setIsShowDialog", true);
@@ -4611,6 +5295,13 @@ __webpack_require__.r(__webpack_exports__);
       // NOTE: ナビゲーションバーから展開したラベルダイアログの内容は非同期で保存する
       labelData.binder_id = this.$store.state.binder.id;
       this.$store.dispatch("binder/saveLabel", labelData);
+    },
+
+    /**
+     * バインダー情報を表示します。
+     */
+    switchBinderInfoVisible: function switchBinderInfoVisible() {
+      this.isShowBinderInfo = !this.isShowBinderInfo;
     }
   }
 });
@@ -4743,17 +5434,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      errors: null
-    };
-  },
   props: {
     value: String,
     title: String,
     type: String,
-    placeholder: String
+    placeholder: String,
+    errors: {
+      type: Array,
+      "default": null
+    }
   },
   computed: {
     text: {
@@ -4762,6 +5454,62 @@ __webpack_require__.r(__webpack_exports__);
       },
       set: function set(value) {
         this.$emit("input", value);
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: {
+    /**
+     * 継続ログインの有無を双方向バインドします。
+     */
+    isEnabledAutoLogin: {
+      get: function get() {
+        return this.$store.state.auth.isEnabledAutoLogin;
+      },
+      set: function set(val) {
+        this.$store.commit("auth/setIsEnableAutoLogin", val);
+      }
+    }
+  },
+  methods: {
+    /**
+     * 継続ログインの有無を切り替えます。
+     */
+    switchEnableAutoLogin: function switchEnableAutoLogin() {
+      var isChecked = this.$refs.chkRemember.checked;
+
+      if (isChecked) {
+        this.isEnabledAutoLogin = true;
+      } else {
+        this.isEnabledAutoLogin = false;
       }
     }
   }
@@ -4784,6 +5532,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_TextForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/TextForm.vue */ "./resources/js/components/common/TextForm.vue");
 /* harmony import */ var _AutoSigninCheckbox_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AutoSigninCheckbox.vue */ "./resources/js/components/signin/AutoSigninCheckbox.vue");
 /* harmony import */ var _GoogleSigninButton_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./GoogleSigninButton.vue */ "./resources/js/components/signin/GoogleSigninButton.vue");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4817,6 +5567,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+
+
 
 
 
@@ -4849,22 +5605,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                if (_this.$store.state.auth.isEnabledAutoLogin) {
+                  // 継続ログインの有効化
+                  _this.form.remember = true;
+                }
+
+                _context.next = 3;
                 return _this.$store.dispatch("auth/login", _this.form);
 
-              case 2:
+              case 3:
                 isSuccess = _this.apiStatus;
 
                 if (isSuccess) {
                   _this.$router.push({
                     name: "binder-list"
                   });
-                } else {
-                  // DEBUG:
-                  alert("失敗しました。");
                 }
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -4879,6 +5637,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     apiStatus: function apiStatus() {
       return this.$store.state.auth.apiStatus;
+    },
+
+    /**
+     * エラーメッセージ
+     */
+    loginFailureError: function loginFailureError() {
+      var errorResponses = this.$store.state.error.messages; // エラー内容に関わらずログイン失敗の通知を表示
+
+      if (!_util__WEBPACK_IMPORTED_MODULE_5__["util"].isEmptyObject(errorResponses)) {
+        return [_const__WEBPACK_IMPORTED_MODULE_6__["MESSAGE"].SIGNIN.NOTIFY];
+      }
     }
   }
 });
@@ -4904,6 +5673,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4983,9 +5759,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.$router.push({
                     name: "binder-list"
                   });
-                } else {
-                  // DEBUG:
-                  alert("失敗しました。");
                 }
 
               case 4:
@@ -5003,6 +5776,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     apiStatus: function apiStatus() {
       return this.$store.state.auth.apiStatus;
+    },
+
+    /**
+     * エラーメッセージ
+     */
+    errors: function errors() {
+      return this.$store.state.error.messages;
     }
   }
 });
@@ -5022,9 +5802,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/binder/ImageContainer.vue */ "./resources/js/components/binder/ImageContainer.vue");
 /* harmony import */ var _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/binder/RightColumn.vue */ "./resources/js/components/binder/RightColumn.vue");
 /* harmony import */ var _components_binder_LightBox_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/binder/LightBox.vue */ "./resources/js/components/binder/LightBox.vue");
-/* harmony import */ var _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/common/Loader.vue */ "./resources/js/components/common/Loader.vue");
-/* harmony import */ var _components_binder_Dropzone_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/binder/Dropzone.vue */ "./resources/js/components/binder/Dropzone.vue");
-//
+/* harmony import */ var _components_binder_Dropzone_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/binder/Dropzone.vue */ "./resources/js/components/binder/Dropzone.vue");
 //
 //
 //
@@ -5042,15 +5820,13 @@ __webpack_require__(/*! vue-image-lightbox/dist/vue-image-lightbox.min.css */ ".
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     ImageList: _components_binder_ImageList_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     ImageContainer: _components_binder_ImageContainer_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     RightColumn: _components_binder_RightColumn_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     LightBox: _components_binder_LightBox_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Loader: _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Dropzone: _components_binder_Dropzone_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    Dropzone: _components_binder_Dropzone_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   computed: {
     isLoading: function isLoading() {
@@ -5154,8 +5930,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   beforeCreate: function beforeCreate() {
-    this.$store.dispatch("binderCreate/clear"); // ナビゲーションバーを非表示にする
-
+    // ナビゲーションバーを非表示にする
     this.$store.commit("mode/setHasNavigation", false);
   }
 });
@@ -5172,8 +5947,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_binder_list_Form_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/binder-list/Form.vue */ "./resources/js/components/binder-list/Form.vue");
-/* harmony import */ var _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/common/Loader.vue */ "./resources/js/components/common/Loader.vue");
+/* harmony import */ var _components_common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/common/ProgressIndicator.vue */ "./resources/js/components/common/ProgressIndicator.vue");
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../const */ "./resources/js/const.js");
+//
+//
 //
 //
 //
@@ -5188,7 +5965,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Form: _components_binder_list_Form_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Loader: _components_common_Loader_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ProgressIndicator: _components_common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   beforeCreate: function beforeCreate() {
     this.$store.dispatch("binderList/fetchBinders"); // ナビゲーションバーを非表示にする
@@ -37719,11 +38496,30 @@ var render = function() {
     [
       _c("Header"),
       _vm._v(" "),
-      _c("Navbar"),
+      _c(
+        "transition",
+        { attrs: { name: _vm.getTransitionName(), mode: "out-in" } },
+        [_c("Navbar")],
+        1
+      ),
       _vm._v(" "),
-      _c("RouterView"),
+      _c(
+        "transition",
+        { attrs: { name: _vm.getTransitionName(), mode: "out-in" } },
+        [_c("RouterView")],
+        1
+      ),
       _vm._v(" "),
-      _c("ModalBackground")
+      _c(
+        "transition",
+        { attrs: { name: "fade-faster" } },
+        [_c("ModalBackground")],
+        1
+      ),
+      _vm._v(" "),
+      _c("Loader"),
+      _vm._v(" "),
+      _c("MessageBox")
     ],
     1
   )
@@ -37754,7 +38550,19 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "form__title-button--return",
+        directives: [
+          {
+            name: "tooltip",
+            rawName: "v-tooltip.left",
+            value: {
+              content: "バインダー一覧へ戻ります。"
+            },
+            expression:
+              "{\n            content: 'バインダー一覧へ戻ります。'\n        }",
+            modifiers: { left: true }
+          }
+        ],
+        staticClass: "form__title-button--return mdc-elevation--z1",
         attrs: { type: "button" },
         on: { click: _vm.moveToBinderList }
       },
@@ -37796,7 +38604,9 @@ var render = function() {
           {
             key: "title",
             fn: function() {
-              return [_vm._v("Create binder")]
+              return [
+                _vm._v(_vm._s(_vm.isNewBinder ? "Create" : "Edit") + " binder")
+              ]
             },
             proxy: true
           },
@@ -37819,7 +38629,8 @@ var render = function() {
               title: "Binder name*",
               type: "text",
               placeholder: "ぺた太のアートワーク",
-              value: ""
+              value: "",
+              errors: _vm.errors.name
             },
             model: {
               value: _vm.binderName,
@@ -37834,7 +38645,8 @@ var render = function() {
             attrs: {
               title: "Description",
               placeholder: "バインダーの説明を入力します。",
-              value: ""
+              value: "",
+              errors: _vm.errors.description
             },
             model: {
               value: _vm.binderDescription,
@@ -37852,7 +38664,13 @@ var render = function() {
               attrs: { type: "button" },
               on: { click: _vm.doPost }
             },
-            [_vm._v("\n            Create\n        ")]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.isNewBinder ? "Create" : "Edit") +
+                  "\n        "
+              )
+            ]
           )
         ],
         1
@@ -37864,6 +38682,18 @@ var render = function() {
         _c(
           "div",
           {
+            directives: [
+              {
+                name: "tooltip",
+                rawName: "v-tooltip.top-end",
+                value: {
+                  content: "ラベルを追加します。"
+                },
+                expression:
+                  "{\n                content: 'ラベルを追加します。'\n            }",
+                modifiers: { "top-end": true }
+              }
+            ],
             staticClass: "form__button--add-label",
             on: { click: _vm.openDialog }
           },
@@ -37915,10 +38745,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddLabelButton.vue?vue&type=template&id=2b107dfe&":
-/*!*****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/AddLabelButton.vue?vue&type=template&id=2b107dfe& ***!
-  \*****************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddBinderButton.vue?vue&type=template&id=eb673218&":
+/*!******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/AddBinderButton.vue?vue&type=template&id=eb673218& ***!
+  \******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -37934,7 +38764,19 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "form__title-button",
+        directives: [
+          {
+            name: "tooltip",
+            rawName: "v-tooltip.left",
+            value: {
+              content: "バインダーを追加します。"
+            },
+            expression:
+              "{\n            content: 'バインダーを追加します。'\n        }",
+            modifiers: { left: true }
+          }
+        ],
+        staticClass: "form__title-button mdc-elevation--z1",
         attrs: { type: "button" },
         on: { click: _vm.moveToBinderCreate }
       },
@@ -38016,7 +38858,8 @@ var render = function() {
           attrs: {
             countUser: _vm.countUser,
             countImage: _vm.countImage,
-            countFavorite: _vm.countFavorite
+            countFavorite: _vm.countFavorite,
+            countLabel: _vm.countLabel
           }
         })
       ],
@@ -38027,9 +38870,12 @@ var render = function() {
       "div",
       { staticClass: "binder-card__button-menu" },
       [
+        _vm.isOwn
+          ? _c("EditBinderButton", { attrs: { binder: _vm.binder } })
+          : _vm._e(),
+        _vm._v(" "),
         _c("FavoriteBinderButton", {
-          attrs: { isFavorite: _vm.isFavorite },
-          on: { click: _vm.updateFavoriteState }
+          attrs: { binderId: _vm.id, isFavorite: _vm.isFavorite }
         })
       ],
       1
@@ -38039,7 +38885,31 @@ var render = function() {
       "div",
       { staticClass: "binder-card__button-menu" },
       [
-        _c("DeleteBinderButton", { attrs: { isShow: _vm.isOwn } }),
+        _c(
+          "v-popover",
+          {
+            attrs: {
+              trigger: "click",
+              popoverBaseClass: ["remove-binder-popover", "tooltip", "popover"],
+              placement: "left-start"
+            }
+          },
+          [
+            _c("DeleteBinderButton", { attrs: { isShow: _vm.isOwn } }),
+            _vm._v(" "),
+            _c(
+              "template",
+              { slot: "popover" },
+              [
+                _c("DeleteConfirmPopover", {
+                  attrs: { binderName: _vm.name, binderId: _vm.id }
+                })
+              ],
+              1
+            )
+          ],
+          2
+        ),
         _vm._v(" "),
         _c("LeaveBinderButton", { attrs: { isShow: !_vm.isOwn } })
       ],
@@ -38091,9 +38961,9 @@ var render = function() {
       _vm._v(" "),
       _c("Counter", {
         attrs: {
-          src: "/image/icon/star_border-black-24dp.svg",
-          alt: "お気に入り数",
-          count: _vm.countFavorite
+          src: "/image/icon/bookmarks-24px.svg",
+          alt: "ラベル数",
+          count: _vm.countLabel
         }
       })
     ],
@@ -38152,31 +39022,210 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.isShow
-    ? _c("button", { staticClass: "binder-card__button--danger" }, [
-        _c(
-          "svg",
-          {
-            attrs: {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "#324750",
-              width: "64px",
-              height: "64px"
+    ? _c(
+        "button",
+        {
+          directives: [
+            {
+              name: "tooltip",
+              rawName: "v-tooltip.bottom-start",
+              value: {
+                content: "バインダーを削除します。",
+                delay: { show: 1250, hide: 100 },
+                hideOnTargetClick: false
+              },
+              expression:
+                "{\n        content: 'バインダーを削除します。',\n        delay: { show: 1250, hide: 100 },\n        hideOnTargetClick: false\n    }",
+              modifiers: { "bottom-start": true }
             }
-          },
-          [
-            _c("path", { attrs: { d: "M0 0h24v24H0V0z", fill: "none" } }),
-            _vm._v(" "),
-            _c("path", {
+          ],
+          staticClass: "binder-card__button--danger",
+          attrs: { type: "button" }
+        },
+        [
+          _c(
+            "svg",
+            {
               attrs: {
-                d:
-                  "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
+                xmlns: "http://www.w3.org/2000/svg",
+                viewBox: "0 0 24 24",
+                width: "64px",
+                height: "64px"
               }
-            })
-          ]
-        )
-      ])
+            },
+            [
+              _c("path", { attrs: { d: "M0 0h24v24H0V0z", fill: "none" } }),
+              _vm._v(" "),
+              _c("path", {
+                attrs: {
+                  d:
+                    "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
+                }
+              })
+            ]
+          )
+        ]
+      )
     : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=template&id=659ed229&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=template&id=659ed229& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _c("div", { staticClass: "remove-binder-popover__content" }, [
+      _c(
+        "div",
+        { staticClass: "remove-binder-popover__header mdc-elevation--z1" },
+        [
+          _c("span", { staticClass: "remove-binder-popover__header-text" }, [
+            _vm._v("\n                Confirm\n            ")
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "remove-binder-popover__content" }, [
+        _c("span", { staticClass: "remove-binder-popover__message" }, [
+          _vm._v("以下のバインダーを削除します。")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "remove-binder-popover__binder-name" }, [
+          _vm._v(
+            "\n                " + _vm._s(_vm.binderName) + "\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("span", { staticClass: "remove-binder-popover__description" }, [
+          _vm._v("確認のため、バインダー名を入力してください。")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          ref: "binderNameTextForm",
+          staticClass: "remove-binder-popover__textform",
+          attrs: { type: "text", placeholder: _vm.binderName },
+          on: { keyup: _vm.checkIsSetBinderName }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "remove-binder-popover__button-wrapper" }, [
+          _c(
+            "button",
+            {
+              directives: [
+                { name: "close-popover", rawName: "v-close-popover" }
+              ],
+              class: [
+                "remove-binder-popover__button-ok",
+                {
+                  disabled: !_vm.isSetBinderName
+                }
+              ],
+              attrs: { disabled: !_vm.isSetBinderName, type: "button" },
+              on: { click: _vm.deleteBinder }
+            },
+            [_vm._v("\n                    Delete\n                ")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              directives: [
+                { name: "close-popover", rawName: "v-close-popover" }
+              ],
+              staticClass: "remove-binder-popover__button-no",
+              attrs: { type: "button" }
+            },
+            [_vm._v("\n                    Cancel\n                ")]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/EditBinderButton.vue?vue&type=template&id=398bc1ff&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/binder-list/EditBinderButton.vue?vue&type=template&id=398bc1ff& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      directives: [
+        {
+          name: "tooltip",
+          rawName: "v-tooltip.bottom-start",
+          value: {
+            content: "バインダー情報を編集します。",
+            delay: { show: 1250, hide: 100 },
+            hideOnTargetClick: false
+          },
+          expression:
+            "{\n        content: 'バインダー情報を編集します。',\n        delay: { show: 1250, hide: 100 },\n        hideOnTargetClick: false\n    }",
+          modifiers: { "bottom-start": true }
+        }
+      ],
+      class: ["binder-card__button-edit"],
+      attrs: { type: "button" },
+      on: { click: _vm.moveToBinderEdit }
+    },
+    [
+      _c(
+        "svg",
+        {
+          attrs: {
+            xmlns: "http://www.w3.org/2000/svg",
+            height: "64",
+            viewBox: "0 0 24 24",
+            width: "64"
+          }
+        },
+        [
+          _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+          _vm._v(" "),
+          _c("path", {
+            attrs: {
+              d:
+                "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+            }
+          })
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38203,6 +39252,20 @@ var render = function() {
   return _c(
     "button",
     {
+      directives: [
+        {
+          name: "tooltip",
+          rawName: "v-tooltip.bottom-start",
+          value: {
+            content: "バインダーをお気に入りに登録します。",
+            delay: { show: 1250, hide: 100 },
+            hideOnTargetClick: false
+          },
+          expression:
+            "{\n        content: 'バインダーをお気に入りに登録します。',\n        delay: { show: 1250, hide: 100 },\n        hideOnTargetClick: false\n    }",
+          modifiers: { "bottom-start": true }
+        }
+      ],
       class: [
         "binder-card__button-favorite",
         { "is-favorite": _vm.isFavorite }
@@ -38274,102 +39337,165 @@ var render = function() {
           {
             key: "additional-content",
             fn: function() {
-              return [_c("AddLabelButton")]
+              return [_c("AddBinderButton")]
             },
             proxy: true
           }
         ])
       }),
       _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form__binder-card-wrapper" },
-        [
-          _vm._l(_vm.binders, function(binder) {
-            return _c("Card", {
-              key: binder.id,
-              attrs: {
-                id: binder.id,
-                name: binder.name,
-                description: binder.description,
-                thumbnailUrl: "/image/dummy/dummy.jpg",
-                countUser: binder.count_user,
-                countImage: binder.count_image,
-                countLabel: binder.count_label,
-                countFavorite: binder.count_favorite,
-                isOwn: binder.is_own,
-                isFavorite: binder.is_favorite
+      _c("div", { staticClass: "form__nav--binder-list" }, [
+        _c("ul", { staticClass: "form__tab-wrapper" }, [
+          _c(
+            "li",
+            {
+              class: {
+                "form__tab-all": _vm.isSetFlagConditions,
+                "form__tab-all--select": !_vm.isSetFlagConditions
+              },
+              on: { click: _vm.clearAllFlagCondition }
+            },
+            [_c("h3", { staticClass: "form__tab-text" }, [_vm._v("All")])]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: {
+                "form__tab-own": !_vm.isSetConditionOwn,
+                "form__tab-own--select": _vm.isSetConditionOwn
+              },
+              on: { click: _vm.setConditionOwn }
+            },
+            [_c("h3", { staticClass: "form__tab-text" }, [_vm._v("Own")])]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: {
+                "form__tab-others": !_vm.isSetConditionOthers,
+                "form__tab-others--select": _vm.isSetConditionOthers
+              },
+              on: { click: _vm.setConditionOthers }
+            },
+            [_c("h3", { staticClass: "form__tab-text" }, [_vm._v("Others")])]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: {
+                "form__tab-favorite": !_vm.isSetConditionFavorite,
+                "form__tab-favorite--select": _vm.isSetConditionFavorite
+              },
+              on: { click: _vm.setConditionFavorite }
+            },
+            [_c("h3", { staticClass: "form__tab-text" }, [_vm._v("Favorite")])]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form__tab-sort-wrapper" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "form__tab-search-wrapper" }, [
+          _c(
+            "button",
+            {
+              staticClass: "form__tab-search-button",
+              attrs: { type: "button" },
+              on: { click: _vm.searchBinder }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 24 24",
+                    width: "30px",
+                    height: "30px"
+                  }
+                },
+                [
+                  _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                  _vm._v(" "),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                    }
+                  })
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.searchConditionBinderName,
+                expression: "searchConditionBinderName"
               }
-            })
-          }),
-          _vm._v(" "),
-          _c("Card", {
-            attrs: {
-              id: 2,
-              name: "バインダー２",
-              description: "他人が作成したバインダー",
-              thumbnailUrl: "/image/dummy/dummy.jpg",
-              countParticipated: 4,
-              countImage: 1,
-              countFavorite: 3,
-              isFavorite: false
-            }
-          }),
-          _vm._v(" "),
-          _c("Card", {
-            attrs: {
-              id: 2,
-              name: "バインダー３",
-              description: "お気に入り登録しているバインダー",
-              thumbnailUrl: "/image/dummy/dummy.jpg",
-              countParticipated: 4,
-              countImage: 1,
-              countFavorite: 3,
-              isFavorite: true
+            ],
+            ref: "searchTextForm",
+            staticClass: "form__tab-search-text",
+            attrs: { type: "text", placeholder: "Search" },
+            domProps: { value: _vm.searchConditionBinderName },
+            on: {
+              keydown: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                $event.preventDefault()
+                return _vm.searchBinder($event)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.searchConditionBinderName = $event.target.value
+              }
             }
           })
-        ],
-        2
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "transition-group",
+        {
+          staticClass: "form__binder-card-wrapper",
+          attrs: { name: "fade-faster", tag: "div" }
+        },
+        _vm._l(_vm.binders, function(binder) {
+          return _c("Card", {
+            key: binder.id,
+            attrs: {
+              id: binder.id,
+              name: binder.name,
+              description: binder.description,
+              thumbnailUrl: "/image/dummy/dummy.jpg",
+              countUser: binder.count_user,
+              countImage: binder.count_image,
+              countLabel: binder.count_label,
+              countFavorite: binder.count_favorite,
+              isOwn: binder.is_own,
+              isFavorite: binder.is_favorite,
+              binder: binder
+            }
+          })
+        }),
+        1
       )
     ],
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form__nav--binder-list" }, [
-      _c("ul", { staticClass: "form__tab-wrapper" }, [
-        _c("li", { staticClass: "form__tab--selected" }, [
-          _c("h3", { staticClass: "form__tab-text" }, [_vm._v("All")])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "form__tab" }, [
-          _c("h3", { staticClass: "form__tab-text" }, [_vm._v("Your own")])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "form__tab" }, [
-          _c("h3", { staticClass: "form__tab-text" }, [_vm._v("Paricipated")])
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _c("h3", { staticClass: "form__tab-text" }, [_vm._v("Favorite")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", [
-        _c("input", {
-          staticClass: "form__tab-search",
-          attrs: { placeholder: "Search" }
-        })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -39212,28 +40338,90 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("header", { staticClass: "header mdc-elevation--z2" }, [
+    _c("div", { staticClass: "header__wrapper" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "user-info__wrapper" },
+        [
+          _vm.isLoggedIn
+            ? _c(
+                "div",
+                {
+                  class: ["user-info", { open: _vm.isOpenUserMenu }],
+                  on: { click: _vm.switchUserMenu }
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.userName) +
+                      "\n            "
+                  )
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("transition", { attrs: { name: "fade-faster" } }, [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isOpenUserMenu,
+                    expression: "isOpenUserMenu"
+                  }
+                ],
+                class: ["user-menu__wrapper"],
+                on: {
+                  click: function($event) {
+                    if ($event.target !== $event.currentTarget) {
+                      return null
+                    }
+                    return _vm.closeUserMenu($event)
+                  }
+                }
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "user-menu", on: { click: _vm.logout } },
+                  [
+                    _vm._v(
+                      "\n                        サインアウト\n                    "
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        ],
+        1
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("header", { staticClass: "header mdc-elevation--z2" }, [
-      _c("div", { staticClass: "header__logo" }, [
-        _c("img", {
-          staticClass: "header__logo-image",
-          attrs: {
-            src: "/image/logo/logo_48_white.svg",
-            width: "42",
-            height: "42",
-            alt: "petata"
-          }
-        }),
-        _vm._v(" "),
-        _c("h1", { staticClass: "header__logo-title" }, [
-          _vm._v("\n      PETATA!\n    ")
-        ])
+    return _c("div", { staticClass: "header__logo" }, [
+      _c("img", {
+        staticClass: "header__logo-image",
+        attrs: {
+          src: "/image/logo/logo_48_white.svg",
+          width: "42",
+          height: "42",
+          alt: "petata"
+        }
+      }),
+      _vm._v(" "),
+      _c("h1", { staticClass: "header__logo-title" }, [
+        _vm._v("\n                PETATA!\n            ")
       ])
     ])
   }
@@ -39281,7 +40469,8 @@ var render = function() {
                   title: "Label name*",
                   type: "text",
                   placeholder: "ぺた太のお気に入り",
-                  value: _vm.name
+                  value: _vm.name,
+                  errors: _vm.errors
                 },
                 model: {
                   value: _vm.name,
@@ -39684,6 +40873,110 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/MessageBox.vue?vue&type=template&id=69e8a04d&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/MessageBox.vue?vue&type=template&id=69e8a04d& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("transition", { attrs: { name: "fade" } }, [
+    _vm.haeMessage
+      ? _c(
+          "div",
+          { staticClass: "message-box__wrapper mdc-elevation--z4" },
+          [
+            _c(
+              "div",
+              { staticClass: "message-box__close", on: { click: _vm.close } },
+              [
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      height: "24",
+                      viewBox: "0 0 24 24",
+                      width: "24"
+                    }
+                  },
+                  [
+                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                    _vm._v(" "),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                      }
+                    })
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "transition-group",
+              { attrs: { name: "fade" } },
+              _vm._l(_vm.messages, function(message) {
+                return _c(
+                  "div",
+                  { key: message.count, staticClass: "message-box__item" },
+                  [
+                    _c("span", { staticClass: "message-box__icon" }, [
+                      _c(
+                        "svg",
+                        {
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            height: "16",
+                            viewBox: "0 0 24 24",
+                            width: "16"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                          }),
+                          _vm._v(" "),
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+                            }
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "message-box__text" }, [
+                      _vm._v(_vm._s(message.val))
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          ],
+          1
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc&":
 /*!*************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/common/ModalBackground.vue?vue&type=template&id=8fc64ffc& ***!
@@ -39861,53 +41154,64 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "nav__title-wrapper" }, [
-            _c("h1", { staticClass: "nav__title" }, [
-              _vm._v(
-                "\n            " + _vm._s(_vm.binderTitle) + "\n            "
-              ),
-              _c(
-                "svg",
+          _c(
+            "div",
+            {
+              directives: [
                 {
-                  directives: [
-                    {
-                      name: "tooltip",
-                      rawName: "v-tooltip.right",
-                      value: {
-                        content:
-                          "[" +
-                          _vm.binder.created_at +
-                          " -]" +
-                          (!!_vm.binder.description
-                            ? "<br>" +
-                              _vm.binder.description.replace(/\n/g, "<br>")
-                            : "")
-                      },
-                      expression:
-                        "{\n                    content: `[${binder.created_at} -]${\n                        !!binder.description\n                            ? '<br>' +\n                              binder.description.replace(/\\n/g, '<br>')\n                            : ''\n                    }`\n                }",
-                      modifiers: { right: true }
-                    }
-                  ],
-                  attrs: {
-                    xmlns: "http://www.w3.org/2000/svg",
-                    height: "24",
-                    viewBox: "0 0 24 24",
-                    width: "24"
-                  }
-                },
-                [
-                  _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                  _vm._v(" "),
-                  _c("path", {
+                  name: "tooltip",
+                  rawName: "v-tooltip.bottom",
+                  value: {
+                    content:
+                      "[" +
+                      _vm.binder.created_at +
+                      " -]" +
+                      (!!_vm.binder.description
+                        ? "<br>" + _vm.binder.description.replace(/\n/g, "<br>")
+                        : ""),
+                    trigger: "manual",
+                    show: _vm.isShowBinderInfo
+                  },
+                  expression:
+                    "{\n            content: `[${binder.created_at} -]${\n                !!binder.description\n                    ? '<br>' + binder.description.replace(/\\n/g, '<br>')\n                    : ''\n            }`,\n            trigger: 'manual',\n            show: isShowBinderInfo\n        }",
+                  modifiers: { bottom: true }
+                }
+              ],
+              staticClass: "nav__title-wrapper"
+            },
+            [
+              _c("h1", { staticClass: "nav__title" }, [
+                _vm._v(
+                  "\n            " + _vm._s(_vm.binderTitle) + "\n            "
+                ),
+                _c(
+                  "svg",
+                  {
                     attrs: {
-                      d:
-                        "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+                      xmlns: "http://www.w3.org/2000/svg",
+                      height: "24",
+                      viewBox: "0 0 24 24",
+                      width: "24"
+                    },
+                    on: {
+                      mouseenter: _vm.switchBinderInfoVisible,
+                      mouseleave: _vm.switchBinderInfoVisible
                     }
-                  })
-                ]
-              )
-            ])
-          ]),
+                  },
+                  [
+                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                    _vm._v(" "),
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]
+          ),
           _vm._v(" "),
           _c("div", { staticClass: "nav__right-column-wrapper" }, [
             _c(
@@ -39977,7 +41281,7 @@ var render = function() {
                           "[未実装]画像を複数選択して一括でラベリングを行います。"
                       },
                       expression:
-                        "{\n                    content: '[未実装]画像を複数選択して一括でラベリングを行います。'\n                }",
+                        "{\n                    content:\n                        '[未実装]画像を複数選択して一括でラベリングを行います。'\n                }",
                       modifiers: { bottom: true }
                     }
                   ],
@@ -40221,7 +41525,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("label", { staticClass: "form__label" }, [
-      _vm._v(_vm._s(_vm.title) + "\n        "),
+      _c("span", [_vm._v(_vm._s(_vm.title))]),
+      _vm._v(" "),
       _vm.errors
         ? _c(
             "span",
@@ -40335,25 +41640,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "form__checkbox" }, [
-      _c("label", { attrs: { for: "chkRemember" } }, [
-        _c("input", { attrs: { id: "chkRemember", type: "checkbox" } }),
-        _vm._v("Remember me\n    ")
-      ]),
-      _vm._v(" "),
-      _c("a", { staticClass: "form__link--right", attrs: { href: "#" } }, [
-        _vm._v("Forget password")
-      ])
+  return _c("span", { staticClass: "form__checkbox" }, [
+    _c("label", { attrs: { for: "chkRemember" } }, [
+      _c("input", {
+        ref: "chkRemember",
+        attrs: { id: "chkRemember", type: "checkbox" },
+        on: { change: _vm.switchEnableAutoLogin }
+      }),
+      _vm._v("Remember me\n    ")
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -40378,7 +41676,7 @@ var render = function() {
   return _c(
     "form",
     {
-      staticClass: "form--signin",
+      staticClass: "form--signup",
       on: {
         submit: function($event) {
           $event.preventDefault()
@@ -40401,13 +41699,15 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "form__wrapper--signin" },
+        { staticClass: "form__wrapper--signup" },
         [
           _c("TextForm", {
             attrs: {
               title: "Email",
               type: "text",
-              placeholder: "taro-2525@petata.com"
+              placeholder: "taro-1234@petata.com",
+              value: "",
+              errors: _vm.loginFailureError
             },
             model: {
               value: _vm.form.email,
@@ -40419,7 +41719,13 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("TextForm", {
-            attrs: { title: "Password", type: "password", placeholder: "" },
+            attrs: {
+              title: "Password",
+              type: "password",
+              placeholder: "",
+              value: "",
+              errors: []
+            },
             model: {
               value: _vm.form.password,
               callback: function($$v) {
@@ -40439,8 +41745,6 @@ var render = function() {
         ],
         1
       ),
-      _vm._v(" "),
-      _c("GoogleSigninButton"),
       _vm._v(" "),
       _c(
         "RouterLink",
@@ -40543,7 +41847,9 @@ var render = function() {
             attrs: {
               title: "User name*",
               type: "text",
-              placeholder: "ぺったん太郎"
+              placeholder: "ぺったん太郎",
+              value: "",
+              errors: _vm.errors.name
             },
             model: {
               value: _vm.form.name,
@@ -40558,7 +41864,9 @@ var render = function() {
             attrs: {
               title: "Email*",
               type: "text",
-              placeholder: "taro-1234@petata.com"
+              placeholder: "taro-1234@petata.com",
+              value: "",
+              errors: _vm.errors.email
             },
             model: {
               value: _vm.form.email,
@@ -40573,7 +41881,9 @@ var render = function() {
             attrs: {
               title: "Password*",
               type: "password",
-              placeholder: "半角英数字8文字以上"
+              placeholder: "半角英数字8文字以上",
+              value: "",
+              errors: _vm.errors.password
             },
             model: {
               value: _vm.form.password,
@@ -40588,7 +41898,8 @@ var render = function() {
             attrs: {
               title: "Password (Confirm)*",
               type: "password",
-              placeholder: ""
+              placeholder: "",
+              value: ""
             },
             model: {
               value: _vm.form.password_confirmation,
@@ -40651,9 +41962,7 @@ var render = function() {
       _vm._v(" "),
       _c("LightBox", { ref: "lightBox" }),
       _vm._v(" "),
-      _c("Dropzone"),
-      _vm._v(" "),
-      _c("Loader")
+      _c("Dropzone")
     ],
     1
   )
@@ -40716,7 +42025,16 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "container--binder-list" },
-    [_c("Form"), _vm._v(" "), _c("Loader")],
+    [
+      _c(
+        "div",
+        { staticClass: "progress-indicator-wrapper" },
+        [_c("ProgressIndicator")],
+        1
+      ),
+      _vm._v(" "),
+      _c("Form")
+    ],
     1
   )
 }
@@ -60198,17 +61516,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/binder-list/AddLabelButton.vue":
-/*!****************************************************************!*\
-  !*** ./resources/js/components/binder-list/AddLabelButton.vue ***!
-  \****************************************************************/
+/***/ "./resources/js/components/binder-list/AddBinderButton.vue":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/binder-list/AddBinderButton.vue ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _AddLabelButton_vue_vue_type_template_id_2b107dfe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddLabelButton.vue?vue&type=template&id=2b107dfe& */ "./resources/js/components/binder-list/AddLabelButton.vue?vue&type=template&id=2b107dfe&");
-/* harmony import */ var _AddLabelButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddLabelButton.vue?vue&type=script&lang=js& */ "./resources/js/components/binder-list/AddLabelButton.vue?vue&type=script&lang=js&");
+/* harmony import */ var _AddBinderButton_vue_vue_type_template_id_eb673218___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddBinderButton.vue?vue&type=template&id=eb673218& */ "./resources/js/components/binder-list/AddBinderButton.vue?vue&type=template&id=eb673218&");
+/* harmony import */ var _AddBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddBinderButton.vue?vue&type=script&lang=js& */ "./resources/js/components/binder-list/AddBinderButton.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -60218,9 +61536,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _AddLabelButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AddLabelButton_vue_vue_type_template_id_2b107dfe___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _AddLabelButton_vue_vue_type_template_id_2b107dfe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _AddBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddBinderButton_vue_vue_type_template_id_eb673218___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddBinderButton_vue_vue_type_template_id_eb673218___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -60230,38 +61548,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/binder-list/AddLabelButton.vue"
+component.options.__file = "resources/js/components/binder-list/AddBinderButton.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/binder-list/AddLabelButton.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/binder-list/AddLabelButton.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/components/binder-list/AddBinderButton.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/binder-list/AddBinderButton.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddLabelButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddLabelButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddLabelButton.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddLabelButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddBinderButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddBinderButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/binder-list/AddLabelButton.vue?vue&type=template&id=2b107dfe&":
-/*!***********************************************************************************************!*\
-  !*** ./resources/js/components/binder-list/AddLabelButton.vue?vue&type=template&id=2b107dfe& ***!
-  \***********************************************************************************************/
+/***/ "./resources/js/components/binder-list/AddBinderButton.vue?vue&type=template&id=eb673218&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/binder-list/AddBinderButton.vue?vue&type=template&id=eb673218& ***!
+  \************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddLabelButton_vue_vue_type_template_id_2b107dfe___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddLabelButton.vue?vue&type=template&id=2b107dfe& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddLabelButton.vue?vue&type=template&id=2b107dfe&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddLabelButton_vue_vue_type_template_id_2b107dfe___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddBinderButton_vue_vue_type_template_id_eb673218___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AddBinderButton.vue?vue&type=template&id=eb673218& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/AddBinderButton.vue?vue&type=template&id=eb673218&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddBinderButton_vue_vue_type_template_id_eb673218___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddLabelButton_vue_vue_type_template_id_2b107dfe___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddBinderButton_vue_vue_type_template_id_eb673218___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -60538,6 +61856,144 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteBinderButton_vue_vue_type_template_id_18fd0b60___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteBinderButton_vue_vue_type_template_id_18fd0b60___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-list/DeleteConfirmPopover.vue":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/binder-list/DeleteConfirmPopover.vue ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteConfirmPopover_vue_vue_type_template_id_659ed229___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteConfirmPopover.vue?vue&type=template&id=659ed229& */ "./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=template&id=659ed229&");
+/* harmony import */ var _DeleteConfirmPopover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteConfirmPopover.vue?vue&type=script&lang=js& */ "./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DeleteConfirmPopover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteConfirmPopover_vue_vue_type_template_id_659ed229___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteConfirmPopover_vue_vue_type_template_id_659ed229___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/binder-list/DeleteConfirmPopover.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteConfirmPopover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteConfirmPopover.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteConfirmPopover_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=template&id=659ed229&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=template&id=659ed229& ***!
+  \*****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteConfirmPopover_vue_vue_type_template_id_659ed229___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteConfirmPopover.vue?vue&type=template&id=659ed229& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/DeleteConfirmPopover.vue?vue&type=template&id=659ed229&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteConfirmPopover_vue_vue_type_template_id_659ed229___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteConfirmPopover_vue_vue_type_template_id_659ed229___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-list/EditBinderButton.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/binder-list/EditBinderButton.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _EditBinderButton_vue_vue_type_template_id_398bc1ff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EditBinderButton.vue?vue&type=template&id=398bc1ff& */ "./resources/js/components/binder-list/EditBinderButton.vue?vue&type=template&id=398bc1ff&");
+/* harmony import */ var _EditBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditBinderButton.vue?vue&type=script&lang=js& */ "./resources/js/components/binder-list/EditBinderButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EditBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EditBinderButton_vue_vue_type_template_id_398bc1ff___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _EditBinderButton_vue_vue_type_template_id_398bc1ff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/binder-list/EditBinderButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-list/EditBinderButton.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/binder-list/EditBinderButton.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditBinderButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/EditBinderButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EditBinderButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/binder-list/EditBinderButton.vue?vue&type=template&id=398bc1ff&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/components/binder-list/EditBinderButton.vue?vue&type=template&id=398bc1ff& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditBinderButton_vue_vue_type_template_id_398bc1ff___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./EditBinderButton.vue?vue&type=template&id=398bc1ff& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/binder-list/EditBinderButton.vue?vue&type=template&id=398bc1ff&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditBinderButton_vue_vue_type_template_id_398bc1ff___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_EditBinderButton_vue_vue_type_template_id_398bc1ff___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -61312,15 +62768,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Header_vue_vue_type_template_id_6f836296___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue?vue&type=template&id=6f836296& */ "./resources/js/components/common/Header.vue?vue&type=template&id=6f836296&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Header.vue?vue&type=script&lang=js& */ "./resources/js/components/common/Header.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _Header_vue_vue_type_template_id_6f836296___WEBPACK_IMPORTED_MODULE_0__["render"],
   _Header_vue_vue_type_template_id_6f836296___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -61334,6 +62792,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/common/Header.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/Header.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/common/Header.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Header.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/Header.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Header_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -61626,6 +63098,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Loader_vue_vue_type_template_id_0b557d1c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Loader_vue_vue_type_template_id_0b557d1c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/common/MessageBox.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/common/MessageBox.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _MessageBox_vue_vue_type_template_id_69e8a04d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessageBox.vue?vue&type=template&id=69e8a04d& */ "./resources/js/components/common/MessageBox.vue?vue&type=template&id=69e8a04d&");
+/* harmony import */ var _MessageBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MessageBox.vue?vue&type=script&lang=js& */ "./resources/js/components/common/MessageBox.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _MessageBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _MessageBox_vue_vue_type_template_id_69e8a04d___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _MessageBox_vue_vue_type_template_id_69e8a04d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/common/MessageBox.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/common/MessageBox.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/common/MessageBox.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./MessageBox.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/MessageBox.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageBox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/common/MessageBox.vue?vue&type=template&id=69e8a04d&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/common/MessageBox.vue?vue&type=template&id=69e8a04d& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageBox_vue_vue_type_template_id_69e8a04d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./MessageBox.vue?vue&type=template&id=69e8a04d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/common/MessageBox.vue?vue&type=template&id=69e8a04d&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageBox_vue_vue_type_template_id_69e8a04d___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MessageBox_vue_vue_type_template_id_69e8a04d___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -61986,15 +63527,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AutoSigninCheckbox.vue?vue&type=template&id=06397886& */ "./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=template&id=06397886&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _AutoSigninCheckbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AutoSigninCheckbox.vue?vue&type=script&lang=js& */ "./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AutoSigninCheckbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__["render"],
   _AutoSigninCheckbox_vue_vue_type_template_id_06397886___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -62008,6 +63551,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/signin/AutoSigninCheckbox.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AutoSigninCheckbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AutoSigninCheckbox.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/signin/AutoSigninCheckbox.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AutoSigninCheckbox_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -62224,7 +63781,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************!*\
   !*** ./resources/js/const.js ***!
   \*******************************/
-/*! exports provided: STATUS, BINDER_AUTHORITY_LEVEL, SAVE_ORDER_TYPE */
+/*! exports provided: STATUS, BINDER_AUTHORITY_LEVEL, SAVE_ORDER_TYPE, TRANSITION_TYPE, MESSAGE_TYPE, MESSAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62232,6 +63789,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STATUS", function() { return STATUS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BINDER_AUTHORITY_LEVEL", function() { return BINDER_AUTHORITY_LEVEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_ORDER_TYPE", function() { return SAVE_ORDER_TYPE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TRANSITION_TYPE", function() { return TRANSITION_TYPE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MESSAGE_TYPE", function() { return MESSAGE_TYPE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MESSAGE", function() { return MESSAGE; });
 var STATUS = {
   OK: 200,
   CREATED: 201,
@@ -62253,6 +63813,44 @@ var SAVE_ORDER_TYPE = {
   // 画像
   LABEL: 20 // ラベル
 
+};
+var TRANSITION_TYPE = {
+  // トランジションの種類(src\resources\sass\common\_base.scss)
+  FADE: 'fade',
+  FADE_FASTER: 'fade-faster',
+  PAGE_IN: 'page-in',
+  PAGE_OUT: 'page-out'
+};
+var MESSAGE_TYPE = {
+  ERROR: 'error',
+  SUCCESS: 'success'
+};
+var MESSAGE = {
+  COMMON: {
+    SYSTEM_ERROR: "システムエラーが発生しました。"
+  },
+  SIGNIN: {
+    FAIL: "ログインに失敗しました。",
+    NOTIFY: "メールアドレスかパスワードが正しくありません。"
+  },
+  SIGNUP: {
+    FAIL: "入力内容をご確認ください。"
+  },
+  SIGNOUT: {
+    FAIL: "ログアウトに失敗しました。"
+  },
+  BINDER_CREATE: {
+    FAIL: "入力内容をご確認ください。"
+  },
+  LABEL_ADD_DLG: {
+    FAIL: "入力内容をご確認ください。",
+    NOTIFY: {
+      NAME: {
+        REQUIRED: "ラベル名は必須です。",
+        MAX: "ラベル名は20字以内で設定してください。"
+      }
+    }
+  }
 };
 
 /***/ }),
@@ -62674,6 +64272,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_BinderList_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./pages/BinderList.vue */ "./resources/js/pages/BinderList.vue");
 /* harmony import */ var _pages_BinderCreate_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pages/BinderCreate.vue */ "./resources/js/pages/BinderCreate.vue");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./const */ "./resources/js/const.js");
+
 
 
 
@@ -62688,65 +64288,110 @@ var routes = [{
   path: "/test",
   component: _pages_Test_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
+  // バインダー詳細
   path: "/binder/detail/:id",
   name: "binder",
   component: _pages_Binder_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store__WEBPACK_IMPORTED_MODULE_8__["default"].getters["auth/check"]) {
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].PAGE_IN);
       next();
     } else {
+      // 未ログインの場合はログインページへリダイレクト
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next({
         name: "signin"
       });
     }
   }
 }, {
+  // サインアップ
   path: "/signup",
   name: "signup",
   component: _pages_Signup_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store__WEBPACK_IMPORTED_MODULE_8__["default"].getters["auth/check"]) {
+      // ログイン済みの場合はバインダー一覧へリダイレクト
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next({
         name: "binder-list"
       });
     } else {
+      // エラー情報をクリア
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch("error/clearMessages");
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next();
     }
   }
 }, {
+  // サインイン
   path: "/signin",
   name: "signin",
   component: _pages_Signin_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store__WEBPACK_IMPORTED_MODULE_8__["default"].getters["auth/check"]) {
+      // ログイン済みの場合はバインダー一覧へリダイレクト
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next({
         name: "binder-list"
       });
     } else {
+      // エラー情報をクリア
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch("error/clearMessages");
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next();
     }
   }
 }, {
+  // バインダー一覧
   path: "/binder/list",
   name: "binder-list",
   component: _pages_BinderList_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store__WEBPACK_IMPORTED_MODULE_8__["default"].getters["auth/check"]) {
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].PAGE_OUT);
       next();
     } else {
+      // 未ログインの場合はログインページへリダイレクト
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next({
         name: "signin"
       });
     }
   }
 }, {
+  // バインダー作成
   path: "/binder/create",
   name: "binder-create",
   component: _pages_BinderCreate_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store__WEBPACK_IMPORTED_MODULE_8__["default"].getters["auth/check"]) {
+      // エラー情報をクリア
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch("error/clearMessages");
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].PAGE_IN);
       next();
     } else {
+      // 未ログインの場合はログインページへリダイレクト
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
+      next({
+        name: "signin"
+      });
+    }
+  }
+}, {
+  // バインダー編集(バインダー作成と同じ画面)
+  path: "/binder/edit",
+  name: "binder-edit",
+  component: _pages_BinderCreate_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store__WEBPACK_IMPORTED_MODULE_8__["default"].getters["auth/check"]) {
+      // エラー情報をクリア
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].dispatch("error/clearMessages");
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].PAGE_IN);
+      next();
+    } else {
+      // 未ログインの場合はログインページへリダイレクト
+      _store__WEBPACK_IMPORTED_MODULE_8__["default"].commit("mode/setTransitionType", _const__WEBPACK_IMPORTED_MODULE_9__["TRANSITION_TYPE"].FADE_FASTER);
       next({
         name: "signin"
       });
@@ -62773,6 +64418,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -62783,23 +64429,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
  * 認証関係ストア
  */
 
+
 var state = {
   /**
-   * ログイン中のユーザー
-   */
-  user: null,
-
-  /**
-   * ユーザー認証に関するAPIの実行結果
+   * APIの実行結果
    * true: 成功
    * false: 失敗
    */
   apiStatus: null,
 
   /**
+   * ログイン中のユーザー
+   */
+  user: null,
+
+  /**
    * ユーザー認証に関するAPIのエラーメッセージ
    */
-  errorMessages: null
+  errorMessages: null,
+
+  /**
+   * 継続ログインの有無
+   */
+  isEnabledAutoLogin: false
 };
 var getters = {
   /**
@@ -62825,6 +64477,9 @@ var mutations = {
   },
   setErrorMessages: function setErrorMessages(state, messages) {
     state.apiStatus = messages;
+  },
+  setIsEnableAutoLogin: function setIsEnableAutoLogin(state, val) {
+    state.isEnabledAutoLogin = val;
   }
 };
 var actions = {
@@ -62834,24 +64489,57 @@ var actions = {
    */
   register: function register(context, data) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var param;
+      var uri, response, message, _message;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              param = {
-                data: data,
-                uri: "api/user/register",
-                fnSuccess: function fnSuccess(response) {
-                  context.commit("setApiStatus", true);
-                  context.commit("setUser", response.data);
-                  return false;
-                }
-              };
-              _context.next = 3;
-              return context.dispatch("callApi", param);
+              uri = "api/user/register"; // API呼び出し
 
-            case 3:
+              context.commit("setApiStatus", null);
+              _context.next = 4;
+              return axios.post("".concat(uri), data)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
+                _context.next = 9;
+                break;
+              }
+
+              context.commit("setApiStatus", true);
+              context.commit("setUser", response.data);
+              return _context.abrupt("return", false);
+
+            case 9:
+              // 失敗
+              context.commit("setApiStatus", false);
+
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("error/setMessages", response.data.errors, {
+                  root: true
+                });
+                message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].SIGNUP.FAIL, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", message, {
+                  root: true
+                });
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+                _message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].COMMON.SYSTEM_ERROR, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", _message, {
+                  root: true
+                });
+              }
+
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -62866,24 +64554,57 @@ var actions = {
    */
   login: function login(context, data) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var param;
+      var uri, response, message, _message2;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              param = {
-                data: data,
-                uri: "api/user/auth/login",
-                fnSuccess: function fnSuccess(response) {
-                  context.commit("setApiStatus", true);
-                  context.commit("setUser", response.data);
-                  return false;
-                }
-              };
-              _context2.next = 3;
-              return context.dispatch("callApi", param);
+              uri = "api/user/auth/login"; // API呼び出し
 
-            case 3:
+              context.commit("setApiStatus", null);
+              _context2.next = 4;
+              return axios.post("".concat(uri), data)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 4:
+              response = _context2.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context2.next = 9;
+                break;
+              }
+
+              context.commit("setApiStatus", true);
+              context.commit("setUser", response.data);
+              return _context2.abrupt("return", false);
+
+            case 9:
+              // 失敗
+              context.commit("setApiStatus", false);
+
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("error/setMessages", response.data.errors, {
+                  root: true
+                });
+                message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].SIGNIN.FAIL, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", message, {
+                  root: true
+                });
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+                _message2 = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].COMMON.SYSTEM_ERROR, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", _message2, {
+                  root: true
+                });
+              }
+
+            case 11:
             case "end":
               return _context2.stop();
           }
@@ -62893,52 +64614,52 @@ var actions = {
   },
 
   /**
-   * 認証API呼び出しの基底処理
-   * @param {obj} param
-   * {
-   *   'data': フォームデータ,
-   *   'uri': APIのURI,
-   *   'fnSuccess': APIが正常に実行された際の処理
-   * }
+   * ログアウト
    */
-  callApi: function callApi(context, param) {
+  logout: function logout(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-      var data, uri, fnSuccess, response;
+      var uri, response, message, _message3;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              // パラメタの展開
-              data = param["data"];
-              uri = param["uri"];
-              fnSuccess = param["fnSuccess"]; // API呼び出し
+              uri = "api/user/auth/logout"; // API呼び出し
 
               context.commit("setApiStatus", null);
-              _context3.next = 6;
-              return axios.post("".concat(uri), data)["catch"](function (err) {
+              _context3.next = 4;
+              return axios.post("".concat(uri))["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 6:
+            case 4:
               response = _context3.sent;
 
-              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
                 _context3.next = 9;
                 break;
               }
 
-              return _context3.abrupt("return", fnSuccess(response));
+              context.commit("setApiStatus", true);
+              context.commit("setUser", response.data);
+              return _context3.abrupt("return", false);
 
             case 9:
               // 失敗
               context.commit("setApiStatus", false);
 
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
-                // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].SIGNOUT.FAIL, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", message, {
+                  root: true
+                });
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+                _message3 = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].COMMON.SYSTEM_ERROR, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", _message3, {
                   root: true
                 });
               }
@@ -62955,6 +64676,8 @@ var actions = {
   /**
    * ログインユーザーの情報を取得します。
    * ログインセッションが存在する場合はstateへユーザー情報を設定します。
+   *
+   * NOTE: ページをリロードするとstoreが初期化されてログイン状態が保持できないため
    */
   getUserInfo: function getUserInfo(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
@@ -62964,11 +64687,12 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return axios.get('api/user/info');
+              return axios.get("api/user/info");
 
             case 2:
               response = _context4.sent;
               userInfo = response.data;
+              console.log(response);
 
               if (response.data == "") {
                 // 未ログイン時はnullを設定
@@ -62977,7 +64701,7 @@ var actions = {
                 context.commit("setUser", userInfo);
               }
 
-            case 5:
+            case 6:
             case "end":
               return _context4.stop();
           }
@@ -63009,17 +64733,135 @@ __webpack_require__.r(__webpack_exports__);
  * APIエラーストア
  */
 var state = {
-  code: null
+  code: null,
+  messages: {}
 };
 var mutations = {
   setCode: function setCode(state, code) {
     state.code = code;
+  },
+  setMessages: function setMessages(state, val) {
+    state.messages = val;
+  }
+};
+var actions = {
+  clearMessages: function clearMessages(context) {
+    state.messages = {};
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: state,
-  mutations: mutations
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/common/message-box.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/common/message-box.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * 通知メッセージストア
+ */
+
+var state = {
+  messages: [],
+  // メッセージを特定するためのキーとしてカウントアップする
+  count: 0
+};
+var getters = {
+  /**
+   * 指定したメッセージが既に表示されているかを判定します。
+   * NOTE: VueDropzoneのエラー時コールバックが
+   * errormultipleを指定しているにもかかわらずファイルの数だけ走ってしまうため
+   */
+  exist: function exist(state) {
+    return function (message) {
+      var index = state.messages.findIndex(function (item) {
+        return message.val == item.val;
+      });
+      return -1 !== index;
+    };
+  }
+};
+var mutations = {
+  setMessages: function setMessages(state, val) {
+    state.messages = val;
+  },
+  addMessage: function addMessage(state, message) {
+    // 先頭に追加
+    state.messages.unshift({
+      count: state.count,
+      val: message.val,
+      type: message.type
+    });
+  },
+  removeMessage: function removeMessage(state, message) {
+    // countで対象を特定し削除
+    state.messages = state.messages.filter(function (item) {
+      return item.count != message.count;
+    });
+  },
+  countUp: function countUp(state) {
+    state.count++;
+  }
+};
+var actions = {
+  /**
+   * メッセージを追加し、一定時間後に自動で消去します。
+   */
+  add: function add(context, val) {
+    var ttl = 4000;
+    context.commit("addMessage", val);
+    var message = state.messages[0];
+    context.commit("countUp");
+    setTimeout(function () {
+      context.commit("removeMessage", message);
+    }, ttl);
+  },
+
+  /**
+   * 複数のメッセージを追加します。
+   * NOTE: バインダー画面では通知メッセージでサーバーから返却されたエラーを表示するため
+   */
+  addMany: function addMany(context, messages) {
+    var messageCount = messages.length;
+
+    for (var i = 0; i < messageCount; i++) {
+      var message = messages[i];
+      var isExist = context.getters["exist"](message);
+
+      if (isExist) {
+        // 同じメッセージが既に表示されている場合は追加しない
+        continue;
+      }
+
+      context.dispatch("add", message);
+    }
+  },
+
+  /**
+   * メッセージをクリアします。
+   */
+  clear: function clear(context) {
+    context.commit("setMessages", []);
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions
 });
 
 /***/ }),
@@ -63060,7 +64902,12 @@ var state = {
   /**
    * プログレスバー表示の有無
    */
-  isConnecting: false
+  isConnecting: false,
+
+  /**
+   * ページ遷移のトランジション
+   */
+  transitionType: 'fade-faster'
 };
 var mutations = {
   setHasNavigation: function setHasNavigation(state, val) {
@@ -63075,8 +64922,25 @@ var mutations = {
   setIsShowDropzone: function setIsShowDropzone(state, val) {
     state.isShowDropzone = val;
   },
+
+  /**
+   * プログレスインジケーターの表示制御
+   */
   setIsConnecting: function setIsConnecting(state, val) {
-    state.isConnecting = val;
+    var func = function func() {
+      state.isConnecting = val;
+    };
+
+    if (val == false) {
+      // 消す場合は最低1秒表示させる
+      setTimeout(func, 500);
+      return false;
+    }
+
+    func();
+  },
+  setTransitionType: function setTransitionType(state, val) {
+    state.isInnerPage = val;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -63099,8 +64963,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -63108,12 +64973,21 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 /**
- * フォームデータストア - バインダー作成
+ * フォームデータストア - バインダー作成 / 編集
  */
+
 
 
 var state = {
   /**
+   * APIの実行結果
+   * true: 成功
+   * false: 失敗
+   */
+  apiStatus: null,
+
+  /**
+   * id: Number バインダーID
    * name: String バインダー名
    * description: String バインダーの説明
    * labels: Array ラベルの配列
@@ -63121,8 +64995,9 @@ var state = {
    *   - description: String ラベルの説明
    */
   form: {
-    name: '',
-    description: '',
+    id: 0,
+    name: "",
+    description: "",
     labels: [],
     sort: null
   },
@@ -63138,6 +65013,9 @@ var state = {
   errorMessages: null
 };
 var mutations = {
+  setForm: function setForm(state, val) {
+    state.form = val;
+  },
   setBinderName: function setBinderName(state, val) {
     state.form.name = val;
   },
@@ -63153,52 +65031,79 @@ var mutations = {
       state.form.labels.push(label);
     } else {
       // 編集の場合はstateを更新する
-      vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.form.labels, label.index, label);
+      vue__WEBPACK_IMPORTED_MODULE_3___default.a.set(state.form.labels, label.index, label);
       console.log(state.form.labels[label.index]);
     }
   },
   removeLabel: function removeLabel(state, label) {
-    vue__WEBPACK_IMPORTED_MODULE_2___default.a["delete"](state.form.labels, label.index);
+    vue__WEBPACK_IMPORTED_MODULE_3___default.a["delete"](state.form.labels, label.index);
+  },
+  setApiStatus: function setApiStatus(state, val) {
+    state.apiStatus = val;
+  }
+};
+var getters = {
+  /**
+   * バインダーが新規登録かどうかを判定します。
+   */
+  isNewBinder: function isNewBinder(context) {
+    var newBinderId = 0;
+    return state.form.id == newBinderId;
   }
 };
 var actions = {
   doPost: function doPost(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var uri, response;
+      var uri, response, message, _message;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              uri = "api/binder/create";
-              _context.next = 3;
+              context.commit("setApiStatus", null);
+              uri = "api/binder/save";
+              _context.next = 4;
               return axios.post("".concat(uri), state.form)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 3:
+            case 4:
               response = _context.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK || response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
-                _context.next = 7;
+                _context.next = 8;
                 break;
               }
 
-              alert('成功しました。');
+              context.commit("setApiStatus", true);
               return _context.abrupt("return", false);
 
-            case 7:
+            case 8:
               // 失敗
+              context.commit("setApiStatus", false);
+
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
-                // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                console.log(response.data.errors); // バリデーションエラーの場合はエラーメッセージを格納
+
+                context.commit("error/setMessages", response.data.errors, {
+                  root: true
+                });
+                message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].BINDER_CREATE.FAIL, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", message, {
+                  root: true
+                });
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+                _message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].COMMON.SYSTEM_ERROR, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+                context.dispatch("messageBox/add", _message, {
                   root: true
                 });
               }
 
-            case 8:
+            case 10:
             case "end":
               return _context.stop();
           }
@@ -63212,8 +65117,9 @@ var actions = {
    */
   clear: function clear() {
     var defaultForm = {
-      name: '',
-      description: '',
+      id: 0,
+      name: "",
+      description: "",
       labels: []
     };
     state.form = defaultForm;
@@ -63223,6 +65129,7 @@ var actions = {
   namespaced: true,
   state: state,
   mutations: mutations,
+  getters: getters,
   actions: actions
 });
 
@@ -63255,21 +65162,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   /**
-   * id: String バインダーID
-   * name: String バインダー名
-   * description: String バインダーの説明
-   * count_user: Number 参加者数
-   * count_image: Number 画像数
-   * count_label: Number ラベル数
-   * count_favorite: Number お気に入り登録数
-   * is_own: Boolean ログインユーザーが作成者かどうか
-   * is_favorite: Boolean ログインユーザーがお気に入り登録しているかどうか
+   * binders: Array バインダーのリスト
+   *   - id: String バインダーID
+   *   - name: String バインダー名
+   *   - description: String バインダーの説明
+   *   - count_user: Number 参加者数
+   *   - count_image: Number 画像数
+   *   - count_label: Number ラベル数
+   *   - count_favorite: Number お気に入り登録数
+   *   - is_own: Boolean ログインユーザーが作成者かどうか
+   *   - is_favorite: Boolean ログインユーザーがお気に入り登録しているかどうか
+   * search_condition: Object バインダーの絞り込み条件
+   *   - is_own: Booolean ログインユーザーが作成したバインダー
+   *   - is_others: Booolean ログインユーザー以外が作成したバインダー
+   *   - is_favorite: Booolean ログインユーザーがお気に入り登録したバインダー
+   *   - binder_name: String バインダー名
    */
-  binders: []
+  binders: [],
+  search_condition: {
+    is_own: false,
+    is_others: false,
+    is_favorite: false,
+    binder_name: ""
+  }
 };
 var mutations = {
   setBinders: function setBinders(state, data) {
     state.binders = data;
+  },
+  setSearchCondition: function setSearchCondition(state, val) {
+    state.search_condition = val;
+  },
+  setSearchConditionBinderOwn: function setSearchConditionBinderOwn(state, val) {
+    state.search_condition.is_own = val;
+  },
+  setSearchConditionBinderOthers: function setSearchConditionBinderOthers(state, val) {
+    state.search_condition.is_others = val;
+  },
+  setSearchConditionBinderFavorite: function setSearchConditionBinderFavorite(state, val) {
+    state.search_condition.is_favorite = val;
+  },
+  setSearchConditionBinderName: function setSearchConditionBinderName(state, val) {
+    state.search_condition.binder_name = val;
   }
 };
 var actions = {
@@ -63292,12 +65226,14 @@ var actions = {
 
             case 3:
               response = _context.sent;
+              // 検索条件を初期化
+              context.dispatch("clearSearchCondition");
 
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
                 context.commit("setBinders", response.data);
               } else {
                 // 失敗時はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // ローディング画像を非表示
@@ -63307,7 +65243,7 @@ var actions = {
                 root: true
               });
 
-            case 6:
+            case 7:
             case "end":
               return _context.stop();
           }
@@ -63323,18 +65259,20 @@ var actions = {
    */
   updateFavoriteState: function updateFavoriteState(context, binderId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-      var postData, response, target, index;
+      var postData, response, target;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              // 通信開始
+              context.dispatch("setProgressIndicatorVisibleState", true);
               postData = {
-                'binder_id': binderId
+                binder_id: binderId
               };
-              _context2.next = 3;
+              _context2.next = 4;
               return axios.post("api/binder/favorite", postData);
 
-            case 3:
+            case 4:
               response = _context2.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
@@ -63342,35 +65280,199 @@ var actions = {
                 break;
               }
 
-              alert("okinit oK!"); // stateを更新
-
+              // stateを更新
               target = state.binders.find(function (item) {
                 return item.id == binderId;
               });
-              target.is_favorite = !target.is_favorite;
-              index = images.indexOf(target);
-              vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.binders, index, target);
+              target.is_favorite = !target.is_favorite; // バインダーを再検索
+
+              context.dispatch("searchBinder");
+              context.dispatch("setProgressIndicatorVisibleState", false);
               return _context2.abrupt("return", false);
 
             case 11:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               }
 
-            case 12:
+              context.dispatch("setProgressIndicatorVisibleState", false);
+
+            case 13:
             case "end":
               return _context2.stop();
           }
         }
       }, _callee2);
     }))();
+  },
+
+  /**
+   * バインダーを削除します。
+   */
+  deleteBinder: function deleteBinder(context, binderId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var uri, postData, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              // 通信開始
+              context.dispatch("setProgressIndicatorVisibleState", true);
+              uri = "api/binder/delete";
+              postData = {
+                binder_id: binderId
+              };
+              _context3.next = 5;
+              return axios.post(uri, postData);
+
+            case 5:
+              response = _context3.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context3.next = 10;
+                break;
+              }
+
+              // バインダー情報を再取得する
+              context.dispatch("fetchBinders");
+              context.dispatch("setProgressIndicatorVisibleState", false);
+              return _context3.abrupt("return", false);
+
+            case 10:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+              }
+
+              context.dispatch("setProgressIndicatorVisibleState", false);
+
+            case 12:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  },
+
+  /**
+   * stateに保持している条件でバインダーを検索します。
+   */
+  searchBinder: function searchBinder(context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      var uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              // ローディング画像の表示
+              context.commit("mode/setIsLoading", true, {
+                root: true
+              });
+              uri = "api/binder/search";
+              _context4.next = 4;
+              return axios.get(uri, {
+                params: state.search_condition
+              });
+
+            case 4:
+              response = _context4.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context4.next = 9;
+                break;
+              }
+
+              // バインダー情報を再取得する
+              context.commit("setBinders", response.data); // ローディング画像の表示
+
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
+              return _context4.abrupt("return", false);
+
+            case 9:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+              } // ローディング画像の表示
+
+
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
+
+            case 11:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  },
+
+  /**
+   * 通信中であることを示すプログレスインジケーターの表示状態を設定します。
+   */
+  setProgressIndicatorVisibleState: function setProgressIndicatorVisibleState(context, val) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              context.commit("mode/setIsConnecting", val, {
+                root: true
+              });
+
+            case 1:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
+
+  /**
+   * フラグ値の検索条件(is_ownなど)をクリアします。
+   * NOTE: フラグ値の検索条件は同時に一つだけ設定可能とするため
+   */
+  clearAllFlagSearchCondition: function clearAllFlagSearchCondition(context) {
+    context.commit("setSearchConditionBinderOwn", false);
+    context.commit("setSearchConditionBinderOthers", false);
+    context.commit("setSearchConditionBinderFavorite", false);
+  },
+
+  /**
+   * 検索条件をクリアします。
+   */
+  clearSearchCondition: function clearSearchCondition(context) {
+    var defaultSearchCondition = {
+      is_own: false,
+      is_others: false,
+      is_favorite: false,
+      binder_name: ""
+    };
+    context.commit("setSearchCondition", defaultSearchCondition);
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -63394,8 +65496,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -63405,6 +65508,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /**
  * フォームデータストア - バインダー
  */
+
 
 
 var state = {
@@ -63566,16 +65670,16 @@ var getters = {
   /**
    * Draggableによる「画像/ラベル」(以下「対象」)の並び順を永続化するリクエスト用のデータを取得します。
    * 対象の並び順が変わらない場合はnullを返却します。
-   * 
+   *
    * NOTE: 更新後の並び順 算出仕様
    * 対象が前方に移動した場合、「指定した対象のひとつ後ろに位置する対象が持つ並び順」
    * それ以外の場合は「指定した対象のひとつ前に位置する対象が持つ並び順」を設定する
    *
    * @param {Object} param
    *   - target_id : 対象のID
-   *   - org_index : 移動前のインデックス 
+   *   - org_index : 移動前のインデックス
    *   - save_order_type : 対象の種類(util.js > SAVE_ORDER_TYPE)
-   * @return {Object} 
+   * @return {Object}
    *   - binder_id : バインダーID
    *   - target_id : 対象のID
    *   - sort_after : 更新後の並び順
@@ -63688,7 +65792,7 @@ var actions = {
                 context.commit("setCreatedAt", response.data.created_at);
               } else {
                 // 失敗時はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // ローディング画像を非表示
@@ -63777,10 +65881,10 @@ var actions = {
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // 通信完了
@@ -63845,10 +65949,10 @@ var actions = {
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // 通信完了
@@ -63869,51 +65973,62 @@ var actions = {
    * stateに保持している条件で画像を検索します。
    */
   searchBinderImage: function searchBinderImage(context) {
+    var _arguments = arguments;
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-      var uri, response;
+      var isShowProgress, uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
+              isShowProgress = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : true;
+
               // 通信開始
-              context.dispatch("setProgressIndicatorVisibleState", true);
+              if (isShowProgress) {
+                // NOTE: ローディング画像を表示しないケース(並び順永続化)に対応
+                context.commit("mode/setIsLoading", true, {
+                  root: true
+                });
+              }
+
               uri = "api/binder/image/search";
-              _context5.next = 4;
+              _context5.next = 5;
               return axios.get("".concat(uri), {
                 params: state.search_condition
               })["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 4:
+            case 5:
               response = _context5.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context5.next = 9;
+                _context5.next = 10;
                 break;
               }
 
-              context.commit("setImages", response.data); // 通信完了
-
-              context.dispatch("setProgressIndicatorVisibleState", false);
+              context.commit("setImages", response.data);
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
               return _context5.abrupt("return", false);
 
-            case 9:
+            case 10:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
-              } // 通信完了
+              }
 
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
 
-              context.dispatch("setProgressIndicatorVisibleState", false);
-
-            case 11:
+            case 12:
             case "end":
               return _context5.stop();
           }
@@ -63959,10 +66074,10 @@ var actions = {
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // 通信完了
@@ -64018,10 +66133,10 @@ var actions = {
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // 通信完了
@@ -64074,10 +66189,10 @@ var actions = {
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
               } // 通信完了
@@ -64104,43 +66219,36 @@ var actions = {
         while (1) {
           switch (_context9.prev = _context9.next) {
             case 0:
-              // 通信開始
-              context.dispatch("setProgressIndicatorVisibleState", true);
               console.log(postData);
               uri = "api/binder/image/sort";
-              _context9.next = 5;
+              _context9.next = 4;
               return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 5:
+            case 4:
               response = _context9.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context9.next = 9;
+                _context9.next = 7;
                 break;
               }
 
-              // 通信完了
-              context.dispatch("setProgressIndicatorVisibleState", false);
               return _context9.abrupt("return", false);
 
-            case 9:
+            case 7:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
-              } // 通信完了
+              }
 
-
-              context.dispatch("setProgressIndicatorVisibleState", false);
-
-            case 11:
+            case 8:
             case "end":
               return _context9.stop();
           }
@@ -64149,7 +66257,7 @@ var actions = {
     }))();
   },
 
-  /** 
+  /**
    * ラベルの並べ替え状態を永続化します。
    */
   saveLabelOrderState: function saveLabelOrderState(context, postData) {
@@ -64159,44 +66267,33 @@ var actions = {
         while (1) {
           switch (_context10.prev = _context10.next) {
             case 0:
-              // 通信開始
-              context.dispatch("setProgressIndicatorVisibleState", true);
               console.log(postData);
               uri = "api/binder/label/sort";
-              _context10.next = 5;
+              _context10.next = 4;
               return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 5:
+            case 4:
               response = _context10.sent;
 
-              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context10.next = 10;
-                break;
-              }
+              // 成功
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
+                state.labels = response.data.labels;
+              } // 失敗
 
-              state.labels = response.data.labels; // 通信完了
 
-              context.dispatch("setProgressIndicatorVisibleState", false);
-              return _context10.abrupt("return", false);
-
-            case 10:
-              // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.data.errors);
+                context.commit("setErrorMessages", response.errors);
               } else {
                 // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.data.status, {
+                context.commit("error/setCode", response.status, {
                   root: true
                 });
-              } // 通信完了
+              }
 
-
-              context.dispatch("setProgressIndicatorVisibleState", false);
-
-            case 12:
+            case 7:
             case "end":
               return _context10.stop();
           }
@@ -64230,7 +66327,7 @@ var actions = {
             case 5:
               response = _context11.sent;
               image = response.data.image;
-              vue__WEBPACK_IMPORTED_MODULE_2___default.a.set(state.images, index, image); // 通信完了
+              vue__WEBPACK_IMPORTED_MODULE_3___default.a.set(state.images, index, image); // 通信完了
 
               context.dispatch("setProgressIndicatorVisibleState", false);
 
@@ -64248,32 +66345,15 @@ var actions = {
    */
   setProgressIndicatorVisibleState: function setProgressIndicatorVisibleState(context, val) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
-      var func;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
         while (1) {
           switch (_context12.prev = _context12.next) {
             case 0:
-              func = function func() {
-                context.commit('mode/setIsConnecting', val, {
-                  root: true
-                });
-              };
+              context.commit("mode/setIsConnecting", val, {
+                root: true
+              });
 
-              if (!(val == false)) {
-                _context12.next = 5;
-                break;
-              }
-
-              _context12.next = 4;
-              return setTimeout(func, 500);
-
-            case 4:
-              return _context12.abrupt("return", false);
-
-            case 5:
-              func();
-
-            case 6:
+            case 1:
             case "end":
               return _context12.stop();
           }
@@ -64365,10 +66445,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _common_auth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./common/auth */ "./resources/js/store/common/auth.js");
 /* harmony import */ var _common_error__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common/error */ "./resources/js/store/common/error.js");
 /* harmony import */ var _common_mode__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./common/mode */ "./resources/js/store/common/mode.js");
-/* harmony import */ var _form_binder_create__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./form/binder-create */ "./resources/js/store/form/binder-create.js");
-/* harmony import */ var _form_binder_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./form/binder-list */ "./resources/js/store/form/binder-list.js");
-/* harmony import */ var _form_binder__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./form/binder */ "./resources/js/store/form/binder.js");
-/* harmony import */ var _form_label_add_dialog__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./form/label-add-dialog */ "./resources/js/store/form/label-add-dialog.js");
+/* harmony import */ var _common_message_box__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./common/message-box */ "./resources/js/store/common/message-box.js");
+/* harmony import */ var _form_binder_create__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./form/binder-create */ "./resources/js/store/form/binder-create.js");
+/* harmony import */ var _form_binder_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./form/binder-list */ "./resources/js/store/form/binder-list.js");
+/* harmony import */ var _form_binder__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./form/binder */ "./resources/js/store/form/binder.js");
+/* harmony import */ var _form_label_add_dialog__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./form/label-add-dialog */ "./resources/js/store/form/label-add-dialog.js");
+
 
 
 
@@ -64385,10 +66467,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     auth: _common_auth__WEBPACK_IMPORTED_MODULE_3__["default"],
     error: _common_error__WEBPACK_IMPORTED_MODULE_4__["default"],
     mode: _common_mode__WEBPACK_IMPORTED_MODULE_5__["default"],
-    binderCreate: _form_binder_create__WEBPACK_IMPORTED_MODULE_6__["default"],
-    binderList: _form_binder_list__WEBPACK_IMPORTED_MODULE_7__["default"],
-    binder: _form_binder__WEBPACK_IMPORTED_MODULE_8__["default"],
-    labelAddDialog: _form_label_add_dialog__WEBPACK_IMPORTED_MODULE_9__["default"]
+    messageBox: _common_message_box__WEBPACK_IMPORTED_MODULE_6__["default"],
+    binderCreate: _form_binder_create__WEBPACK_IMPORTED_MODULE_7__["default"],
+    binderList: _form_binder_list__WEBPACK_IMPORTED_MODULE_8__["default"],
+    binder: _form_binder__WEBPACK_IMPORTED_MODULE_9__["default"],
+    labelAddDialog: _form_label_add_dialog__WEBPACK_IMPORTED_MODULE_10__["default"]
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (store);
@@ -64480,11 +66563,29 @@ var util = {
    */
   isDraggableEvent: function isDraggableEvent(event) {
     return event.currentTarget.classList.contains("sortable-chosen");
-  }
-  /**
-   * 
-   */
+  },
 
+  /**
+   * オブジェクトが空かどうかを判定します。
+   * NOTE: 空 = {}
+   */
+  isEmptyObject: function isEmptyObject(obj) {
+    var len = Object.keys(obj).length;
+    return len === 0;
+  },
+
+  /**
+   * 通知メッセージを生成します。
+   * 
+   * @param {String} val メッセージテキスト
+   * @param {String} type メッセージのタイプ（成功/エラー）
+   */
+  createMessage: function createMessage(val, type) {
+    return {
+      val: val,
+      type: type
+    };
+  }
 };
 
 /***/ }),
