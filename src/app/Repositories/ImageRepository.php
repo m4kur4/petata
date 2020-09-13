@@ -72,18 +72,13 @@ class ImageRepository implements ImageRepositoryInterface
 
             // DBへ画像データを保存
             $image_data = $this->saveImageData($request->binder_id, $image_file);
+            if (empty($image_data)) {
+                // DBへのコミットに失敗した場合、画像をアップロードしない
+                continue;
+            }
             // ストレージへ画像ファイルを保存
             $this->saveImageFile($image_file, $image_data);
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function addMany(ImageAddRequest $request)
-    {
-        // TODO: 実装
-
     }
 
     /**
@@ -109,9 +104,16 @@ class ImageRepository implements ImageRepositoryInterface
             array_push($delete_target_paths, $org_path);
 
         }
+        // トランザクション 
+        DB::beginTransaction();
+        try {
+            $image_query->delete();
+            DB::commit();
         
-        // TODO: データ削除に失敗した場合はファイルも消去しない
-        $image_query->delete();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
 
         // 削除後の全画像に並び順を割り当てる
         $this->resetSortAll($request->binder_id);
@@ -307,8 +309,17 @@ class ImageRepository implements ImageRepositoryInterface
             'visible' => config('_const.IMAGE.VISIBLE.SHOW'),
             'extension' => $extension,
         ]);
-        $new_image->save();
 
+        // トランザクション 
+        DB::beginTransaction();
+        try {
+            $new_image->save();
+            DB::commit();
+        
+        } catch (\Exception $e) {
+            DB::rollback();
+            return null;
+        }
         return $new_image;
     }
 
