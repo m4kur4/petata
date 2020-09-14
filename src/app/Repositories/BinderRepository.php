@@ -426,15 +426,15 @@ class BinderRepository implements BinderRepositoryInterface
     }
 
     /**
-     * 指定したバインダーについて、全画像の並び順を一つ後ろへずらします。
+     * 指定したバインダーについて、全ラベルの並び順を一つ後ろへずらします。
      * NOTE: 新規に追加する画像の並び順は先頭(sort = 1)のため
      * 
      * @param int $binder_id バインダーID
      */
     private function shiftSortBackwordAll($binder_id)
     {
-        // 新規追加画像の並び順
-        $sort_after = 1;
+        // 新規追加ラベルの並び順
+        $sort_after = 0;
         
         // <integerの最大値>から<0>へ並び順を更新する扱い
         $query = $this->getSortUpdateQueryForward(config('_const.TABLE_NAME.LABELS'));

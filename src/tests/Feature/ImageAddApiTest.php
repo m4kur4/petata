@@ -56,7 +56,7 @@ class ImageAddApiTest extends TestCase
         
         // - ストレージに期待通りファイルがアップロードされていること
         //   NOTE: アップロード先 ⇒ binder/<binder_id>/<path>
-        Log::debug(Storage::cloud()->allFiles());
+        //Log::debug(Storage::cloud()->allFiles());
         // Storage::cloud()->assertExists(FileManageHelper::getBinderImagePath($image));
     }
 }

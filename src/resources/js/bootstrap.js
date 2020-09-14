@@ -1,3 +1,5 @@
+import { util } from './util'
+
 window._ = require('lodash');
 
 /**
@@ -11,6 +13,13 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.axios.defaults.baseURL = process.env.MIX_APP_URL;
+
+// リクエスト時の処理をインターセプトする
+// NOTE: CSRFトークンを埋め込む
+window.axios.interceptors.request.use(config => {
+    config.headers['X-XSRF-TOKEN'] = decodeURIComponent(util.getCookieValue('XSRF-TOKEN'));
+    return config
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

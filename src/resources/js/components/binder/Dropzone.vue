@@ -25,11 +25,14 @@ export default {
     },
     data: function() {
         const self = this;
-        const csrfToken = document.getElementById("csrf-token").content;
+        const csrfToken = decodeURIComponent(util.getCookieValue('XSRF-TOKEN'));
         return {
             dropzoneOptions: {
                 url: "/api/binder/image/add",
-                headers: { "X-CSRF-TOKEN": csrfToken },
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-XSRF-TOKEN": csrfToken
+                },
                 params: {
                     binder_id: ""
                 },
@@ -52,31 +55,31 @@ export default {
                     self.hideDropzone();
                 },
                 processingmultiple: function(file, response) {
-
                     // Dropzoneを非表示にする
                     self.hideDropzone();
                     // プログレスインジケーターを表示する
                     self.$store.commit("mode/setIsConnecting", true);
                 },
                 errormultiple: function(file, response) {
-
                     // レスポンスに含まれるメッセージを展開
-                    const errorMessageValues = Object.values(response.errors).flat(1);
+                    const errorMessageValues = Object.values(
+                        response.errors
+                    ).flat(1);
                     // 重複を除去
-                    const uniquedErrorMessageValues = [...(new Set(errorMessageValues))];
+                    const uniquedErrorMessageValues = [
+                        ...new Set(errorMessageValues)
+                    ];
 
                     // エラーメッセージの表示
-                    const errorMessages = uniquedErrorMessageValues.map(text => {
-                        // 通知メッセージのフォーマットへレスポンスを変換
-                        return util.createMessage(
-                            text,
-                            MESSAGE_TYPE.ERROR
-                        );
-                    });
+                    const errorMessages = uniquedErrorMessageValues.map(
+                        text => {
+                            // 通知メッセージのフォーマットへレスポンスを変換
+                            return util.createMessage(text, MESSAGE_TYPE.ERROR);
+                        }
+                    );
                     self.$store.dispatch("messageBox/addMany", errorMessages);
                 },
                 successmultiple: function() {
-                    
                     // バインダー情報をリロード
                     self.$store.dispatch(
                         "binder/fetchBinder",
