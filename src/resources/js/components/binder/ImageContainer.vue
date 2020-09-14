@@ -84,7 +84,7 @@ export default {
         /**
          * draggableによるソートの後処理を行います。
          */
-        endDraggable(event) {
+        async endDraggable(event) {
             console.log("D1");
             console.log(event.item.getAttribute("image-id"));
             console.log("/D1");
@@ -100,13 +100,14 @@ export default {
                 save_order_type: SAVE_ORDER_TYPE.IMAGE
             };
 
+            // NOTE: 並び順が変更されていない場合はnullになる
             const postData = this.$store.getters[
                 "binder/getDataForSaveOrderState"
             ](param);
 
             if (!!postData) {
                 // ドラッグによって位置を変更した場合のみ永続化
-                this.$store.dispatch("binder/saveImageOrderState", postData);
+                await this.$store.dispatch("binder/saveImageOrderState", postData);
 
                 // 並び順の情報を更新するため、バインダー画像を再取得
                 this.$store.dispatch("binder/searchBinderImage", false);
