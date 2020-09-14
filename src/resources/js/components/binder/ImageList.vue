@@ -86,7 +86,7 @@ export default {
         /**
          * draggableによるソートの後処理を行います。
          */
-        endDraggable(event) {
+        async endDraggable(event) {
             // 並び順の永続化
             const imageId = event.item.getAttribute("image-id");
             const param = {
@@ -101,7 +101,7 @@ export default {
 
             if (!!postData) {
                 // ドラッグによって位置を変更した場合のみ永続化
-                this.$store.dispatch("binder/saveImageOrderState", postData);
+                await this.$store.dispatch("binder/saveImageOrderState", postData);
 
                 // 並び順の情報を更新するため、バインダー画像を再取得
                 this.$store.dispatch("binder/searchBinderImage", false);
