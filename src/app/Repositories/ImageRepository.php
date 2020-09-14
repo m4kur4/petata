@@ -272,6 +272,11 @@ class ImageRepository implements ImageRepositoryInterface
         $temp_file_name = $now . '_' . $file->getClientOriginalName();
         $temp_path = storage_path('app/temp/') . $temp_file_name;
 
+        // 一時フォルダがない場合は作成する
+        if(!file_exists($temp_path)){
+            mkdir($temp_path, 777, true);
+        }
+
         InterventionImage::make($file)
             ->encode('png')
             ->save($temp_path);
@@ -334,7 +339,7 @@ class ImageRepository implements ImageRepositoryInterface
     {
         // アップロード先："binder/<バインダーID>"
         $upload_directory = config('_const.UPLOAD_DIRECTORY.BINDER') . '/' .$image_data->binder_id;
-    
+
         // pngへ変換した画像のアップロード
         $this->uploadPng($upload_directory, $image_file, $image_data->path);
     
