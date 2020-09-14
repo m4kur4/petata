@@ -270,11 +270,12 @@ class ImageRepository implements ImageRepositoryInterface
         // ファイルを変換するために一時ファイルをアップロードする
         $now = (Carbon::now())->format('Ymd');
         $temp_file_name = $now . '_' . $file->getClientOriginalName();
-        $temp_path = storage_path('app/temp/') . $temp_file_name;
+        $temp_dir = storage_path('app/temp/');
+        $temp_path = $temp_dir . $temp_file_name;
 
         // 一時フォルダがない場合は作成する
-        if(!file_exists($temp_path)){
-            mkdir($temp_path, 777, true);
+        if(!file_exists($temp_dir)){
+            mkdir($temp_dir, 777, true);
         }
 
         InterventionImage::make($file)
