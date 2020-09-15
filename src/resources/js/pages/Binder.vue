@@ -1,6 +1,6 @@
 <template>
     <div class="container--binder">
-        <ImageList />
+        <ImageList @show-lightbox-click="showLightBox" />
         <ImageContainer @show-lightbox-click="showLightBox" />
         <RightColumn />
         <LightBox ref="lightBox" />
