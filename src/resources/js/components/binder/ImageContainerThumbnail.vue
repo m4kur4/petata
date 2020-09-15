@@ -8,6 +8,12 @@
         class="image-container__thumbnail"
     >
         <div
+            v-if="isSelectModeScreen"
+            class="image-container__select-handle-wrapper"
+        >
+            <div class="image-container__select-handle"></div>
+        </div>
+        <div
             @mouseleave="setIsRemoveConfirm(false)"
             :class="[
                 'image-container__thumbnail-inner-content-wrapper',
@@ -244,7 +250,7 @@ export default {
             // NOTE: 複数画像削除に対応するつくりのため、配列としてIDを渡す
             await this.$store.dispatch("binder/removeImage", [this.id]);
             this.setIsRemoveConfirm(false);
-        }
+        },
     },
     computed: {
         /**
@@ -259,7 +265,13 @@ export default {
          */
         isFocused() {
             return this.$store.getters["binder/isFocusedImageId"](this.id);
-        }
+        },
+        /**
+         * バインダー画面が選択モードかどうかを判定します。
+         */
+        isSelectModeScreen() {
+            return this.$store.getters["binder/isSelectMode"];
+        },
     }
 };
 </script>

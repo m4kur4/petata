@@ -40,6 +40,7 @@
                     />
                 </svg></button
             ><button
+                @click="multipleDelete"
                 v-tooltip.bottom="{
                     content: '[未実装]画像を複数選択して一括で削除します。'
                 }"
@@ -166,6 +167,7 @@
 </template>
 
 <script>
+import { SCREEN_MODE } from "../../const";
 import ProgressIndicator from "../common/ProgressIndicator.vue";
 import LabelAddDialog from "../common/LabelAddDialog.vue";
 
@@ -194,7 +196,13 @@ export default {
         },
         binder() {
             return this.$store.state.binder;
-        }
+        },
+        /**
+         * バインダー画面が選択モードかどうかを判定します。
+         */
+        isSelectModeScreen() {
+            return this.$store.getters["binder/isSelectMode"];
+        },
     },
     methods: {
         moveToBinderList() {
@@ -216,7 +224,24 @@ export default {
          */
         switchBinderInfoVisible() {
             this.isShowBinderInfo = !this.isShowBinderInfo;
-        }
+        },
+        /**
+         * バインダー画面の選択モードを有効化します。
+         */
+        enableSelectModeScreen() {
+            this.$store.commit("binder/setMode", SCREEN_MODE.BINDER.SELECT);
+        },
+        /**
+         * 画像の一括削除を行います。
+         */
+        multipleDelete() {
+            if (this.isSelectModeScreen) {
+                // TODO: 既に選択モードの場合、削除の確定
+                alert("削除するよ～");
+            } else {
+                this.enableSelectModeScreen();
+            }
+        },
     }
 };
 </script>

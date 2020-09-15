@@ -32,6 +32,13 @@ export const MESSAGE_TYPE = {
     SUCCESS: 'success',
 };
 
+export const SCREEN_MODE = {
+    BINDER: {
+        NORMAL: 'normal',
+        SELECT: 'select',
+    },
+};
+
 export const MESSAGE = {
     COMMON: {
         SYSTEM_ERROR: "システムエラーが発生しました。",

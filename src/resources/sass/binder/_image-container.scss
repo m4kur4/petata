@@ -16,6 +16,21 @@
         scroll-behavior: smooth;
     }
 
+    &__select-handle {
+        &-wrapper {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            -webkit-transform: translateY(-50%) translateX(-50%);
+        }
+    }
+
     &__thumbnail {
         position: relative;
         width: $thumbnail-size;

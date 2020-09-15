@@ -1,7 +1,7 @@
 /**
  * フォームデータストア - バインダー
  */
-import { STATUS, SAVE_ORDER_TYPE, MESSAGE, MESSAGE_TYPE } from "../../const";
+import { STATUS, SAVE_ORDER_TYPE, SCREEN_MODE } from "../../const";
 import { util } from "../../util";
 import Vue from "vue";
 
@@ -36,6 +36,7 @@ const state = {
      * is_draggable_processing Boolean Draggableの操作中かどうか
      * focused_image_id Number フォーカスされている画像のID
      * created_at Date バインダー作成日
+     * mode: String バインダー画面のモード(const.SCREEN_MODE)
      */
     id: null,
     name: null,
@@ -55,7 +56,8 @@ const state = {
     is_dragging_image: false,
     is_draggable_processing: false,
     focused_image_id: null,
-    created_at: null
+    created_at: null,
+    mode: SCREEN_MODE.BINDER.NORMAL,
 };
 
 const mutations = {
@@ -129,7 +131,10 @@ const mutations = {
     },
     setCreatedAt(state, val) {
         state.created_at = val;
-    }
+    },
+    setMode(state, val) {
+        state.mode = val;
+    },
 };
 
 const getters = {
@@ -243,7 +248,13 @@ const getters = {
         console.log("[DEBUG]" + target.sort + " => " + postData.sort_after);
 
         return postData;
-    }
+    },
+    /**
+     * バインダー画面が選択モードかどうかを返却します。
+     */
+    isSelectMode(state) {
+        return state.mode == SCREEN_MODE.BINDER.SELECT;
+    },
 };
 
 const actions = {
@@ -613,7 +624,7 @@ const actions = {
      */
     async setProgressIndicatorVisibleState(context, val) {
         context.commit("mode/setIsConnecting", val, { root: true });
-    }
+    },
 };
 
 export default {
