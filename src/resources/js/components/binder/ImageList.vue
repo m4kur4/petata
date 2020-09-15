@@ -19,6 +19,7 @@
             <transition-group class="image-list__content" tag="div" name="fade">
                 <ImageListItem
                     v-for="(image, index) in images"
+                    @show-lightbox-click="showLightBox"
                     :key="image.id"
                     :index="index"
                     :id="image.id"
@@ -101,7 +102,10 @@ export default {
 
             if (!!postData) {
                 // ドラッグによって位置を変更した場合のみ永続化
-                await this.$store.dispatch("binder/saveImageOrderState", postData);
+                await this.$store.dispatch(
+                    "binder/saveImageOrderState",
+                    postData
+                );
 
                 // 並び順の情報を更新するため、バインダー画像を再取得
                 this.$store.dispatch("binder/searchBinderImage", false);
@@ -109,6 +113,13 @@ export default {
 
             // 移動方向判定用の変数をクリア
             this.orgImageIndex = null;
+        },
+        /**
+         * ライトボックスで画像を表示します。
+         * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
+         */
+        showLightBox(imageIndex) {
+            this.$emit("show-lightbox-click", imageIndex);
         }
     }
 };
