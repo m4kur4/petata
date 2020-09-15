@@ -40,6 +40,7 @@
             <transition-group class="image-list__content" tag="div" name="fade">
                 <ImageListItem
                     v-for="(image, index) in images"
+                    @show-lightbox-click="showLightBox"
                     :key="image.id"
                     :index="index"
                     :id="image.id"
@@ -133,6 +134,13 @@ export default {
 
             // 移動方向判定用の変数をクリア
             this.orgImageIndex = null;
+        },
+        /**
+         * ライトボックスで画像を表示します。
+         * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
+         */
+        showLightBox(imageIndex) {
+            this.$emit("show-lightbox-click", imageIndex);
         }
     }
 };
