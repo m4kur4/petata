@@ -379,6 +379,11 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.ADD_LABEL, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -413,6 +418,11 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.ADD_LABELING, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         } else if (response.status === STATUS.OK) {
             // ラベリングを登録解除した場合
@@ -422,6 +432,11 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.DELETE_LABELING, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -481,6 +496,11 @@ const actions = {
 
             // ラベリング後の条件で再検索
             context.dispatch("searchBinderImage");
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.SET_LABELING, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -565,6 +585,10 @@ const actions = {
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
 
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.DELETE_LABEL, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -602,9 +626,13 @@ const actions = {
         if (response.status === STATUS.OK) {
             context.dispatch("searchBinderImage");
 
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.DELETE_IMAGE, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
-
             return false;
         }
 
@@ -662,8 +690,6 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
-            // TODO: リネームに成功した旨をメッセージ
-
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
             return false;

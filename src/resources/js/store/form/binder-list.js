@@ -1,7 +1,7 @@
 /**
  * フォームデータストア - バインダー一覧
  */
-import { STATUS } from "../../const";
+import { STATUS, MESSAGE, MESSAGE_TYPE } from "../../const";
 import Vue from "vue";
 
 const state = {
@@ -134,8 +134,15 @@ const actions = {
         if (response.status === STATUS.OK) {
             // バインダー情報を再取得する
             context.dispatch("fetchBinders");
-
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(
+                MESSAGE.BINDER_LIST.SUCCESS.DELETE_BINDER,
+                MESSAGE_TYPE.SUCCESS
+            );
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -171,9 +178,9 @@ const actions = {
             context.commit("setBinders", response.data);
 
             // ローディング画像の表示
-        context.commit("mode/setIsLoading", false, {
-            root: true
-        });
+            context.commit("mode/setIsLoading", false, {
+                root: true
+            });
             return false;
         }
 

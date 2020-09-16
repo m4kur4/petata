@@ -94,6 +94,11 @@ const actions = {
             response.status === STATUS.CREATED
         ) {
             context.commit("setApiStatus", true);
+
+            const message = util.createMessage(MESSAGE.BINDER_CREATE.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 

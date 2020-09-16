@@ -164,6 +164,11 @@ const actions = {
         if (response.status === STATUS.OK) {
             context.commit("setApiStatus", true);
             context.commit("setUser", response.data);
+
+            const message = util.createMessage(MESSAGE.SIGNIN.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 

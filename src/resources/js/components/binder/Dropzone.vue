@@ -25,7 +25,7 @@ export default {
     },
     data: function() {
         const self = this;
-        const csrfToken = decodeURIComponent(util.getCookieValue('XSRF-TOKEN'));
+        const csrfToken = decodeURIComponent(util.getCookieValue("XSRF-TOKEN"));
         return {
             dropzoneOptions: {
                 url: "/api/binder/image/add",
@@ -85,6 +85,13 @@ export default {
                         "binder/fetchBinder",
                         self.$store.state.binder.id
                     );
+
+                    const message = util.createMessage(
+                        MESSAGE.BINDER.SUCCESS.ADD_IMAGE,
+                        MESSAGE_TYPE.SUCCESS
+                    );
+                    self.$store.dispatch("messageBox/add", message);
+
                     return false;
                 },
                 completemultiple: function(file, response) {
