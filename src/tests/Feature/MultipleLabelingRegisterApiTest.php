@@ -49,6 +49,7 @@ class MultipleLabelingRegisterApiTest extends TestCase
 
         $image_1 = $images[0];
         $image_2 = $images[1];
+        $unselect_image = $images[2];
 
         $label_1 = $labels[0];
         $label_2 = $labels[1];
@@ -70,10 +71,31 @@ class MultipleLabelingRegisterApiTest extends TestCase
             'label_ids' => $post_label_ids
         ];
 
+        // APIを呼び出す前に削除が期待されるラベリングを作成する
+        factory(Labeling::class)->create([
+            'label_id' => $label_1->id,
+            'image_id' => $unselect_image->id,
+        ]);
+
         // 検証
         $response = $this->json('POST', route('api.binder.image.labeling.multiple'), $post_data);
-        
+
+        $test_count = Labeling::all()->count();
+
         $response->assertStatus(200);
 
+        // - 選択していない画像のラベリングが解除されていること
+        $this->assertEquals(false, (function() use($unselect_image){
+
+            return Labeling::query()
+                ->where('image_id', $unselect_image->id)
+                ->exists();
+        })());
+
+        // - 選択した画像のラベリングが登録されていること
+        $COMBINATION_COUNT = 6;
+        $this->assertEquals($COMBINATION_COUNT, (function() {
+            return Labeling::all()->count();
+        })());
     }
 }

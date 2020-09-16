@@ -111,11 +111,26 @@ interface BinderRepositoryInterface
     public function addLabeling(LabelingRequest $request);
 
     /**
+     * 指定したラベルと画像の全ての組み合わせでラベリングを新規登録します。
+     * 
+     * @param array $label_ids ラベルID
+     * @param array $image_ids 画像ID
+     */
+    public function addLabelingMany(array $label_ids, array $image_ids);
+
+    /**
      * 指定したラベルと画像の組み合わせで登録されているラベリングを解除します。
      * 
      * @param LabelingRequest $request
      */
     public function deleteLabeling(LabelingRequest $request);
+
+    /**
+     * 指定したラベルに関する全てのラベリングを解除します。
+     * 
+     * @param array $label_ids ラベルID
+     */
+    public function deleteLabelingMany(array $label_ids);
 
     /**
      * 指定したバインダーに紐づくラベルのリストを返却します。

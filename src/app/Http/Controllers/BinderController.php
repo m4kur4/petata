@@ -20,7 +20,7 @@ use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 use App\Services\Api\Interfaces\LabelingServiceInterface;
 use App\Services\Api\Interfaces\LabelDeleteServiceInterface;
 use App\Services\Api\Interfaces\LabelSortServiceInterface;
-
+use App\Services\Api\Interfaces\MultipleLabelingServiceInterface;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -58,7 +58,8 @@ class BinderController extends Controller
         LabelSaveServiceInterface $label_save_service,
         LabelDeleteServiceInterface $label_delete_service,
         LabelSortServiceInterface $label_sort_service,
-        LabelingServiceInterface $labeling_service
+        LabelingServiceInterface $labeling_service,
+        MultipleLabelingServiceInterface $multiple_labeling_service
     )
     {
         $this->binder_save_service = $binder_save_service;
@@ -71,6 +72,7 @@ class BinderController extends Controller
         $this->label_delete_service = $label_delete_service;
         $this->label_sort_service = $label_sort_service;
         $this->labeling_service = $labeling_service;
+        $this->multiple_labeling_service = $multiple_labeling_service;
         
         $this->middleware('auth');
     }
@@ -220,9 +222,7 @@ class BinderController extends Controller
      */
     public function labelingMany(MultipleLabelingRequest $request)
     {
-        Log::debug('D0');
-        Log::debug($request);
-        Log::debug('/ D0');
+        $this->multiple_labeling_service->execute($request);
     }
 
     /**
