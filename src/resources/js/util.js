@@ -17,7 +17,9 @@ export const util = {
             imgBlob = util.cache.image[imageId];
         } else {
             // キャッシュがない場合は格納
-            const img = await fetch(image.src);
+            const img = await fetch(image.src, {
+                mode: 'cors',
+            });
             imgBlob = await img.blob();
             util.cache.image[imageId] = imgBlob;
         }

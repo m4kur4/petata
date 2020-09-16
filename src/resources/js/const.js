@@ -22,7 +22,7 @@ export const SAVE_ORDER_TYPE = { // バインダー画面の並べ替え更新�
 
 export const TRANSITION_TYPE = {// トランジションの種類(src\resources\sass\common\_base.scss)
     FADE: 'fade',
-    FADE_FASTER: 'fade-faster',
+    FADE_FASTER: 'page-out',
     PAGE_IN: 'page-in',
     PAGE_OUT: 'page-out',
 }
@@ -30,6 +30,14 @@ export const TRANSITION_TYPE = {// トランジションの種類(src\resources\
 export const MESSAGE_TYPE = {
     ERROR: 'error',
     SUCCESS: 'success',
+};
+
+export const SCREEN_MODE = {// 画面モード
+    BINDER: {
+        NORMAL: 'normal',
+        DELETE: 'delete',
+        LABELING: 'labeling',
+    },
 };
 
 export const MESSAGE = {
