@@ -59,7 +59,37 @@
                 </svg>
             </button>
         </div>
-        <div class="label-container__item-button-wrapper">
+        <div
+            v-if="isLabelingModeScreen"
+            class="label-item__select-handle-wrapper"
+        >
+            <!-- 選択モード時のコンテンツ表示要素 -->
+            <div class="label-item__select-handle-content">
+                <button
+                    @click="setSelectedLabelId"
+                    :class="[
+                        'label-item__select-handle-button',
+                        { selected: isSelected }
+                    ]"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="44"
+                        viewBox="0 0 24 24"
+                        width="44"
+                    >
+                        <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div
+            v-if="!isLabelingModeScreen"
+            class="label-container__item-button-wrapper"
+        >
             <button
                 v-if="isBinderDetail"
                 @click="switchSearchCondition"
@@ -128,6 +158,7 @@
 </template>
 
 <script>
+import { SCREEN_MODE } from "../../const";
 export default {
     data() {
         return {
@@ -144,14 +175,14 @@ export default {
     },
     computed: {
         /**
-         * バインダー詳細画面を開いているかどうか
+         * バインダー詳細画面を開いているかどうかを判定します。
          * NOTE:画像絞り込み用のピンボタンはバインダー作成画面で非表示
          */
         isBinderDetail() {
             return this.$store.state.binder.id != null;
         },
         /**
-         * 自身のラベルIDがstateの検索条件へ追加されているかどうか
+         * 自身のラベルIDがstateの検索条件へ追加されているかどうかを判定します。
          */
         isAddSearchCondition() {
             return this.$store.getters[
@@ -159,7 +190,7 @@ export default {
             ](this.id);
         },
         /**
-         * 自身とラベリングされているバインダー画像がドラッグ中かどうか
+         * 自身とラベリングされているバインダー画像がドラッグ中かどうかを判定します。
          */
         isDraggingLabelingImage() {
             return this.$store.getters[
@@ -167,10 +198,23 @@ export default {
             ](this.id);
         },
         /**
-         * バインダー画像がドラッグ中かどうか
+         * バインダー画像がドラッグ中かどうかを判定します。
          */
         isDraggingImage() {
             return this.$store.state.binder.is_dragging_image;
+        },
+        /**
+         * バインダー画面が選択モードかどうかを判定します。
+         */
+        isLabelingModeScreen() {
+            const mode = this.$store.state.binder.mode;
+            return mode == SCREEN_MODE.BINDER.LABELING;
+        },
+        /**
+         * 画像が選択状態かどうかを判定します。
+         */
+        isSelected() {
+            return this.$store.getters["binder/isSelectedLabelId"](this.id);
         }
     },
 
@@ -283,6 +327,13 @@ export default {
             }
             // バインダー画像を再検索
             this.searchBinderImage();
+        },
+        /**
+         * ラベルの選択状態を設定します。
+         * すでに選択状態である場合、選択状態を解除します。
+         */
+        setSelectedLabelId() {
+            this.$store.commit("binder/setSelectedLabelId", this.id);
         }
     }
 };

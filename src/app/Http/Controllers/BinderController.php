@@ -222,7 +222,16 @@ class BinderController extends Controller
      */
     public function labelingMany(MultipleLabelingRequest $request)
     {
-        $this->multiple_labeling_service->execute($request);
+
+        try {
+            $this->multiple_labeling_service->execute($request);
+            $response = response([], config('_const.HTTP_STATUS.CREATED'));
+            return $response;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
+        }
     }
 
     /**

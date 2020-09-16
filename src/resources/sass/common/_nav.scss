@@ -54,6 +54,18 @@
                 background-color:transparent;
             }
         }
+        &.labeling {
+            &:hover {
+                fill: #17A2B8;
+            }
+        }
+        &.fix-labeling {
+            fill: #17A2B8;
+            &:hover{
+                cursor: default;
+                background-color:transparent;
+            }
+        }
         &-wide {
             fill: white;
             opacity: 80%;

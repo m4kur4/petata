@@ -82,7 +82,7 @@ class MultipleLabelingRegisterApiTest extends TestCase
 
         $test_count = Labeling::all()->count();
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
 
         // - 選択していない画像のラベリングが解除されていること
         $this->assertEquals(false, (function() use($unselect_image){
