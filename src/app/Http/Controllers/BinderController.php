@@ -9,6 +9,7 @@ use App\Http\Requests\LabelSaveRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
+use App\Http\Requests\MultipleLabelingRequest;
 use App\Services\Api\Interfaces\BinderSaveServiceInterface;
 use App\Services\Api\Interfaces\BinderDeleteServiceInterface;
 use App\Services\Api\Interfaces\BinderFavoriteServiceInterface;
@@ -45,6 +46,7 @@ class BinderController extends Controller
      * @param LabelDeleteServiceInterface $label_delete_service ラベル削除サービス
      * @param LabelSortServiceInterface $label_sort_service ラベル並び順更新サービス
      * @param LabelingServiceInterface $labeling_service ラベリングサービス
+     * @param MultipleLabelingServiceInterface $multiple_labeling_service 一括ラベリングサービス
      */
     public function __construct(
         BinderSaveServiceInterface $binder_save_service,
@@ -211,6 +213,16 @@ class BinderController extends Controller
             Log::error($e);
             abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
         }
+    }
+
+    /**
+     * 一括ラベリングを行います。
+     */
+    public function labelingMany(MultipleLabelingRequest $request)
+    {
+        Log::debug('D0');
+        Log::debug($request);
+        Log::debug('/ D0');
     }
 
     /**
