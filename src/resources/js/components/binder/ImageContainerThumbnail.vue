@@ -8,6 +8,35 @@
         class="image-container__thumbnail"
     >
         <div
+            v-if="isSelectModeScreen"
+            class="image-container__select-handle-wrapper"
+        >
+            <!-- 選択モード時のコンテンツ表示要素 -->
+            <div class="image-container__select-handle-content">
+                <button
+                    @click="setSelectedImageId"
+                    :class="[
+                        'image-container__select-handle-button',
+                        { selected: isSelected }
+                    ]"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="80"
+                        viewBox="0 0 24 24"
+                        width="80"
+                    >
+                        <path d="M0 0h24v24H0V0zm0 0h24v24H0V0z" fill="none" />
+                        <path
+                            d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        />
+                    </svg>
+                </button>
+            </div>
+            <!-- /.image-container__select-handle-content -->
+        </div>
+        <!-- /.image-container__select-handle-wrapper -->
+        <div
             @mouseleave="setIsRemoveConfirm(false)"
             :class="[
                 'image-container__thumbnail-inner-content-wrapper',
@@ -244,6 +273,13 @@ export default {
             // NOTE: 複数画像削除に対応するつくりのため、配列としてIDを渡す
             await this.$store.dispatch("binder/removeImage", [this.id]);
             this.setIsRemoveConfirm(false);
+        },
+        /**
+         * 画像の選択状態を設定します。
+         * すでに選択状態である場合、選択状態を解除します。
+         */
+        setSelectedImageId() {
+            this.$store.commit("binder/setSelectedImageId", this.id);
         }
     },
     computed: {
@@ -259,6 +295,18 @@ export default {
          */
         isFocused() {
             return this.$store.getters["binder/isFocusedImageId"](this.id);
+        },
+        /**
+         * バインダー画面が選択モードかどうかを判定します。
+         */
+        isSelectModeScreen() {
+            return this.$store.getters["binder/isSelectMode"];
+        },
+        /**
+         * 画像が選択状態かどうかを判定します。
+         */
+        isSelected() {
+            return this.$store.getters["binder/isSelectedImageId"](this.id);
         }
     }
 };
