@@ -46,7 +46,8 @@ export const MESSAGE = {
     },
     SIGNIN: {
         ERROR: "ログインに失敗しました。",
-        NOTIFY: "メールアドレスかパスワードが正しくありません。",
+        NOTIFY: "メールアドレスまたはパスワードが正しくありません。",
+        SUCCESS: "ログインしました。",
     },
     SIGNUP: {
         ERROR: "入力内容をご確認ください。",
