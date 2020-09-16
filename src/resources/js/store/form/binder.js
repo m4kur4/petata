@@ -1,7 +1,7 @@
 /**
  * フォームデータストア - バインダー
  */
-import { STATUS, SAVE_ORDER_TYPE, SCREEN_MODE } from "../../const";
+import { STATUS, SAVE_ORDER_TYPE, SCREEN_MODE, MESSAGE, MESSAGE_TYPE } from "../../const";
 import { util } from "../../util";
 import Vue from "vue";
 
@@ -38,6 +38,7 @@ const state = {
      * created_at Date バインダー作成日
      * mode: String バインダー画面のモード(const.SCREEN_MODE)
      * selected_image_ids: Array(Number) 選択中の画像ID
+     * selected_label_ids: Array(Number) 選択中のラベルID
      */
     id: null,
     name: null,
@@ -60,6 +61,7 @@ const state = {
     created_at: null,
     mode: SCREEN_MODE.BINDER.NORMAL,
     selected_image_ids: [],
+    selected_label_ids: []
 };
 
 const mutations = {
@@ -144,13 +146,25 @@ const mutations = {
         // すでに画像IDが設定済みの場合は除去する
         const isAlreadyExist = state.selected_image_ids.includes(val);
         if (isAlreadyExist) {
-            state.selected_image_ids = state.selected_image_ids.filter(
-                id => {
-                    return id !== val;
-                }
-            );
+            state.selected_image_ids = state.selected_image_ids.filter(id => {
+                return id !== val;
+            });
         } else {
             state.selected_image_ids.push(val);
+        }
+    },
+    setSelectedLabelIds(state, val) {
+        state.selected_label_ids = val;
+    },
+    setSelectedLabelId(state, val) {
+        // すでにラベルIDが設定済みの場合は除去する
+        const isAlreadyExist = state.selected_label_ids.includes(val);
+        if (isAlreadyExist) {
+            state.selected_label_ids = state.selected_label_ids.filter(id => {
+                return id !== val;
+            });
+        } else {
+            state.selected_label_ids.push(val);
         }
     }
 };
@@ -183,6 +197,12 @@ const getters = {
      */
     isSelectedImageId: state => imageId => {
         return state.selected_image_ids.includes(imageId);
+    },
+    /**
+     * 指定したラベルIDが選択状態のラベルのものかどうかを判定します。
+     */
+    isSelectedLabelId: state => labelId => {
+        return state.selected_label_ids.includes(labelId);
     },
     /**
      * Draggableによる「画像/ラベル」(以下「対象」)の並び順を永続化するリクエスト用のデータを取得します。
@@ -277,8 +297,11 @@ const getters = {
      * バインダー画面が選択モードかどうかを返却します。
      */
     isSelectMode(state) {
-        return state.mode == SCREEN_MODE.BINDER.DELETE;
-    },
+        return (
+            state.mode == SCREEN_MODE.BINDER.DELETE ||
+            state.mode == SCREEN_MODE.BINDER.LABELING
+        );
+    }
 };
 
 const actions = {
@@ -416,6 +439,69 @@ const actions = {
         context.dispatch("setProgressIndicatorVisibleState", false);
     },
     /**
+     * 選択状態の画像・ラベルを一括ラベリングします。
+     */
+    async labelingMultiple(context) {
+        // 更新データがあるかどうか
+        const isSelectedLabels = state.selected_label_ids.length != 0;
+
+        if (!isSelectedLabels) {
+            // ラベルが選択されていない場合は処理なし
+            const message = util.createMessage(
+                MESSAGE.BINDER.IS_NOT_SELECT_LABELS,
+                MESSAGE_TYPE.ERROR
+            );
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+            return false;
+        }
+
+        // 通信開始
+        context.dispatch("setProgressIndicatorVisibleState", true);
+
+        const postData = {
+            image_ids: state.selected_image_ids,
+            label_ids: state.selected_label_ids
+        };
+
+        const uri = "api/binder/label/register-multiple";
+        const response = await axios
+            .post(`${uri}`, postData)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.CREATED) {
+            // 通信完了
+            context.dispatch("setProgressIndicatorVisibleState", false);
+
+            // ラベリング後、選択モード(ラベリング)を解除
+            context.dispatch("clearSelectedState");
+            context.commit("setMode", SCREEN_MODE.BINDER.NORMAL);
+
+            // ラベリング後の条件で再検索
+            context.dispatch("searchBinderImage");
+            return false;
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+        }
+        // 通信完了
+        context.dispatch("setProgressIndicatorVisibleState", false);
+
+        // ラベリング後、選択モード(ラベリング)を解除
+        context.dispatch("clearSelectedState");
+        context.commit("setMode", SCREEN_MODE.BINDER.NORMAL);
+    },
+    /**
      * stateに保持している条件で画像を検索します。
      */
     async searchBinderImage(context, isShowProgress = true) {
@@ -518,6 +604,7 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
             return false;
         }
 
@@ -538,6 +625,21 @@ const actions = {
      * 選択状態の全画像を削除します。
      */
     async removeImageMultiple(context) {
+        // 更新データがあるかどうか
+        const isSelectedImages = state.selected_image_ids.length != 0;
+
+        if (!isSelectedImages) {
+            // 画像が選択されていない場合は処理なし
+            const message = util.createMessage(
+                MESSAGE.BINDER.IS_NOT_SELECT_IMAGES,
+                MESSAGE_TYPE.ERROR
+            );
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+            return false;
+        }
+
         context.dispatch("removeImage", state.selected_image_ids);
 
         // 削除後、選択モード(削除)を解除
@@ -654,11 +756,18 @@ const actions = {
         context.dispatch("setProgressIndicatorVisibleState", false);
     },
     /**
+     * 画像・ラベルの選択状態をクリアします。
+     */
+    clearSelectedState(context) {
+        context.commit("setSelectedLabelIds", []);
+        context.commit("setSelectedImageIds", []);
+    },
+    /**
      * 通信中であることを示すプログレスインジケーターの表示状態を設定します。
      */
     async setProgressIndicatorVisibleState(context, val) {
         context.commit("mode/setIsConnecting", val, { root: true });
-    },
+    }
 };
 
 export default {

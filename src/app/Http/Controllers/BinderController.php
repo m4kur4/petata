@@ -9,6 +9,7 @@ use App\Http\Requests\LabelSaveRequest;
 use App\Http\Requests\LabelingRequest;
 use App\Http\Requests\LabelDeleteRequest;
 use App\Http\Requests\LabelSortRequest;
+use App\Http\Requests\MultipleLabelingRequest;
 use App\Services\Api\Interfaces\BinderSaveServiceInterface;
 use App\Services\Api\Interfaces\BinderDeleteServiceInterface;
 use App\Services\Api\Interfaces\BinderFavoriteServiceInterface;
@@ -19,7 +20,7 @@ use App\Services\Api\Interfaces\LabelSaveServiceInterface;
 use App\Services\Api\Interfaces\LabelingServiceInterface;
 use App\Services\Api\Interfaces\LabelDeleteServiceInterface;
 use App\Services\Api\Interfaces\LabelSortServiceInterface;
-
+use App\Services\Api\Interfaces\MultipleLabelingServiceInterface;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -45,6 +46,7 @@ class BinderController extends Controller
      * @param LabelDeleteServiceInterface $label_delete_service ラベル削除サービス
      * @param LabelSortServiceInterface $label_sort_service ラベル並び順更新サービス
      * @param LabelingServiceInterface $labeling_service ラベリングサービス
+     * @param MultipleLabelingServiceInterface $multiple_labeling_service 一括ラベリングサービス
      */
     public function __construct(
         BinderSaveServiceInterface $binder_save_service,
@@ -56,7 +58,8 @@ class BinderController extends Controller
         LabelSaveServiceInterface $label_save_service,
         LabelDeleteServiceInterface $label_delete_service,
         LabelSortServiceInterface $label_sort_service,
-        LabelingServiceInterface $labeling_service
+        LabelingServiceInterface $labeling_service,
+        MultipleLabelingServiceInterface $multiple_labeling_service
     )
     {
         $this->binder_save_service = $binder_save_service;
@@ -69,6 +72,7 @@ class BinderController extends Controller
         $this->label_delete_service = $label_delete_service;
         $this->label_sort_service = $label_sort_service;
         $this->labeling_service = $labeling_service;
+        $this->multiple_labeling_service = $multiple_labeling_service;
         
         $this->middleware('auth');
     }
@@ -205,6 +209,23 @@ class BinderController extends Controller
             $status_code = $this->labeling_service->execute($request);
             
             $response = response([''], $status_code);
+            return $response;
+
+        } catch (\Exception $e) {
+            Log::error($e);
+            abort(config('_const.HTTP_STATUS.INTERNAL_SERVER_ERROR'));
+        }
+    }
+
+    /**
+     * 一括ラベリングを行います。
+     */
+    public function labelingMany(MultipleLabelingRequest $request)
+    {
+
+        try {
+            $this->multiple_labeling_service->execute($request);
+            $response = response([], config('_const.HTTP_STATUS.CREATED'));
             return $response;
 
         } catch (\Exception $e) {

@@ -20,7 +20,7 @@ main {
 
 /* transition */
 .fade {
-    &-enter-enter-active,
+    &-enter-active,
     &-leave-active{
         transition: opacity 0.5s;
     }
@@ -31,7 +31,7 @@ main {
 }
 
 .fade-faster {
-    &-enter-enter-active,
+    &-enter-active,
     &-leave-active{
         transition: opacity 0.1s;
     }

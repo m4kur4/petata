@@ -50,6 +50,9 @@ Route::post('binder/delete','BinderController@delete')->name('api.binder.delete'
 // ラベリング登録
 Route::post('binder/label/register','BinderController@labeling')->name('api.binder.image.labeling');
 
+// ラベリング一括登録
+Route::post('binder/label/register-multiple','BinderController@labelingMany')->name('api.binder.image.labeling.multiple');
+
 // ラベル保存
 Route::post('binder/label/save','BinderController@saveLabel')->name('api.binder.label.save');
 

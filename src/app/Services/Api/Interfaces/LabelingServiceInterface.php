@@ -5,7 +5,7 @@ namespace App\Services\Api\Interfaces;
 use App\Http\Requests\LabelingRequest;
 
 /**
- * ラベリング存サービス
+ * ラベリングサービス
  */
 interface LabelingServiceInterface
 {

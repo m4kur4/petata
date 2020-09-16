@@ -5,7 +5,7 @@
                 <div
                     class="nav__left-column-wrapper"
                     key="normal"
-                    v-if="!isDeleteModeScreen"
+                    v-if="!isDeleteModeScreen && !isLabelingModeScreen"
                 >
                     <button
                         v-tooltip.bottom="{
@@ -29,8 +29,7 @@
                     ><button
                         @click="enableDeleteModeScreen"
                         v-tooltip.bottom="{
-                            content:
-                                '画像を複数選択して一括で削除します。'
+                            content: '画像を複数選択して一括で削除します。'
                         }"
                         class="nav__button"
                     >
@@ -47,13 +46,14 @@
                             />
                         </svg></button
                     ><button
+                        @click="enableLabelingModeScreen"
                         v-tooltip.bottom="{
                             content:
-                                '[未実装]画像を複数選択して一括でラベリングを行います。'
+                                '画像を複数選択して一括でラベリングを行います。'
                         }"
                         class="nav__button"
                     >
-                        <!-- ラベル一括追加ボタン(しおり) -->
+                        <!-- 一括ラベリングボタン(しおり) -->
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="44"
@@ -67,7 +67,6 @@
                         </svg>
                     </button>
                 </div>
-
                 <div
                     v-if="isDeleteModeScreen"
                     key="delete"
@@ -75,8 +74,7 @@
                 >
                     <button
                         v-tooltip.bottom="{
-                            content:
-                                '画像を複数選択して一括で削除します。'
+                            content: '画像を複数選択して一括で削除します。'
                         }"
                         class="nav__button fix-delete"
                     >
@@ -110,6 +108,64 @@
                         </svg></button
                     ><button @click="setNormalModeScreen" class="nav__button">
                         <!-- 画像一括削除ボタン(キャンセル) -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="44"
+                            viewBox="0 0 24 24"
+                            width="48"
+                        >
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+                            />
+                        </svg>
+                    </button>
+                </div>
+                <div
+                    v-if="isLabelingModeScreen"
+                    key="labeling"
+                    class="nav__left-column-wrapper"
+                >
+                    <button
+                        v-tooltip.bottom="{
+                            content:
+                                '画像を複数選択して一括でラベリングを行います。'
+                        }"
+                        class="nav__button fix-labeling"
+                    >
+                        <!-- 一括ラベリングボタン(しおり) -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="44"
+                            viewBox="0 0 24 24"
+                            width="44"
+                        >
+                            <path d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7zm11.77 8.27L13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77z"
+                            />
+                        </svg></button
+                    ><button
+                        @click="multipleLabeling"
+                        class="nav__button labeling"
+                    >
+                        <!-- 一括ラベリングボタン(確定) -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            height="44"
+                            viewBox="0 0 24 24"
+                            width="44"
+                        >
+                            <path
+                                d="M0 0h24v24H0V0zm0 0h24v24H0V0z"
+                                fill="none"
+                            />
+                            <path
+                                d="M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                            />
+                        </svg></button
+                    ><button @click="setNormalModeScreen" class="nav__button">
+                        <!-- 一括ラベリングボタン(キャンセル) -->
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="44"
@@ -188,12 +244,11 @@
             <span class="nav__button-wrapper--right"
                 ><button
                     v-tooltip.bottom="{
-                        content:
-                            '[未実装]アプリケーションの説明を開きます。'
+                        content: '[未実装]アプリケーションの説明を開きます。'
                     }"
                     class="nav__button"
                 >
-                    <!-- ラベル一括追加ボタン(しおり) -->
+                    <!-- ヘルプボタン(はてな) -->
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         height="44"
@@ -268,6 +323,13 @@ export default {
         isDeleteModeScreen() {
             const screenMode = this.$store.state.binder.mode;
             return screenMode == SCREEN_MODE.BINDER.DELETE;
+        },
+        /**
+         * バインダー画面が選択モード(ラベリング)かどうかを判定します。
+         */
+        isLabelingModeScreen() {
+            const screenMode = this.$store.state.binder.mode;
+            return screenMode == SCREEN_MODE.BINDER.LABELING;
         }
     },
     methods: {
@@ -298,23 +360,31 @@ export default {
             this.$store.commit("binder/setMode", SCREEN_MODE.BINDER.DELETE);
         },
         /**
+         * バインダー画面の選択モード(ラベリング)を有効化します。
+         */
+        enableLabelingModeScreen() {
+            this.$store.commit("binder/setMode", SCREEN_MODE.BINDER.LABELING);
+        },
+        /**
          * バインダー画面を通常モードへ切り替えます。
          */
         setNormalModeScreen() {
             this.$store.commit("binder/setMode", SCREEN_MODE.BINDER.NORMAL);
+
+            // 選択状態のクリア
+            this.$store.dispatch("binder/clearSelectedState");
         },
         /**
          * 画像の一括削除を行います。
          */
         async multipleDelete() {
-            if (this.isDeleteModeScreen) {
-                // TODO: 既に選択モードの場合、削除の確定
-                await this.$store.dispatch("binder/removeImageMultiple", [
-                    this.id
-                ]);
-            } else {
-                this.enableDeleteModeScreen();
-            }
+            await this.$store.dispatch("binder/removeImageMultiple", [this.id]);
+        },
+        /**
+         * 一括ラベリングを行います。
+         */
+        async multipleLabeling() {
+            await this.$store.dispatch("binder/labelingMultiple", [this.id]);
         }
     }
 };

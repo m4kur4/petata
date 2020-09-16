@@ -272,12 +272,43 @@ class BinderRepository implements BinderRepositoryInterface
     /**
      * @inheritdoc
      */
+    public function addLabelingMany(array $label_ids, array $image_ids)
+    {
+        // 全ての組み合わせでバルクインサート用のパラメタを生成
+        $query_params = [];
+        foreach($label_ids as $label_id) {
+            foreach($image_ids as $image_id) {
+                $query_param = [
+                    'label_id' => $label_id,
+                    'image_id' => $image_id,
+                ];
+                array_push($query_params, $query_param);
+            }
+        }
+        DB::table('labelings')->insert($query_params);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function deleteLabeling(LabelingRequest $request)
     {
         Labeling::query()
             ->where('label_id', $request->label_id)
             ->where('image_id', $request->image_id)
             ->delete();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deleteLabelingMany(array $label_ids)
+    {
+        Labeling::query()
+            ->wherein('label_id', $label_ids)
+            ->delete();
+        
+        $test_count = Labeling::all()->count();
     }
 
     /**

@@ -65,5 +65,9 @@ export const MESSAGE = {
                 MAX: "ラベル名は20字以内で設定してください。",
             }
         }
-    }
+    },
+    BINDER: {
+        IS_NOT_SELECT_IMAGES: "画像が選択されていません。",
+        IS_NOT_SELECT_LABELS: "ラベルが選択されていません。",
+    },
 };
