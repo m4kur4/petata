@@ -1,8 +1,8 @@
-### S3ƒoƒPƒbƒg‚É‹–‰ÂÝ’è‚ð‚·‚é
+### S3ãƒã‚±ãƒƒãƒˆã«è¨±å¯è¨­å®šã‚’ã™ã‚‹
 https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/cors.html#how-do-i-enable-cors
-- ƒAƒNƒZƒXŒ ŒÀ>CORS‚ÌÝ’è
-  - CORS\¬ƒGƒfƒBƒ^[
-  - HEAD‚Í•K{(ƒAƒNƒZƒX‚ª‰Â”\‚©‚Ç‚¤‚©‚Ì‘Oˆ—‚ÅŽg‚¤‚ç‚µ‚¢)  
+- ã‚¢ã‚¯ã‚»ã‚¹æ¨©é™>CORSã®è¨­å®š
+  - CORSæ§‹æˆã‚¨ãƒ‡ã‚£ã‚¿ãƒ¼
+  - HEADã¯å¿…é ˆ(ã‚¢ã‚¯ã‚»ã‚¹ãŒå¯èƒ½ã‹ã©ã†ã‹ã®å‰å‡¦ç†ã§ä½¿ã†ã‚‰ã—ã„)  
   https://stackoverflow.com/questions/17533888/s3-access-control-allow-origin-header
   ```
     <CORSConfiguration>
@@ -16,20 +16,17 @@ https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/dev/cors.html#how-do-i-enable-
     </CORSRule>
     </CORSConfiguration>
   ```
-  - šššƒ|ƒŠƒV[XV‘O‚©‚çƒAƒbƒvƒ[ƒh‚µ‚Ä‚¢‚éƒŠƒ\[ƒX‚É‚Í”½‰f‚³‚ê‚È‚¢‚½‚ß’ˆÓ
-### ŽÀ‘•‚ÌC³
+  - â˜…â˜…â˜…ãƒãƒªã‚·ãƒ¼æ›´æ–°å‰ã‹ã‚‰ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰ã—ã¦ã„ã‚‹ãƒªã‚½ãƒ¼ã‚¹ã«ã¯åæ˜ ã•ã‚Œãªã„ãŸã‚æ³¨æ„
+### å®Ÿè£…ã®ä¿®æ­£
 https://qiita.com/att55/items/2154a8aad8bf1409db2b
-- `fetch()`‚ÌƒIƒvƒVƒ‡ƒ“‚ðÝ’è‚·‚éB
+- `fetch()`ã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã™ã‚‹ã€‚
 ```js
             const img = await fetch(image.src, {
                 mode: 'cors',
             });
 ```
-### CORS‚É‚Â‚¢‚Ä
-https://qiita.com/att55/items/2154a8aad8bf1409db2b
-- ƒIƒŠƒWƒ“ŠÔƒŠƒ\[ƒX‹¤—L
-- ƒIƒŠƒWƒ“ = ƒhƒƒCƒ“ + ƒ|[ƒg”Ô†
-  - “¯ˆêƒhƒƒCƒ“‚Å‚àƒ|[ƒg”Ô†‚²‚Æ‚É‹æ•Ê‚·‚é‚Æ‚¢‚¤‚±‚Æ
-  - ƒZƒLƒ…ƒŠƒeƒBƒ|ƒŠƒV[(ƒzƒƒCƒgƒŠƒXƒg)‚Æ‚µ‚Ä—˜—p‚·‚éŠT”O
-- ƒŠƒ\[ƒX = WebƒRƒ“ƒeƒ“ƒc‚É‘Î‚·‚éƒAƒNƒZƒX‚ðƒIƒŠƒWƒ“’PˆÊ‚ÅƒAƒNƒZƒX§Œä‚·‚é‚±‚Æ‚É‚æ‚èA  
-ˆÓ}‚µ‚È‚¢ƒRƒ“ƒeƒ“ƒc‚Ì”zM‚âÆŽã«‚ð“Ë‚¢‚½UŒ‚‚ð–hŽ~‚·‚éB  
+
+### CORSã«ã¤ã„ã¦
+- ã‚ªãƒªã‚¸ãƒ³é–“ãƒªã‚½ãƒ¼ã‚¹å…±æœ‰
+- 
+
