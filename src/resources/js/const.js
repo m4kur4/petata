@@ -45,20 +45,20 @@ export const MESSAGE = {
         SYSTEM_ERROR: "システムエラーが発生しました。",
     },
     SIGNIN: {
-        FAIL: "ログインに失敗しました。",
+        ERROR: "ログインに失敗しました。",
         NOTIFY: "メールアドレスかパスワードが正しくありません。",
     },
     SIGNUP: {
-        FAIL: "入力内容をご確認ください。",
+        ERROR: "入力内容をご確認ください。",
     },
     SIGNOUT: {
-        FAIL: "ログアウトに失敗しました。"
+        ERROR: "ログアウトに失敗しました。"
     },
     BINDER_CREATE: {
-        FAIL: "入力内容をご確認ください。",
+        ERROR: "入力内容をご確認ください。",
     },
     LABEL_ADD_DLG: {
-        FAIL: "入力内容をご確認ください。",
+        ERROR: "入力内容をご確認ください。",
         NOTIFY: {
             NAME:{
                 REQUIRED: "ラベル名は必須です。",

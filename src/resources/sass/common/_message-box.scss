@@ -10,7 +10,10 @@
         left: 50%;
         z-index: 9999;
         background-color: #f2dede;
-        border:1px solid #ebccd1 ;
+        border: 1px solid #ebccd1;
+        &.success {
+            color: #dff0d8;
+        }
     }
     &__item {
         display: flex;
@@ -21,6 +24,9 @@
         margin-bottom: 8px;
     }
     &__icon {
+        &success {
+            fill: #3c763d;
+        }
         fill: #a94442;
         padding-top: 6px;
         margin-left: 8px;
@@ -29,6 +35,9 @@
         color: #a94442;
         margin-left: 4px;
         margin-right: 48px;
+        &success {
+            fill: #3c763d;
+        }
     }
     &__close {
         fill: #a94442;
@@ -38,6 +47,9 @@
         cursor: pointer;
         &:hover {
             opacity: 0.8;
+        }
+        &success {
+            fill: #3c763d;
         }
     }
 }

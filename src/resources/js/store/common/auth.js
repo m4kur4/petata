@@ -79,7 +79,7 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            const message = util.createMessage(MESSAGE.SIGNUP.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.SIGNUP.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });
@@ -121,7 +121,7 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            const message = util.createMessage(MESSAGE.SIGNIN.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.SIGNIN.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });
@@ -158,7 +158,7 @@ const actions = {
         // 失敗
         context.commit("setApiStatus", false);
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
-            const message = util.createMessage(MESSAGE.SIGNOUT.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.SIGNOUT.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });

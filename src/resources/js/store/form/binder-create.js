@@ -105,7 +105,7 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            const message = util.createMessage(MESSAGE.BINDER_CREATE.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.BINDER_CREATE.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });

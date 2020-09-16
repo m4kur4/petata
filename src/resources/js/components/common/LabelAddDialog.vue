@@ -102,7 +102,7 @@ export default {
                 this.errors.push(MESSAGE.LABEL_ADD_DLG.NOTIFY.NAME.MAX);
             }
             if (this.errors.length > 0) {
-                const message = util.createMessage(MESSAGE.LABEL_ADD_DLG.FAIL, MESSAGE_TYPE.ERROR);
+                const message = util.createMessage(MESSAGE.LABEL_ADD_DLG.ERROR, MESSAGE_TYPE.ERROR);
                 this.$store.dispatch("messageBox/add", message);
                 return false;
             }
