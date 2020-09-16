@@ -37,6 +37,7 @@ const state = {
      * focused_image_id Number フォーカスされている画像のID
      * created_at Date バインダー作成日
      * mode: String バインダー画面のモード(const.SCREEN_MODE)
+     * selected_image_ids: Array(Number) 選択中の画像ID
      */
     id: null,
     name: null,
@@ -58,6 +59,7 @@ const state = {
     focused_image_id: null,
     created_at: null,
     mode: SCREEN_MODE.BINDER.NORMAL,
+    selected_image_ids: [],
 };
 
 const mutations = {
@@ -135,6 +137,22 @@ const mutations = {
     setMode(state, val) {
         state.mode = val;
     },
+    setSelectedImageIds(state, val) {
+        state.selected_image_ids = val;
+    },
+    setSelectedImageId(state, val) {
+        // すでに画像IDが設定済みの場合は除去する
+        const isAlreadyExist = state.selected_image_ids.includes(val);
+        if (isAlreadyExist) {
+            state.selected_image_ids = state.selected_image_ids.filter(
+                id => {
+                    return id !== val;
+                }
+            );
+        } else {
+            state.selected_image_ids.push(val);
+        }
+    }
 };
 
 const getters = {
@@ -159,6 +177,12 @@ const getters = {
      */
     isFocusedImageId: state => imageId => {
         return state.focused_image_id == imageId;
+    },
+    /**
+     * 指定した画像IDが選択状態の画像のものかどうかを判定します。
+     */
+    isSelectedImageId: state => imageId => {
+        return state.selected_image_ids.includes(imageId);
     },
     /**
      * Draggableによる「画像/ラベル」(以下「対象」)の並び順を永続化するリクエスト用のデータを取得します。
@@ -253,7 +277,7 @@ const getters = {
      * バインダー画面が選択モードかどうかを返却します。
      */
     isSelectMode(state) {
-        return state.mode == SCREEN_MODE.BINDER.SELECT;
+        return state.mode == SCREEN_MODE.BINDER.DELETE;
     },
 };
 
@@ -509,6 +533,16 @@ const actions = {
         }
         // 通信完了
         context.dispatch("setProgressIndicatorVisibleState", false);
+    },
+    /**
+     * 選択状態の全画像を削除します。
+     */
+    async removeImageMultiple(context) {
+        context.dispatch("removeImage", state.selected_image_ids);
+
+        // 削除後、選択モード(削除)を解除
+        context.commit("setSelectedImageIds", []);
+        context.commit("setMode", SCREEN_MODE.BINDER.NORMAL);
     },
     /**
      * 画像のファイル名を更新します。
