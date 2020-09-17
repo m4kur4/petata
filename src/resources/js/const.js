@@ -54,7 +54,7 @@ export const MESSAGE = {
         SUCCESS: "ユーザーを登録しました。",
     },
     SIGNOUT: {
-        ERROR: "ログアウトに失敗しました。",
+        ERROR: "サインアウトに失敗しました。",
         SUCCESS: "サインアウトしました。",
     },
     BINDER_CREATE: {

@@ -165,7 +165,7 @@ const actions = {
             context.commit("setApiStatus", true);
             context.commit("setUser", response.data);
 
-            const message = util.createMessage(MESSAGE.SIGNIN.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            const message = util.createMessage(MESSAGE.SIGNOUT.SUCCESS, MESSAGE_TYPE.SUCCESS);
             context.dispatch("messageBox/add", message, {
                 root: true
             });
