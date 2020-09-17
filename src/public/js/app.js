@@ -3139,12 +3139,13 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   data: function data() {
     var self = this;
-    var csrfToken = document.getElementById("csrf-token").content;
+    var csrfToken = decodeURIComponent(_util__WEBPACK_IMPORTED_MODULE_2__["util"].getCookieValue('XSRF-TOKEN'));
     return {
       dropzoneOptions: {
         url: "/api/binder/image/add",
         headers: {
-          "X-CSRF-TOKEN": csrfToken
+          "X-Requested-With": "XMLHttpRequest",
+          "X-XSRF-TOKEN": csrfToken
         },
         params: {
           binder_id: ""
@@ -3227,10 +3228,18 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ImageContainerThumbnail.vue */ "./resources/js/components/binder/ImageContainerThumbnail.vue");
-/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
-/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ImageContainerThumbnail.vue */ "./resources/js/components/binder/ImageContainerThumbnail.vue");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3266,8 +3275,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_1___default.a
+    ImageContainerThumbnail: _ImageContainerThumbnail_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_2___default.a
   },
   data: function data() {
     return {
@@ -3319,29 +3328,53 @@ __webpack_require__.r(__webpack_exports__);
      * draggableによるソートの後処理を行います。
      */
     endDraggable: function endDraggable(event) {
-      console.log("D1");
-      console.log(event.item.getAttribute("image-id"));
-      console.log("/D1"); // DOM要素の復元
+      var _this = this;
 
-      this.resetDraggable(); // 並び順の永続化
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var imageId, param, postData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                console.log("D1");
+                console.log(event.item.getAttribute("image-id"));
+                console.log("/D1"); // DOM要素の復元
 
-      var imageId = event.item.getAttribute("image-id");
-      var param = {
-        target_id: imageId,
-        org_index: this.orgImageIndex,
-        save_order_type: _const__WEBPACK_IMPORTED_MODULE_2__["SAVE_ORDER_TYPE"].IMAGE
-      };
-      var postData = this.$store.getters["binder/getDataForSaveOrderState"](param);
-
-      if (!!postData) {
-        // ドラッグによって位置を変更した場合のみ永続化
-        this.$store.dispatch("binder/saveImageOrderState", postData); // 並び順の情報を更新するため、バインダー画像を再取得
-
-        this.$store.dispatch("binder/searchBinderImage", false);
-      } // 移動方向判定用の変数をクリア
+                _this.resetDraggable(); // 並び順の永続化
 
 
-      this.orgImageIndex = null;
+                imageId = event.item.getAttribute("image-id");
+                param = {
+                  target_id: imageId,
+                  org_index: _this.orgImageIndex,
+                  save_order_type: _const__WEBPACK_IMPORTED_MODULE_3__["SAVE_ORDER_TYPE"].IMAGE
+                }; // NOTE: 並び順が変更されていない場合はnullになる
+
+                postData = _this.$store.getters["binder/getDataForSaveOrderState"](param);
+
+                if (!postData) {
+                  _context.next = 11;
+                  break;
+                }
+
+                _context.next = 10;
+                return _this.$store.dispatch("binder/saveImageOrderState", postData);
+
+              case 10:
+                // 並び順の情報を更新するため、バインダー画像を再取得
+                _this.$store.dispatch("binder/searchBinderImage", false);
+
+              case 11:
+                // 移動方向判定用の変数をクリア
+                _this.orgImageIndex = null;
+
+              case 12:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
 
     /**
@@ -3382,6 +3415,35 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3642,6 +3704,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+
+    /**
+     * 画像の選択状態を設定します。
+     * すでに選択状態である場合、選択状態を解除します。
+     */
+    setSelectedImageId: function setSelectedImageId() {
+      this.$store.commit("binder/setSelectedImageId", this.id);
     }
   },
   computed: {
@@ -3658,6 +3728,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
      */
     isFocused: function isFocused() {
       return this.$store.getters["binder/isFocusedImageId"](this.id);
+    },
+
+    /**
+     * バインダー画面が選択モードかどうかを判定します。
+     */
+    isSelectModeScreen: function isSelectModeScreen() {
+      return this.$store.getters["binder/isSelectMode"];
+    },
+
+    /**
+     * 画像が選択状態かどうかを判定します。
+     */
+    isSelected: function isSelected() {
+      return this.$store.getters["binder/isSelectedImageId"](this.id);
     }
   }
 });
@@ -3673,10 +3757,40 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ImageListItem_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ImageListItem.vue */ "./resources/js/components/binder/ImageListItem.vue");
-/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
-/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ImageListItem_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ImageListItem.vue */ "./resources/js/components/binder/ImageListItem.vue");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.common.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3716,8 +3830,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ImageListItem: _ImageListItem_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_1___default.a
+    ImageListItem: _ImageListItem_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_2___default.a
   },
   data: function data() {
     return {
@@ -3767,24 +3881,54 @@ __webpack_require__.r(__webpack_exports__);
      * draggableによるソートの後処理を行います。
      */
     endDraggable: function endDraggable(event) {
-      // 並び順の永続化
-      var imageId = event.item.getAttribute("image-id");
-      var param = {
-        target_id: imageId,
-        org_index: this.orgImageIndex,
-        save_order_type: _const__WEBPACK_IMPORTED_MODULE_2__["SAVE_ORDER_TYPE"].IMAGE
-      };
-      var postData = this.$store.getters["binder/getDataForSaveOrderState"](param);
+      var _this = this;
 
-      if (!!postData) {
-        // ドラッグによって位置を変更した場合のみ永続化
-        this.$store.dispatch("binder/saveImageOrderState", postData); // 並び順の情報を更新するため、バインダー画像を再取得
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var imageId, param, postData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // 並び順の永続化
+                imageId = event.item.getAttribute("image-id");
+                param = {
+                  target_id: imageId,
+                  org_index: _this.orgImageIndex,
+                  save_order_type: _const__WEBPACK_IMPORTED_MODULE_3__["SAVE_ORDER_TYPE"].IMAGE
+                };
+                postData = _this.$store.getters["binder/getDataForSaveOrderState"](param);
 
-        this.$store.dispatch("binder/searchBinderImage", false);
-      } // 移動方向判定用の変数をクリア
+                if (!postData) {
+                  _context.next = 7;
+                  break;
+                }
 
+                _context.next = 6;
+                return _this.$store.dispatch("binder/saveImageOrderState", postData);
 
-      this.orgImageIndex = null;
+              case 6:
+                // 並び順の情報を更新するため、バインダー画像を再取得
+                _this.$store.dispatch("binder/searchBinderImage", false);
+
+              case 7:
+                // 移動方向判定用の変数をクリア
+                _this.orgImageIndex = null;
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+
+    /**
+     * ライトボックスで画像を表示します。
+     * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
+     */
+    showLightBox: function showLightBox(imageIndex) {
+      this.$emit("show-lightbox-click", imageIndex);
     }
   }
 });
@@ -3845,11 +3989,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       isEditMode: false,
-      editName: this.fileName
+      editName: this.fileName,
+
+      /**
+       * サムネイルがクリックされた際にセットされるタイマー
+       * NOTE: クリックとダブルクリックで処理を分岐させるため(#20)
+       */
+      timerForJudgeClickEvent: null
     };
   },
   props: {
@@ -3948,47 +4102,65 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     /**
      * 指定したリストアイテムに該当するバインダー画像をフォーカスします。
      * 当該リストアイテムまで画像コンテナをスクロールします。
-     * 
      */
     focusImage: function focusImage(event) {
-      var imageContainer = document.getElementById("image-container");
-      var target = document.getElementById("image-".concat(this.id)); // 座標を取得
+      // ダブルクリックと判定されるクリック間隔(ms)
+      var dblclickSpan = 100; // ダブルクリック時に2回処理が発火しないようにする
 
-      var containerClientRect = imageContainer.getBoundingClientRect();
-      var targetClientRect = target.getBoundingClientRect(); // 画像コンテナの位置情報
-
-      var containerTop = containerClientRect.top;
-      var containerHeight = containerClientRect.height;
-      var containerBottom = containerTop + containerHeight; // フォーカス対象画像の位置情報
-
-      var targetTop = targetClientRect.top;
-      var targetHeight = targetClientRect.height;
-      var targetBottom = targetTop + targetHeight; // 画像がコンテナの表示領域に納まっているかどうか
-
-      var isLowerContainerTop = containerTop < targetTop;
-      var isUpperContainerBottom = targetBottom < containerBottom;
-      var isInnerDisplayArea = isLowerContainerTop && isUpperContainerBottom; // 画像の枠を表示
-
-      this.$store.commit("binder/setFocusedImageId", this.id);
-
-      if (isInnerDisplayArea) {
-        // 表示領域内にいる場合は後続処理なし
-        return false;
-      } // イベントの種類に応じてスクロール処理を実行
-
-
-      var targetTopAfter;
-
-      if (event.type == "click") {
-        // NOTE: 画像位置は「imageContainer.scrollTop」に対する位置で可変
-        var diff = targetTop - containerTop;
-        targetTopAfter = imageContainer.scrollTop + diff - 18;
-      } else if (event.type == "dragend") {
-        // NOTE: ドラッグは画像が移動するため「移動後の画像位置」を基準としてスクロール
-        targetTopAfter = targetTop - containerTop - 18;
+      if (this.timerForJudgeClickEvent) {
+        clearTimeout(this.timerForJudgeClickEvent);
       }
 
-      imageContainer.scrollTop = targetTopAfter;
+      var self = this;
+      this.timerForJudgeClickEvent = setTimeout(function () {
+        var imageContainer = document.getElementById("image-container");
+        var target = document.getElementById("image-".concat(self.id)); // 座標を取得
+
+        var containerClientRect = imageContainer.getBoundingClientRect();
+        var targetClientRect = target.getBoundingClientRect(); // 画像コンテナの位置情報
+
+        var containerTop = containerClientRect.top;
+        var containerHeight = containerClientRect.height;
+        var containerBottom = containerTop + containerHeight; // フォーカス対象画像の位置情報
+
+        var targetTop = targetClientRect.top;
+        var targetHeight = targetClientRect.height;
+        var targetBottom = targetTop + targetHeight; // 画像がコンテナの表示領域に納まっているかどうか
+
+        var isLowerContainerTop = containerTop < targetTop;
+        var isUpperContainerBottom = targetBottom < containerBottom;
+        var isInnerDisplayArea = isLowerContainerTop && isUpperContainerBottom; // 画像の枠を表示
+
+        self.$store.commit("binder/setFocusedImageId", self.id);
+
+        if (isInnerDisplayArea) {
+          // 表示領域内にいる場合は後続処理なし
+          return false;
+        } // イベントの種類に応じてスクロール処理を実行
+
+
+        var targetTopAfter;
+
+        if (event.type == "click") {
+          // NOTE: 画像位置は「imageContainer.scrollTop」に対する位置で可変
+          var diff = targetTop - containerTop;
+          targetTopAfter = imageContainer.scrollTop + diff - 18;
+        } else if (event.type == "dragend") {
+          // NOTE: ドラッグは画像が移動するため「移動後の画像位置」を基準としてスクロール
+          targetTopAfter = targetTop - containerTop - 18;
+        }
+
+        imageContainer.scrollTop = targetTopAfter;
+      }, dblclickSpan);
+    },
+
+    /**
+     * ライトボックスで画像を表示します。
+     * NOTE: 親コンポーネント経由でLightBoxコンポーネントのメソッドを呼びだす
+     */
+    showLightBox: function showLightBox() {
+      clearTimeout(this.timerForJudgeClickEvent);
+      this.$emit("show-lightbox-click", this.index);
     }
   }
 });
@@ -4161,12 +4333,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -4609,6 +4775,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -4744,6 +4911,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4760,7 +4958,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     /**
-     * バインダー詳細画面を開いているかどうか
+     * バインダー詳細画面を開いているかどうかを判定します。
      * NOTE:画像絞り込み用のピンボタンはバインダー作成画面で非表示
      */
     isBinderDetail: function isBinderDetail() {
@@ -4768,24 +4966,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
 
     /**
-     * 自身のラベルIDがstateの検索条件へ追加されているかどうか
+     * 自身のラベルIDがstateの検索条件へ追加されているかどうかを判定します。
      */
     isAddSearchCondition: function isAddSearchCondition() {
       return this.$store.getters["binder/isAlreadyAddSearchConditionLabel"](this.id);
     },
 
     /**
-     * 自身とラベリングされているバインダー画像がドラッグ中かどうか
+     * 自身とラベリングされているバインダー画像がドラッグ中かどうかを判定します。
      */
     isDraggingLabelingImage: function isDraggingLabelingImage() {
       return this.$store.getters["binder/isLabelingWithDraggingImageLabel"](this.id);
     },
 
     /**
-     * バインダー画像がドラッグ中かどうか
+     * バインダー画像がドラッグ中かどうかを判定します。
      */
     isDraggingImage: function isDraggingImage() {
       return this.$store.state.binder.is_dragging_image;
+    },
+
+    /**
+     * バインダー画面が選択モードかどうかを判定します。
+     */
+    isLabelingModeScreen: function isLabelingModeScreen() {
+      var mode = this.$store.state.binder.mode;
+      return mode == _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.LABELING;
+    },
+
+    /**
+     * 画像が選択状態かどうかを判定します。
+     */
+    isSelected: function isSelected() {
+      return this.$store.getters["binder/isSelectedLabelId"](this.id);
     }
   },
   methods: {
@@ -4934,6 +5147,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+
+    /**
+     * ラベルの選択状態を設定します。
+     * すでに選択状態である場合、選択状態を解除します。
+     */
+    setSelectedLabelId: function setSelectedLabelId() {
+      this.$store.commit("binder/setSelectedLabelId", this.id);
     }
   }
 });
@@ -5080,8 +5301,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/ProgressIndicator.vue */ "./resources/js/components/common/ProgressIndicator.vue");
-/* harmony import */ var _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/LabelAddDialog.vue */ "./resources/js/components/common/LabelAddDialog.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
+/* harmony import */ var _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/ProgressIndicator.vue */ "./resources/js/components/common/ProgressIndicator.vue");
+/* harmony import */ var _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/LabelAddDialog.vue */ "./resources/js/components/common/LabelAddDialog.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -5249,6 +5479,129 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5258,8 +5611,8 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
-    ProgressIndicator: _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    LabelAddDialog: _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    ProgressIndicator: _common_ProgressIndicator_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    LabelAddDialog: _common_LabelAddDialog_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   computed: {
     binderTitle: function binderTitle() {
@@ -5276,6 +5629,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     binder: function binder() {
       return this.$store.state.binder;
+    },
+
+    /**
+     * バインダー画面が選択モード(削除)かどうかを判定します。
+     */
+    isDeleteModeScreen: function isDeleteModeScreen() {
+      var screenMode = this.$store.state.binder.mode;
+      return screenMode == _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.DELETE;
+    },
+
+    /**
+     * バインダー画面が選択モード(ラベリング)かどうかを判定します。
+     */
+    isLabelingModeScreen: function isLabelingModeScreen() {
+      var screenMode = this.$store.state.binder.mode;
+      return screenMode == _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.LABELING;
     }
   },
   methods: {
@@ -5302,6 +5671,98 @@ __webpack_require__.r(__webpack_exports__);
      */
     switchBinderInfoVisible: function switchBinderInfoVisible() {
       this.isShowBinderInfo = !this.isShowBinderInfo;
+    },
+
+    /**
+     * バインダー画面の選択モード(削除)を有効化します。
+     */
+    enableDeleteModeScreen: function enableDeleteModeScreen() {
+      this.$store.commit("binder/setMode", _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.DELETE);
+    },
+
+    /**
+     * バインダー画面の選択モード(ラベリング)を有効化します。
+     */
+    enableLabelingModeScreen: function enableLabelingModeScreen() {
+      this.$store.commit("binder/setMode", _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.LABELING);
+    },
+
+    /**
+     * バインダー画面を通常モードへ切り替えます。
+     */
+    setNormalModeScreen: function setNormalModeScreen() {
+      this.$store.commit("binder/setMode", _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.NORMAL); // 選択状態のクリア
+
+      this.$store.dispatch("binder/clearSelectedState");
+    },
+
+    /**
+     * 画像の一括削除を行います。
+     */
+    multipleDelete: function multipleDelete() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.dispatch("binder/removeImageMultiple", [_this.id]);
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+
+    /**
+     * 一括ラベリングを行います。
+     */
+    multipleLabeling: function multipleLabeling() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this2.$store.dispatch("binder/labelingMultiple", [_this2.id]);
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+
+    /**
+     * 画像の一括ダウンロードを行います。
+     */
+    downloadImages: function downloadImages() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _this3.$store.dispatch("binder/downloadImages");
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   }
 });
@@ -6139,6 +6600,23 @@ function toComment(sourceMap) {
 	return '/*# ' + data + ' */';
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/file-saver/dist/FileSaver.min.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/file-saver/dist/FileSaver.min.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function(a,b){if(true)!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (b),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));else {}})(this,function(){"use strict";function b(a,b){return"undefined"==typeof b?b={autoBom:!1}:"object"!=typeof b&&(console.warn("Deprecated: Expected third argument to be a object"),b={autoBom:!b}),b.autoBom&&/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(a.type)?new Blob(["\uFEFF",a],{type:a.type}):a}function c(b,c,d){var e=new XMLHttpRequest;e.open("GET",b),e.responseType="blob",e.onload=function(){a(e.response,c,d)},e.onerror=function(){console.error("could not download file")},e.send()}function d(a){var b=new XMLHttpRequest;b.open("HEAD",a,!1);try{b.send()}catch(a){}return 200<=b.status&&299>=b.status}function e(a){try{a.dispatchEvent(new MouseEvent("click"))}catch(c){var b=document.createEvent("MouseEvents");b.initMouseEvent("click",!0,!0,window,0,0,0,80,20,!1,!1,!1,!1,0,null),a.dispatchEvent(b)}}var f="object"==typeof window&&window.window===window?window:"object"==typeof self&&self.self===self?self:"object"==typeof global&&global.global===global?global:void 0,a=f.saveAs||("object"!=typeof window||window!==f?function(){}:"download"in HTMLAnchorElement.prototype?function(b,g,h){var i=f.URL||f.webkitURL,j=document.createElement("a");g=g||b.name||"download",j.download=g,j.rel="noopener","string"==typeof b?(j.href=b,j.origin===location.origin?e(j):d(j.href)?c(b,g,h):e(j,j.target="_blank")):(j.href=i.createObjectURL(b),setTimeout(function(){i.revokeObjectURL(j.href)},4E4),setTimeout(function(){e(j)},0))}:"msSaveOrOpenBlob"in navigator?function(f,g,h){if(g=g||f.name||"download","string"!=typeof f)navigator.msSaveOrOpenBlob(b(f,h),g);else if(d(f))c(f,g,h);else{var i=document.createElement("a");i.href=f,i.target="_blank",setTimeout(function(){e(i)})}}:function(a,b,d,e){if(e=e||open("","_blank"),e&&(e.document.title=e.document.body.innerText="downloading..."),"string"==typeof a)return c(a,b,d);var g="application/octet-stream"===a.type,h=/constructor/i.test(f.HTMLElement)||f.safari,i=/CriOS\/[\d]+/.test(navigator.userAgent);if((i||g&&h)&&"object"==typeof FileReader){var j=new FileReader;j.onloadend=function(){var a=j.result;a=i?a:a.replace(/^data:[^;]*;/,"data:attachment/file;"),e?e.location.href=a:location=a,e=null},j.readAsDataURL(a)}else{var k=f.URL||f.webkitURL,l=k.createObjectURL(a);e?e.location=l:location.href=l,e=null,setTimeout(function(){k.revokeObjectURL(l)},4E4)}});f.saveAs=a.saveAs=a, true&&(module.exports=a)});
+
+//# sourceMappingURL=FileSaver.min.js.map
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -39682,6 +40160,55 @@ var render = function() {
       }
     },
     [
+      _vm.isSelectModeScreen
+        ? _c("div", { staticClass: "image-container__select-handle-wrapper" }, [
+            _c(
+              "div",
+              { staticClass: "image-container__select-handle-content" },
+              [
+                _c(
+                  "button",
+                  {
+                    class: [
+                      "image-container__select-handle-button",
+                      { selected: _vm.isSelected }
+                    ],
+                    on: { click: _vm.setSelectedImageId }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          height: "80",
+                          viewBox: "0 0 24 24",
+                          width: "80"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d: "M0 0h24v24H0V0zm0 0h24v24H0V0z",
+                            fill: "none"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "div",
         {
@@ -40020,36 +40547,70 @@ var render = function() {
     { staticClass: "image-list mdc-elevation--z4" },
     [
       _c("div", { staticClass: "image-list__search mdc-elevation--z2" }, [
-        _c("input", {
-          directives: [
+        _c("div", { staticClass: "image-list__search-wrapper" }, [
+          _c(
+            "button",
             {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.searchCondigionImageName,
-              expression: "searchCondigionImageName"
-            }
-          ],
-          staticClass: "image-list__search-form",
-          attrs: { type: "text", placeholder: "Search" },
-          domProps: { value: _vm.searchCondigionImageName },
-          on: {
-            keydown: function($event) {
-              if (
-                !$event.type.indexOf("key") &&
-                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
-              ) {
-                return null
-              }
-              return _vm.searchBinderImage($event)
+              staticClass: "image-list__search-button",
+              attrs: { type: "button" },
+              on: { click: _vm.searchBinderImage }
             },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+            [
+              _c(
+                "svg",
+                {
+                  attrs: {
+                    xmlns: "http://www.w3.org/2000/svg",
+                    viewBox: "0 0 24 24",
+                    width: "30px",
+                    height: "30px"
+                  }
+                },
+                [
+                  _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
+                  _vm._v(" "),
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                    }
+                  })
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.searchCondigionImageName,
+                expression: "searchCondigionImageName"
               }
-              _vm.searchCondigionImageName = $event.target.value
+            ],
+            staticClass: "image-list__search-input",
+            attrs: { type: "text", placeholder: "Search" },
+            domProps: { value: _vm.searchCondigionImageName },
+            on: {
+              keydown: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.searchBinderImage($event)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.searchCondigionImageName = $event.target.value
+              }
             }
-          }
-        })
+          })
+        ])
       ]),
       _vm._v(" "),
       _c(
@@ -40081,7 +40642,8 @@ var render = function() {
                   id: image.id,
                   imageSource: image.storage_file_path,
                   fileName: image.name
-                }
+                },
+                on: { "show-lightbox-click": _vm.showLightBox }
               })
             }),
             1
@@ -40127,7 +40689,7 @@ var render = function() {
         "div",
         {
           staticClass: "image-list__item-thumbnail",
-          on: { click: _vm.focusImage }
+          on: { click: _vm.focusImage, dblclick: _vm.showLightBox }
         },
         [
           _c("img", {
@@ -40293,26 +40855,7 @@ var render = function() {
   return _c(
     "div",
     { class: _vm.clazz },
-    [
-      _c(
-        "h2",
-        [
-          _c("img", {
-            attrs: {
-              src: "/image/logo/logo_32.svg",
-              width: "48",
-              height: "48",
-              alt: "petata"
-            }
-          }),
-          _vm._v(" "),
-          _vm._t("title")
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _vm._t("additional-content")
-    ],
+    [_c("h2", [_vm._t("title")], 2), _vm._v(" "), _vm._t("additional-content")],
     2
   )
 }
@@ -40363,7 +40906,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c("transition", { attrs: { name: "fade-faster" } }, [
+          _c("transition", { attrs: { name: "fade-middle" } }, [
             _c(
               "div",
               {
@@ -40726,18 +41269,103 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("div", { staticClass: "label-container__item-button-wrapper" }, [
-        _vm.isBinderDetail
-          ? _c(
+      _vm.isLabelingModeScreen
+        ? _c("div", { staticClass: "label-item__select-handle-wrapper" }, [
+            _c("div", { staticClass: "label-item__select-handle-content" }, [
+              _c(
+                "button",
+                {
+                  class: [
+                    "label-item__select-handle-button",
+                    { selected: _vm.isSelected }
+                  ],
+                  on: { click: _vm.setSelectedLabelId }
+                },
+                [
+                  _c(
+                    "svg",
+                    {
+                      attrs: {
+                        xmlns: "http://www.w3.org/2000/svg",
+                        height: "44",
+                        viewBox: "0 0 24 24",
+                        width: "44"
+                      }
+                    },
+                    [
+                      _c("path", {
+                        attrs: {
+                          d: "M0 0h24v24H0V0zm0 0h24v24H0V0z",
+                          fill: "none"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          d:
+                            "M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                        }
+                      })
+                    ]
+                  )
+                ]
+              )
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isLabelingModeScreen
+        ? _c("div", { staticClass: "label-container__item-button-wrapper" }, [
+            _vm.isBinderDetail
+              ? _c(
+                  "button",
+                  {
+                    class: {
+                      "label-container__item-button--selected":
+                        _vm.isAddSearchCondition,
+                      "label-container__item-button": !_vm.isAddSearchCondition
+                    },
+                    attrs: { type: "button" },
+                    on: { click: _vm.switchSearchCondition }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          height: "24",
+                          viewBox: "0 0 24 24",
+                          width: "24"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
+                        }),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M18 13v7H4V6h5.02c.05-.71.22-1.38.48-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5l-2-2zm-1.5 5h-11l2.75-3.53 1.96 2.36 2.75-3.54zm2.8-9.11c.44-.7.7-1.51.7-2.39C20 4.01 17.99 2 15.5 2S11 4.01 11 6.5s2.01 4.5 4.49 4.5c.88 0 1.7-.26 2.39-.7L21 13.42 22.42 12 19.3 8.89zM15.5 9C14.12 9 13 7.88 13 6.5S14.12 4 15.5 4 18 5.12 18 6.5 16.88 9 15.5 9z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c(
               "button",
               {
-                class: {
-                  "label-container__item-button--selected":
-                    _vm.isAddSearchCondition,
-                  "label-container__item-button": !_vm.isAddSearchCondition
-                },
+                staticClass: "label-container__item-button",
                 attrs: { type: "button" },
-                on: { click: _vm.switchSearchCondition }
+                on: { click: _vm.openLabelAddDialogForEdit }
               },
               [
                 _c(
@@ -40754,85 +41382,51 @@ var render = function() {
                     _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
                     _vm._v(" "),
                     _c("path", {
+                      attrs: {
+                        d:
+                          "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                      }
+                    })
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "label-container__item-button--danger",
+                attrs: { type: "button" },
+                on: { click: _vm.switchRemoveConfirm }
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      viewBox: "0 0 24 24",
+                      width: "24px",
+                      height: "24px"
+                    }
+                  },
+                  [
+                    _c("path", {
                       attrs: { d: "M0 0h24v24H0V0z", fill: "none" }
                     }),
                     _vm._v(" "),
                     _c("path", {
                       attrs: {
                         d:
-                          "M18 13v7H4V6h5.02c.05-.71.22-1.38.48-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5l-2-2zm-1.5 5h-11l2.75-3.53 1.96 2.36 2.75-3.54zm2.8-9.11c.44-.7.7-1.51.7-2.39C20 4.01 17.99 2 15.5 2S11 4.01 11 6.5s2.01 4.5 4.49 4.5c.88 0 1.7-.26 2.39-.7L21 13.42 22.42 12 19.3 8.89zM15.5 9C14.12 9 13 7.88 13 6.5S14.12 4 15.5 4 18 5.12 18 6.5 16.88 9 15.5 9z"
+                          "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
                       }
                     })
                   ]
                 )
               ]
             )
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "label-container__item-button",
-            attrs: { type: "button" },
-            on: { click: _vm.openLabelAddDialogForEdit }
-          },
-          [
-            _c(
-              "svg",
-              {
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  height: "24",
-                  viewBox: "0 0 24 24",
-                  width: "24"
-                }
-              },
-              [
-                _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                _vm._v(" "),
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
-                  }
-                })
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "label-container__item-button--danger",
-            attrs: { type: "button" },
-            on: { click: _vm.switchRemoveConfirm }
-          },
-          [
-            _c(
-              "svg",
-              {
-                attrs: {
-                  xmlns: "http://www.w3.org/2000/svg",
-                  viewBox: "0 0 24 24",
-                  width: "24px",
-                  height: "24px"
-                }
-              },
-              [
-                _c("path", { attrs: { d: "M0 0h24v24H0V0z", fill: "none" } }),
-                _vm._v(" "),
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z"
-                  }
-                })
-              ]
-            )
-          ]
-        )
-      ]),
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("p", { staticClass: "label-container__item-description" }, [
         _vm._v("\n        " + _vm._s(_vm.description) + "\n    ")
@@ -41026,133 +41620,410 @@ var render = function() {
         "nav",
         { staticClass: "nav mdc-elevation--z2" },
         [
-          _c("div", { staticClass: "nav__left-column-wrapper" }, [
-            _c(
-              "button",
-              {
-                directives: [
-                  {
-                    name: "tooltip",
-                    rawName: "v-tooltip.bottom",
-                    value: {
-                      content:
-                        "[未実装]画像を複数選択してzip形式で一括ダウンロードします。"
-                    },
-                    expression:
-                      "{\n                content:\n                    '[未実装]画像を複数選択してzip形式で一括ダウンロードします。'\n            }",
-                    modifiers: { bottom: true }
-                  }
-                ],
-                staticClass: "nav__button"
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      height: "44",
-                      viewBox: "0 0 24 24",
-                      width: "44"
-                    }
-                  },
-                  [
-                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                    _vm._v(" "),
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"
-                      }
-                    })
-                  ]
-                )
-              ]
-            ),
-            _c(
-              "button",
-              {
-                directives: [
-                  {
-                    name: "tooltip",
-                    rawName: "v-tooltip.bottom",
-                    value: {
-                      content:
-                        "[未実装]zip形式に圧縮した画像ファイルを一括アップロードします。"
-                    },
-                    expression:
-                      "{\n                content:\n                    '[未実装]zip形式に圧縮した画像ファイルを一括アップロードします。'\n            }",
-                    modifiers: { bottom: true }
-                  }
-                ],
-                staticClass: "nav__button"
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      height: "44",
-                      viewBox: "0 0 24 24",
-                      width: "44"
-                    }
-                  },
-                  [
-                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                    _vm._v(" "),
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
-                      }
-                    })
-                  ]
-                )
-              ]
-            ),
-            _c(
-              "button",
-              {
-                directives: [
-                  {
-                    name: "tooltip",
-                    rawName: "v-tooltip.bottom",
-                    value: {
-                      content: "[未実装]画像を複数選択して一括で削除します。"
-                    },
-                    expression:
-                      "{\n                content: '[未実装]画像を複数選択して一括で削除します。'\n            }",
-                    modifiers: { bottom: true }
-                  }
-                ],
-                staticClass: "nav__button"
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      height: "44",
-                      viewBox: "0 0 24 24",
-                      width: "44"
-                    }
-                  },
-                  [
-                    _c("path", { attrs: { d: "M0 0h24v24H0z", fill: "none" } }),
-                    _vm._v(" "),
-                    _c("path", {
-                      attrs: {
-                        d:
-                          "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                      }
-                    })
-                  ]
-                )
-              ]
-            )
-          ]),
+          _c(
+            "div",
+            [
+              _c(
+                "transition",
+                { attrs: { name: "fade-faster", mode: "out-in" } },
+                [
+                  !_vm.isDeleteModeScreen && !_vm.isLabelingModeScreen
+                    ? _c(
+                        "div",
+                        {
+                          key: "normal",
+                          staticClass: "nav__left-column-wrapper"
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "tooltip",
+                                  rawName: "v-tooltip.bottom",
+                                  value: {
+                                    content:
+                                      "表示中の画像をzip形式で一括ダウンロードします。"
+                                  },
+                                  expression:
+                                    "{\n                        content:\n                            '表示中の画像をzip形式で一括ダウンロードします。'\n                    }",
+                                  modifiers: { bottom: true }
+                                }
+                              ],
+                              staticClass: "nav__button",
+                              on: { click: _vm.downloadImages }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "tooltip",
+                                  rawName: "v-tooltip.bottom",
+                                  value: {
+                                    content:
+                                      "画像を複数選択して一括で削除します。"
+                                  },
+                                  expression:
+                                    "{\n                        content: '画像を複数選択して一括で削除します。'\n                    }",
+                                  modifiers: { bottom: true }
+                                }
+                              ],
+                              staticClass: "nav__button",
+                              on: { click: _vm.enableDeleteModeScreen }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "tooltip",
+                                  rawName: "v-tooltip.bottom",
+                                  value: {
+                                    content:
+                                      "画像を複数選択して一括でラベリングを行います。"
+                                  },
+                                  expression:
+                                    "{\n                        content:\n                            '画像を複数選択して一括でラベリングを行います。'\n                    }",
+                                  modifiers: { bottom: true }
+                                }
+                              ],
+                              staticClass: "nav__button",
+                              on: { click: _vm.enableLabelingModeScreen }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7zm11.77 8.27L13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isDeleteModeScreen
+                    ? _c(
+                        "div",
+                        {
+                          key: "delete",
+                          staticClass: "nav__left-column-wrapper"
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "tooltip",
+                                  rawName: "v-tooltip.bottom",
+                                  value: {
+                                    content:
+                                      "画像を複数選択して一括で削除します。"
+                                  },
+                                  expression:
+                                    "{\n                        content: '画像を複数選択して一括で削除します。'\n                    }",
+                                  modifiers: { bottom: true }
+                                }
+                              ],
+                              staticClass: "nav__button fix-delete"
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "nav__button delete",
+                              on: { click: _vm.multipleDelete }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d: "M0 0h24v24H0V0zm0 0h24v24H0V0z",
+                                      fill: "none"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "nav__button",
+                              on: { click: _vm.setNormalModeScreen }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "48"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.isLabelingModeScreen
+                    ? _c(
+                        "div",
+                        {
+                          key: "labeling",
+                          staticClass: "nav__left-column-wrapper"
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              directives: [
+                                {
+                                  name: "tooltip",
+                                  rawName: "v-tooltip.bottom",
+                                  value: {
+                                    content:
+                                      "画像を複数選択して一括でラベリングを行います。"
+                                  },
+                                  expression:
+                                    "{\n                        content:\n                            '画像を複数選択して一括でラベリングを行います。'\n                    }",
+                                  modifiers: { bottom: true }
+                                }
+                              ],
+                              staticClass: "nav__button fix-labeling"
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7zm11.77 8.27L13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "nav__button labeling",
+                              on: { click: _vm.multipleLabeling }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "44"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d: "M0 0h24v24H0V0zm0 0h24v24H0V0z",
+                                      fill: "none"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M16.59 7.58L10 14.17l-3.59-3.58L5 12l5 5 8-8zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          ),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "nav__button",
+                              on: { click: _vm.setNormalModeScreen }
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    height: "44",
+                                    viewBox: "0 0 24 24",
+                                    width: "48"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: { d: "M0 0h24v24H0z", fill: "none" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    : _vm._e()
+                ]
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -41278,10 +42149,10 @@ var render = function() {
                       rawName: "v-tooltip.bottom",
                       value: {
                         content:
-                          "[未実装]画像を複数選択して一括でラベリングを行います。"
+                          "[未実装]アプリケーションの使い方を表示します。"
                       },
                       expression:
-                        "{\n                    content:\n                        '[未実装]画像を複数選択して一括でラベリングを行います。'\n                }",
+                        "{\n                    content: '[未実装]アプリケーションの使い方を表示します。'\n                }",
                       modifiers: { bottom: true }
                     }
                   ],
@@ -41293,9 +42164,9 @@ var render = function() {
                     {
                       attrs: {
                         xmlns: "http://www.w3.org/2000/svg",
-                        height: "40",
+                        height: "44",
                         viewBox: "0 0 24 24",
-                        width: "40"
+                        width: "44"
                       }
                     },
                     [
@@ -41306,7 +42177,7 @@ var render = function() {
                       _c("path", {
                         attrs: {
                           d:
-                            "M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7zm11.77 8.27L13 19.54l-4.27-4.27C8.28 14.81 8 14.19 8 13.5c0-1.38 1.12-2.5 2.5-2.5.69 0 1.32.28 1.77.74l.73.72.73-.73c.45-.45 1.08-.73 1.77-.73 1.38 0 2.5 1.12 2.5 2.5 0 .69-.28 1.32-.73 1.77z"
+                            "M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"
                         }
                       })
                     ]
@@ -41954,7 +42825,7 @@ var render = function() {
     "div",
     { staticClass: "container--binder" },
     [
-      _c("ImageList"),
+      _c("ImageList", { on: { "show-lightbox-click": _vm.showLightBox } }),
       _vm._v(" "),
       _c("ImageContainer", { on: { "show-lightbox-click": _vm.showLightBox } }),
       _vm._v(" "),
@@ -61282,7 +62153,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-/* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
@@ -61349,8 +62219,12 @@ initialize();
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
   \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./util */ "./resources/js/util.js");
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
@@ -61361,7 +62235,13 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = "http://localhost:8888";
+window.axios.defaults.baseURL = "http://localhost:8888"; // リクエスト時の処理をインターセプトする
+// NOTE: CSRFトークンを埋め込む
+
+window.axios.interceptors.request.use(function (config) {
+  config.headers['X-XSRF-TOKEN'] = decodeURIComponent(_util__WEBPACK_IMPORTED_MODULE_0__["util"].getCookieValue('XSRF-TOKEN'));
+  return config;
+});
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -63781,7 +64661,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************!*\
   !*** ./resources/js/const.js ***!
   \*******************************/
-/*! exports provided: STATUS, BINDER_AUTHORITY_LEVEL, SAVE_ORDER_TYPE, TRANSITION_TYPE, MESSAGE_TYPE, MESSAGE */
+/*! exports provided: STATUS, BINDER_AUTHORITY_LEVEL, SAVE_ORDER_TYPE, TRANSITION_TYPE, MESSAGE_TYPE, SCREEN_MODE, MESSAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63791,6 +64671,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SAVE_ORDER_TYPE", function() { return SAVE_ORDER_TYPE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TRANSITION_TYPE", function() { return TRANSITION_TYPE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MESSAGE_TYPE", function() { return MESSAGE_TYPE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SCREEN_MODE", function() { return SCREEN_MODE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MESSAGE", function() { return MESSAGE; });
 var STATUS = {
   OK: 200,
@@ -63817,13 +64698,21 @@ var SAVE_ORDER_TYPE = {
 var TRANSITION_TYPE = {
   // トランジションの種類(src\resources\sass\common\_base.scss)
   FADE: 'fade',
-  FADE_FASTER: 'fade-faster',
+  FADE_FASTER: 'page-out',
   PAGE_IN: 'page-in',
   PAGE_OUT: 'page-out'
 };
 var MESSAGE_TYPE = {
   ERROR: 'error',
   SUCCESS: 'success'
+};
+var SCREEN_MODE = {
+  // 画面モード
+  BINDER: {
+    NORMAL: 'normal',
+    DELETE: 'delete',
+    LABELING: 'labeling'
+  }
 };
 var MESSAGE = {
   COMMON: {
@@ -63850,6 +64739,10 @@ var MESSAGE = {
         MAX: "ラベル名は20字以内で設定してください。"
       }
     }
+  },
+  BINDER: {
+    IS_NOT_SELECT_IMAGES: "画像が選択されていません。",
+    IS_NOT_SELECT_LABELS: "ラベルが選択されていません。"
   }
 };
 
@@ -65497,8 +66390,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _const__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../const */ "./resources/js/const.js");
 /* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util */ "./resources/js/util.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_4__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -65508,6 +66403,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /**
  * フォームデータストア - バインダー
  */
+
 
 
 
@@ -65542,6 +66438,9 @@ var state = {
    * is_draggable_processing Boolean Draggableの操作中かどうか
    * focused_image_id Number フォーカスされている画像のID
    * created_at Date バインダー作成日
+   * mode: String バインダー画面のモード(const.SCREEN_MODE)
+   * selected_image_ids: Array(Number) 選択中の画像ID
+   * selected_label_ids: Array(Number) 選択中のラベルID
    */
   id: null,
   name: null,
@@ -65561,7 +66460,10 @@ var state = {
   is_dragging_image: false,
   is_draggable_processing: false,
   focused_image_id: null,
-  created_at: null
+  created_at: null,
+  mode: _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.NORMAL,
+  selected_image_ids: [],
+  selected_label_ids: []
 };
 var mutations = {
   setId: function setId(state, val) {
@@ -65633,6 +66535,39 @@ var mutations = {
   },
   setCreatedAt: function setCreatedAt(state, val) {
     state.created_at = val;
+  },
+  setMode: function setMode(state, val) {
+    state.mode = val;
+  },
+  setSelectedImageIds: function setSelectedImageIds(state, val) {
+    state.selected_image_ids = val;
+  },
+  setSelectedImageId: function setSelectedImageId(state, val) {
+    // すでに画像IDが設定済みの場合は除去する
+    var isAlreadyExist = state.selected_image_ids.includes(val);
+
+    if (isAlreadyExist) {
+      state.selected_image_ids = state.selected_image_ids.filter(function (id) {
+        return id !== val;
+      });
+    } else {
+      state.selected_image_ids.push(val);
+    }
+  },
+  setSelectedLabelIds: function setSelectedLabelIds(state, val) {
+    state.selected_label_ids = val;
+  },
+  setSelectedLabelId: function setSelectedLabelId(state, val) {
+    // すでにラベルIDが設定済みの場合は除去する
+    var isAlreadyExist = state.selected_label_ids.includes(val);
+
+    if (isAlreadyExist) {
+      state.selected_label_ids = state.selected_label_ids.filter(function (id) {
+        return id !== val;
+      });
+    } else {
+      state.selected_label_ids.push(val);
+    }
   }
 };
 var getters = {
@@ -65664,6 +66599,24 @@ var getters = {
   isFocusedImageId: function isFocusedImageId(state) {
     return function (imageId) {
       return state.focused_image_id == imageId;
+    };
+  },
+
+  /**
+   * 指定した画像IDが選択状態の画像のものかどうかを判定します。
+   */
+  isSelectedImageId: function isSelectedImageId(state) {
+    return function (imageId) {
+      return state.selected_image_ids.includes(imageId);
+    };
+  },
+
+  /**
+   * 指定したラベルIDが選択状態のラベルのものかどうかを判定します。
+   */
+  isSelectedLabelId: function isSelectedLabelId(state) {
+    return function (labelId) {
+      return state.selected_label_ids.includes(labelId);
     };
   },
 
@@ -65756,6 +66709,13 @@ var getters = {
       console.log("[DEBUG]" + target.sort + " => " + postData.sort_after);
       return postData;
     };
+  },
+
+  /**
+   * バインダー画面が選択モードかどうかを返却します。
+   */
+  isSelectMode: function isSelectMode(state) {
+    return state.mode == _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.DELETE || state.mode == _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.LABELING;
   }
 };
 var actions = {
@@ -65970,107 +66930,61 @@ var actions = {
   },
 
   /**
-   * stateに保持している条件で画像を検索します。
+   * 選択状態の画像・ラベルを一括ラベリングします。
    */
-  searchBinderImage: function searchBinderImage(context) {
-    var _arguments = arguments;
+  labelingMultiple: function labelingMultiple(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-      var isShowProgress, uri, response;
+      var isSelectedLabels, message, postData, uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              isShowProgress = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : true;
+              // 更新データがあるかどうか
+              isSelectedLabels = state.selected_label_ids.length != 0;
 
-              // 通信開始
-              if (isShowProgress) {
-                // NOTE: ローディング画像を表示しないケース(並び順永続化)に対応
-                context.commit("mode/setIsLoading", true, {
-                  root: true
-                });
-              }
-
-              uri = "api/binder/image/search";
-              _context5.next = 5;
-              return axios.get("".concat(uri), {
-                params: state.search_condition
-              })["catch"](function (err) {
-                return err.response || err;
-              });
-
-            case 5:
-              response = _context5.sent;
-
-              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context5.next = 10;
+              if (isSelectedLabels) {
+                _context5.next = 5;
                 break;
               }
 
-              context.commit("setImages", response.data);
-              context.commit("mode/setIsLoading", false, {
+              // ラベルが選択されていない場合は処理なし
+              message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].BINDER.IS_NOT_SELECT_LABELS, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+              context.dispatch("messageBox/add", message, {
                 root: true
               });
               return _context5.abrupt("return", false);
 
-            case 10:
-              // 失敗
-              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
-                // バリデーションエラーの場合はエラーメッセージを格納
-                context.commit("setErrorMessages", response.errors);
-              } else {
-                // その他のエラーの場合はエラーコードを格納
-                context.commit("error/setCode", response.status, {
-                  root: true
-                });
-              }
-
-              context.commit("mode/setIsLoading", false, {
-                root: true
-              });
-
-            case 12:
-            case "end":
-              return _context5.stop();
-          }
-        }
-      }, _callee5);
-    }))();
-  },
-
-  /**
-   * ラベルを削除します。
-   */
-  removeLabel: function removeLabel(context, label) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-      var uri, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-        while (1) {
-          switch (_context6.prev = _context6.next) {
-            case 0:
+            case 5:
               // 通信開始
               context.dispatch("setProgressIndicatorVisibleState", true);
-              label.binder_id = state.id;
-              uri = "api/binder/label/delete";
-              _context6.next = 5;
-              return axios.post("".concat(uri), label)["catch"](function (err) {
+              postData = {
+                image_ids: state.selected_image_ids,
+                label_ids: state.selected_label_ids
+              };
+              uri = "api/binder/label/register-multiple";
+              _context5.next = 10;
+              return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
-            case 5:
-              response = _context6.sent;
+            case 10:
+              response = _context5.sent;
 
-              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context6.next = 10;
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].CREATED)) {
+                _context5.next = 17;
                 break;
               }
 
-              // ラベル情報を再取得
-              state.labels = response.data; // 通信完了
+              // 通信完了
+              context.dispatch("setProgressIndicatorVisibleState", false); // ラベリング後、選択モード(ラベリング)を解除
 
-              context.dispatch("setProgressIndicatorVisibleState", false);
-              return _context6.abrupt("return", false);
+              context.dispatch("clearSelectedState");
+              context.commit("setMode", _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.NORMAL); // ラベリング後の条件で再検索
 
-            case 10:
+              context.dispatch("searchBinderImage");
+              return _context5.abrupt("return", false);
+
+            case 17:
               // 失敗
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
                 // バリデーションエラーの場合はエラーメッセージを格納
@@ -66083,7 +66997,78 @@ var actions = {
               } // 通信完了
 
 
-              context.dispatch("setProgressIndicatorVisibleState", false);
+              context.dispatch("setProgressIndicatorVisibleState", false); // ラベリング後、選択モード(ラベリング)を解除
+
+              context.dispatch("clearSelectedState");
+              context.commit("setMode", _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.NORMAL);
+
+            case 21:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
+
+  /**
+   * stateに保持している条件で画像を検索します。
+   */
+  searchBinderImage: function searchBinderImage(context) {
+    var _arguments = arguments;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
+      var isShowProgress, uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              isShowProgress = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : true;
+
+              // 通信開始
+              if (isShowProgress) {
+                // NOTE: ローディング画像を表示しないケース(並び順永続化)に対応
+                context.commit("mode/setIsLoading", true, {
+                  root: true
+                });
+              }
+
+              uri = "api/binder/image/search";
+              _context6.next = 5;
+              return axios.get("".concat(uri), {
+                params: state.search_condition
+              })["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 5:
+              response = _context6.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context6.next = 10;
+                break;
+              }
+
+              context.commit("setImages", response.data);
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
+              return _context6.abrupt("return", false);
+
+            case 10:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+              }
+
+              context.commit("mode/setIsLoading", false, {
+                root: true
+              });
 
             case 12:
             case "end":
@@ -66095,24 +67080,21 @@ var actions = {
   },
 
   /**
-   * 画像を削除します。
+   * ラベルを削除します。
    */
-  removeImage: function removeImage(context, imageIds) {
+  removeLabel: function removeLabel(context, label) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
-      var postData, uri, response;
+      var uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
               // 通信開始
               context.dispatch("setProgressIndicatorVisibleState", true);
-              postData = {
-                binder_id: state.id,
-                image_ids: imageIds
-              };
-              uri = "api/binder/image/delete";
+              label.binder_id = state.id;
+              uri = "api/binder/label/delete";
               _context7.next = 5;
-              return axios.post("".concat(uri), postData)["catch"](function (err) {
+              return axios.post("".concat(uri), label)["catch"](function (err) {
                 return err.response || err;
               });
 
@@ -66124,7 +67106,8 @@ var actions = {
                 break;
               }
 
-              context.dispatch("searchBinderImage"); // 通信完了
+              // ラベル情報を再取得
+              state.labels = response.data; // 通信完了
 
               context.dispatch("setProgressIndicatorVisibleState", false);
               return _context7.abrupt("return", false);
@@ -66154,21 +67137,24 @@ var actions = {
   },
 
   /**
-   * 画像のファイル名を更新します。
+   * 画像を削除します。
    */
-  updateImageName: function updateImageName(context, image) {
+  removeImage: function removeImage(context, imageIds) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
-      var uri, response;
+      var postData, uri, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
               // 通信開始
               context.dispatch("setProgressIndicatorVisibleState", true);
-              image.binder_id = state.id;
-              uri = "api/binder/image/rename";
+              postData = {
+                binder_id: state.id,
+                image_ids: imageIds
+              };
+              uri = "api/binder/image/delete";
               _context8.next = 5;
-              return axios.post("".concat(uri), image)["catch"](function (err) {
+              return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
@@ -66176,14 +67162,110 @@ var actions = {
               response = _context8.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context8.next = 9;
+                _context8.next = 10;
+                break;
+              }
+
+              context.dispatch("searchBinderImage"); // 通信完了
+
+              context.dispatch("setProgressIndicatorVisibleState", false);
+              return _context8.abrupt("return", false);
+
+            case 10:
+              // 失敗
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+              } // 通信完了
+
+
+              context.dispatch("setProgressIndicatorVisibleState", false);
+
+            case 12:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    }))();
+  },
+
+  /**
+   * 選択状態の全画像を削除します。
+   */
+  removeImageMultiple: function removeImageMultiple(context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+      var isSelectedImages, message;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              // 更新データがあるかどうか
+              isSelectedImages = state.selected_image_ids.length != 0;
+
+              if (isSelectedImages) {
+                _context9.next = 5;
+                break;
+              }
+
+              // 画像が選択されていない場合は処理なし
+              message = _util__WEBPACK_IMPORTED_MODULE_2__["util"].createMessage(_const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE"].BINDER.IS_NOT_SELECT_IMAGES, _const__WEBPACK_IMPORTED_MODULE_1__["MESSAGE_TYPE"].ERROR);
+              context.dispatch("messageBox/add", message, {
+                root: true
+              });
+              return _context9.abrupt("return", false);
+
+            case 5:
+              context.dispatch("removeImage", state.selected_image_ids); // 削除後、選択モード(削除)を解除
+
+              context.commit("setSelectedImageIds", []);
+              context.commit("setMode", _const__WEBPACK_IMPORTED_MODULE_1__["SCREEN_MODE"].BINDER.NORMAL);
+
+            case 8:
+            case "end":
+              return _context9.stop();
+          }
+        }
+      }, _callee9);
+    }))();
+  },
+
+  /**
+   * 画像のファイル名を更新します。
+   */
+  updateImageName: function updateImageName(context, image) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+      var uri, response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              // 通信開始
+              context.dispatch("setProgressIndicatorVisibleState", true);
+              image.binder_id = state.id;
+              uri = "api/binder/image/rename";
+              _context10.next = 5;
+              return axios.post("".concat(uri), image)["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 5:
+              response = _context10.sent;
+
+              if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
+                _context10.next = 9;
                 break;
               }
 
               // TODO: リネームに成功した旨をメッセージ
               // 通信完了
               context.dispatch("setProgressIndicatorVisibleState", false);
-              return _context8.abrupt("return", false);
+              return _context10.abrupt("return", false);
 
             case 9:
               // 失敗
@@ -66202,10 +67284,10 @@ var actions = {
 
             case 11:
             case "end":
-              return _context8.stop();
+              return _context10.stop();
           }
         }
-      }, _callee8);
+      }, _callee10);
     }))();
   },
 
@@ -66213,28 +67295,28 @@ var actions = {
    * 画像の並べ替え状態を永続化します。
    */
   saveImageOrderState: function saveImageOrderState(context, postData) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
       var uri, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
         while (1) {
-          switch (_context9.prev = _context9.next) {
+          switch (_context11.prev = _context11.next) {
             case 0:
               console.log(postData);
               uri = "api/binder/image/sort";
-              _context9.next = 4;
+              _context11.next = 4;
               return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
             case 4:
-              response = _context9.sent;
+              response = _context11.sent;
 
               if (!(response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK)) {
-                _context9.next = 7;
+                _context11.next = 7;
                 break;
               }
 
-              return _context9.abrupt("return", false);
+              return _context11.abrupt("return", false);
 
             case 7:
               // 失敗
@@ -66250,10 +67332,10 @@ var actions = {
 
             case 8:
             case "end":
-              return _context9.stop();
+              return _context11.stop();
           }
         }
-      }, _callee9);
+      }, _callee11);
     }))();
   },
 
@@ -66261,21 +67343,21 @@ var actions = {
    * ラベルの並べ替え状態を永続化します。
    */
   saveLabelOrderState: function saveLabelOrderState(context, postData) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
       var uri, response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
         while (1) {
-          switch (_context10.prev = _context10.next) {
+          switch (_context12.prev = _context12.next) {
             case 0:
               console.log(postData);
               uri = "api/binder/label/sort";
-              _context10.next = 4;
+              _context12.next = 4;
               return axios.post("".concat(uri), postData)["catch"](function (err) {
                 return err.response || err;
               });
 
             case 4:
-              response = _context10.sent;
+              response = _context12.sent;
 
               // 成功
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
@@ -66295,10 +67377,10 @@ var actions = {
 
             case 7:
             case "end":
-              return _context10.stop();
+              return _context12.stop();
           }
         }
-      }, _callee10);
+      }, _callee12);
     }))();
   },
 
@@ -66307,17 +67389,17 @@ var actions = {
    * NOTE: ラベリング状態やファイル名変更の反映
    */
   fetchImage: function fetchImage(context, index) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13() {
       var imageId, uri, response, image;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
         while (1) {
-          switch (_context11.prev = _context11.next) {
+          switch (_context13.prev = _context13.next) {
             case 0:
               // 通信開始
               context.dispatch("setProgressIndicatorVisibleState", true);
               imageId = state.images[index].id;
               uri = "api/binder/image/detail/".concat(imageId);
-              _context11.next = 5;
+              _context13.next = 5;
               return axios.get("".concat(uri), {
                 params: state.search_condition
               })["catch"](function (err) {
@@ -66325,18 +67407,90 @@ var actions = {
               });
 
             case 5:
-              response = _context11.sent;
+              response = _context13.sent;
               image = response.data.image;
-              vue__WEBPACK_IMPORTED_MODULE_3___default.a.set(state.images, index, image); // 通信完了
+              vue__WEBPACK_IMPORTED_MODULE_4___default.a.set(state.images, index, image); // 通信完了
 
               context.dispatch("setProgressIndicatorVisibleState", false);
 
             case 9:
             case "end":
-              return _context11.stop();
+              return _context13.stop();
           }
         }
-      }, _callee11);
+      }, _callee13);
+    }))();
+  },
+
+  /**
+   * 画像・ラベルの選択状態をクリアします。
+   */
+  clearSelectedState: function clearSelectedState(context) {
+    context.commit("setSelectedLabelIds", []);
+    context.commit("setSelectedImageIds", []);
+  },
+
+  /**
+   * 表示中の画像をzipへ圧縮してサーバーからダウンロードします。
+   */
+  downloadImages: function downloadImages(context) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
+      var imageIds, request, uri, response, blob, fileName;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+        while (1) {
+          switch (_context14.prev = _context14.next) {
+            case 0:
+              // 通信開始
+              context.dispatch("setProgressIndicatorVisibleState", true); // 表示中の画像ID
+
+              imageIds = state.images.map(function (image) {
+                return image.id;
+              });
+              request = {
+                image_ids: imageIds
+              };
+              uri = "api/binder/image/download";
+              _context14.next = 6;
+              return axios.get("".concat(uri), {
+                params: request
+              })["catch"](function (err) {
+                return err.response || err;
+              });
+
+            case 6:
+              response = _context14.sent;
+
+              // 成功
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
+                // 通信完了
+                context.dispatch("setProgressIndicatorVisibleState", false);
+                blob = new Blob([response.data], {
+                  type: response.data.type
+                });
+                fileName = _util__WEBPACK_IMPORTED_MODULE_2__["util"].getFileName(response);
+                Object(file_saver__WEBPACK_IMPORTED_MODULE_3__["saveAs"])(blob, fileName);
+              } // 失敗
+
+
+              if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].UNPROCESSABLE_ENTITY) {
+                // バリデーションエラーの場合はエラーメッセージを格納
+                context.commit("setErrorMessages", response.errors);
+              } else {
+                // その他のエラーの場合はエラーコードを格納
+                context.commit("error/setCode", response.status, {
+                  root: true
+                });
+              } // 通信完了
+
+
+              context.dispatch("setProgressIndicatorVisibleState", false);
+
+            case 10:
+            case "end":
+              return _context14.stop();
+          }
+        }
+      }, _callee14);
     }))();
   },
 
@@ -66344,10 +67498,10 @@ var actions = {
    * 通信中であることを示すプログレスインジケーターの表示状態を設定します。
    */
   setProgressIndicatorVisibleState: function setProgressIndicatorVisibleState(context, val) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
         while (1) {
-          switch (_context12.prev = _context12.next) {
+          switch (_context15.prev = _context15.next) {
             case 0:
               context.commit("mode/setIsConnecting", val, {
                 root: true
@@ -66355,10 +67509,10 @@ var actions = {
 
             case 1:
             case "end":
-              return _context12.stop();
+              return _context15.stop();
           }
         }
-      }, _callee12);
+      }, _callee15);
     }))();
   }
 };
@@ -66492,6 +67646,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -66529,7 +67695,9 @@ var util = {
 
             case 6:
               _context.next = 8;
-              return fetch(image.src);
+              return fetch(image.src, {
+                mode: 'cors'
+              });
 
             case 8:
               img = _context.sent;
@@ -66543,7 +67711,7 @@ var util = {
             case 13:
               try {
                 navigator.clipboard.write([new ClipboardItem({
-                  'image/png': imgBlob
+                  "image/png": imgBlob
                 })]);
               } catch (error) {
                 console.error(error);
@@ -66576,7 +67744,7 @@ var util = {
 
   /**
    * 通知メッセージを生成します。
-   * 
+   *
    * @param {String} val メッセージテキスト
    * @param {String} type メッセージのタイプ（成功/エラー）
    */
@@ -66585,6 +67753,39 @@ var util = {
       val: val,
       type: type
     };
+  },
+
+  /**
+   * Cookieから指定したキーの値を取得します。
+   */
+  getCookieValue: function getCookieValue(searchKey) {
+    if (typeof searchKey === "undefined") {
+      return "";
+    }
+
+    var val = "";
+    document.cookie.split(";").forEach(function (cookie) {
+      var _cookie$split = cookie.split("="),
+          _cookie$split2 = _slicedToArray(_cookie$split, 2),
+          key = _cookie$split2[0],
+          value = _cookie$split2[1];
+
+      if (key === searchKey) {
+        return val = value;
+      }
+    });
+    return val;
+  },
+
+  /**
+   * HTTPレスポンスからファイル名を取得します。
+   * @param {Object} response
+   */
+  getFileName: function getFileName(response) {
+    var contentDisposition = response.headers["content-disposition"];
+    var fileName = contentDisposition.split("'").slice(-1)[0];
+    fileName = decodeURI(fileName);
+    return fileName;
   }
 };
 

@@ -8,9 +8,10 @@
                     v-if="!isDeleteModeScreen && !isLabelingModeScreen"
                 >
                     <button
+                        @click="downloadImages"
                         v-tooltip.bottom="{
                             content:
-                                '[未実装]画像を複数選択してzip形式で一括ダウンロードします。'
+                                '表示中の画像をzip形式で一括ダウンロードします。'
                         }"
                         class="nav__button"
                     >
@@ -244,7 +245,7 @@
             <span class="nav__button-wrapper--right"
                 ><button
                     v-tooltip.bottom="{
-                        content: '[未実装]アプリケーションの説明を開きます。'
+                        content: '[未実装]アプリケーションの使い方を表示します。'
                     }"
                     class="nav__button"
                 >
@@ -385,6 +386,12 @@ export default {
          */
         async multipleLabeling() {
             await this.$store.dispatch("binder/labelingMultiple", [this.id]);
+        },
+        /**
+         * 画像の一括ダウンロードを行います。
+         */
+        async downloadImages() {
+            await this.$store.dispatch("binder/downloadImages");
         }
     }
 };
