@@ -1,125 +1,99 @@
-## 環境構築
-### コンテナの初回ビルド後、以下の作業が必要
-#### 1. 環境変数の設定
-- ".env.example"をコピーして".env"へリネーム
-#### 2. 各種ライブラリのインストール
-- petata_webコンテナに入って下記コマンドを実行
-```bash
-### アプリケーションキーの作成
-$ composer update
-$ php artisan key:generate
+# PETATA!
 
-### node_modulesのインストール
-$ npm install
+![shields.io](https://img.shields.io/github/issues/makura016/petata )
+![shields.io](https://img.shields.io/github/license/makura016/petata )
+![shields.io](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fmakura016%2Fpetata )  
 
-### pythonの各種パッケージインストール(なぜかDockerFileでインストールできない)
-$ python3 -m pip install -U pip
-$ pip install -r requirements.txt
+イラスト制作やWebデザイン等の資料となる画像ファイルを管理するSPAです。  
 
-### 以下はpackage.jsonに記載済みのため不要(備忘)
-# $ npm install -D vue
-# $ npm install -D vue-router
-# $ npm install -D vuex
-# $ npm audit fix
 
-### cross-envのインストール
-### (laravel-mixでコンパイル時にエラーが出るのでパスを通す必要がある)
-# $ npm install -D cross-env
-```
+## 目次
+- [動作環境](#動作環境)
+- [開発目的](#開発目的)
+- [用途](#用途)
+- [機能概要](#機能概要)
+- [使い方](#使い方)
+- [更新履歴](#更新履歴)
 
-## 詰まったこと
-- npm run devで"cross-envがない"というエラー  
-⇒node_modulesの中には居るが、パスを通すために個別でnpm installする。
+## 動作環境
+Google Chrome 85のみ動作確認をしています。  
+同ブラウザのある程度新しいバージョンであれば動作すると思われます。  
+それ以外のブラウザは動作対象外です。
 
-- Cannot read property '$createElement' of undefined  
-⇒ルーティングに記載するコンポーネントのキーは"components"ではなく"component"
-  ```js
-  const routes = [
-    {
-        path:'/',
-        component: Test
-    }
-  ];
-  ```
+## 開発目的
 
-- コンポーネントの更新が反映されない  
-⇒"Header.vue"というコンポーネントを"<header />"と呼び出していた
+- 自身及び周囲のクリエイターの創作活動を効率化すること。
+- サーバサイド開発の知識を取りまとめること。
+- フロントエンド開発の知見を得ること。
+- Webアプリケーションのリリース方法を学ぶこと。
 
-- "unrecognized options: --with-freetype-dir, --with-jpeg-dir"  
-⇒PHP7.4系から、docker-php-ext-configureの引数が変わった模様  
-https://uiuifree.com/blog/develop/docker-gd-php-7/
+## 用途
 
-- この前まで実行できていたシェルスクリプトが動かない  
-`bash: ./_shell/CacheClear.sh: /bin/bash^M: bad interpreter: No such file or directory`  
-⇒改行コードの問題？らしい。  
-参考：https://qiita.com/ayasumi_primary/items/0225d5c89ff1f2e7e217  
-右記コマンドで解決⇒`sed -i 's/\r//' *.sh`
-## その他メモ
-### (未解決)DockerFile内でのpip実行結果が反映されない
-```
-# INSTALL python-library
-RUN python3 -m pip install -U pip \
-  && pip install \
-  pixivpy \
-  requests \
-  requests_toolbelt \
-  scikit-learn \
-  opencv-python
-```
-- 上記の記述でログ上は各種ライブラリのインストールに成功してそうだが、実際に`pip list`で確認すると何もインストールされていない。(pipだけはインストールされている。)    
-原因不明なので、コンテナをビルドしてから別途インストールすることにした。  
+- ローカルに保存している画像をクラウド上で管理することにより、ディスク容量の圧迫を解消する。
+- 必要な画像をすぐに見つけられるようにする。
+- 画像の整理を効率化する。
+- 作品同士の比較分析を簡単にできるようにする。
+  - サムネイルを自由な配置に並べる
+  - 拡大画像を連続して切り替える
+  - ペイントソフトにワンアクションで読み込ませる
 
-### リソース
-- MATERIAL COMPONENTS FOR THE WEB  
-https://material-components.github.io/material-components-web-catalog/#/
+## 機能概要
+複数の画像を**バインダー**という単位に取りまとめて管理します。  
+**バインダー**に保存している資料画像には**ラベル**を設定することができます。  
 
-### 技術
-- SCSSの記法の基本  
-https://qiita.com/nchhujimiyama/items/8a6aad5abead39d1352a
-```
-div {
-    background: #666666;
-    h1 {
-        color: white;
-    }
-}
-```
-- マテリアルデザイン
-  - 8の倍数
+**ラベル**はユーザーが任意に作成できる資料画像の分類です。  
+**バインダー**ごとに**ラベル**を登録することで、必要な資料画像の絞り込みを簡単に行うことができます。  
+一枚の資料画像に対して複数の**ラベル**を設定することもできます。
+
+![overview](https://user-images.githubusercontent.com/50965145/93464107-9bb93800-f923-11ea-9159-6b1c8ac8c9f5.png)
+
+## 使い方
+### 1. バインダーを作成する
+バインダーの名前と説明を入力します。  
+右カラムから、あらかじめラベルを登録することもできます。
+
+[![Image from Gyazo](https://i.gyazo.com/47975355ce84a18c7aa69b3f9c5a893a.gif)](https://gyazo.com/47975355ce84a18c7aa69b3f9c5a893a)
+---
+### 2. バインダーを開き、画像をアップロードする
+(1)で作成したバインダーが一覧に表示されるため、ダブルクリックで開きます。  
+中央のエリアに画像をドラッグ&ドロップすることで、ファイルがアップロードされます。  
+複数同時のアップロードも可能です。
+
+[![Image from Gyazo](https://i.gyazo.com/fdc55ff2961323ca637edc61b59c6116.gif)](https://gyazo.com/fdc55ff2961323ca637edc61b59c6116)
+---
+### 3. 画像とラベルを紐づける
+画像とラベルを紐づけることを**ラベリング**と呼びます。  
+(2)でアップロードした画像を右カラムに表示されているラベルへドラッグ&ドロップすることで、  
+「**ラベリング**の登録」「**ラベリング**の解除」をすることができます。
+
+[![Image from Gyazo](https://i.gyazo.com/07d4dabf4ef50f1df2dc31d74ec17d34.gif)](https://gyazo.com/07d4dabf4ef50f1df2dc31d74ec17d34)
   
-- Vue.jsのコンポーネント命名  
-https://qiita.com/ngron/items/ab2a17ae483c95a2f15e
 
-- SPAの利点  
-https://www.oro.com/ja/technology/001/  
-⇒今回開発では、以下の要件に対応
-  - ネイティブアプリに相当する機能を提供
-  - 直帰率が低い(作業中に開きっぱなしで操作する想定)
-  - 高速(参考画像を切り替える手間を減らすアプローチ)
+画像が増えてきた場合、複数の画像・ラベルを同時にラベリングすることもできます。
 
-- docker-compose.yml内での環境変数参照
-```
-  db:
-    image: mysql:8.0
-    container_name: larasocket-db
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: 'Asia/Tokyo'
-    volumes:
-      - ./db/data:/var/lib/mysql
-      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./logs/mysql/:/var/log/mysql/
-    ports:
-      - 3306:3306
-```
+[![Image from Gyazo](https://i.gyazo.com/37144cd6bff0b30996a0107ebf9829b2.gif)](https://gyazo.com/37144cd6bff0b30996a0107ebf9829b2)
 
-### 設定
-- laravel-mixのコンパイル設定はwebpack.mix.jsで以下のように記述されている。  
-コンパイル先の指定はここで行う。
-```
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
-```
+---
+### 4. 画像・ラベルの並び順を変更する
+画像とラベルはドラッグ&ドロップの操作によって並び順を変更することができます。  
+(画像は通常のドラッグを**ラベリング**に使用するため、左上のハンドルによって並び替えます。)  
+変更した並び順は保存されます。  
+
+[![Image from Gyazo](https://i.gyazo.com/198205e79409327773d4166053a1ce1a.gif)](https://gyazo.com/198205e79409327773d4166053a1ce1a)
+
+---
+### 5. その他の機能
+アップロードした画像に対して以下のような操作が可能です。
+- ファイル名検索
+- リネーム
+- クリップボードへコピー
+- ライトボックス表示  
+- 左カラムのサムネイルクリックによる自動スクロール  など
+
+[![Image from Gyazo](https://i.gyazo.com/b4ab550b6b71d9ec6de3ca0ce80462b2.gif)](https://gyazo.com/b4ab550b6b71d9ec6de3ca0ce80462b2)
+
+---
+## 更新履歴
+| 更新日 | 内容 |
+| -- | -- |
+| 2020.09.17 | 新規作成 |
