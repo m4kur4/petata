@@ -1,11 +1,11 @@
 # PETATA!
 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Quality Score](https://img.shields.io/scrutinizer/g/makura016/petata.svg?style=flat-square)](https://scrutinizer-ci.com/g/makura016/petata)
+[![Build Status](https://scrutinizer-ci.com/g/makura016/petata/badges/build.png?b=master)](https://scrutinizer-ci.com/g/makura016/petata/build-status/master)
 ![shields.io](https://img.shields.io/github/issues/makura016/petata )
-![shields.io](https://img.shields.io/github/license/makura016/petata )
-![shields.io](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fmakura016%2Fpetata )  
 
 イラスト制作やWebデザイン等の資料となる画像ファイルを管理するSPAです。  
-
 
 ## 目次
 - [動作環境](#動作環境)
