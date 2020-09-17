@@ -244,8 +244,9 @@
             </button>
             <span class="nav__button-wrapper--right"
                 ><button
+                    @click="moveToUserManual"
                     v-tooltip.bottom="{
-                        content: '[未実装]アプリケーションの使い方を表示します。'
+                        content: 'アプリケーションの使い方を別タブに表示します。<br>※外部サイト(GitHub)を開きます。'
                     }"
                     class="nav__button"
                 >
@@ -392,7 +393,13 @@ export default {
          */
         async downloadImages() {
             await this.$store.dispatch("binder/downloadImages");
-        }
+        },
+        /**
+         * 操作説明ページを開きます。
+         */
+        moveToUserManual() {
+            window.open("https://github.com/makura016/petata#%E4%BD%BF%E3%81%84%E6%96%B9");
+        },
     }
 };
 </script>
