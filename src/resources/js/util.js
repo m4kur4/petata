@@ -73,5 +73,18 @@ export const util = {
             }
         });
         return val;
-    }
+    },
+    /**
+     * HTTPレスポンスからファイル名を取得します。
+     * @param {Object} response
+     */
+    getFileName(response) {
+        const contentDisposition = response.headers["content-disposition"];
+        let fileName = contentDisposition
+            .split("'")
+            .slice(-1)[0];
+        
+        fileName = decodeURI(fileName)
+        return fileName;
+    },
 };

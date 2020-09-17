@@ -69,6 +69,12 @@ const actions = {
         if (response.status === STATUS.CREATED) {
             context.commit("setApiStatus", true);
             context.commit("setUser", response.data);
+
+            const message = util.createMessage(MESSAGE.SIGNUP.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+
             return false;
         }
 
@@ -79,7 +85,7 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            const message = util.createMessage(MESSAGE.SIGNUP.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.SIGNUP.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });
@@ -111,6 +117,12 @@ const actions = {
         if (response.status === STATUS.OK) {
             context.commit("setApiStatus", true);
             context.commit("setUser", response.data);
+
+            const message = util.createMessage(MESSAGE.SIGNIN.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+
             return false;
         }
 
@@ -121,7 +133,7 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            const message = util.createMessage(MESSAGE.SIGNIN.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.SIGNIN.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });
@@ -152,13 +164,18 @@ const actions = {
         if (response.status === STATUS.OK) {
             context.commit("setApiStatus", true);
             context.commit("setUser", response.data);
+
+            const message = util.createMessage(MESSAGE.SIGNIN.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
         // 失敗
         context.commit("setApiStatus", false);
         if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
-            const message = util.createMessage(MESSAGE.SIGNOUT.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.SIGNOUT.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });

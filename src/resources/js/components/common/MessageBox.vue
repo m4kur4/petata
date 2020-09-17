@@ -1,6 +1,13 @@
 <template>
     <transition name="fade">
-        <div v-if="haeMessage" class="message-box__wrapper mdc-elevation--z4">
+        <div
+            v-if="haeMessage"
+            class="
+                message-box__wrapper
+                mdc-elevation--z4,
+
+            "
+        >
             <div @click="close" class="message-box__close">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -18,9 +25,24 @@
                 <div
                     v-for="message in messages"
                     :key="message.count"
-                    class="message-box__item"
+                    :class="[
+                        {
+                            'message-box__item--error': message.type == 'error',
+                            'message-box__item--success':
+                                message.type == 'success'
+                        }
+                    ]"
                 >
-                    <span class="message-box__icon">
+                    <span
+                        :class="[
+                            {
+                                'message-box__icon--error':
+                                    message.type == 'error',
+                                'message-box__icon--success':
+                                    message.type == 'success'
+                            }
+                        ]"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             height="16"
@@ -33,7 +55,17 @@
                             />
                         </svg>
                     </span>
-                    <span class="message-box__text">{{ message.val }}</span>
+                    <span
+                        :class="[
+                            {
+                                'message-box__text--error':
+                                    message.type == 'error',
+                                'message-box__text--success':
+                                    message.type == 'success'
+                            }
+                        ]"
+                        >{{ message.val }}</span
+                    >
                 </div>
             </transition-group>
         </div>

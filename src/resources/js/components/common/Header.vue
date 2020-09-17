@@ -21,7 +21,7 @@
                 >
                     {{ userName }}
                 </div>
-                <transition name="fade-faster">
+                <transition name="fade-middle">
                     <div
                         @click.self="closeUserMenu"
                         v-show="isOpenUserMenu"

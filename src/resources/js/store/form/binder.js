@@ -1,8 +1,15 @@
 /**
  * フォームデータストア - バインダー
  */
-import { STATUS, SAVE_ORDER_TYPE, SCREEN_MODE, MESSAGE, MESSAGE_TYPE } from "../../const";
+import {
+    STATUS,
+    SAVE_ORDER_TYPE,
+    SCREEN_MODE,
+    MESSAGE,
+    MESSAGE_TYPE
+} from "../../const";
 import { util } from "../../util";
+import { saveAs } from "file-saver";
 import Vue from "vue";
 
 const state = {
@@ -379,6 +386,11 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.ADD_LABEL, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -413,6 +425,11 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.ADD_LABELING, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         } else if (response.status === STATUS.OK) {
             // ラベリングを登録解除した場合
@@ -422,6 +439,11 @@ const actions = {
 
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.DELETE_LABELING, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -481,6 +503,11 @@ const actions = {
 
             // ラベリング後の条件で再検索
             context.dispatch("searchBinderImage");
+
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.SET_LABELING, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -565,6 +592,10 @@ const actions = {
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
 
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.DELETE_LABEL, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -602,9 +633,13 @@ const actions = {
         if (response.status === STATUS.OK) {
             context.dispatch("searchBinderImage");
 
+            const message = util.createMessage(MESSAGE.BINDER.SUCCESS.DELETE_IMAGE, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
-
             return false;
         }
 
@@ -662,8 +697,6 @@ const actions = {
 
         // 成功
         if (response.status === STATUS.OK) {
-            // TODO: リネームに成功した旨をメッセージ
-
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
             return false;
@@ -761,6 +794,50 @@ const actions = {
     clearSelectedState(context) {
         context.commit("setSelectedLabelIds", []);
         context.commit("setSelectedImageIds", []);
+    },
+    /**
+     * 表示中の画像をzipへ圧縮してサーバーからダウンロードします。
+     */
+    async downloadImages(context) {
+        // 通信開始
+        context.dispatch("setProgressIndicatorVisibleState", true);
+
+        // 表示中の画像ID
+        const imageIds = state.images.map(image => image.id);
+        const request = {
+            image_ids: imageIds
+        };
+
+        const uri = `api/binder/image/download`;
+        const response = await axios
+            .get(`${uri}`, {
+                params: request,
+                responseType: "blob",
+                headers: { Accept: "application/zip" }
+            })
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            // 通信完了
+            context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const fileName = util.getFileName(response);
+            saveAs(response.data, fileName);
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+        }
+        // 通信完了
+        context.dispatch("setProgressIndicatorVisibleState", false);
     },
     /**
      * 通信中であることを示すプログレスインジケーターの表示状態を設定します。

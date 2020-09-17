@@ -94,6 +94,11 @@ const actions = {
             response.status === STATUS.CREATED
         ) {
             context.commit("setApiStatus", true);
+
+            const message = util.createMessage(MESSAGE.BINDER_CREATE.SUCCESS, MESSAGE_TYPE.SUCCESS);
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
             return false;
         }
 
@@ -105,7 +110,7 @@ const actions = {
             context.commit("error/setMessages", response.data.errors, {
                 root: true
             });
-            const message = util.createMessage(MESSAGE.BINDER_CREATE.FAIL, MESSAGE_TYPE.ERROR);
+            const message = util.createMessage(MESSAGE.BINDER_CREATE.ERROR, MESSAGE_TYPE.ERROR);
             context.dispatch("messageBox/add", message, {
                 root: true
             });
