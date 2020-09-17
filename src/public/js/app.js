@@ -67435,7 +67435,7 @@ var actions = {
    */
   downloadImages: function downloadImages(context) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14() {
-      var imageIds, request, uri, response, blob, fileName;
+      var imageIds, request, uri, response, fileName;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
         while (1) {
           switch (_context14.prev = _context14.next) {
@@ -67452,7 +67452,11 @@ var actions = {
               uri = "api/binder/image/download";
               _context14.next = 6;
               return axios.get("".concat(uri), {
-                params: request
+                params: request,
+                responseType: "blob",
+                headers: {
+                  Accept: "application/zip"
+                }
               })["catch"](function (err) {
                 return err.response || err;
               });
@@ -67464,11 +67468,8 @@ var actions = {
               if (response.status === _const__WEBPACK_IMPORTED_MODULE_1__["STATUS"].OK) {
                 // 通信完了
                 context.dispatch("setProgressIndicatorVisibleState", false);
-                blob = new Blob([response.data], {
-                  type: response.data.type
-                });
                 fileName = _util__WEBPACK_IMPORTED_MODULE_2__["util"].getFileName(response);
-                Object(file_saver__WEBPACK_IMPORTED_MODULE_3__["saveAs"])(blob, fileName);
+                Object(file_saver__WEBPACK_IMPORTED_MODULE_3__["saveAs"])(response.data, fileName);
               } // 失敗
 
 

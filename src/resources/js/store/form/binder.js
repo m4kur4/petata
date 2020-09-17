@@ -784,7 +784,11 @@ const actions = {
 
         const uri = `api/binder/image/download`;
         const response = await axios
-            .get(`${uri}`, { params: request })
+            .get(`${uri}`, {
+                params: request,
+                responseType: "blob",
+                headers: { Accept: "application/zip" }
+            })
             .catch(err => err.response || err);
 
         // 成功
@@ -792,12 +796,8 @@ const actions = {
             // 通信完了
             context.dispatch("setProgressIndicatorVisibleState", false);
 
-            const blob = new Blob([response.data], {
-                type: response.data.type
-            });
-
             const fileName = util.getFileName(response);
-            saveAs(blob, fileName);
+            saveAs(response.data, fileName);
         }
 
         // 失敗

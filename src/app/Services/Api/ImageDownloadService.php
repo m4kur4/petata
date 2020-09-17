@@ -41,12 +41,11 @@ class ImageDownloadService implements ImageDownloadServiceInterface
         $FILE_NAME = 'binder.zip';
         $zip = Zip::create($FILE_NAME);
 
-        foreach($images as $image) {
+        foreach($images as $index => $image) {
             $file_path = FileManageHelper::getBinderImageS3Path($image);
-            $file_name = $image->name . '.' . $image->extension;
+            $file_name = $index . '.' . $image->extension;
             $zip->add($file_path, $file_name);
         }
-
         return $zip;
     }
 }
