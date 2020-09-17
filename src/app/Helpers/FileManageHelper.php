@@ -11,7 +11,7 @@ use Storage;
 class FileManageHelper
 {
     /**
-     * S3上に格納されているバインダー画像の絶対パスを取得します。
+     * S3上に格納されているバインダー画像の相対パス(オブジェクトURL)を取得します。
      * 
      * @param Image $image
      * @param string [option]$extension 拡張子
@@ -44,7 +44,7 @@ class FileManageHelper
     }
 
     /**
-     * S3上に格納されているバインダー画像の絶対パスを取得します。
+     * S3上に格納されているバインダー画像の絶対パス(オブジェクトURL)を取得します。
      * 
      * @param Image $image
      * @param string [option]$extension 拡張子
@@ -67,7 +67,7 @@ class FileManageHelper
 
     /**
      * S3上に格納されている指定されたバインダー画像の格納ディレクトリについて、
-     * 相対パスを取得します。
+     * 相対パス(オブジェクトURL)を取得します。
      * NOTE: png画像
      * 
      * @param int $binder_id バインダーID
@@ -77,4 +77,18 @@ class FileManageHelper
         return config('_const.UPLOAD_DIRECTORY.BINDER') . '/' . $binder_id;
     }
 
+    /**
+     * 指定した画像のオリジナルについて、S3プロトコルのURLを取得します。
+     * NOTE: フォーマットは下記
+     * s3://<BACKET-NAME>/image/binder/<BINDER-ID>/org/<FILE-NAME>
+     * 
+     * @param Image $image
+     * @param string [option]$extension 拡張子
+     */
+    public static function getBinderImageS3Path($image)
+    {
+        $format = 's3://' . env('AWS_BUCKET') . '/image/binder/%s/org/%s';
+        $file_name = $image->path . '.' . $image->extension;
+        return sprintf($format, $image->binder_id, $file_name);
+    }
 }

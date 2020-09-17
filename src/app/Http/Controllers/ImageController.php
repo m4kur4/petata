@@ -12,6 +12,7 @@ use App\Services\Api\Interfaces\ImageDeleteServiceInterface;
 use App\Services\Api\Interfaces\ImageSearchServiceInterface;
 use App\Services\Api\Interfaces\ImageRenameServiceInterface;
 use App\Services\Api\Interfaces\ImageSortServiceInterface;
+use App\Services\Api\Interfaces\ImageDownloadServiceInterface;
 use Illuminate\Http\Request;
 
 use Log;
@@ -26,13 +27,15 @@ class ImageController extends Controller
      * @param ImageSearchServiceInterface $image_search_service
      * @param ImageRenameServiceInterface $image_rename_service
      * @param ImageSortServiceInterface $image_sort_service
+     * @param ImageDownloadServiceInterface $image_download_service
      */
     public function __construct(
         ImageAddServiceInterface $image_add_service,
         ImageDeleteServiceInterface $image_delete_service,
         ImageSearchServiceInterface $image_search_service,
         ImageRenameServiceInterface $image_rename_service,
-        ImageSortServiceInterface $image_sort_service
+        ImageSortServiceInterface $image_sort_service,
+        ImageDownloadServiceInterface $image_download_service
     )
     {
         $this->image_add_service = $image_add_service;
@@ -40,6 +43,7 @@ class ImageController extends Controller
         $this->image_search_service = $image_search_service;
         $this->image_rename_service = $image_rename_service;
         $this->image_sort_service = $image_sort_service;
+        $this->image_download_service = $image_download_service;
 
         $this->middleware('auth');
     }
@@ -137,4 +141,13 @@ class ImageController extends Controller
         return $response;
     }
 
+    /**
+     * 指定した複数の画像ファイルをzipに圧縮してダウンロードします。
+     */
+    public function download(Request $request)
+    {
+        $zip = $this->image_download_service->execute($request);
+
+        return $zip;
+    }
 }
