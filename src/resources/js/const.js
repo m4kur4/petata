@@ -87,5 +87,8 @@ export const MESSAGE = {
             DELETE_LABELING: "登録を解除しました。",
             SET_LABELING: "設定しました。",
         },
+        ERROR: {
+            MAX_FILES_EXCEEDED: 'アップロード可能なサイズ(5MB)を超えたファイルが含まれています。'
+        },
     },
 };
