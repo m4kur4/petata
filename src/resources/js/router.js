@@ -25,6 +25,7 @@ const routes = [
         component: Binder,
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
+                store.commit("error/setCode", null);
                 store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {
@@ -115,7 +116,9 @@ const routes = [
         beforeEnter(to, from, next) {
             if (store.getters["auth/check"]) {
                 // エラー情報をクリア
+                store.commit("error/setCode", null);
                 store.dispatch("error/clearMessages");
+                
                 store.commit("mode/setTransitionType", TRANSITION_TYPE.PAGE_IN);
                 next();
             } else {
@@ -148,7 +151,29 @@ const routes = [
                 next({ name: "signin" });
             }
         }
-    }
+    },
+    {
+        // URLがマッチングしない場合(バインダー一覧へリダイレクト)
+        path: "/*",
+        name: "not-found",
+        component: BinderList,
+        beforeEnter(to, from, next) {
+            if (store.getters["auth/check"]) {
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.PAGE_OUT
+                );
+                next();
+            } else {
+                // 未ログインの場合はログインページへリダイレクト
+                store.commit(
+                    "mode/setTransitionType",
+                    TRANSITION_TYPE.FADE_FASTER
+                );
+                next({ name: "signin" });
+            }
+        }
+    },
 ];
 
 const router = new VueRouter({

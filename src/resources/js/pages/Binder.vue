@@ -10,6 +10,8 @@
 
 <script>
 require("vue-image-lightbox/dist/vue-image-lightbox.min.css");
+import { STATUS, MESSAGE, MESSAGE_TYPE } from "../const";
+import { util } from "../util";
 import ImageList from "../components/binder/ImageList.vue";
 import ImageContainer from "../components/binder/ImageContainer.vue";
 import RightColumn from "../components/binder/RightColumn.vue";
@@ -21,7 +23,7 @@ export default {
         ImageContainer,
         RightColumn,
         LightBox,
-        Dropzone,
+        Dropzone
     },
     computed: {
         isLoading() {
@@ -62,9 +64,8 @@ export default {
             const imageContainer = document.getElementById("image-container");
 
             imageContainer.ondragover = function(ev) {
+                const isFileDragOver = ev.dataTransfer.types[0] == "Files";
 
-                const isFileDragOver = (ev.dataTransfer.types[0] == "Files");
-                
                 // バインダー画像のドラッグには反応させない
                 if (!isFileDragOver) {
                     return;
@@ -82,13 +83,24 @@ export default {
          */
         showLightBox(imageIndex) {
             this.$refs.lightBox.showLightBox(imageIndex);
-        },
+        }
     },
-    beforeCreate() {
+    async beforeCreate() {
         // ナビゲーションバーを表示する
         this.$store.commit("mode/setHasNavigation", true);
         // バインダー情報を取得する。
-        this.$store.dispatch("binder/fetchBinder", this.$route.params.id);
+        await this.$store.dispatch("binder/fetchBinder", this.$route.params.id);
+
+        if (this.$store.state.error.code == STATUS.NOT_FOUND) {
+            // アクセスできないバインダーを指定した場合はエラー
+            const message = util.createMessage(
+                MESSAGE.BINDER.NOT_FOUND,
+                MESSAGE_TYPE.ERROR
+            );
+            this.$store.dispatch("messageBox/add", message);
+            // バインダー一覧へリダイレクト
+            this.$router.push({ name: "binder-list" });
+        }
     },
     mounted() {
         // 画像コンテナへドラッグオーバーしている間だけDropzoneが表示されるようにする

@@ -320,7 +320,9 @@ const actions = {
         context.commit("mode/setIsLoading", true, {
             root: true
         });
-        const response = await axios.get(`api/binder/detail/${id}`);
+        const response = await axios
+            .get(`api/binder/detail/${id}`)
+            .catch(err => err.response || err);
 
         if (response.status === STATUS.OK) {
             context.commit("setId", response.data.id);

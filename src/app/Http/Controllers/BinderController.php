@@ -25,6 +25,7 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 
+use App;
 use Auth;
 use Log;
 
@@ -159,7 +160,12 @@ class BinderController extends Controller
     {
         try {
             $binder= $this->binder_detail_select_service->execute($binder_id);
-            return $binder;
+            if (empty($binder)) {
+                // バインダーが見つからない場合は404を返却
+                return response([], config('_const.HTTP_STATUS.NOT_FOUND'));
+            }
+            $response = response($binder, config('_const.HTTP_STATUS.OK'));
+            return $response;
 
         } catch (\Exception $e) {
             Log::error($e);

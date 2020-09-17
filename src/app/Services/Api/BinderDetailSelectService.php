@@ -31,8 +31,11 @@ class BinderDetailSelectService implements BinderDetailSelectServiceInterface
     public function execute(string $binder_id)
     {
         $binder = $this->binder_repository->selectOneById($binder_id);
+        if (empty($binder)) {
+            return null;
+        }
 
-        $response = [
+        $binder_edited = [
             'id' => $binder->id,
             'name' => $binder->name,
             'description' => $binder->description,
@@ -51,6 +54,6 @@ class BinderDetailSelectService implements BinderDetailSelectServiceInterface
             'created_at' => (new Carbon($binder->created_at))->format('Y/m/d')
         ];
         // NOTE: Collection::sortByDesc()は「元の配列キーを保持した新たなコレクション」を生成する
-        return $response;
+        return $binder_edited;
     }
 }

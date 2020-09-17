@@ -78,6 +78,7 @@ export const MESSAGE = {
     BINDER: {
         IS_NOT_SELECT_IMAGES: "画像が選択されていません。",
         IS_NOT_SELECT_LABELS: "ラベルが選択されていません。",
+        NOT_FOUND: "存在しないバインダーです。", 
         SUCCESS: {
             ADD_IMAGE: "アップロードしました。",
             DELETE_IMAGE: "削除しました。",
