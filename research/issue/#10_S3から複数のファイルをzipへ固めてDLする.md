@@ -143,3 +143,48 @@ https://qiita.com/koushisa/items/ac908d81361534264d35
         return fileName;
     },
 ```
+### ダウンロードは出来るがファイルが壊れており解凍できない
+- サーバーで壊れているのか、Blobにするところで壊れているのか
+- 同じような事象の記事  
+https://qiita.com/na9amura/items/dd639d774ffcd5c7178f
+
+- ここがマズい模様
+```js
+            const blob = new Blob([response.data], {
+                type: response.data.type
+            });
+```
+
+- 以下で解決
+```js
+        const response = await axios
+            .get(`${uri}`, {
+                params: request,
+                responseType: "blob",
+                headers: { Accept: "application/zip" }
+            })
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            // 通信完了
+            context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const fileName = util.getFileName(response);
+            saveAs(response.data, fileName);
+        }
+```
+### 上記のコードは何をしているのか？
+`ArrayBufferを指定して、明示的にバイナリデータを受信するように設定`と書いてある方法
+- ここ
+```js
+    responseType: "blob",
+    headers: { Accept: "application/zip" }
+```
+- HTTPリクエストに「このファイルをください」と明示させ、ブラウザ側に「データの形式」を保証させる?
+  - zipか何なのかわからないファイルを単純に`new Blob`とすることはできないということ?
+### トラブルシュートの方法
+- 上記参考記事を書いた人
+  - 拡張子をtxtに変えて壊れたzipを確認している?
+  - 壊れたもの/正常なものをtxtに変えて比較してみた⇒特に違いが分からなかった(中身は違うが文字化けしている)。
+  - TODO: zipファイルの仕組みを調べる
