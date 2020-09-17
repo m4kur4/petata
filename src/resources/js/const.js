@@ -78,6 +78,7 @@ export const MESSAGE = {
     BINDER: {
         IS_NOT_SELECT_IMAGES: "画像が選択されていません。",
         IS_NOT_SELECT_LABELS: "ラベルが選択されていません。",
+        NOT_FOUND: "存在しないバインダーです。", 
         SUCCESS: {
             ADD_IMAGE: "アップロードしました。",
             DELETE_IMAGE: "削除しました。",
@@ -86,6 +87,9 @@ export const MESSAGE = {
             ADD_LABELING: "登録しました。",
             DELETE_LABELING: "登録を解除しました。",
             SET_LABELING: "設定しました。",
+        },
+        ERROR: {
+            MAX_FILES_EXCEEDED: 'アップロード可能なサイズ(5MB)を超えたファイルが含まれています。'
         },
     },
 };

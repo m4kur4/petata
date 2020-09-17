@@ -37,10 +37,18 @@ export default {
                     binder_id: ""
                 },
                 paramName: "images", // name属性として扱われる
-                maxFilesize: 265, //MB このサイズを超えるとerrorイベントが発火
                 clickable: false, // クリックでファイル保存ダイアログを表示しない
                 uploadMultiple: true, // 複数ファイルアップロードのイベントを利用する
                 parallelUploads: 10, // 一度のリクエストでアップロードするファイル数
+                maxFilesize: 5, //MB このサイズを超えるとerrorイベントが発火
+                maxfilesexceeded: function(file) {
+                    // FIXME: maxFileSizeを超過した場合も動かない
+                    const message = util.createMessage(
+                        MESSAGE.BINDER.ERROR.MAX_FILES_EXCEEDED,
+                        MESSAGE_TYPE.ERROR
+                    );
+                    self.$store.dispatch("messageBox/add", message);
+                },
                 dragleave: function(file, response) {
                     // Dropzoneを非表示にする
                     self.hideDropzone();
@@ -61,6 +69,16 @@ export default {
                     self.$store.commit("mode/setIsConnecting", true);
                 },
                 errormultiple: function(file, response) {
+                    // FIXME: ファイルサイズ超過時にmaxfilesexeedsイベントが動かずこちらが発火するため暫定対応
+                    if (response.startsWith("File is too big")) {
+                        const message = util.createMessage(
+                            MESSAGE.BINDER.ERROR.MAX_FILES_EXCEEDED,
+                            MESSAGE_TYPE.ERROR
+                        );
+                        self.$store.dispatch("messageBox/add", message);
+                        return false;
+                    }
+
                     // レスポンスに含まれるメッセージを展開
                     const errorMessageValues = Object.values(
                         response.errors
