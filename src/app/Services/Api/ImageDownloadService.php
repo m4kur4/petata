@@ -41,6 +41,7 @@ class ImageDownloadService implements ImageDownloadServiceInterface
         $FILE_NAME = 'binder.zip';
         $zip = Zip::create($FILE_NAME);
 
+        // FIXME: マルチバイト文字がファイル名に設定できないため、ファイル名をインデックスとしている
         foreach($images as $index => $image) {
             $file_path = FileManageHelper::getBinderImageS3Path($image);
             $file_name = $index . '.' . $image->extension;
