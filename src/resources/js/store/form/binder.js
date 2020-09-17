@@ -1,8 +1,15 @@
 /**
  * フォームデータストア - バインダー
  */
-import { STATUS, SAVE_ORDER_TYPE, SCREEN_MODE, MESSAGE, MESSAGE_TYPE } from "../../const";
+import {
+    STATUS,
+    SAVE_ORDER_TYPE,
+    SCREEN_MODE,
+    MESSAGE,
+    MESSAGE_TYPE
+} from "../../const";
 import { util } from "../../util";
+import { saveAs } from "file-saver";
 import Vue from "vue";
 
 const state = {
@@ -787,6 +794,50 @@ const actions = {
     clearSelectedState(context) {
         context.commit("setSelectedLabelIds", []);
         context.commit("setSelectedImageIds", []);
+    },
+    /**
+     * 表示中の画像をzipへ圧縮してサーバーからダウンロードします。
+     */
+    async downloadImages(context) {
+        // 通信開始
+        context.dispatch("setProgressIndicatorVisibleState", true);
+
+        // 表示中の画像ID
+        const imageIds = state.images.map(image => image.id);
+        const request = {
+            image_ids: imageIds
+        };
+
+        const uri = `api/binder/image/download`;
+        const response = await axios
+            .get(`${uri}`, {
+                params: request,
+                responseType: "blob",
+                headers: { Accept: "application/zip" }
+            })
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            // 通信完了
+            context.dispatch("setProgressIndicatorVisibleState", false);
+
+            const fileName = util.getFileName(response);
+            saveAs(response.data, fileName);
+        }
+
+        // 失敗
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("setErrorMessages", response.errors);
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+        }
+        // 通信完了
+        context.dispatch("setProgressIndicatorVisibleState", false);
     },
     /**
      * 通信中であることを示すプログレスインジケーターの表示状態を設定します。

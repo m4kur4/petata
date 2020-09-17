@@ -83,6 +83,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\ImageSearchServiceInterface::class,
             \App\Services\Api\ImageSearchService::class
         );
+        // 画像ダウンロードサービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\ImageDownloadServiceInterface::class,
+            \App\Services\Api\ImageDownloadService::class
+        );
         // ラベル保存サービス
         $this->app->bind(
             \App\Services\Api\Interfaces\LabelSaveServiceInterface::class,

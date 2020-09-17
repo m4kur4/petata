@@ -17,46 +17,69 @@ main {
   padding-top: 48px;
 }
 
+/* transition */
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
 }
 
 .fade-enter,
-.fade-leave-to,
-.fade-faster-enter,
-.fade-faster-leave-to {
+.fade-leave-to {
   opacity: 0;
 }
 
 .fade-faster-enter-active,
 .fade-faster-leave-active {
+  transition: opacity 0.1s;
+}
+
+.fade-faster-enter,
+.fade-faster-leave-to {
+  opacity: 0;
+}
+
+.fade-middle-enter-active,
+.fade-middle-leave-active {
   transition: opacity 0.3s;
 }
 
+.fade-middle-enter,
+.fade-middle-leave-to {
+  opacity: 0;
+}
+
 .page-in-enter-active,
-.page-in-leave-active,
+.page-in-leave-active {
+  transition: 0.2s;
+}
+
+.page-in-enter {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.page-in-leave-to {
+  opacity: 0;
+  transform: scale(1);
+}
+
 .page-out-enter-active,
 .page-out-leave-active {
   transition: 0.2s;
 }
 
-.page-in-enter,
-.page-in-leave-to,
-.page-out-enter,
-.page-out-leave-to {
+.page-out-enter {
   opacity: 0;
+  transform: scale(1);
 }
 
-.page-in-enter,
 .page-out-leave-to {
+  opacity: 0;
   transform: scale(0.5);
 }
 
-.page-in-leave-to,
-.page-out-enter {
-  transform: scale(1);
-}
+/* /transition */
 
 .header {
   position: relative;
@@ -217,6 +240,32 @@ main {
   transition: all 100ms 0s ease;
   opacity: 100%;
   background-color: #e9e9e9;
+}
+
+.nav__button.delete:hover {
+  fill: #dc3545;
+}
+
+.nav__button.fix-delete {
+  fill: #dc3545;
+}
+
+.nav__button.fix-delete:hover {
+  cursor: default;
+  background-color: transparent;
+}
+
+.nav__button.labeling:hover {
+  fill: #17A2B8;
+}
+
+.nav__button.fix-labeling {
+  fill: #17A2B8;
+}
+
+.nav__button.fix-labeling:hover {
+  cursor: default;
+  background-color: transparent;
 }
 
 .nav__button-wide {
@@ -429,7 +478,7 @@ main {
   float: right;
   background-color: #324750;
   width: 200px;
-  height: 100%;
+  height: 48px;
   cursor: pointer;
   transition: 0.1s;
 }
@@ -452,7 +501,7 @@ main {
   color: #324750;
   float: right;
   width: 200px;
-  height: 100%;
+  height: 48px;
   cursor: pointer;
 }
 
@@ -712,6 +761,38 @@ main {
   border-right: solid 5px #DC3545;
   transition: all 150ms 0s ease;
   text-indent: 16px;
+}
+
+.label-item__select-handle-wrapper {
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 0;
+}
+
+.label-item__select-handle-content {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.label-item__select-handle-button {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  fill: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.label-item__select-handle-button.selected {
+  fill: #F6C90E;
 }
 
 .modal-background {
@@ -1018,34 +1099,77 @@ main {
   position: relative;
   z-index: 2;
   width: 100%;
-  height: 40px;
+  height: 42px;
   background-color: #ffffff;
   text-align: center;
   vertical-align: middle;
 }
 
-.image-list__search-form {
-  background-image: "../image/icon/search-black-18dp.svg";
-  position: absolute;
+.image-list__search-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.image-list__search-input {
+  font-size: 16px;
   box-sizing: border-box;
   border: none;
   transition: 0.3s;
-  border-bottom: 1px solid #33665c;
   background: transparent;
-  width: 90%;
-  top: 60%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  -webkit-transform: translateY(-50%) translateX(-50%);
+  margin: 8px 8px 8px 4px;
+  border-bottom: 1px solid #b8b8b8;
+  width: 78%;
+  padding: 0;
 }
 
-.image-list__search-form:focus {
-  border-bottom: 1px solid #86ab40;
+.image-list__search-input:focus {
+  border-bottom: 1px solid #17A2B8;
   outline: none;
 }
 
+.image-list__search-input::-moz-placeholder {
+  color: #b8b8b8;
+  line-height: 30px;
+}
+
+.image-list__search-input:-ms-input-placeholder {
+  color: #b8b8b8;
+  line-height: 30px;
+}
+
+.image-list__search-input::-ms-input-placeholder {
+  color: #b8b8b8;
+  line-height: 30px;
+}
+
+.image-list__search-input::placeholder {
+  color: #b8b8b8;
+  line-height: 30px;
+}
+
+.image-list__search-button {
+  height: 30px;
+  width: 30px;
+  background-color: transparent;
+  outline: none;
+  fill: #b8b8b8;
+  border: none;
+  padding-top: 8px;
+  padding-left: 8px;
+  padding-right: 0;
+  padding-bottom: 0;
+  cursor: pointer;
+  box-sizing: content-box;
+  transition: 0.2s;
+}
+
+.image-list__search-button :hover {
+  transition: 0.2s;
+  fill: #0e6464;
+}
+
 .image-list__wrapper {
-  height: calc(100% - 40px);
+  height: calc(100% - 42px);
 }
 
 .image-list__content {
@@ -1083,7 +1207,7 @@ main {
 }
 
 .image-list__item-thumbnail-image {
-  cursor: move;
+  cursor: pointer;
   box-sizing: border-box;
   border-right: 1px solid #cbcbcb;
   border-left: 1px solid #cbcbcb;
@@ -1131,6 +1255,45 @@ main {
 .image-container__wrapper {
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+
+.image-container__select-handle-wrapper {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  -webkit-transform: translateY(-50%) translateX(-50%);
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.image-container__select-handle-wrapper:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.image-container__select-handle-content {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.image-container__select-handle-button {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  fill: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.image-container__select-handle-button.selected {
+  fill: #F6C90E;
 }
 
 .image-container__thumbnail {
@@ -1481,7 +1644,7 @@ main {
   font-family: Calibri;
   font-size: 48px;
   height: 100%;
-  line-height: 48px;
+  padding-bottom: 8px;
 }
 
 .form__title--binder-list > h2 > img {
@@ -1844,7 +2007,6 @@ main {
   font-family: Calibri;
   font-size: 48px;
   height: 100%;
-  line-height: 48px;
 }
 
 .form__title--binder-create > h2 > img {

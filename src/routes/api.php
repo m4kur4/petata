@@ -80,6 +80,9 @@ Route::get('binder/image/search', 'ImageController@search')->name('api.binder.im
 // 画像詳細
 Route::get('binder/image/detail/{image_id}', 'ImageController@detail')->name('api.binder.image.detail');
 
+// 画像ダウンロード
+Route::get('binder/image/download', 'ImageController@download')->name('api.binder.image.download');
+
 // TODO: ユーザー退会
 //Route::post('user/unregister','Auth\RegisterController@register')->name('user.unregister');
 
