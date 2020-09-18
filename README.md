@@ -3,7 +3,9 @@
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Quality Score](https://img.shields.io/scrutinizer/g/makura016/petata.svg?style=flat-square)](https://scrutinizer-ci.com/g/makura016/petata)
 [![Build Status](https://scrutinizer-ci.com/g/makura016/petata/badges/build.png?b=master)](https://scrutinizer-ci.com/g/makura016/petata/build-status/master)
-![shields.io](https://img.shields.io/github/issues/makura016/petata )
+[![shields.io](https://img.shields.io/github/issues/makura016/petata)](https://github.com/makura016/petata/issues)
+
+[![Image from Gyazo](https://i.gyazo.com/a13a97d1223044098ad574bc147c7413.png)](https://gyazo.com/a13a97d1223044098ad574bc147c7413)
 
 イラスト制作やWebデザイン等の資料となる画像ファイルを管理するSPAです。  
 
@@ -97,4 +99,4 @@ Google Chrome 85のみ動作確認をしています。
 | 更新日 | 内容  |
 | --- | --- |
 | 2020.09.17 | 新規作成 |
-| 2020.09.18 | #使い方 の文言で、平仄が合っていない箇所や違和感のある表現を修正 |
+| 2020.09.18 | #使い方 の文言で、平仄が合っていない箇所や表現を修正 |
