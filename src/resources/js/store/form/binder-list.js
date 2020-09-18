@@ -2,7 +2,7 @@
  * フォームデータストア - バインダー一覧
  */
 import { STATUS, MESSAGE, MESSAGE_TYPE } from "../../const";
-import Vue from "vue";
+import { util } from '../../util';
 
 const state = {
     /**
