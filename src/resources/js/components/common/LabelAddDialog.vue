@@ -16,18 +16,13 @@
                     :errors="errors"
                 />
 
-                <label class="form__label"
-                    >Description
-                    <span class="form__error-message"></span>
-                </label>
-                <textarea
+                <TextAreaForm
                     v-model="description"
-                    class="form__text-area"
-                    cols="50"
-                    rows="8"
-                    wrap="soft"
-                    placeholder="ラベルの説明を入力します。"
-                ></textarea>
+                    :title="'Description'"
+                    :placeholder="'ラベルの説明を入力します。'"
+                    :value="''"
+                    :errors="errors.description"
+                />
 
                 <button @click="add" type="button" class="form__button--submit">
                     {{ mode }}
@@ -40,8 +35,8 @@
 <script>
 import TextForm from "./TextForm.vue";
 import TextAreaForm from "./TextAreaForm.vue";
-import { MESSAGE, MESSAGE_TYPE } from '../../const';
-import { util } from '../../util';
+import { MESSAGE, MESSAGE_TYPE } from "../../const";
+import { util } from "../../util";
 
 export default {
     components: {
@@ -50,7 +45,7 @@ export default {
     },
     data() {
         return {
-            errors: [],
+            errors: []
         };
     },
     methods: {
@@ -74,7 +69,7 @@ export default {
                 // 入力値が不正な場合は後続処理なし
                 return false;
             }
-            
+
             // TODO: 実装
             const formData = {
                 index: this.index,
@@ -102,7 +97,10 @@ export default {
                 this.errors.push(MESSAGE.LABEL_ADD_DLG.NOTIFY.NAME.MAX);
             }
             if (this.errors.length > 0) {
-                const message = util.createMessage(MESSAGE.LABEL_ADD_DLG.ERROR, MESSAGE_TYPE.ERROR);
+                const message = util.createMessage(
+                    MESSAGE.LABEL_ADD_DLG.ERROR,
+                    MESSAGE_TYPE.ERROR
+                );
                 this.$store.dispatch("messageBox/add", message);
                 return false;
             }

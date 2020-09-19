@@ -13,7 +13,6 @@
             margin: 0;
             font-weight: normal;
             font-style: italic;
-            font-family: $font-family;
             font-size: $heighe;
             height: 100%;
             line-height: $heighe;
@@ -26,8 +25,8 @@
             outline: none;
             border-radius: 7px;
             border: none;
+            font-family: "游ゴシック体", "Yu Gothic", YuGothic;
             font-size: 28px;
-            font-family: $font-family;
             font-weight: bolder;
             color: white;
             float: right;
@@ -42,13 +41,14 @@
             }
             &--return {
                 padding: 0;
+                padding-bottom: 8px;
                 outline: none;
                 background: transparent;
                 box-sizing: border-box;
                 border: 2px solid #324750;
                 border-radius: 7px;
+                font-family: "游ゴシック体", "Yu Gothic", YuGothic;
                 font-size: 28px;
-                font-family: $font-family;
                 font-weight: bolder;
                 color: #324750;
                 float: right;

@@ -1,7 +1,7 @@
 $header-height: 48px;
 $navbar-height: 64px;
 $font-size: 20px;
-$font-family: Calibri;
+
 
 html,
 body,
@@ -11,6 +11,7 @@ main {
     padding: 0;
     border: 0;
     outline: none;
+    font-family: "游ゴシック体", "Yu Gothic", YuGothic;
 }
 
 %form-base {

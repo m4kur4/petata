@@ -2,7 +2,7 @@
  * フォームデータストア - バインダー一覧
  */
 import { STATUS, MESSAGE, MESSAGE_TYPE } from "../../const";
-import Vue from "vue";
+import { util } from '../../util';
 
 const state = {
     /**
@@ -61,7 +61,9 @@ const actions = {
         context.commit("mode/setIsLoading", true, {
             root: true
         });
-        const response = await axios.get("api/binder/list");
+        const response = await axios
+            .get("api/binder/list")
+            .catch(err => err.response || err);
 
         // 検索条件を初期化
         context.dispatch("clearSearchCondition");
@@ -91,7 +93,9 @@ const actions = {
         const postData = {
             binder_id: binderId
         };
-        const response = await axios.post("api/binder/favorite", postData);
+        const response = await axios
+            .post("api/binder/favorite", postData)
+            .catch(err => err.response || err);
 
         // 成功
         if (response.status === STATUS.OK) {
@@ -128,7 +132,9 @@ const actions = {
         const postData = {
             binder_id: binderId
         };
-        const response = await axios.post(uri, postData);
+        const response = await axios
+            .post(uri, postData)
+            .catch(err => err.response || err);
 
         // 成功
         if (response.status === STATUS.OK) {
@@ -168,9 +174,10 @@ const actions = {
         });
 
         const uri = "api/binder/search";
-        const response = await axios.get(uri, {
+        const response = await axios
+        .get(uri, {
             params: state.search_condition
-        });
+        }).catch(err => err.response || err);
 
         // 成功
         if (response.status === STATUS.OK) {

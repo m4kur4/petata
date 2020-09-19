@@ -1,17 +1,18 @@
 .form {
-  &__text {
-    text-indent: 0.4em;
-    outline: none;
-    font-size: 28px;
-    font-family: $font-family;
-    padding: 0;
-    box-sizing: border-box;
-    border: 2px solid #b8b8b8;
-    border-radius: 4px;
-    width: 720px;
-    height: 56px;
-    &::placeholder {
-      color: rgb(207, 207, 207);
+    &__text {
+        text-indent: 0.4em;
+        outline: none;
+        font-family: "游ゴシック体", "Yu Gothic", YuGothic;
+        font-size: 28px;
+        padding: 0;
+        box-sizing: border-box;
+        border: 2px solid #b8b8b8;
+        border-radius: 4px;
+        width: 720px;
+        height: 56px;
+        &::placeholder {
+            color: rgb(207, 207, 207);
+            font-family: "游ゴシック体", "Yu Gothic", YuGothic;
+        }
     }
-  }
 }
