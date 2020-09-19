@@ -51,7 +51,7 @@ const actions = {
      * メッセージを追加し、一定時間後に自動で消去します。
      */
     add(context, val) {
-        const ttl = 4000;
+        const ttl = 3200;
         context.commit("addMessage", val);
         const message = state.messages[0];
 

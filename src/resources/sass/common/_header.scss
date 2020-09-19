@@ -16,15 +16,15 @@
             position: absolute;
         }
         &-title {
-            font-family: $font-family;
             font-weight: bold;
             font-style: italic;
             position: absolute;
             color: white;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -51%);
+            transform: translate(-50%, -49%);
             margin: 0;
+            text-indent: 23px;
         }
     }
     &__wrapper {
