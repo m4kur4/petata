@@ -43,6 +43,7 @@ export const SCREEN_MODE = {// 画面モード
 export const MESSAGE = {
     COMMON: {
         SYSTEM_ERROR: "システムエラーが発生しました。",
+        REQUIRE_SIGNIN: "サインインしてください。",
     },
     SIGNIN: {
         ERROR: "ログインに失敗しました。",
