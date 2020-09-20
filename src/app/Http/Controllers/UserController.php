@@ -9,6 +9,7 @@ use App\Services\Api\Interfaces\UserLoginServiceInterface;
 use App\Services\Api\Interfaces\UserLogoutServiceInterface;
 
 use App\Models\User;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -19,6 +20,8 @@ use Log;
  */
 class UserController extends Controller
 {
+    use SendsPasswordResetEmails;
+
     /**
      * コンストラクタ
      * 
@@ -36,7 +39,7 @@ class UserController extends Controller
         $this->user_login_service = $user_login_service;
         $this->user_logout_service = $user_logout_service;
 
-        $this->middleware('guest')->except(['getLoginUser', 'logout']);
+        $this->middleware('guest')->except(['getLoginUser', 'logout', 'remind']);
     }
 
     /**
@@ -79,5 +82,15 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $user = $this->user_logout_service->execute($request);
+    }
+
+    /**
+     * パスワードリマインダーメールを送信します。
+     */
+    public function remind(Request $request)
+    {
+        Log::debug($request);
+        return $this->sendResetLinkEmail($request);
+        //return response([], config('_const.HTTP_STATUS.OK'));
     }
 }
