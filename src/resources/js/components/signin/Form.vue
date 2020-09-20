@@ -8,7 +8,7 @@
                 v-model="form.email"
                 :title="'Email'"
                 :type="'text'"
-                :placeholder="'taro-1234@petata.com'"
+                :placeholder="'peta-1234@petata.com'"
                 :value="''"
                 :errors="loginFailureError"
             />

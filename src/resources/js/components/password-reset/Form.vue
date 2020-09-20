@@ -1,25 +1,9 @@
 <template>
     <form @submit.prevent="register" class="form--signup">
         <FormTitle>
-            <template v-slot:title>Sign up</template>
+            <template v-slot:title>Reset Password</template>
         </FormTitle>
         <div class="form__wrapper--signup">
-            <TextForm
-                v-model="form.name"
-                :title="'User name*'"
-                :type="'text'"
-                :placeholder="'ぺったん太郎'"
-                :value="''"
-                :errors="errors.name"
-            />
-            <TextForm
-                v-model="form.email"
-                :title="'Email*'"
-                :type="'text'"
-                :placeholder="'peta-1234@petata.com'"
-                :value="''"
-                :errors="errors.email"
-            />
             <TextForm
                 v-model="form.password"
                 :title="'Password*'"
@@ -35,12 +19,8 @@
                 :placeholder="''"
                 :value="''"
             />
-
-            <button type="submit" class="form__button--submit">Sign up</button>
+            <button type="submit" class="form__button--submit">Reset</button>
         </div>
-        <RouterLink :to="{ name: 'signin' }" class="form__link"
-            >Sign in</RouterLink
-        >
     </form>
 </template>
 <script>
@@ -55,8 +35,6 @@ export default {
     data() {
         return {
             form: {
-                name: "",
-                email: "",
                 password: "",
                 password_confirmation: ""
             },
@@ -69,7 +47,6 @@ export default {
         async register() {
             await this.$store.dispatch("auth/register", this.form);
             const isSuccess = this.apiStatus;
-
             if (isSuccess) {
                 // TODO: バインダー一覧へ遷移
                 this.$router.push({ name: "binder-list" });

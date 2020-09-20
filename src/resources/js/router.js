@@ -7,6 +7,7 @@ import Signup from "./pages/Signup.vue";
 import Signin from "./pages/Signin.vue";
 import BinderList from "./pages/BinderList.vue";
 import BinderCreate from "./pages/BinderCreate.vue";
+import PasswordReset from "./pages/PasswordReset.vue";
 
 import store from "./store";
 import { TRANSITION_TYPE } from "./const";
@@ -151,6 +152,12 @@ const routes = [
                 next({ name: "signin" });
             }
         }
+    },
+    {
+        // パスワードリセット
+        path: "user/auth/password/reset",
+        name: "password-reset",
+        component: PasswordReset,
     },
     {
         // URLがマッチングしない場合(バインダー一覧へリダイレクト)
