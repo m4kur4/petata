@@ -250,6 +250,71 @@ const actions = {
             .catch(err => err.response || err);
 
         console.log(response.status);
+
+        const message = util.createMessage(
+            MESSAGE.PASSWORD_RESET.SEND_MAIL,
+            MESSAGE_TYPE.SUCCESS
+        );
+        context.dispatch("messageBox/add", message, {
+            root: true
+        });
+
+    },
+    /**
+     * パスワードのリセットを行います。
+     */
+    async resetPassword(context, postData) {
+        const uri = "api/user/auth/password-reset";
+
+        context.commit("setApiStatus", null);
+        const response = await axios
+            .post(`${uri}`, postData)
+            .catch(err => err.response || err);
+
+        // 成功
+        if (response.status === STATUS.OK) {
+            context.commit("setApiStatus", true);
+            context.commit("setUser", response.data);
+
+            const message = util.createMessage(
+                MESSAGE.PASSWORD_RESET.SUCCESS,
+                MESSAGE_TYPE.SUCCESS
+            );
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+
+            return false;
+        }
+
+        // 失敗
+        context.commit("setApiStatus", false);
+        if (response.status === STATUS.UNPROCESSABLE_ENTITY) {
+            // バリデーションエラーの場合はエラーメッセージを格納
+            context.commit("error/setMessages", response.data.errors, {
+                root: true
+            });
+            const message = util.createMessage(
+                MESSAGE.PASSWORD_RESET.ERROR,
+                MESSAGE_TYPE.ERROR
+            );
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+        } else {
+            // その他のエラーの場合はエラーコードを格納
+            context.commit("error/setCode", response.status, {
+                root: true
+            });
+            console.log(response.status);
+            const message = util.createMessage(
+                MESSAGE.COMMON.SYSTEM_ERROR,
+                MESSAGE_TYPE.ERROR
+            );
+            context.dispatch("messageBox/add", message, {
+                root: true
+            });
+        }
     }
 };
 

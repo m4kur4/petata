@@ -113,6 +113,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Services\Api\Interfaces\MultipleLabelingServiceInterface::class,
             \App\Services\Api\MultipleLabelingService::class
         );
+        // パスワードリセットサービス
+        $this->app->bind(
+            \App\Services\Api\Interfaces\PasswordResetServiceInterface::class,
+            \App\Services\Api\PasswordResetService::class
+        );
     }
     
 

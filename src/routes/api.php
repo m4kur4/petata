@@ -32,8 +32,8 @@ Route::post('user/auth/logout','UserController@logout')->name('api.user.logout')
 // パスワードリマインダーメール送信
 Route::post('user/auth/reminder','UserController@remind')->name('api.user.reminder');
 
-// パスワードリセット画面表示
-Route::get('user/auth/password/reset','UserController@remind')->name('api.user.password.reset');
+// パスワードリセット
+Route::post('user/auth/password-reset','UserController@resetPassword')->name('api.user.password.reset');
 
 // バインダー一覧取得
 Route::get('binder/list','BinderController@list')->name('api.binder.list');

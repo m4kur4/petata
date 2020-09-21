@@ -93,4 +93,9 @@ export const MESSAGE = {
             MAX_FILES_EXCEEDED: 'アップロード可能なサイズ(5MB)を超えたファイルが含まれています。'
         },
     },
+    PASSWORD_RESET: {
+        ERROR: "入力内容をご確認ください。",
+        SUCCESS: "パスワードを更新しました。",
+        SEND_MAIL: "パスワード更新ページのリンクを送信しました。",
+    },
 };

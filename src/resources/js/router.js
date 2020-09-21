@@ -155,7 +155,7 @@ const routes = [
     },
     {
         // パスワードリセット
-        path: "user/auth/password/reset",
+        path: "/user/auth/password/reset",
         name: "password-reset",
         component: PasswordReset,
     },

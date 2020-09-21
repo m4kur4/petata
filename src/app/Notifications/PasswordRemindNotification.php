@@ -53,7 +53,8 @@ class PasswordRemindNotification extends Notification
                     ->from('petata.info@gmail.com', config('app.name'))
                     ->subject('パスワードの再設定')
                     ->line('下のリンクをクリックしてパスワードを再設定してください。')
-                    ->action('パスワード再設定', url(config('app.url').route('api.user.password.reset', $this->token, false)));
+                    ->action('パスワード再設定', url(config('app.url').'/user/auth/password/reset?token='.$this->token))
+                    ->line('※リンクの有効期限は1時間です。');
     }
 
     /**

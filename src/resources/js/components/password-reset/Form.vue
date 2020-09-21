@@ -1,9 +1,17 @@
 <template>
-    <form @submit.prevent="register" class="form--signup">
+    <form @submit.prevent="reset" class="form--signup">
         <FormTitle>
             <template v-slot:title>Reset Password</template>
         </FormTitle>
         <div class="form__wrapper--signup">
+            <TextForm
+                v-model="form.email"
+                :title="'確認のため、メールアドレスを入力してください。'"
+                :type="'text'"
+                :placeholder="'peta-1234@petata.com'"
+                :value="''"
+                :errors="errors.email"
+            />
             <TextForm
                 v-model="form.password"
                 :title="'Password*'"
@@ -35,19 +43,22 @@ export default {
     data() {
         return {
             form: {
+                email: "",
                 password: "",
-                password_confirmation: ""
+                password_confirmation: "",
+                token: "",
             },
         };
     },
     methods: {
         /**
-         * ユーザー登録
+         * パスワードリセット
          */
-        async register() {
-            await this.$store.dispatch("auth/register", this.form);
+        async reset() {
+            await this.$store.dispatch("auth/resetPassword", this.form);
             const isSuccess = this.apiStatus;
             if (isSuccess) {
+                
                 // TODO: バインダー一覧へ遷移
                 this.$router.push({ name: "binder-list" });
             }
@@ -66,6 +77,10 @@ export default {
         errors() {
             return this.$store.state.error.messages;
         }
-    }
+    },
+    mounted() {
+        // トークンの設定
+        this.form.token = this.$route.query.token;
+    },
 };
 </script>
