@@ -86,6 +86,9 @@
             opacity: 65%;
             transition: all 100ms 0s ease;
         }
+        &.selected {
+            background-color: #FCF8E3;
+        }
         &-thumbnail {
             grid-area: image-thumbnail;
             //border-right: 1px solid black;
