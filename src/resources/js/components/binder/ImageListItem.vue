@@ -3,7 +3,12 @@
         @dragend="focusImage"
         :image-id="id"
         :index="index"
-        class="image-list__item"
+        :class="[
+            'image-list__item',
+            {
+                selected: isSelected
+            }
+        ]"
     >
         <div
             @click="focusImage"
@@ -57,6 +62,14 @@ export default {
         id: Number,
         imageSource: String,
         fileName: String
+    },
+    computed: {
+        /**
+         * 画像が選択状態かどうかを判定します。
+         */
+        isSelected() {
+            return this.$store.getters["binder/isSelectedImageId"](this.id);
+        }
     },
     methods: {
         /**
