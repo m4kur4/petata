@@ -82,7 +82,7 @@
                 :id="binder.id"
                 :name="binder.name"
                 :description="binder.description"
-                :thumbnailUrl="'/image/dummy/dummy.jpg'"
+                :thumbnailUrl="binder.thumbnail_url"
                 :countUser="binder.count_user"
                 :countImage="binder.count_image"
                 :countLabel="binder.count_label"
