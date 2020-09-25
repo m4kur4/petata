@@ -17,6 +17,10 @@
         font-weight: normal;
         color: rgba(50, 71, 80, 0.8);
         fill: rgba(50, 71, 80, 0.8);
+        width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         text-shadow: 1px 1px 0 rgba(50, 71, 80, 0.2);
         & > .v-popover {
             display: inline-block;
@@ -48,21 +52,21 @@
         }
         &.fix-delete {
             fill: #dc3545;
-            &:hover{
+            &:hover {
                 cursor: default;
-                background-color:transparent;
+                background-color: transparent;
             }
         }
         &.labeling {
             &:hover {
-                fill: #17A2B8;
+                fill: #17a2b8;
             }
         }
         &.fix-labeling {
-            fill: #17A2B8;
-            &:hover{
+            fill: #17a2b8;
+            &:hover {
                 cursor: default;
-                background-color:transparent;
+                background-color: transparent;
             }
         }
         &-wide {
