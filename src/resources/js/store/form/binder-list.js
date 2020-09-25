@@ -16,6 +16,7 @@ const state = {
      *   - count_favorite: Number お気に入り登録数
      *   - is_own: Boolean ログインユーザーが作成者かどうか
      *   - is_favorite: Boolean ログインユーザーがお気に入り登録しているかどうか
+     *   - thumbnail_url : バインダーのサムネイル画像
      * search_condition: Object バインダーの絞り込み条件
      *   - is_own: Booolean ログインユーザーが作成したバインダー
      *   - is_others: Booolean ログインユーザー以外が作成したバインダー
