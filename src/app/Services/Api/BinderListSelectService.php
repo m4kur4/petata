@@ -7,7 +7,7 @@ use App\Models\Binder;
 use App\Http\Requests\UserLoginRequest;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
-
+use App\Traits\BinderTrait;
 use Log;
 
 /**
@@ -15,6 +15,12 @@ use Log;
  */
 class BinderListSelectService implements BinderListSelectServiceInterface
 {
+    /**
+     * バインダー処理トレイト
+     *  - getBinderThumbnailUrl($binder)
+     */
+    use BinderTrait;
+
     /**
      * コンストラクタ
      * 
@@ -34,7 +40,6 @@ class BinderListSelectService implements BinderListSelectServiceInterface
     {
         $binders = $this->binder_repository->selectByAuthorizedUserId($user_id);
         $response = $binders->map(function($binder) {
-            // TODO: 画像数
             // フロントで使用する情報
             $visible = [
                 'id' => $binder->id,
@@ -58,25 +63,4 @@ class BinderListSelectService implements BinderListSelectServiceInterface
         Log::debug($response);
         return $response;
     }
-
-    /**
-     * バインダーリストに表示されるサムネイル画像のURLを取得します。
-     * サムネイルには「並び順が最も若い画像」を使用します。
-     */
-    private function getBinderThumbnailUrl(Binder $binder)
-    {
-        $first_image = $binder
-            ->images
-            ->sortBy('sort')
-            ->values()
-            ->first();
-
-        if (empty($first_image)) {
-            // 画像がない場合はダミーを表示
-            return '/image/dummy/dummy.jpg';
-        } else {
-            return $first_image->storage_file_path;
-        }
-    }
-
 }

@@ -4,7 +4,7 @@ namespace App\Services\Api;
 
 use App\Services\Api\Interfaces\BinderSearchServiceInterface;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
-
+use App\Traits\BinderTrait;
 use Illuminate\Http\Request;
 
 use Log;
@@ -14,6 +14,12 @@ use Log;
  */
 class BinderSearchService implements BinderSearchServiceInterface
 {
+    /**
+     * バインダー処理トレイト
+     *  - getBinderThumbnailUrl($binder)
+     */
+    use BinderTrait;
+
     /**
      * コンストラクタ
      * 
@@ -47,7 +53,8 @@ class BinderSearchService implements BinderSearchServiceInterface
                 'labels' => $binder->labels
                     ->sortBy('sort')
                     ->values()
-                    ->all()
+                    ->all(),
+                'thumbnail_url' => $this->getBinderThumbnailUrl($binder),
             ];
             return $visible;
         });
