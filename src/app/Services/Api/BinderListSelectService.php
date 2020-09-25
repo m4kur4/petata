@@ -3,9 +3,12 @@
 namespace App\Services\Api;
 
 use App\Models\User;
+use App\Models\Binder;
 use App\Http\Requests\UserLoginRequest;
 use App\Services\Api\Interfaces\BinderListSelectServiceInterface;
 use App\Repositories\Interfaces\BinderRepositoryInterface;
+
+use Log;
 
 /**
  * @inheritdoc
@@ -46,12 +49,34 @@ class BinderListSelectService implements BinderListSelectServiceInterface
                 'labels' => $binder->labels
                     ->sortBy('sort')
                     ->values()
-                    ->all()
+                    ->all(),
+                'thumbnail_url' => $this->getBinderThumbnailUrl($binder),
             ];
             return $visible;
         });
 
+        Log::debug($response);
         return $response;
+    }
+
+    /**
+     * バインダーリストに表示されるサムネイル画像のURLを取得します。
+     * サムネイルには「並び順が最も若い画像」を使用します。
+     */
+    private function getBinderThumbnailUrl(Binder $binder)
+    {
+        $first_image = $binder
+            ->images
+            ->sortBy('sort')
+            ->values()
+            ->first();
+
+        if (empty($first_image)) {
+            // 画像がない場合はダミーを表示
+            return '/image/dummy/dummy.jpg';
+        } else {
+            return $first_image->storage_file_path;
+        }
     }
 
 }
