@@ -79,7 +79,7 @@ return [
     'max' => [
         'numeric' => 'The :attribute may not be greater than :max.',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'string' => ':attributeは:max文字以下で設定してください。',
         'array' => 'The :attribute may not have more than :max items.',
     ],
     'mimes' => 'アップロード可能な形式(.jpg/.png)以外のファイルが含まれています。',
@@ -121,7 +121,7 @@ return [
     /**
      * カスタムバリデーションルール
      */
-    'c_alpha' => ':attributeは半角英数字で入力してください。',
+    'c_alpha_num' => ':attributeは半角英数字で入力してください。',
 
     /*
     |--------------------------------------------------------------------------
@@ -152,9 +152,8 @@ return [
     */
 
     'attributes' => [
-        'name' => 'ユーザー名',
+        'name' => 'バインダー名',
         'email' => 'メールアドレス',
         'password' => 'パスワード'
     ],
-
 ];

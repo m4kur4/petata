@@ -24,9 +24,15 @@ class UserRegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:20'],
+            'name' => [
+                'required', 'string', 'max:20',
+                function($attribute, $value, $fail) {
+                    // NOTE: 新規ユーザー登録を凍結
+                    return $fail(__('message.VALIDATION.SIGNUP.DISABLED'));
+                },
+            ],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'c_alpha', 'min:8', 'confirmed'],
+            'password' => ['required', 'c_alpha_num', 'min:8', 'confirmed'],
         ];
     }
 }

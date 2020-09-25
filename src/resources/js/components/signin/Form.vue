@@ -24,9 +24,11 @@
             <button type="submit" class="form__button--submit">Sign in</button>
         </div>
 
+        <!--
         <RouterLink :to="{ name: 'signup' }" class="form__link"
             >Sign up</RouterLink
         >
+        -->
     </form>
 </template>
 <script>

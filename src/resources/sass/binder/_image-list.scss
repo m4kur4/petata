@@ -29,14 +29,13 @@
             width: 78%;
             padding: 0;
             &:focus {
-                border-bottom: 1px solid #17A2B8;
+                border-bottom: 1px solid #17a2b8;
                 outline: none;
             }
             &::placeholder {
                 color: #b8b8b8;
                 line-height: 30px;
             }
-
         }
         &-button {
             height: 30px;
@@ -87,7 +86,7 @@
             transition: all 100ms 0s ease;
         }
         &.selected {
-            background-color: #FCF8E3;
+            background-color: #fcf8e3;
         }
         &-thumbnail {
             grid-area: image-thumbnail;
@@ -117,6 +116,10 @@
                 height: 100%;
                 overflow-wrap: break-word;
                 padding-left: 8px;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+                overflow: hidden;
             }
             &-edit {
                 height: 85%;

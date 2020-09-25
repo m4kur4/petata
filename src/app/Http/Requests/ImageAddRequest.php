@@ -50,7 +50,17 @@ class ImageAddRequest extends FormRequest
             'images.*' => [
                 'mimes:bmp,jpeg,png',
                 'max:5120',
-            ]
+                function($attribute, $value, $fail) use($binder_id) {
+                    
+                    // mimesで弾けない拡張子を検出した場合は除外する。
+                    $extension = $value->getClientOriginalExtension();
+                    Log::debug($extension);
+                    $isValid = preg_match('/jpg|png/', $extension);
+                    if (!$isValid) {
+                        return $fail(__('message.VALIDATION.IMAGE_ADD.FILE_EXTENSION'));
+                    }
+                },
+            ],
         ];
     }
 
