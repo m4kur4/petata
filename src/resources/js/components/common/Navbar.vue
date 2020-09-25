@@ -336,10 +336,14 @@ export default {
     },
     methods: {
         moveToBinderList() {
+            this.closeDialog();
             this.$router.push({ name: "binder-list" });
         },
         openDialog() {
             this.$store.commit("mode/setIsShowDialog", true);
+        },
+        closeDialog() {
+            this.$store.commit("mode/setIsShowDialog", false);
         },
         /**
          * ラベルダイアログの入力内容を保存します。
@@ -359,12 +363,14 @@ export default {
          * バインダー画面の選択モード(削除)を有効化します。
          */
         enableDeleteModeScreen() {
+            this.closeDialog();
             this.$store.commit("binder/setMode", SCREEN_MODE.BINDER.DELETE);
         },
         /**
          * バインダー画面の選択モード(ラベリング)を有効化します。
          */
         enableLabelingModeScreen() {
+            this.closeDialog();
             this.$store.commit("binder/setMode", SCREEN_MODE.BINDER.LABELING);
         },
         /**
