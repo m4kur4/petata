@@ -52,6 +52,10 @@
             //padding-left: 8px;
             line-height: $item-height;
             font-size: $font-size;
+            width: 65%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
         }
         &-description {
             display: none;
